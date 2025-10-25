@@ -1,0 +1,1 @@
+[08-Aug-2022 09:32:17 Asia/Calcutta] PHP Fatal error:  Allowed memory size of 33554432 bytes exhausted (tried to allocate 20480 bytes) in /home2/jaya7thain8uranc/public_html/crm/system/database/drivers/mysqli/mysqli_result.php on line 229
