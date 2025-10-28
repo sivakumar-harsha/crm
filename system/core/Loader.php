@@ -104,6 +104,7 @@ class CI_Loader {
 	protected $audit_model;
 	protected $userroleModel;
 	protected $audit;
+	protected $image_lib;
 
 	
 	

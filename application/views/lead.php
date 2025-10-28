@@ -214,6 +214,11 @@ input[type=checkbox], input[type=radio] {
         height:50px;
         width:50px;
     }
+
+    .form-group .row + .row {
+        margin-top: 10px; /* or 15px for more space */
+        }
+
      
     </style>
  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
@@ -289,223 +294,304 @@ input[type=checkbox], input[type=radio] {
     <!-- Main content -->
     <section class="content">
         
-    <div class="box">
-        <div class="box-header with-border" style="background:#f4f4f48c;">
-            <h3 class="box-title" _msthash="26273" _msttexthash="60619" style="text-align: left;font-size:14px;"><i class="fa fa-user" aria-hidden="true"></i> &nbsp;&nbsp;Client Details</h3>
-            
-            <div class="box-tools pull-right">
-                 <button type="button" class="btn btn-box-tool" data-widget="collapse" data-toggle="tooltip" title="" data-original-title="Collapse">
-                  <i class="fa fa-minus"></i></button>
-            </div>
-        </div>
-        
-        <div class="box-body" _msthash="1196936" _msttexthash="1190501" style="text-align: left;">
-            <div class="row">
-                <div class="col-md-6">
-                    
-                    <div class="form-group">
-                        <div class="row">   
-                           <div class="col-md-4">
-                                <label>Client Type</label><span>*</span>
-                           </div>
-                           <div class="col-md-8">
-                                <select class="form-control" name="client_type" id="client_type">
-                                    <option value="">--Select--</option>
-                                    <?php foreach($client_type as $da){ ?>
-                                    <option value="<?php echo $da->id ?>"><?php echo $da->client_type ?></option>
-                                    <?php } ?>
-                                </select>
-                           </div>
-                         </div>
-                    </div>
-                    
-                    <div class="form-group">
-                        <div class="row">   
-                           <div class="col-md-4">
-                                <label>Client Name</label><span>*</span>
-                           </div>
-                           <div class="col-md-8">
-                                <input type="text" class="form-control" name="client_name" id="client_name">
-                           </div>
-                         </div>
-                    </div>
-                    
-                    <div class="form-group">
-                        <div class="row">   
-                           <div class="col-md-4">
-                                <label>Mobile No</label><span>*</span>
-                           </div>
-                           <div class="col-md-8">
-                                <div class="input-group">
-                                    <div class="input-group-addon">+91</div>
-                                
-                                  <input type="number" class="form-control" name="mobile_no" maxlength="10" minlength="10" size="10" id="mobile_no">
-                                
-                              </div>
-                              
-                            </div>
-                          
-                         </div>
-                    </div>
-                    
-                    
-                <div class="form-group">
-                            <div class="row">   
-                               <div class="col-md-4">
-                                    <label>Other contact Details</label>
-                               </div>
-                               <div class="col-md-8">
-                                    <input type="text" class="form-control" name="other_contact_details" id="other_contact_details">
-                               </div>
-                             </div>
-                   </div>
-                    
-                <div class="form-group">
-                    <div class="row">   
-                       <div class="col-md-4">
-                            <label>Landline no</label>
-                       </div>
-                       <div class="col-md-8">
-                           <input type="text" class="form-control" name="landline_no" id="landline_no">
-                       </div>
-                     </div>
-                </div>
-                    
-                     <div class="form-group">
-                            <div class="row">   
-                               <div class="col-md-4">
-                                     <label>Address</label>
-                               </div>
-                               <div class="col-md-8">
-                                   <textarea class="form-control" name="address" id="address" rows="3"></textarea>
-                               </div>
-                             </div>
-                     </div>
-                </div>
-                
-                <div class="col-md-6">
-                    
-                     <div class="form-group" id="v_regn_no_div">
-                            <div class="row">
-                                <div class="col-md-4">
-                                    <label>Regn no</label>*<span id='regn_no_span' style='color:red'> </span>
-                                </div>
-                                
-                                <div class="col-md-2 inputs">
-                                    <input type="text" class="form-control inputs" name="v_regn_no_1" id="v_regn_no_1" maxlength="2">
-                                </div>
-                                <div class="col-md-2 inputs">
-                                    <input type="text" class="form-control inputs" name="v_regn_no_2" id="v_regn_no_2" maxlength="2">
-                                </div>
-                                <div class="col-md-2 inputs">
-                                    <input type="text" class="form-control inputs" name="v_regn_no_3" id="v_regn_no_3" maxlength="2">
-                                </div>
-                                <div class="col-md-2 inputs">
-                                    <input type="text" class="form-control inputs" name="v_regn_no_4" id="v_regn_no_4" maxlength="4">
-                                </div>
-                            </div>
-                        </div>
-                    
-                     <div class="form-group">
-                          <div class="row">   
-                               <div class="col-md-4">
-                                    <label>Email Id</label>
-                               </div>
-                               <div class="col-md-8">
-                                   <input type="email" class="form-control" name="email_id" id="email_id">
-                               </div>
-                        </div>
-                    </div>
-                    
-                    <div class="form-group">
-                         <div class="row">   
-                               <div class="col-md-4">
-                                     <label>Advisor Name</label>
-                               </div>
-                               <div class="col-md-8">
-                                   <input type="text" class="form-control" name="cont_person_name" id="cont_person_name">
-                               </div>
-                        </div>
-                    </div>
-                    
-                     <div class="form-group">
-                         <div class="row">   
-                               <div class="col-md-4">
-                                     <label>Advisor Designation</label>
-                               </div>
-                               <div class="col-md-8">
-                                   <input type="text" class="form-control" name="cont_person_des" id="cont_person_des">
-                               </div>
-                        </div>
-                    </div>
-                    
-                     <div class="form-group">
-                      <div class="row">   
-                           <div class="col-md-4">
-                               <label>Date of Birth</label>
-                           </div>
-                            <div class="col-md-8">
-                                <input type="date" class="form-control" name="dob" id="dob">
-                            </div>
-                        </div>
-                    </div>
-                    
-                    <div class="form-group">
-                        <div class="row">   
-                           <div class="col-md-4">
-                               <label>Age</label>
-                           </div>
-                            <div class="col-md-8">
-                                <input type="text" class="form-control" name="age" id="age">
-                            </div>
-                        </div>
-                    </div>
-                    
-                     <div class="form-group">
-                         <div class="row">   
-                           <div class="col-md-4">
-                                <label>Area</label>
-                           </div>
-                            <div class="col-md-8">
-                                <input type="text" class="form-control" name="area" id="area">
-                            </div>
-                        </div>
-                    </div>
-                    
-                    <div class="form-group">
-                         <div class="row">   
-                           <div class="col-md-4">
-                                <label>Pin Code</label>
-                           </div>
-                            <div class="col-md-8">
-                                <input type="text" class="form-control" placeholder="Enter 6 Digit" name="pin_code" maxlength="6" size="6" id="pin_code">
-                            </div>
-                        </div>
-                    </div>
-                    
-                    
-                    
-                    <div class="form-group">
-                         <div class="row">   
-                           <div class="col-md-4">
-                                
-                           </div>
-                            <div class="col-md-8">
-                              
-                              <button class="btn btn-danger btn-xs pull-right hidden" id="edit_client_btn"><i class="fa fa-pencil-square-o" aria-hidden="true"></i> Edit Client Details</button>
-                              
-                              <button class="btn btn-success btn-xs pull-right hidden" id="update_client_btn"><i class="fa fa-save" aria-hidden="true"></i> Update Client</button>
-                              
-                            </div>
-                        </div>
-                    </div>
-                    
-                    
-                </div>
-                
-            </div>
+   <div class="box">
+    <div class="box-header with-border" style="background:#f4f4f48c;">
+        <h3 class="box-title" style="text-align:left;font-size:14px;">
+        <i class="fa fa-user"></i> &nbsp;&nbsp;Client Details
+        </h3>
+        <div class="box-tools pull-right">
+        <button type="button" class="btn btn-box-tool" data-widget="collapse">
+            <i class="fa fa-minus"></i>
+        </button>
         </div>
     </div>
+
+    <div class="box-body" style="text-align:left;">
+        <div class="row">
+
+        <!-- LEFT COLUMN -->
+        <div class="col-md-6">
+
+            <!-- CUSTOMER ID (Hidden in Add Mode, Visible in Edit Mode) -->
+            <div class="form-group" id="customer_id_wrapper" style="display: none;">
+            <div class="row">
+                <div class="col-md-4">
+                <label>Customer ID</label>
+                </div>
+                <div class="col-md-8">
+                <input type="text" class="form-control" id="customer_id_display" name="customer_id_display" readonly>
+                </div>
+            </div>
+            </div>
+
+            <!-- CLIENT TYPE -->
+            <div class="form-group">
+            <div class="row">
+                <div class="col-md-4"><label>Client Type</label><span>*</span></div>
+                <div class="col-md-8">
+                <select class="form-control" name="client_type" id="client_type">
+                    <option value="">--Select--</option>
+                    <?php foreach($client_type as $da){ ?>
+                    <option value="<?php echo $da->id ?>"><?php echo $da->client_type ?></option>
+                    <?php } ?>
+                </select>
+                </div>
+            </div>
+            </div>
+
+            <!-- SALUTATION -->
+            <div class="form-group">
+            <div class="row">
+                <div class="col-md-4"><label>Salutation</label></div>
+                <div class="col-md-8">
+                <select class="form-control" id="salutation" name="salutation">
+                    <option value="">--Select--</option>
+                    <option value="Mr">Mr</option>
+                    <option value="Mrs">Mrs</option>
+                    <option value="Ms">Ms</option>
+                </select>
+                </div>
+            </div>
+            </div>
+
+            <!-- CLIENT NAME -->
+            <div class="form-group">
+            <div class="row">
+                <div class="col-md-4"><label>Client Name</label><span>*</span></div>
+                <div class="col-md-8">
+                <input type="text" class="form-control" maxlength="150" name="client_name" id="client_name"
+                    oninput="this.value=this.value.replace(/\s+/g,' ').trim();">
+                </div>
+            </div>
+            </div>
+
+            <!-- INITIAL -->
+            <div class="form-group">
+            <div class="row">
+                <div class="col-md-4"><label>Initial</label></div>
+                <div class="col-md-8">
+                <input type="text" class="form-control" id="initial" name="initial">
+                </div>
+            </div>
+            </div>
+
+            <!-- FATHER / HUSBAND NAME -->
+            <div class="form-group">
+            <div class="row">
+                <div class="col-md-4"><label>Father / Husband Name</label></div>
+                <div class="col-md-8">
+                <input type="text" class="form-control" id="father_husband_name" name="father_husband_name">
+                </div>
+            </div>
+            </div>
+
+            <!-- DATE OF BIRTH -->
+            <div class="form-group">
+            <div class="row">
+                <div class="col-md-4"><label>Date of Birth</label></div>
+                <div class="col-md-8">
+                <input type="date" class="form-control" id="dob" name="dob">
+                </div>
+            </div>
+            </div>
+
+            <!-- AGE -->
+            <div class="form-group">
+            <div class="row">
+                <div class="col-md-4"><label>Age</label></div>
+                <div class="col-md-8">
+                <input type="text" class="form-control" id="age" name="age" placeholder="Auto">
+                </div>
+            </div>
+            </div>
+
+            <!-- MOBILE NUMBER -->
+            <div class="form-group">
+            <div class="row">
+                <div class="col-md-4"><label>Mobile No</label><span>*</span></div>
+                <div class="col-md-8">
+                <div class="input-group mb-1">
+                    <div class="input-group-addon">+91</div>
+                    <input type="number" class="form-control" name="mobile_no" maxlength="10" id="mobile_no">
+                </div>
+                </div>
+            </div>
+            </div>
+
+            <!-- EMAIL -->
+            <div class="form-group">
+            <div class="row">
+                <div class="col-md-4"><label>Email ID</label></div>
+                <div class="col-md-8">
+                <input type="email" class="form-control" name="email_id" id="email_id" placeholder="example@gmail.com">
+                </div>
+            </div>
+            </div>
+
+            <!-- ADDITIONAL CUSTOM FIELDS SECTION -->
+            <div class="form-group">
+            <div class="row">
+                <div class="col-md-12">
+                <label style="font-weight:bold;">Additional Fields</label>
+                <div id="custom_fields_container"></div>
+                <button type="button" id="add_custom_field" class="btn btn-sm btn-info mt-2">
+                    <i class="fa fa-plus"></i> Add Custom Field
+                </button>
+                </div>
+            </div>
+            </div>
+
+        </div>
+
+        <!-- RIGHT COLUMN -->
+        <div class="col-md-6">
+
+            <!-- DOCUMENT SECTION -->
+            <div class="form-group" id="document_section">
+
+                <div class="row mt-2 mb-3">
+                    <div class="col-md-5"><label>Aadhar Card</label></div>
+                    <div class="col-md-7" id="aadhar_section">
+                    <input type="file" class="form-control doc-input" id="doc_aadhar" name="doc_aadhar" accept=".jpg,.jpeg,.png,.pdf">
+                    <a href="#" target="_blank" id="view_doc_aadhar" class="view-doc text-primary" style="display:none;">
+                        <i class="fa fa-eye"></i> View Aadhar
+                    </a>
+                    </div>
+                </div>
+
+                <div class="row mt-2 mb-3">
+                    <div class="col-md-5"><label>PAN Card</label></div>
+                    <div class="col-md-7" id="pan_section">
+                    <input type="file" class="form-control doc-input" id="doc_pan" name="doc_pan" accept=".jpg,.jpeg,.png,.pdf">
+                    <a href="#" target="_blank" id="view_doc_pan" class="view-doc text-primary" style="display:none;">
+                        <i class="fa fa-eye"></i> View PAN
+                    </a>
+                    </div>
+                </div>
+
+                <div class="row mt-2 mb-3">
+                    <div class="col-md-5"><label>Voter ID</label></div>
+                    <div class="col-md-7" id="voter_section">
+                    <input type="file" class="form-control doc-input" id="doc_voter" name="doc_voter" accept=".jpg,.jpeg,.png,.pdf">
+                    <a href="#" target="_blank" id="view_doc_voter" class="view-doc text-primary" style="display:none;">
+                        <i class="fa fa-eye"></i> View Voter ID
+                    </a>
+                    </div>
+                </div>
+
+                <div class="row mt-2 mb-3">
+                    <div class="col-md-5"><label>Driving Licence</label></div>
+                    <div class="col-md-7" id="dl_section">
+                    <input type="file" class="form-control doc-input" id="doc_dl" name="doc_dl" accept=".jpg,.jpeg,.png,.pdf">
+                    <a href="#" target="_blank" id="view_doc_dl" class="view-doc text-primary" style="display:none;">
+                        <i class="fa fa-eye"></i> View Licence
+                    </a>
+                    </div>
+                </div>
+
+                <div class="row mt-2 mb-3">
+                    <div class="col-md-5"><label>Government ID</label></div>
+                    <div class="col-md-7" id="govt_section">
+                    <input type="file" class="form-control doc-input" id="doc_govt" name="doc_govt" accept=".jpg,.jpeg,.png,.pdf">
+                    <a href="#" target="_blank" id="view_doc_govt" class="view-doc text-primary" style="display:none;">
+                        <i class="fa fa-eye"></i> View Govt ID
+                    </a>
+                    </div>
+                </div>
+
+                <small class="text-danger d-block mt-2">At least one file must be uploaded.</small>
+            </div>
+
+
+            <!-- COMMUNICATION ADDRESS -->
+            <div class="form-group">
+            <div class="row">
+                <div class="col-md-4"><label>Communication Address</label></div>
+                <div class="col-md-8">
+                <textarea class="form-control" name="communication_address" id="communication_address" rows="3"></textarea>
+                </div>
+            </div>
+            </div>
+
+            <!-- PERMANENT ADDRESS -->
+            <div class="form-group">
+            <div class="row">
+                <div class="col-md-4">
+                <label>Permanent Address</label>
+                </div>
+                <div class="col-md-8">
+                <textarea class="form-control" name="permanent_address" id="permanent_address" rows="3"></textarea>
+                <div class="checkbox" style="margin-top:8px;">
+                    <label style="padding-left:0; display:inline-flex; align-items:center;">
+                    <input type="checkbox" id="same_address" style="position:relative; top:1px; margin-right:8px;">
+                    <span>Same as Communication</span>
+                    </label>
+                </div>
+                </div>
+            </div>
+            </div>
+
+
+            <!-- DISTRICT -->
+            <div class="form-group">
+            <div class="row">
+                <div class="col-md-4"><label>District</label></div>
+                <div class="col-md-8">
+                <input type="text" class="form-control" id="district" name="district" placeholder="Enter District">
+                </div>
+            </div>
+            </div>
+
+            <!-- STATE -->
+            <div class="form-group">
+            <div class="row">
+                <div class="col-md-4"><label>State</label></div>
+                <div class="col-md-8">
+                <input type="text" class="form-control" id="state" name="state" placeholder="Enter State">
+                </div>
+            </div>
+            </div>
+
+            <!-- COUNTRY -->
+            <div class="form-group">
+            <div class="row">
+                <div class="col-md-4"><label>Country</label></div>
+                <div class="col-md-8">
+                <input type="text" class="form-control" id="country" name="country" value="India">
+                </div>
+            </div>
+            </div>
+
+            <!-- PIN CODE -->
+            <div class="form-group">
+            <div class="row">
+                <div class="col-md-4"><label>Pin Code</label></div>
+                <div class="col-md-8">
+                <input type="text" class="form-control" id="pin_code" name="pin_code" maxlength="6"
+                    placeholder="Enter 6-digit Pin Code">
+                </div>
+            </div>
+            </div>
+
+            <div class="form-group">
+                    <div class="row">   
+                    <div class="col-md-4">
+                        
+                    </div>
+                    <div class="col-md-8">
+                        
+                        <button class="btn btn-danger btn-xs pull-right hidden" id="edit_client_btn"><i class="fa fa-pencil-square-o" aria-hidden="true"></i> Edit Client Details</button>
+                        
+                        <button class="btn btn-success btn-xs pull-right hidden" id="update_client_btn"><i class="fa fa-save" aria-hidden="true"></i> Update Client</button>
+                        
+                    </div>
+                </div>
+            </div>
+
+        </div>
+        </div>
+    </div>
+   </div>
   
   
     <div class="box">
@@ -1608,7 +1694,7 @@ input[type=checkbox], input[type=radio] {
     </section><!-- /.content -->
   </div><!-- /.content-wrapper -->
   
- <div class="modal fade in" id="add_model">
+<div class="modal fade in" id="add_model">
     <div class="modal-dialog">
         <div class="modal-content">
             <div class="modal-header bg-primary">
@@ -1660,502 +1746,439 @@ input[type=checkbox], input[type=radio] {
             </div>
         </div>
     </div>
-  </div>
+</div>
   
- <div id="add_vechile_model" class="modal fade" role="dialog">
+<div id="add_vechile_model" class="modal fade" role="dialog">
   <div class="modal-dialog modal-lg">
 
     <!-- Modal content-->
     <div class="modal-content modal-lg-content">
-      <div class="modal-header" style="background:#778d9d;">
-        <button type="button" class="close" data-dismiss="modal" style="color:#fff;">&times;</button>
-        
-        <div class="row">
-            <div class="col-md-6">
-                <h4 class="modal-title" style="color:#fff;"><i class="fa fa-car" style="color:#fff;" aria-hidden="true"></i>  Create New Vechile</h4>
-            </div>
-              <div class="col-md-5"> 
-                <button class="btn btn-success btn-sm pull-right save_model" id="add_vechile_btn"><i class="fa fa-save" aria-hidden="true"></i> Save</button> 
-              </div>
-          </div>
-        
-      </div>
-      <div class="modal-body">
-          
-          
-      <div class="box">
-        <div class="box-header with-border" style="background:#f4f4f48c;">
-            <h3 class="box-title" _msthash="26273" _msttexthash="60619" style="text-align: left;font-size:14px;"><i class="fa fa-bars" aria-hidden="true"></i> &nbsp;&nbsp; General Details </h3>
-            <div class="box-tools pull-right">
-                 <button type="button" class="btn btn-box-tool" data-widget="collapse" data-toggle="tooltip" title="" data-original-title="Collapse">
-                  <i class="fa fa-minus"></i></button>
-            </div>
-        </div>
-        <div class="box-body" _msthash="1196936" _msttexthash="1190501">
-          
-          <div class="row">
-              
-              <div class="col-md-6">
-                    <div class="form-group">
-                        <div class="row">
-                            <div class="col-md-4">
-                                <label>Vechile Type</label><span>*</span>
-                            </div>
-                        <div class="col-md-8">
-                            <select class="form-control" name="vechile_type" id="vechile_type" disabled>
-                              <option value="">--Select--</option>
-                              <?php foreach($policy_type as $da) {?>
-                                  <option value="<?php echo $da->id ?>"><?php echo $da->policy_type  ?></option>
-                             <?php } ?>
-                              
-                            </select>
-                        </div>
-                        </div>
-                    </div>  
-                    
-                  <div class="form-group">
-                        <div class="row">
-                            <div class="col-md-4">
-                                <label>Make</label><span>*</span>
-                            </div>
-                        <div class="col-md-8">
-                            <select class="form-control select2" name="vechi_make" id="vechi_make" style="width:100%;">
-                              <option value="">--Select--</option>
-                            </select>
-                        </div>
-                         </div>
-                    </div>  
-                    
-                    
-                    
-                    <div class="form-group">
-                        <div class="row">
-                            <div class="col-md-4">
-                                <label>Model</label><span>*</span>
-                            </div>
-                        <div class="col-md-8">
-                            <select class="form-control select2" name="vechi_model" id="vechi_model" style="width:100%;">
-                              <option value="">--Select--</option>
-                            </select>
-                        </div>
-                       </div>
-                    </div>  
-                    
-                    <div class="form-group">
-                        <div class="row">
-                            <div class="col-md-4">
-                                <label>Varient</label>
-                            </div>
-                        <div class="col-md-8">
-                            <select class="form-control select2" name="vechi_varient" id="vechi_varient" style="width:100%;">
-                              <option value="">--Select--</option>
-                            </select>
-                        </div>
-                        </div>
-                    </div>  
-                    <div class="form-group">
-                        <div class="row">
-                            <div class="col-md-4">
-                                <label>CC</label>
-                            </div>
-                        <div class="col-md-8">
-                            <input type="text" class="form-control" name="vechi_cc" id="vechi_cc">
-                        </div>
-                        </div>
-                    </div>  
-                    <div class="form-group">
-                        <div class="row">
-                            <div class="col-md-4">
-                                <label>Year Of Manufacture</label>
-                            </div>
-                        <div class="col-md-4">
-                             <select class="form-control" name="vechi_manu_month" id="vechi_manu_month">
-                                    <option value="">--Select--</option>
-                                    <option value='01'>Jan</option>
-                                    <option value='02'>Feb</option>
-                                    <option value='03'>Mar</option>
-                                    <option value='04'>Apr</option>
-                                    <option value='05'>May</option>
-                                    <option value='06'>Jun</option>
-                                    <option value='07'>Jul</option>
-                                    <option value='08'>Augt</option>
-                                    <option value='09'>Sep</option>
-                                    <option value='10'>Oct</option>
-                                    <option value='11'>Nov</option>
-                                    <option value='12'>Dec</option>
-                            </select>
-                        </div>
-                        <div class="col-md-4">
-                            <select class="form-control select2" id="vechi_manu_year" name="vechi_manu_year" style='width:100%'>
-                                <option value="">--Select--</option>
-                                <?php for($i = 1900;$i<= 3050 ;$i++)
-                                {?>
-                                    <option value="<?php echo $i ?>"><?php echo $i ?></option>
-                                <?php } ?>
-                            </select>
-                        </div>
-                        </div>
-                    </div> 
-                     <div class="form-group">
-                        <div class="row">
-                            <div class="col-md-4">
-                                <label>Seating Capacity</label>
-                            </div>
-                        <div class="col-md-8">
-                            <input type="text" class="form-control" name="vechi_seating" id="vechi_seating">
-                        </div>
-                        </div>
-                    </div>  
-                    
-                    <div class="form-group">
-                        <div class="row">
-                            <div class="col-md-4">
-                                <label>Vechile Classfication</label>
-                            </div>
-                        <div class="col-md-8">
-                             <select class="form-control" name="vechi_classfication" id="vechi_classfication">
-                              <option value="">--Select--</option>
-                              <option value="small">Small</option>
-                              <option value="Hatchback">Hatchback</option>
-                              <option value="Midsize">Midsize</option>
-                              <option value="High End">High End</option>
-                              <option value="MPV/SUV">MPV/SUV</option>
-                              <option value="Commercial">Commercial</option>
-                            </select>
-                        </div>
-                       </div>
-                    </div>  
-              </div>
-              
-              <div class="col-md-6">
-                  
-                  <div class="form-group">
-                        <div class="row">
-                            <div class="col-md-4">
-                                <label>Fuel Type</label>
-                            </div>
-                        <div class="col-md-8">
-                             <select class="form-control" name="vechi_fuel_type" id="vechi_fuel_type" >
-                               <option value="">--select--</option>
-                                     <?php foreach($fuel_type as $da){ if($da->id != "4"){?>
-                                    <option value="<?php echo $da->id ?>"><?php echo $da->fuel_type; ?></option>
-                                    <?php }} ?>
-                            </select>
-                        </div>
-                        </div>
-                    </div>  
-             
-                    <div class="form-group">
-                        <div class="row">
-                            <div class="col-md-4">
-                                <label>GVW</label>
-                            </div>
-                        <div class="col-md-8">
-                             <input type="text" class="form-control" name="vechi_gvw" id="vechi_gvw">
-                        </div>
-                        </div>
-                    </div>  
-
-                    <div class="form-group">
-                        <div class="row">
-                            <div class="col-md-4">
-                                <label>Passenger Carrying </label>
-                            </div>
-                        <div class="col-md-8">
-                            <select class="form-control" name="passenger_carrying" id="passenger_carrying">
-                            </select>
-                        </div>
-                        </div>
-                    </div>  
-                    
-                      <div class="form-group">
-                        <div class="row">
-                            <div class="col-md-4">
-                                <label>Engine Number </label>
-                            </div>
-                        <div class="col-md-8">
-                             <input type="text" class="form-control" name="vechi_engine_num" id="vechi_engine_num">
-                        </div>
-                        </div>
-                    </div>  
-                    
-                    <div class="form-group">
-                        <div class="row">
-                            <div class="col-md-4">
-                                <label>Chassis Number </label><span>*</span>
-                            </div>
-                        <div class="col-md-8">
-                             <input type="text" class="form-control" name="vechi_chassis_num" id="vechi_chassis_num">
-                        </div>
-                        </div>
-                    </div>  
-                    
-                     <div class="form-group">
-                        <div class="row">
-                            <div class="col-md-4">
-                                <label>Hypothecation </label>
-                            </div>
-                        <div class="col-md-8">
-                             <input type="text" class="form-control" name="vechi_hypothecation" id="vechi_hypothecation">
-                        </div>
-                        </div>
-                    </div>  
-                    
-                    <div class="form-group">
-                        <div class="row">
-                            <div class="col-md-4">
-                                <label>Created User </label>
-                            </div>
-                        <div class="col-md-8">
-                             <select class="form-control" name="created_user" id="created_user">
-                                    <option value="<?php echo $this->session->userdata('session_id'); ?>"><?php echo $this->session->userdata('session_name');?></option>
-                            </select>
-                        </div>
-                        </div>
-                    </div>  
-                    
-                     <div class="form-group">
-                        <div class="row">
-                            <div class="col-md-4">
-                                <label>Remarks </label>
-                            </div>
-                        <div class="col-md-8">
-                             <textarea type="text" class="form-control" name="vechi_remarks" id="vechi_remarks"></textarea>
-                        </div>
-                        </div>
-                    </div>
-                    
-              </div>
-          </div>
-      </div>
-    </div> 
-    
-      <div class="box">
-            <div class="box-header with-border" style="background:#f4f4f48c;">
-                <h3 class="box-title" _msthash="26273" _msttexthash="60619" style="text-align: left;font-size:14px;"><i class="fa fa-bars" aria-hidden="true"></i> &nbsp;&nbsp; Registration Details </h3>
-                <div class="box-tools pull-right">
-                     <button type="button" class="btn btn-box-tool" data-widget="collapse" data-toggle="tooltip" title="" data-original-title="Collapse">
-                      <i class="fa fa-minus"></i></button>
-                </div>
-            </div>
-            <div class="box-body" _msthash="1196936" _msttexthash="1190501" style="text-align: left;">
-                
-               <div class="row">
-                   <div class="col-md-6">
-                       
-                        <div class="form-group">
-                            <div class="row">
-                                <div class="col-md-4">
-                                    <label>Regn no</label>*<span id='regn_no_span' style='color:red'> </span>
-                                </div>
-                                
-                                <div class="col-md-2 inputs">
-                                    <input type="text" class="form-control inputs" name="regn_no_1" id="regn_no_1" maxlength="2">
-                                </div>
-                                <div class="col-md-2 inputs">
-                                    <input type="text" class="form-control inputs" name="regn_no_2" id="regn_no_2" maxlength="2">
-                                </div>
-                                <div class="col-md-2 inputs">
-                                    <input type="text" class="form-control inputs" name="regn_no_3" id="regn_no_3" maxlength="2">
-                                </div>
-                                <div class="col-md-2 inputs">
-                                    <input type="text" class="form-control inputs" name="regn_no_4" id="regn_no_4" maxlength="4">
-                                </div>
-                            </div>
-                        </div>
-                        
-                        <div class="form-group">
-                            <div class="row">
-                                <div class="col-md-4">
-                                    <label>Regn Date</label>
-                                </div>
-                                <div class="col-md-8">
-                                    <input type="Date" class="form-control" name="regn_date" id="regn_date">
-                                </div>
-                                </div>
-                        </div>
-                        
-                        <div class="form-group">
-                          <div class="row">
-                            <div class="col-md-4">
-                                <label>RTO</label>
-                            </div>
-                            <div class="col-md-8">
-                                 <select class="form-control select2" name="rto" id="rto" style="width:100%">
-                                    <option value="">--select--</option>
-                                    <?php foreach($rto as $da){
-                                     if($da->id != "1" && $da->id != "2" && $da->id != "3" && $da->id != "4" && $da->id != "5" && $da->id != "6")
-                                     {
-                                    ?>
-                                    <option value="<?php echo $da->rto_no ?>"><?php echo $da->rto_no." ( ".$da->city." )"; ?></option>
-                                     
-                                    <?php }} ?>
-                                </select>
-                            </div>
-                            </div>
-                        </div>
-                        
-                         <div class="form-group">
-                          <div class="row">
-                            <div class="col-md-4">
-                                <label>Zone</label>
-                            </div>
-                            <div class="col-md-8">
-                                <input type="text" class="form-control" name="zone" id="zone">
-                            </div>
-                            </div>
-                        </div>
-                </div>
-                <div class="col-md-6">
-                     <div class="form-group">
-                    <div class="row">
-                        <div class="col-md-4">
-                            <label>Regn Address</label>
-                        </div>
-                        <div class="col-md-8">
-                            <textarea class="form-control" name="regn_address" id="regn_address"></textarea>
-                        </div>
-                    </div>
-                    </div>
-                    
-                    <div class="form-group">
-                      <div class="row">
-                        <div class="col-md-4">
-                            <label>State</label>
-                        </div>
-                        <div class="col-md-8">
-                            <select class="form-control select2" name="state" id="state" style="width:100%;">
-                            <option value="">--select--</option>
-                                 <?php foreach($state as $da){?>
-                                        <option value="<?php echo $da->id ?>"><?php echo $da->name; ?></option>
-                                  <?php } ?>
-                            </select>
-                        </div>
-                    </div>
-                </div>
-                
-                
-                 <div class="form-group">
-                    <div class="row">
-                        <div class="col-md-4">
-                            <label>City</label>
-                        </div>
-                        <div class="col-md-8">
-                            <input type="text" class="form-control" name="city" id="city">
-                        </div>
-                    </div>
-                    </div>
-                    
-                <div class="form-group">
-                    <div class="row">
-                        <div class="col-md-4">
-                            <label>Pincode</label>
-                        </div>
-                        <div class="col-md-8">
-                            <input type="text" class="form-control" name="pincode" id="pincode">
-                        </div>
-                    </div>
-                </div>
-                </div>
-              </div>
-          </div>
-        </div> 
-
-    <!--  <div class="box">-->
-    <!--    <div class="box-header with-border" style="background:#f4f4f48c;">-->
-    <!--        <h3 class="box-title" _msthash="26273" _msttexthash="60619" style="text-align: left;font-size:14px;"><i class="fa fa-bars" aria-hidden="true"></i> &nbsp;&nbsp; Personal Details </h3>-->
-    <!--        <div class="box-tools pull-right">-->
-    <!--             <button type="button" class="btn btn-box-tool" data-widget="collapse" data-toggle="tooltip" title="" data-original-title="Collapse">-->
-    <!--              <i class="fa fa-minus"></i></button>-->
-    <!--        </div>-->
-    <!--    </div>-->
-    <!--    <div class="box-body" _msthash="1196936" _msttexthash="1190501" >-->
-    <!--       <div class="form-group">-->
-               
-    <!--           <div class="row">-->
-    <!--               <div class="col-md-6">-->
-    <!--                   <div class="form-group">-->
-    <!--                       <div class="row">-->
-    <!--                           <div class="col-md-4">-->
-    <!--                               <label>Vechicle Username</label>-->
-    <!--                           </div>-->
-    <!--                           <div class="col-md-8">-->
-    <!--                               <input type="text" class="form-control" name="vechi_user_name" id="vechi_user_name">-->
-    <!--                           </div>-->
-    <!--                       </div>-->
-    <!--                   </div>-->
-    <!--               </div>-->
-    <!--               <div class="col-md-6">-->
-    <!--                   <div class="form-group">-->
-    <!--                       <div class="row">-->
-    <!--                           <div class="col-md-4">-->
-    <!--                               <label>Vechicle User Contact Details</label>-->
-    <!--                           </div>-->
-    <!--                           <div class="col-md-8">-->
-    <!--                               <input type="text" class="form-control" name="vechi_user_cont" id="vechi_user_cont">-->
-    <!--                           </div>-->
-    <!--                       </div>-->
-    <!--                   </div>-->
-    <!--               </div>-->
-                   
-    <!--           </div>-->
-    <!--       </div>-->
-    <!--  </div>-->
-    <!--</div> -->
-    
-       <div class="box">
-        <div class="box-header with-border" style="background:#f4f4f48c;">
-            <h3 class="box-title" _msthash="26273" _msttexthash="60619" style="text-align: left;font-size:14px;"><i class="fa fa-upload" aria-hidden="true"></i> &nbsp;&nbsp; Upload Documents </h3>
-            <div class="box-tools pull-right">
-                 <button type="button" class="btn btn-box-tool" data-widget="collapse" data-toggle="tooltip" title="" data-original-title="Collapse">
-                  <i class="fa fa-minus"></i></button>
-            </div>
-        </div>
-        <div class="box-body" _msthash="1196936" _msttexthash="1190501" >
+        <div class="modal-header" style="background:#778d9d;">
+            <button type="button" class="close" data-dismiss="modal" style="color:#fff;">&times;</button>
             
-            <table class="table table-bordered">
-                <thead>
-                    <tr>
-                        <th>File type</th>
-                        <th>File name</th>
-                        <th>Document Type</th>
-                        <th>Edit</th>
-                        <th>Delete</th>
-                    </tr>
-                </thead>
-                <tbody id="table_view">
-                </tbody>
-            </table>
-            <br>
             <div class="row">
                 <div class="col-md-6">
-                    <label>Document type</label>
-                    <div class="form-group">
-                          <select class="form-control" name='document_type' id='document_type'>
-                                <option value=''>--Select--</option>
-                                <option value='RC Book'>RC Book</option>
-                                <option value='Other'>Other</option>
-                                </option>
-                          </select>
-                    </div>
+                    <h4 class="modal-title" style="color:#fff;"><i class="fa fa-car" style="color:#fff;" aria-hidden="true"></i>  Create New Vechile</h4>
                 </div>
-                
-                <div class="col-md-6">
-                    <label>Upload Document</label>
-                    <div class="form-group">
-                          <input type="file" class="form-control" id="document_file">
-                    </div>
+                <div class="col-md-5"> 
+                    <button class="btn btn-success btn-sm pull-right save_model" id="add_vechile_btn"><i class="fa fa-save" aria-hidden="true"></i> Save</button> 
                 </div>
             </div>
-    </div> 
-    
+            
+        </div>
 
-     </div>
+    <div class="modal-body">
+
+        <!-- ========================= GENERAL DETAILS ========================= -->
+        <div class="box">
+            <div class="box-header with-border" style="background:#f4f4f48c;">
+            <h3 class="box-title" style="text-align:left;font-size:14px;">
+                <i class="fa fa-bars" aria-hidden="true"></i> &nbsp;&nbsp; General Details
+            </h3>
+            <div class="box-tools pull-right">
+                <button type="button" class="btn btn-box-tool" data-widget="collapse" title="Collapse">
+                <i class="fa fa-minus"></i>
+                </button>
+            </div>
+            </div>
+
+            <div class="box-body">
+
+            <div class="row">
+
+                <!-- LEFT COLUMN -->
+                <div class="col-md-6">
+
+                <!-- Vehicle Type -->
+                <div class="form-group">
+                    <div class="row">
+                    <div class="col-md-4"><label>Vehicle Type</label><span>*</span></div>
+                    <div class="col-md-8">
+                        <select class="form-control" name="vechile_type" id="vechile_type" disabled>
+                        <option value="">--Select--</option>
+                        <?php foreach($policy_type as $da) { ?>
+                            <option value="<?php echo $da->id ?>"><?php echo $da->policy_type ?></option>
+                        <?php } ?>
+                        </select>
+                    </div>
+                    </div>
+                </div>
+
+                <!-- Make -->
+                <div class="form-group">
+                    <div class="row">
+                    <div class="col-md-4"><label>Make</label><span>*</span></div>
+                    <div class="col-md-8">
+                        <select class="form-control select2" name="vechi_make" id="vechi_make" style="width:100%;">
+                        <option value="">--Select--</option>
+                        </select>
+                    </div>
+                    </div>
+                </div>
+
+                <!-- Model -->
+                <div class="form-group">
+                    <div class="row">
+                    <div class="col-md-4"><label>Model</label><span>*</span></div>
+                    <div class="col-md-8">
+                        <select class="form-control select2" name="vechi_model" id="vechi_model" style="width:100%;">
+                        <option value="">--Select--</option>
+                        </select>
+                    </div>
+                    </div>
+                </div>
+
+                <!-- Variant -->
+                <div class="form-group">
+                    <div class="row">
+                    <div class="col-md-4"><label>Variant</label></div>
+                    <div class="col-md-8">
+                        <select class="form-control select2" name="vechi_varient" id="vechi_varient" style="width:100%;">
+                        <option value="">--Select--</option>
+                        </select>
+                    </div>
+                    </div>
+                </div>
+
+                <!-- CC -->
+                <div class="form-group">
+                    <div class="row">
+                    <div class="col-md-4"><label>CC</label></div>
+                    <div class="col-md-8">
+                        <input type="text" class="form-control" name="vechi_cc" id="vechi_cc">
+                    </div>
+                    </div>
+                </div>
+
+                <!-- Year of Manufacture -->
+                <div class="form-group">
+                    <div class="row">
+                    <div class="col-md-4"><label>Year Of Manufacture</label></div>
+                    <div class="col-md-4">
+                        <select class="form-control" name="vechi_manu_month" id="vechi_manu_month">
+                        <option value="">--Select--</option>
+                        <option value='01'>Jan</option>
+                        <option value='02'>Feb</option>
+                        <option value='03'>Mar</option>
+                        <option value='04'>Apr</option>
+                        <option value='05'>May</option>
+                        <option value='06'>Jun</option>
+                        <option value='07'>Jul</option>
+                        <option value='08'>Aug</option>
+                        <option value='09'>Sep</option>
+                        <option value='10'>Oct</option>
+                        <option value='11'>Nov</option>
+                        <option value='12'>Dec</option>
+                        </select>
+                    </div>
+                    <div class="col-md-4">
+                        <select class="form-control select2" id="vechi_manu_year" name="vechi_manu_year" style="width:100%">
+                        <option value="">--Select--</option>
+                        <?php for($i = 1900; $i <= 3050; $i++) { ?>
+                            <option value="<?php echo $i ?>"><?php echo $i ?></option>
+                        <?php } ?>
+                        </select>
+                    </div>
+                    </div>
+                </div>
+
+                <!-- Seating Capacity -->
+                <div class="form-group">
+                    <div class="row">
+                    <div class="col-md-4"><label>Seating Capacity</label></div>
+                    <div class="col-md-8">
+                        <input type="text" class="form-control" name="vechi_seating" id="vechi_seating">
+                    </div>
+                    </div>
+                </div>
+
+                <!-- Vehicle Classification -->
+                <div class="form-group">
+                    <div class="row">
+                    <div class="col-md-4"><label>Vehicle Classification</label></div>
+                    <div class="col-md-8">
+                        <select class="form-control" name="vechi_classfication" id="vechi_classfication">
+                        <option value="">--Select--</option>
+                        <option value="small">Small</option>
+                        <option value="Hatchback">Hatchback</option>
+                        <option value="Midsize">Midsize</option>
+                        <option value="High End">High End</option>
+                        <option value="MPV/SUV">MPV/SUV</option>
+                        <option value="Commercial">Commercial</option>
+                        </select>
+                    </div>
+                    </div>
+                </div>
+
+                </div>
+
+                <!-- RIGHT COLUMN -->
+                <div class="col-md-6">
+
+                <!-- Fuel Type -->
+                <div class="form-group">
+                    <div class="row">
+                    <div class="col-md-4"><label>Fuel Type</label></div>
+                    <div class="col-md-8">
+                        <select class="form-control" name="vechi_fuel_type" id="vechi_fuel_type">
+                        <option value="">--Select--</option>
+                        <?php foreach($fuel_type as $da) { if($da->id != "4") { ?>
+                            <option value="<?php echo $da->id ?>"><?php echo $da->fuel_type; ?></option>
+                        <?php }} ?>
+                        </select>
+                    </div>
+                    </div>
+                </div>
+
+                <!-- GVW -->
+                <div class="form-group">
+                    <div class="row">
+                    <div class="col-md-4"><label>GVW</label></div>
+                    <div class="col-md-8">
+                        <input type="text" class="form-control" name="vechi_gvw" id="vechi_gvw">
+                    </div>
+                    </div>
+                </div>
+
+                <!-- Passenger Carrying -->
+                <div class="form-group">
+                    <div class="row">
+                    <div class="col-md-4"><label>Passenger Carrying</label></div>
+                    <div class="col-md-8">
+                        <select class="form-control" name="passenger_carrying" id="passenger_carrying"></select>
+                    </div>
+                    </div>
+                </div>
+
+                <!-- Engine Number -->
+                <div class="form-group">
+                    <div class="row">
+                    <div class="col-md-4"><label>Engine Number</label></div>
+                    <div class="col-md-8">
+                        <input type="text" class="form-control" name="vechi_engine_num" id="vechi_engine_num">
+                    </div>
+                    </div>
+                </div>
+
+                <!-- Chassis Number -->
+                <div class="form-group">
+                    <div class="row">
+                    <div class="col-md-4"><label>Chassis Number</label><span>*</span></div>
+                    <div class="col-md-8">
+                        <input type="text" class="form-control" name="vechi_chassis_num" id="vechi_chassis_num">
+                    </div>
+                    </div>
+                </div>
+
+                <!-- Hypothecation -->
+                <div class="form-group">
+                    <div class="row">
+                    <div class="col-md-4"><label>Hypothecation</label></div>
+                    <div class="col-md-8">
+                        <input type="text" class="form-control" name="vechi_hypothecation" id="vechi_hypothecation">
+                    </div>
+                    </div>
+                </div>
+
+                <!-- Created User -->
+                <div class="form-group">
+                    <div class="row">
+                    <div class="col-md-4"><label>Created User</label></div>
+                    <div class="col-md-8">
+                        <select class="form-control" name="created_user" id="created_user">
+                        <option value="<?php echo $this->session->userdata('session_id'); ?>">
+                            <?php echo $this->session->userdata('session_name'); ?>
+                        </option>
+                        </select>
+                    </div>
+                    </div>
+                </div>
+
+                <!-- Remarks -->
+                <div class="form-group">
+                    <div class="row">
+                    <div class="col-md-4"><label>Remarks</label></div>
+                    <div class="col-md-8">
+                        <textarea class="form-control" name="vechi_remarks" id="vechi_remarks"></textarea>
+                    </div>
+                    </div>
+                </div>
+
+                </div>
+            </div>
+            </div>
+        </div>
+        <!-- ========================= END GENERAL DETAILS ========================= -->
+
+        <!-- ========================= REGISTRATION DETAILS ========================= -->
+        <div class="box">
+            <div class="box-header with-border" style="background:#f4f4f48c;">
+            <h3 class="box-title" style="text-align:left;font-size:14px;">
+                <i class="fa fa-bars" aria-hidden="true"></i> &nbsp;&nbsp; Registration Details
+            </h3>
+            <div class="box-tools pull-right">
+                <button type="button" class="btn btn-box-tool" data-widget="collapse" title="Collapse">
+                <i class="fa fa-minus"></i>
+                </button>
+            </div>
+            </div>
+
+            <div class="box-body" style="text-align:left;">
+            <div class="row">
+
+                <!-- LEFT COLUMN -->
+                <div class="col-md-6">
+
+                <!-- Regn No -->
+                <div class="form-group">
+                    <div class="row">
+                    <div class="col-md-4"><label>Regn No</label><span id="regn_no_span" style="color:red;">*</span></div>
+                    <div class="col-md-2"><input type="text" class="form-control" name="regn_no_1" id="regn_no_1" maxlength="2"></div>
+                    <div class="col-md-2"><input type="text" class="form-control" name="regn_no_2" id="regn_no_2" maxlength="2"></div>
+                    <div class="col-md-2"><input type="text" class="form-control" name="regn_no_3" id="regn_no_3" maxlength="2"></div>
+                    <div class="col-md-2"><input type="text" class="form-control" name="regn_no_4" id="regn_no_4" maxlength="4"></div>
+                    </div>
+                </div>
+
+                <!-- Regn Date -->
+                <div class="form-group">
+                    <div class="row">
+                    <div class="col-md-4"><label>Regn Date</label></div>
+                    <div class="col-md-8"><input type="date" class="form-control" name="regn_date" id="regn_date"></div>
+                    </div>
+                </div>
+
+                <!-- RTO -->
+                <div class="form-group">
+                    <div class="row">
+                    <div class="col-md-4"><label>RTO</label></div>
+                    <div class="col-md-8">
+                        <select class="form-control select2" name="rto" id="rto" style="width:100%;">
+                        <option value="">--Select--</option>
+                        <?php foreach($rto as $da) {
+                            if(!in_array($da->id, ["1","2","3","4","5","6"])) { ?>
+                            <option value="<?php echo $da->rto_no; ?>"><?php echo $da->rto_no." ( ".$da->city." )"; ?></option>
+                        <?php }} ?>
+                        </select>
+                    </div>
+                    </div>
+                </div>
+
+                <!-- Zone -->
+                <div class="form-group">
+                    <div class="row">
+                    <div class="col-md-4"><label>Zone</label></div>
+                    <div class="col-md-8"><input type="text" class="form-control" name="zone" id="zone"></div>
+                    </div>
+                </div>
+
+                </div>
+
+                <!-- RIGHT COLUMN -->
+                <div class="col-md-6">
+
+                <!-- Regn Address -->
+                <div class="form-group">
+                    <div class="row">
+                    <div class="col-md-4"><label>Regn Address</label></div>
+                    <div class="col-md-8"><textarea class="form-control" name="regn_address" id="regn_address"></textarea></div>
+                    </div>
+                </div>
+
+                <!-- State -->
+                <div class="form-group">
+                    <div class="row">
+                    <div class="col-md-4"><label>State</label></div>
+                    <div class="col-md-8">
+                        <select class="form-control select2" name="state" id="state" style="width:100%;">
+                        <option value="">--Select--</option>
+                        <?php foreach($state as $da) { ?>
+                            <option value="<?php echo $da->id ?>"><?php echo $da->name; ?></option>
+                        <?php } ?>
+                        </select>
+                    </div>
+                    </div>
+                </div>
+
+                <!-- City -->
+                <div class="form-group">
+                    <div class="row">
+                    <div class="col-md-4"><label>City</label></div>
+                    <div class="col-md-8"><input type="text" class="form-control" name="city" id="city"></div>
+                    </div>
+                </div>
+
+                <!-- Pincode -->
+                <div class="form-group">
+                    <div class="row">
+                    <div class="col-md-4"><label>Pincode</label></div>
+                    <div class="col-md-8"><input type="text" class="form-control" name="pincode" id="pincode"></div>
+                    </div>
+                </div>
+
+                </div>
+
+            </div>
+            </div>
+        </div>
+        <!-- ========================= END REGISTRATION DETAILS ========================= -->
+
+        <!-- ========================= UPLOAD DOCUMENTS ========================= -->
+        <div class="box">
+            <div class="box-header with-border" style="background:#f4f4f48c;">
+            <h3 class="box-title" style="text-align:left;font-size:14px;">
+                <i class="fa fa-upload" aria-hidden="true"></i> &nbsp;&nbsp; Upload Documents
+            </h3>
+            <div class="box-tools pull-right">
+                <button type="button" class="btn btn-box-tool" data-widget="collapse" title="Collapse">
+                <i class="fa fa-minus"></i>
+                </button>
+            </div>
+            </div>
+
+            <div class="box-body">
+
+            <table class="table table-bordered">
+                <thead>
+                <tr>
+                    <th>File Type</th>
+                    <th>File Name</th>
+                    <th>Document Type</th>
+                    <th>Edit</th>
+                    <th>Delete</th>
+                </tr>
+                </thead>
+                <tbody id="table_view"></tbody>
+            </table>
+
+            <br>
+
+            <div class="row">
+                <div class="col-md-6">
+                <label>Document Type</label>
+                <div class="form-group">
+                    <select class="form-control" name="document_type" id="document_type">
+                    <option value="">--Select--</option>
+                    <option value="RC Book">RC Book</option>
+                    <option value="Other">Other</option>
+                    </select>
+                </div>
+                </div>
+
+                <div class="col-md-6">
+                <label>Upload Document</label>
+                <div class="form-group">
+                    <input type="file" class="form-control" id="document_file">
+                </div>
+                </div>
+            </div>
+
+            </div>
+        </div>
+        <!-- ========================= END UPLOAD DOCUMENTS ========================= -->
+
     </div>
 
-  </div>
-</div>
-</div>
 
  <div class="modal fade in" id="add_health_model">
     <div class="modal-dialog">
@@ -6707,16 +6730,31 @@ input[type=checkbox], input[type=radio] {
                         
                         $("#client_type").attr("disabled",true);
                         $("#client_name").attr("disabled",true);
+                        $("#salutation").attr("disabled",true);
+                        $("#initial").attr("disabled",true);
+                        $("#father_husband_name").attr("disabled",true);
+                        $("#communication_address").attr("disabled",true);
+                        $("#permanent_address").attr("disabled",true);
+                        $("#district").attr("disabled",true);
+                        $("#state").attr("disabled",true);
+                        $("#country").attr("disabled",true);
+                        $("#doc_aadhar").attr("disabled",true);
+                        $("#doc_pan").attr("disabled",true);
+                        $("#doc_voter").attr("disabled",true);
+                        $("#doc_dl").attr("disabled",true);
+                        $("#doc_govt").attr("disabled",true);
                         $("#mobile_no").attr("disabled",true);
-                        $("#other_contact_details").attr("disabled",true);
-                         $("#landline_no").attr("disabled",true);
+                        // $("#other_contact_details").attr("disabled",true);
+                        // $("#landline_no").attr("disabled",true);
                         $("#address").attr("disabled",true);
                         $("#email_id").attr("disabled",true);
-                        $("#cont_person_name").attr("disabled",true);
-                        $("#cont_person_des").attr("disabled",true);
+                        // $("#cont_person_name").attr("disabled",true);
+                        // $("#cont_person_des").attr("disabled",true);
                         $("#dob").attr("disabled",true);
                         $("#age").attr("disabled",true);
-                        $("#area").attr("disabled",true);
+                        $("#add_custom_field").attr("disabled",true);
+                        // $("#area").attr("disabled",true);
+
                         $("#bussiness_type").attr("disabled",true);
                         $("#policy_class").attr("disabled",true);
                         $("#policy_type").attr("disabled",true);
@@ -6740,21 +6778,91 @@ input[type=checkbox], input[type=radio] {
                             data:{last_inserted_id:last_inserted_id},
                             success:function(response)
                             {
-                              // alert(response);
                                 var obj = jQuery.parseJSON(response);
+
+                                // ✅ Show Customer ID only in edit mode
+                                if (obj.customer_id && obj.customer_id !== "") {
+                                    $("#customer_id_display").val(obj.customer_id);
+                                    $("#customer_id_wrapper").show(); // 👈 make it visible
+                                } else {
+                                    $("#customer_id_wrapper").hide(); // hide if not available (add mode)
+                                }
+
+                                // === POPULATE CLIENT FIELDS ===
                                 $("#client_type").val(obj.client_type_id);
+                                $("#salutation").val(obj.salutation);
                                 $("#client_name").val(obj.client_name);
-                                $("#mobile_no").val(obj.mobile_no);
-                                $("#other_contact_details").val(obj.other_contact_details);
-                                $("#landline_no").val(obj.landline_no);
-                                $("#address").val(obj.address);
-                                $("#email_id").val(obj.email);
-                                $("#cont_person_name").val(obj.contact_person_name);
-                                $("#cont_person_des").val(obj.contact_person_designation);
+                                $("#initial").val(obj.initial);
+                                $("#father_husband_name").val(obj.father_husband_name);
                                 $("#dob").val(obj.date_of_birth);
                                 $("#age").val(obj.age);
-                                $("#area").val(obj.area);
+                                $("#dob").trigger("change");
+                                $("#mobile_no").val(obj.mobile_no);
+                                $("#email_id").val(obj.email);
+                                $("#communication_address").val(obj.communication_address);
+                                $("#permanent_address").val(obj.permanent_address);
+                                $("#district").val(obj.district);
+                                $("#state").val(obj.state);
+                                $("#country").val(obj.country);
                                 $("#pin_code").val(obj.pin_code);
+                                $("#gst_number").val(obj.gst_number);
+
+                                   // === DOCUMENT VIEW MODE (fixed selector IDs) ===
+                                    const basePath = "datas/client_documents/"; // adjust to your folder path
+                                    const docs = ["doc_aadhar", "doc_pan", "doc_voter", "doc_dl", "doc_govt"];
+
+                                    docs.forEach(function (field) {
+                                        const fileVal = obj[field];
+                                        const $fileInput = $("#" + field);
+                                        const $filePreview = $("#view_" + field); // ✅ fixed here
+
+                                        if (fileVal && fileVal !== "") {
+                                            $filePreview
+                                            .attr("href", basePath + fileVal)
+                                            .attr("target", "_blank")
+                                            .html('<i class="fa fa-eye"></i> View ' + prettifyFieldName(field))
+                                            .show();
+                                            $fileInput.hide();
+                                        } else {
+                                            $filePreview.hide();
+                                            $fileInput.show();
+                                        }
+                                    });
+
+                                    // === LOAD CUSTOM FIELDS (robust version) ===
+                                    $("#custom_fields_container").empty();
+
+                                    if (obj.custom_fields && obj.custom_fields !== "") {
+                                        try {
+                                            let customFields = JSON.parse(obj.custom_fields);
+
+                                            // Normalize if array or object
+                                            if (Array.isArray(customFields)) {
+                                            // Example: [{"Occupation":"Engineer"}]
+                                            customFields.forEach((item) => {
+                                                $.each(item, function (label, value) {
+                                                appendCustomField(label, value);
+                                                });
+                                            });
+                                            } else if (typeof customFields === "object") {
+                                            // Example: {"Occupation":"Engineer","Company":"ABC Ltd"}
+                                            $.each(customFields, function (label, value) {
+                                                appendCustomField(label, value);
+                                            });
+                                            } else {
+                                            $("#custom_fields_container").html('<p class="text-muted">No additional fields</p>');
+                                            }
+                                        } catch (e) {
+                                            console.error("Error parsing custom fields JSON:", e);
+                                            $("#custom_fields_container").html('<p class="text-muted">Error loading additional fields</p>');
+                                        }
+                                        } else {
+                                        $("#custom_fields_container").html('<p class="text-muted">No additional fields</p>');
+                                        }
+
+                                        // Disable fields initially
+                                        // $("input, select, textarea").attr("disabled", true);
+
                                 $("#bussiness_type").val(obj.business_type);
                                 $("#policy_class").val(obj.class);
                                 
@@ -7482,19 +7590,21 @@ input[type=checkbox], input[type=radio] {
        });
       
       $("#save_btn").click(function(){
-             var client_type = $("#client_type").val();
-             var client_name = $("#client_name").val();
-             var mobile_no = $("#mobile_no").val();
-             var other_contact_details = $("#other_contact_details").val();
-             var landline_no= $("#landline_no").val();
-             var address = $("#address").val();
-             var email_id = $("#email_id").val();
-             var contact_person_name =$("#cont_person_name").val();
-             var contact_person_des = $("#cont_person_des").val();
-             var dob = $("#dob").val();
-             var age = $("#age").val();
-             var area = $("#area").val();
-             var pin_code  = $("#pin_code").val();
+            var client_type = $("#client_type").val();
+            var salutation = $("#salutation").val();
+            var client_name = $("#client_name").val();
+            var initial = $("#initial").val();
+            var father_husband_name = $("#father_husband_name").val();
+            var dob = $("#dob").val();
+            var age = $("#age").val();
+            var mobile_no = $("#mobile_no").val();
+            var email_id = $("#email_id").val();
+            var communication_address = $("#communication_address").val();
+            var permanent_address = $("#permanent_address").val();
+            var district = $("#district").val();
+            var state = $("#state").val();
+            var country = $("#country").val();
+            var pin_code = $("#pin_code").val();
              
              var bussiness_type = $("#bussiness_type").val();
              var policy_class = $("#policy_class").val();
@@ -7531,23 +7641,37 @@ input[type=checkbox], input[type=radio] {
             
              var check = 0;
              
+             // ✅ Ensure at least one document uploaded
+             if (!validateDocuments()) return;
              
-             var files = $("#old_policy").prop('files')[0];
+            //  var files = $("#old_policy").prop('files')[0];
+
              var formdata = new FormData();
-             formdata.append("file",files);
-             formdata.append("client_type",client_type);
-             formdata.append("client_name",client_name);
-             formdata.append("mobile_no",mobile_no);
-             formdata.append("other_contact_details",other_contact_details);
-             formdata.append("landline_no",landline_no);
-             formdata.append("address",address);
-             formdata.append("email_id",email_id);
-             formdata.append("contact_person_name",contact_person_name);
-             formdata.append("contact_person_des",contact_person_des);
-             formdata.append("dob",dob);
-             formdata.append("age",age);
-             formdata.append("area",area);
-             formdata.append("pin_code",pin_code);
+
+             // === FILE UPLOADS (5 Document Types) ===
+            formdata.append("doc_aadhar", $("#doc_aadhar")[0].files[0]);
+            formdata.append("doc_pan", $("#doc_pan")[0].files[0]);
+            formdata.append("doc_voter", $("#doc_voter")[0].files[0]);
+            formdata.append("doc_dl", $("#doc_dl")[0].files[0]);
+            formdata.append("doc_govt", $("#doc_govt")[0].files[0]);
+            formdata.append("file", $("#old_policy")[0].files[0]);
+            
+            formdata.append("client_type", client_type);
+            formdata.append("salutation", salutation);
+            formdata.append("client_name", client_name);
+            formdata.append("initial", initial);
+            formdata.append("father_husband_name", father_husband_name);
+            formdata.append("dob", dob);
+            formdata.append("age", age);
+            formdata.append("mobile_no", mobile_no);
+            formdata.append("email_id", email_id);
+            formdata.append("communication_address", communication_address);
+            formdata.append("permanent_address", permanent_address);
+            formdata.append("district", district);
+            formdata.append("state", state);
+            formdata.append("country", country);
+            formdata.append("pin_code", pin_code);
+
              formdata.append("bussiness_type",bussiness_type);
              formdata.append("policy_class",policy_class);
              formdata.append("policy_type",policy_type);
@@ -7563,6 +7687,14 @@ input[type=checkbox], input[type=radio] {
              formdata.append("remarks",remarks);
              formdata.append("gst_number",gst_number);
              formdata.append("v_regn_no",v_regn_no);
+
+            var customLabels = [];
+            var customValues = [];
+            $(".custom_label").each(function() { customLabels.push($(this).val()); });
+            $(".custom_value").each(function() { customValues.push($(this).val()); });
+
+            formdata.append("custom_label[]", customLabels);
+            formdata.append("custom_value[]", customValues);
           
              if(client_type == "")
              {
@@ -7656,12 +7788,12 @@ input[type=checkbox], input[type=radio] {
                             }
                        },
                  });
-             }
+            }
              
              
-          });  
+    });  
     
-      $("#add_vechile_btn").click(function(){
+    $("#add_vechile_btn").click(function(){
            
           var id = $("#last_inserted_id").val();
           var vechile_type = "1";
@@ -7941,8 +8073,8 @@ input[type=checkbox], input[type=radio] {
                 }
             });
             
-          }
-       });
+        }
+    });
        
       $("#document_file").change(function(){
            var document_type = $("#document_type").val();
@@ -8608,98 +8740,204 @@ input[type=checkbox], input[type=radio] {
                   }
                 })
            
-            $("#client_type").attr("disabled",false);
-            $("#client_name").attr("disabled",false);
-            $("#mobile_no").attr("disabled",false);
-            $("#other_contact_details").attr("disabled",false);
-            $("#landline_no").attr("disabled",false);
-            $("#address").attr("disabled",false);
-            $("#email_id").attr("disabled",false);
-            $("#cont_person_name").attr("disabled",false);
-            $("#cont_person_des").attr("disabled",false);
-            $("#dob").attr("disabled",false);
-            $("#age").attr("disabled",false);
-            $("#area").attr("disabled",false);
-            $("#pin_code").attr("disabled",false);
+                // 🔹 Enable all form fields
+                $("#client_type, #client_name, #salutation, #initial, #father_husband_name, #mobile_no, #add_custom_field, #communication_address, #permanent_address, #district, #state, #country, #email_id, #dob, #age, #pin_code, #add_custom_field")
+                .attr("disabled", false);
+
+                // 🔹 Enable all file inputs
+                $(".form-control[type='file']").attr("disabled", false).show();
+
+                // 🔹 Hide document view links (preview) if present
+                $("a[id$='_preview']").hide();
             
-            $("#client_type").css("border-color", "#6ec3f5");
-            $("#client_name").css("border-color", "#6ec3f5");
-            $("#mobile_no").css("border-color", "#6ec3f5");
-            $("#other_contact_details").css("border-color", "#6ec3f5");
-            $("#landline_no").css("border-color", "#6ec3f5");
-            $("#address").css("border-color", "#6ec3f5");
-            $("#email_id").css("border-color", "#6ec3f5");
-            $("#cont_person_name").css("border-color", "#6ec3f5");
-            $("#cont_person_des").css("border-color", "#6ec3f5");
-            $("#dob").css("border-color", "#6ec3f5");
-            $("#age").css("border-color", "#6ec3f5");
-            $("#area").css("border-color", "#6ec3f5");
-            $("#pin_code").css("border-color", "#6ec3f5");
+                // 🔹 Set highlight border color for editable fields
+                const highlightColor = "#6ec3f5";
+                $("#client_type, #client_name, #salutation, #initial, #father_husband_name, #mobile_no, #add_custom_field, #communication_address, #permanent_address, #district, #state, #country, #email_id, #dob, #age, #pin_code")
+                .css("border-color", highlightColor);
             
-            $("#edit_client_btn").addClass("hidden");
-            $("#update_client_btn").removeClass("hidden");
+                // 🔹 Swap buttons
+                $("#edit_client_btn").addClass("hidden");
+                $("#update_client_btn").removeClass("hidden");
             
       });
       
-      $("#update_client_btn").click(function(){
+    //   $("#update_client_btn").click(function(){
           
-         var lead_id = $("#last_inserted_id").val();
-         var client_type = $("#client_type").val();
-         var client_name = $("#client_name").val();
-         var mobile_no = $("#mobile_no").val();
-         var other_contact_details = $("#other_contact_details").val();
-         var landline_no= $("#landline_no").val();
-         var address = $("#address").val();
-         var email_id = $("#email_id").val();
-         var contact_person_name =$("#cont_person_name").val();
-         var contact_person_des = $("#cont_person_des").val();
-         var dob = $("#dob").val();
-         var age = $("#age").val();
-         var area = $("#area").val();
-         var pin_code = $("#pin_code").val();
+    //      var lead_id = $("#last_inserted_id").val();
+    //      var client_type = $("#client_type").val();
+    //      var client_name = $("#client_name").val();
+    //      var salutation = $("#salutation").val();
+    //      var initial = $("#initial").val();
+    //      var add_custom_field = $("#add_custom_field").val();
+    //      var doc_aadhar = $("#doc_aadhar").val();
+    //      var doc_pan = $("#doc_pan").val();
+    //      var doc_voter = $("#doc_voter").val();
+    //      var doc_dl = $("#doc_dl").val();
+    //      var doc_govt = $("#doc_govt").val();
+    //      var communication_address = $("#communication_address").val();
+    //      var permanent_address = $("#permanent_address").val();
+    //      var district = $("#district").val();
+    //      var state = $("#state").val();
+    //      var country = $("#country").val();
+    //      var mobile_no = $("#mobile_no").val();
+    //     //  var other_contact_details = $("#other_contact_details").val();
+    //     //  var landline_no= $("#landline_no").val();
+    //     //  var address = $("#address").val();
+    //      var email_id = $("#email_id").val();
+    //     //  var contact_person_name =$("#cont_person_name").val();
+    //     //  var contact_person_des = $("#cont_person_des").val();
+    //      var dob = $("#dob").val();
+    //      var age = $("#age").val();
+    //      var area = $("#area").val();
+    //      var pin_code = $("#pin_code").val();
         
-         $.ajax({
-                url : "update_client_details",
-                method : "POST",
-                data:{
-                       lead_id : lead_id,
-                       client_type:client_type,
-                       client_name:client_name,
-                       mobile_no:mobile_no,
-                       other_contact_details:other_contact_details,
-                       landline_no:landline_no,
-                       address:address,
-                       email_id:email_id,
-                       contact_person_name:contact_person_name,
-                       contact_person_des:contact_person_des,
-                       dob:dob,
-                       age:age,
-                       area:area,
-                       pin_code:pin_code
-                },
-                beforeSend:function(){
-                    $("#update_client_btn").attr("disabled",true);
-                },
-                success:function(response)
-                {
-                        Swal.fire({
-                        position: 'top-end',
-                        icon: 'success',
-                        title: 'Client Details updated Successfully',
-                        showConfirmButton: false,
-                        timer: 1500
-                        })
-                    $("#update_client_btn").attr("disabled",false);
-                    window.location.href="create_lead?id="+lead_id;
-                    notification_log(lead_id)
-                }
-         });
+    //      $.ajax({
+    //             url : "update_client_details",
+    //             method : "POST",
+    //             data:{
+    //                    lead_id : lead_id,
+    //                    client_type:client_type,
+    //                    client_name:client_name,
+    //                    salutation:salutation,
+    //                    initial:initial,
+    //                    add_custom_field:add_custom_field,
+    //                    doc_aadhar:doc_aadhar,
+    //                    doc_pan:doc_pan,
+    //                    doc_voter:doc_voter,
+    //                    doc_dl:doc_dl,
+    //                    doc_govt:doc_govt,
+    //                    communication_address:communication_address,
+    //                    permanent_address:permanent_address,
+    //                    district:district,
+    //                    state:state,
+    //                    country:country,
+    //                    mobile_no:mobile_no,
+    //                 //    other_contact_details:other_contact_details,
+    //                 //    landline_no:landline_no,
+    //                 //    address:address,
+    //                    email_id:email_id,
+    //                 //    contact_person_name:contact_person_name,
+    //                 //    contact_person_des:contact_person_des,
+    //                    dob:dob,
+    //                    age:age,
+    //                    area:area,
+    //                    pin_code:pin_code
+    //             },
+    //             beforeSend:function(){
+    //                 $("#update_client_btn").attr("disabled",true);
+    //             },
+    //             success:function(response)
+    //             {
+    //                     Swal.fire({
+    //                     position: 'top-end',
+    //                     icon: 'success',
+    //                     title: 'Client Details updated Successfully',
+    //                     showConfirmButton: false,
+    //                     timer: 1500
+    //                     })
+    //                 $("#update_client_btn").attr("disabled",false);
+    //                 window.location.href="create_lead?id="+lead_id;
+    //                 notification_log(lead_id)
+    //             }
+    //      });
          
-      });
+    //   });
+
+    $("#update_client_btn").click(function (e) {
+        e.preventDefault();
+
+        var lead_id = $("#last_inserted_id").val();
+        if (!lead_id) {
+            Swal.fire("Error", "Missing Lead ID.", "error");
+            return;
+        }
+
+        // ✅ Create FormData for file + text data
+        var formData = new FormData();
+        formData.append("lead_id", lead_id);
+        formData.append("client_type", $("#client_type").val());
+        formData.append("client_name", $("#client_name").val());
+        formData.append("salutation", $("#salutation").val());
+        formData.append("initial", $("#initial").val());
+        formData.append("communication_address", $("#communication_address").val());
+        formData.append("permanent_address", $("#permanent_address").val());
+        formData.append("district", $("#district").val());
+        formData.append("state", $("#state").val());
+        formData.append("country", $("#country").val());
+        formData.append("mobile_no", $("#mobile_no").val());
+        formData.append("email_id", $("#email_id").val());
+        formData.append("dob", $("#dob").val());
+        formData.append("age", $("#age").val());
+        formData.append("pin_code", $("#pin_code").val());
+
+        // ✅ Capture dynamically added custom fields
+        let customLabels = [];
+        let customValues = [];
+
+        $(".custom_label").each(function () {
+        customLabels.push($(this).val());
+        });
+        $(".custom_value").each(function () {
+        customValues.push($(this).val());
+        });
+
+        // Append arrays (same format as add_lead_details)
+        for (let i = 0; i < customLabels.length; i++) {
+            formData.append("custom_label[]", customLabels[i]);
+            formData.append("custom_value[]", customValues[i]);
+        }
+
+
+        // ✅ Append files if chosen
+        var fileInputs = ["doc_aadhar", "doc_pan", "doc_voter", "doc_dl", "doc_govt"];
+        fileInputs.forEach(function (id) {
+            var file = $("#" + id)[0].files[0];
+            if (file) {
+            formData.append(id, file);
+            }
+        });
+
+        // ✅ Disable button during upload
+        $("#update_client_btn").attr("disabled", true);
+
+            $.ajax({
+                url: "update_client_details",
+                method: "POST",
+                data: formData,
+                processData: false, // Important for file upload
+                contentType: false, // Important for FormData
+                cache: false,
+                success: function (response) {
+                $("#update_client_btn").attr("disabled", false);
+
+                if (response.trim() === "success") {
+                    Swal.fire({
+                    position: "top-end",
+                    icon: "success",
+                    title: "Client Details updated Successfully",
+                    showConfirmButton: false,
+                    timer: 1500,
+                    });
+
+                    window.location.href = "create_lead?id=" + lead_id;
+                    notification_log(lead_id);
+                } else if (response.trim() === "unauthorized") {
+                    Swal.fire("Session Expired", "Please log in again.", "warning");
+                } else {
+                    Swal.fire("Error", "Update failed. Please try again.", "error");
+                }
+                },
+                error: function () {
+                $("#update_client_btn").attr("disabled", false);
+                Swal.fire("Server Error", "Unable to update client details.", "error");
+                },
+            });
+    });
+
       
       // Edit Requirement Details
       
-      $("#edit_req_btn").click(function(){
+    $("#edit_req_btn").click(function(){
          
             $("#bussiness_type").attr("disabled",false);
             $("#policy_class").attr("disabled",false);
@@ -8738,9 +8976,9 @@ input[type=checkbox], input[type=radio] {
             $("#edit_req_btn").addClass("hidden");
             $("#update_req_btn").removeClass("hidden");
           
-        });
+    });
       
-      $("#update_req_btn").click(function(){
+    $("#update_req_btn").click(function(){
              var lead_id = $("#last_inserted_id").val();
              var bussiness_type = $("#bussiness_type").val();
              var policy_class = $("#policy_class").val();
@@ -8858,14 +9096,14 @@ input[type=checkbox], input[type=radio] {
              });
              }
           
-      });  
+    });  
       
       // Edit vechile Details //
       
       
       // update 16-05-2022
       
-      $("#add_vechi_btn").click(function(){
+    $("#add_vechi_btn").click(function(){
           
           var lead_id = $("#last_inserted_id").val();
           $.ajax({
@@ -8892,12 +9130,38 @@ input[type=checkbox], input[type=radio] {
                         $("#add_vechile_model").modal("toggle");
                         fetch_make(obj.policy_type);
                         fetch_pcv_seating(obj.policy_type);
+                        // ✅ New: Fetch Seating Capacity automatically
+                         fetchSeatingCapacity(lead_id);
                     }
           });
-      });
+    });
+
+    // ✅ New function to fetch seating capacity related to policy_type
+    function fetchSeatingCapacity(lead_id) {
+        $.ajax({
+            url: "get_seating_capacity",
+            method: "POST",
+            data: { lead_id: lead_id },
+            success: function (res) {
+                var data = JSON.parse(res);
+
+                if (data.length > 0) {
+                    // ✅ Set the first (or only) seating capacity value directly into the input
+                    $("#vechi_seating").val(data[0].seating_capacity);
+                } else {
+                    $("#vechi_seating").val("");
+                }
+            },
+            error: function (xhr, status, error) {
+                console.error("Error fetching seating capacity:", error);
+            }
+        });
+    }
+
+
       
       
-      $("#add_sme_btn").click(function(){
+    $("#add_sme_btn").click(function(){
           
           var lead_id = $("#last_inserted_id").val();
           $.ajax({
@@ -8911,10 +9175,10 @@ input[type=checkbox], input[type=radio] {
                         $("#sme_modal").modal("toggle");
                     }
           });
-      });
+    });
       
      
-      $("#edit_vechicle_btn").click(function(){
+    $("#edit_vechicle_btn").click(function(){
          
          var lead_id = $("#last_inserted_id").val();
         
@@ -9051,7 +9315,7 @@ input[type=checkbox], input[type=radio] {
                                     $("#edit_passenger_carrying").html(str);
                                 }
                     }
-               });
+    });
                     
                     $("#edit_vechi_cc").val(obj.vechi_cc);
                     $("#edit_vechi_manu_month").val(obj.vechi_manu_month);
@@ -9100,9 +9364,9 @@ input[type=checkbox], input[type=radio] {
                  }
          });
           
-      });
+    });
       
-      $("#edit_doc_btn").click(function(){
+    $("#edit_doc_btn").click(function(){
            
             var id = $("#edit_doc_id").val();
             var document_type = $("#edit_document_type").val();
@@ -9148,9 +9412,9 @@ input[type=checkbox], input[type=radio] {
                         }
                  });
             }
-       });
+    });
        
-      $("#update_vechile_btn").click(function(){
+    $("#update_vechile_btn").click(function(){
            
           var lead_id = $("#last_inserted_id").val();
           var  id = $("#edit_vechicle_id").val();
@@ -9407,19 +9671,19 @@ input[type=checkbox], input[type=radio] {
                 }
             });
           }
-       });
+    });
        
-       $(".inputs").keyup(function () {
+    $(".inputs").keyup(function () {
            $(this).val($(this).val().toUpperCase()); 
             if (this.value.length == this.maxLength) {
               $(this).next('.inputs').focus();
             }
             check_vehi_regn_no();
-        });
+    });
         
         
        
-       $("#edit_vechile_type").change(function(){
+    $("#edit_vechile_type").change(function(){
             var vechile_type = $("#edit_vechile_type").val();
             $.ajax({
                     url : "fetch_make",
@@ -9443,9 +9707,9 @@ input[type=checkbox], input[type=radio] {
                     }
             });
              
-       });  
+    });  
        
-       $("#edit_vechi_make").change(function(){
+    $("#edit_vechi_make").change(function(){
             
             var vechile_type = $("#edit_vechile_type").val();
             var vechi_make = $("#edit_vechi_make").val();
@@ -9472,7 +9736,7 @@ input[type=checkbox], input[type=radio] {
                     }
             });
              
-       }); 
+    }); 
 
        $("#edit_vechi_model").change(function(){
             
@@ -12545,4 +12809,134 @@ input[type=checkbox], input[type=radio] {
                   }
         });
     }
+
+    // === Helper functions ===
+    function prettifyFieldName(field) {
+        switch (field) {
+            case "doc_aadhar": return "Aadhar";
+            case "doc_pan": return "PAN";
+            case "doc_voter": return "Voter ID";
+            case "doc_dl": return "Driving Licence";
+            case "doc_govt": return "Govt ID";
+            default: return "Document";
+        }
+    }
+
+    function appendCustomField(label, value) {
+        let html = `
+            <div class="row mb-2 custom-field-row">
+            <div class="col-md-5">
+                <input type="text" class="form-control custom_label" value="${label}" readonly>
+            </div>
+            <div class="col-md-5">
+                <input type="text" class="form-control custom_value" value="${value}" readonly>
+            </div>
+            </div>`;
+        $("#custom_fields_container").append(html);
+    }
+
+    
+    // ✅ Validate at least one document upload
+    function validateDocuments() {
+        const docs = ['#doc_aadhar', '#doc_pan', '#doc_voter', '#doc_dl', '#doc_govt'];
+        const uploaded = docs.some(sel => $(sel)[0].files.length > 0);
+        if (!uploaded) {
+        Swal.fire({
+            icon: 'warning',
+            title: 'Missing Document',
+            text: 'Please upload at least one identification document before saving.',
+            confirmButtonColor: '#3085d6',
+        });
+        return false;
+        }
+        return true;
+    }
+
   </script>
+
+  
+
+  <!-- JS SECTION -->
+<script>
+$(document).ready(function () {
+
+    // ✅ Auto-copy address
+    $("#same_address").change(function(){
+        if($(this).is(':checked')){
+        $("#permanent_address").val($("#communication_address").val());
+        } else {
+        $("#permanent_address").val('');
+        }
+    });
+
+    // ✅ Auto-calculate AGE from DOB
+    $("#dob").on("change", function () {
+        const dob = $(this).val();
+        if (dob) {
+        const birthDate = new Date(dob);
+        const today = new Date();
+        let age = today.getFullYear() - birthDate.getFullYear();
+        const monthDiff = today.getMonth() - birthDate.getMonth();
+        if (monthDiff < 0 || (monthDiff === 0 && today.getDate() < birthDate.getDate())) {
+            age--;
+        }
+        $("#age").val(age);
+        } else {
+        $("#age").val("");
+        }
+    });
+
+    // ✅ Auto-set Due Date = Lead Generated Date + 1 year - 1 day
+    $("#lead_generated_date").on("change", function () {
+    const leadDate = $(this).val();
+    if (leadDate) {
+        const leadDateObj = new Date(leadDate);
+
+        // Add 1 year
+        leadDateObj.setFullYear(leadDateObj.getFullYear() + 1);
+
+        // Subtract 1 day (86400000 ms = 24 hours)
+        leadDateObj.setTime(leadDateObj.getTime() - 86400000);
+
+        // Format to yyyy-mm-dd
+        const yyyy = leadDateObj.getFullYear();
+        const mm = String(leadDateObj.getMonth() + 1).padStart(2, "0");
+        const dd = String(leadDateObj.getDate()).padStart(2, "0");
+
+        // Set the value in due date input
+        $("#due_date").val(`${yyyy}-${mm}-${dd}`);
+    } else {
+        $("#due_date").val("");
+    }
+    });
+
+
+    // ✅ Add custom fields dynamically
+    let fieldCount = 0;
+    $("#add_custom_field").click(function(){
+        fieldCount++;
+        let html = `
+        <div class="row mb-2" id="custom_field_${fieldCount}">
+            <div class="col-md-5">
+            <input type="text" class="form-control custom_label" name="custom_label[]" placeholder="Enter Label">
+            </div>
+            <div class="col-md-5">
+            <input type="text" class="form-control custom_value" name="custom_value[]" placeholder="Enter Value">
+            </div>
+            <div class="col-md-2">
+            <button type="button" class="btn btn-danger btn-sm remove_custom_field" data-id="${fieldCount}">
+                <i class="fa fa-times"></i>
+            </button>
+            </div>
+        </div>`;
+        $("#custom_fields_container").append(html);
+    });
+
+    // ✅ Remove custom field
+    $(document).on("click", ".remove_custom_field", function(){
+        let id = $(this).data("id");
+        $("#custom_field_" + id).remove();
+    });
+
+});
+</script>

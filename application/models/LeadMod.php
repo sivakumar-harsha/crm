@@ -450,16 +450,54 @@ class LeadMod extends CI_Model
   	    $insert_id = $this->db->insert_id();
         return  $insert_id;
   	}
+
+	public function generate_customer_id($client_name)
+	{
+		// 🧩 1. Sanitize and create prefix from client name
+		$prefix = strtoupper(preg_replace('/[^A-Z]/', '', substr($client_name, 0, 4))); 
+		// Example: "Ravi Kumar" → "RAVI", "Harsha Infotech" → "HARS"
+
+		if (empty($prefix)) {
+			$prefix = 'CUST'; // fallback if name empty or invalid
+		}
+
+		// 🧩 2. Find latest customer_id with same prefix
+		$this->db->select('customer_id');
+		$this->db->from('list_of_clients');
+		$this->db->like('customer_id', $prefix, 'after');
+		$this->db->order_by('id', 'DESC');
+		$this->db->limit(1);
+		$query = $this->db->get();
+
+		if ($query->num_rows() > 0) {
+			$row = $query->row();
+			$last_id = $row->customer_id;
+
+			// Extract number part from existing ID
+			preg_match('/(\d+)$/', $last_id, $matches);
+			$num = isset($matches[1]) ? intval($matches[1]) + 1 : 1;
+		} else {
+			$num = 1;
+		}
+
+		// 🧩 3. Combine prefix + 4-digit padded number
+		$new_id = $prefix . str_pad($num, 4, '0', STR_PAD_LEFT);
+
+		return $new_id;
+	}
+
   	
   	public function get_lead_details($id)
   	{
-  	    $this->db->select("list_of_leads.*,list_of_clients.client_type_id,list_of_clients.client_name,list_of_clients.mobile_no,list_of_clients.other_contact_details,list_of_clients.landline_no,list_of_clients.address,list_of_clients.email,list_of_clients.contact_person_name,list_of_clients.contact_person_designation,list_of_clients.date_of_birth,list_of_clients.age,list_of_clients.area,vechile_details.vechi_register_no,list_of_clients.pin_code");
+  	    $this->db->select("list_of_leads.*,list_of_clients.customer_id,list_of_clients.client_type_id,list_of_clients.client_name,list_of_clients.mobile_no,list_of_clients.other_contact_details,list_of_clients.landline_no,list_of_clients.address,list_of_clients.email,list_of_clients.contact_person_name,list_of_clients.contact_person_designation,list_of_clients.date_of_birth,list_of_clients.age,list_of_clients.area,vechile_details.vechi_register_no,list_of_clients.pin_code,list_of_clients.salutation,
+        list_of_clients.initial,list_of_clients.father_husband_name,list_of_clients.communication_address,list_of_clients.permanent_address,list_of_clients.district,list_of_clients.state,list_of_clients.country,list_of_clients.doc_aadhar,list_of_clients.doc_pan,list_of_clients.doc_voter,list_of_clients.doc_dl,list_of_clients.doc_govt,list_of_clients.custom_fields");
   	    $this->db->from("list_of_leads");
   	    $this->db->join("list_of_clients","list_of_leads.client_id = list_of_clients.id");
   	     $this->db->join("vechile_details","vechile_details.lead_id = list_of_leads.id",'left');
   	    $this->db->where("list_of_leads.id",$id);
   	    return $this->db->get()->row();
   	}
+	
   	public function add_follow_up_details($data)
   	{
   	   if($this->db->insert("follow_up_details",$data)){

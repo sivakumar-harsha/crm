@@ -71,51 +71,47 @@ class ReportMod extends CI_Model
       	return $this->db->get("policy_info")->result();
 	}
 	
-	public function fetch_generate_policy_class($from_date,$to_date,$select_agents,$select_insurance, $user = '',$select_class)
-	{
-	    $this->db->distinct(); 
-      	$this->db->select("policy_info.id,policy_info.lead_id,company_payout_commission.id as com_id,company_payout_commission.no_of_policy_id,policy_info.agent_commission_amt,policy_info.agent_commission,policy_info.own_commission_amt,policy_info.own_commission,policy_info.agent_commission_amt,policy_info.policy_agency_pos,list_of_leads.business_type,policy_info.policy_premium,list_of_leads.class,policy_info.company,policy_info.gst,policy_info.policy_s_date,policy_info.policy_ex_date,list_of_premium_cover_type.name as policy_premium_name,type_of_bussiness.bussiness_type as business_name,list_of_class.class as class_name,list_of_policy_type.policy_type,policy_info.total_own_damage,policy_info.tot_liability_premium,policy_info.basic_tp,policy_info.total_premium,policy_info.policy_no,list_of_clients.client_name,list_of_clients.mobile_no,list_of_pos_and_agents.agent_pos_code,list_of_insurance_company.company_name,company_payout_commission.commission_type,company_payout_commission.net_premium_id, admin_login.name as user");
-      	$this->db->join("list_of_leads","policy_info.lead_id = list_of_leads.id");
-  	    $this->db->join("list_of_clients","list_of_leads.client_id = list_of_clients.id");
-  	    $this->db->join("list_of_pos_and_agents","policy_info.policy_agency_pos = list_of_pos_and_agents.id");
-  	    $this->db->join("list_of_insurance_company","policy_info.company = list_of_insurance_company.id");
-  	    $this->db->join("type_of_bussiness","list_of_leads.business_type = type_of_bussiness.id");
-  	    $this->db->join("list_of_class","list_of_leads.class = list_of_class.id");
-  	    $this->db->join("list_of_policy_type","list_of_leads.policy_type = list_of_policy_type.id");
-  	    $this->db->join("list_of_premium_cover_type","policy_info.policy_premium = list_of_premium_cover_type.id",'left');
-  	    $this->db->join("company_payout_commission","company_payout_commission.id = policy_info.commission_id", 'left');
-  	    
-  	    $this->db->join("admin_login","admin_login.id = list_of_leads.assigned_user");
-  	    
-      	$this->db->where("policy_info.commission_status !=","1");
-    //   	$this->db->where("policy_info.cancel_policy_status","0");
-        $this->db->where_not_in("policy_info.cancel_policy_status",["1", "2"]);
-      	$this->db->where("list_of_leads.lead_type","2");
-      	
-      	//$this->db->where("policy_info.policy_no","32760519202200");
-      	$this->db->where("policy_info.policy_issue_date >=",$from_date);
-      	$this->db->where("policy_info.policy_issue_date <=",$to_date);
-      	
-      	if($select_class != "" && $select_class != 3)
-      	{
-      	$this->db->where("list_of_leads.class",$select_class);
-      	}
-      	
-      	if($select_agents != "")
-      	{
-      	$this->db->where("policy_info.policy_agency_pos",$select_agents);
-      	}
-      	
-      	if($select_insurance != "")
-      	{
-      	$this->db->where("policy_info.company",$select_insurance);
-      	}
-      	
-      	if($user)
-      	    $this->db->where("list_of_leads.assigned_user", $user);
-      	    
-      	return $this->db->get("policy_info")->result();
-	}
+	public function fetch_generate_policy_class($from_date, $to_date, $select_agents, $select_insurance, $select_class, $user = '')
+    {
+        $this->db->distinct(); 
+        $this->db->select("policy_info.id,policy_info.lead_id,company_payout_commission.id as com_id,company_payout_commission.no_of_policy_id,policy_info.agent_commission_amt,policy_info.agent_commission,policy_info.own_commission_amt,policy_info.own_commission,policy_info.agent_commission_amt,policy_info.policy_agency_pos,list_of_leads.business_type,policy_info.policy_premium,list_of_leads.class,policy_info.company,policy_info.gst,policy_info.policy_s_date,policy_info.policy_ex_date,list_of_premium_cover_type.name as policy_premium_name,type_of_bussiness.bussiness_type as business_name,list_of_class.class as class_name,list_of_policy_type.policy_type,policy_info.total_own_damage,policy_info.tot_liability_premium,policy_info.basic_tp,policy_info.total_premium,policy_info.policy_no,list_of_clients.client_name,list_of_clients.mobile_no,list_of_pos_and_agents.agent_pos_code,list_of_insurance_company.company_name,company_payout_commission.commission_type,company_payout_commission.net_premium_id, admin_login.name as user");
+
+        $this->db->join("list_of_leads", "policy_info.lead_id = list_of_leads.id");
+        $this->db->join("list_of_clients", "list_of_leads.client_id = list_of_clients.id");
+        $this->db->join("list_of_pos_and_agents", "policy_info.policy_agency_pos = list_of_pos_and_agents.id");
+        $this->db->join("list_of_insurance_company", "policy_info.company = list_of_insurance_company.id");
+        $this->db->join("type_of_bussiness", "list_of_leads.business_type = type_of_bussiness.id");
+        $this->db->join("list_of_class", "list_of_leads.class = list_of_class.id");
+        $this->db->join("list_of_policy_type", "list_of_leads.policy_type = list_of_policy_type.id");
+        $this->db->join("list_of_premium_cover_type", "policy_info.policy_premium = list_of_premium_cover_type.id", 'left');
+        $this->db->join("company_payout_commission", "company_payout_commission.id = policy_info.commission_id", 'left');
+        $this->db->join("admin_login", "admin_login.id = list_of_leads.assigned_user");
+
+        $this->db->where("policy_info.commission_status !=", "1");
+        $this->db->where_not_in("policy_info.cancel_policy_status", ["1", "2"]);
+        $this->db->where("list_of_leads.lead_type", "2");
+        $this->db->where("policy_info.policy_issue_date >=", $from_date);
+        $this->db->where("policy_info.policy_issue_date <=", $to_date);
+
+        if ($select_class != "" && $select_class != 3) {
+            $this->db->where("list_of_leads.class", $select_class);
+        }
+
+        if ($select_agents != "") {
+            $this->db->where("policy_info.policy_agency_pos", $select_agents);
+        }
+
+        if ($select_insurance != "") {
+            $this->db->where("policy_info.company", $select_insurance);
+        }
+
+        if ($user) {
+            $this->db->where("list_of_leads.assigned_user", $user);
+        }
+
+        return $this->db->get("policy_info")->result();
+    }
+
 
    public function fetch_commission_type_id($state,$company,$policy_class,$bussiness_type,$policy_premium,$rto,$category,$vehicle_classification)
   	{

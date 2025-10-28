@@ -478,6 +478,7 @@ $route["update_requirement_details"] = "LeadCtrl/update_requirement_details";
 
 // Edit vechicle Details 
 $route["fetch_edit_vechicle_details"] = "LeadCtrl/fetch_edit_vechicle_details";
+$route["get_seating_capacity"] = "LeadCtrl/get_seating_capacity";
 $route["get_uploaded_vechicle_documents"] = "LeadCtrl/get_uploaded_vechicle_documents";
 $route["get_vechicle_uploaded_file_by_id"] = "LeadCtrl/get_vechicle_uploaded_file_by_id";
 $route["edit_vehicle_documents"] = "LeadCtrl/edit_vehicle_documents";

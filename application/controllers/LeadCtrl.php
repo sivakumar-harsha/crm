@@ -20,6 +20,7 @@ public $pm;
     public $audit_model;
     public $userroleModel;
     public $upload;
+    public $image_lib;
 
 
 	public function __construct()
@@ -112,155 +113,438 @@ public $pm;
 	}
 	
 	
-	public function add_lead_details()
-	{
-	    if($this->session->has_userdata('logged_in'))
-	    {
-	        $client_type = $this->input->post("client_type");
-	        $client_name = $this->input->post("client_name");
-	        $mobile_no = $this->input->post("mobile_no");
-	        $other_contact_details = $this->input->post("other_contact_details");
-	        $landline_no = $this->input->post("landline_no");
-	        $address = $this->input->post("address");
-	        $email_id = $this->input->post("email_id");
-	        $contact_person_name = $this->input->post("contact_person_name");
-	        $contact_person_des = $this->input->post("contact_person_des");
-	        $dob = $this->input->post("dob");
-	        $age = $this->input->post("age");
-	        $area = $this->input->post("area");
-	        $pin = $this->input->post("pin_code");
+	// public function add_lead_details()
+	// {
+	//     if($this->session->has_userdata('logged_in'))
+	//     {
+	//         $client_type = $this->input->post("client_type");
+	//         $client_name = $this->input->post("client_name");
+	//         $mobile_no = $this->input->post("mobile_no");
+	//         $other_contact_details = $this->input->post("other_contact_details");
+	//         $landline_no = $this->input->post("landline_no");
+	//         $address = $this->input->post("address");
+	//         $email_id = $this->input->post("email_id");
+	//         $contact_person_name = $this->input->post("contact_person_name");
+	//         $contact_person_des = $this->input->post("contact_person_des");
+	//         $dob = $this->input->post("dob");
+	//         $age = $this->input->post("age");
+	//         $area = $this->input->post("area");
+	//         $pin = $this->input->post("pin_code");
 	        
-	        $bussiness_type = $this->input->post("bussiness_type");
-	        $class = $this->input->post("policy_class");
-	        $policy_type = $this->input->post("policy_type");
-	        $lead_generated_date =  $this->input->post("lead_generated_date");
-	        $due_date =  $this->input->post("due_date");
-	        $broken_policy =  $this->input->post("broken_policy");
-	        $location=  $this->input->post("location");
-	        $classification =  $this->input->post("classification");
-	        $source =  $this->input->post("source");
-	        $agent_pos = $this->input->post("agent_pos");
-	        $assign_to_user =  $this->input->post("assign_to_user");
-	        $area_incharge = $this->input->post("area_incharge");
-	        $gst_number = $this->input->post("gst_number");
+	//         $bussiness_type = $this->input->post("bussiness_type");
+	//         $class = $this->input->post("policy_class");
+	//         $policy_type = $this->input->post("policy_type");
+	//         $lead_generated_date =  $this->input->post("lead_generated_date");
+	//         $due_date =  $this->input->post("due_date");
+	//         $broken_policy =  $this->input->post("broken_policy");
+	//         $location=  $this->input->post("location");
+	//         $classification =  $this->input->post("classification");
+	//         $source =  $this->input->post("source");
+	//         $agent_pos = $this->input->post("agent_pos");
+	//         $assign_to_user =  $this->input->post("assign_to_user");
+	//         $area_incharge = $this->input->post("area_incharge");
+	//         $gst_number = $this->input->post("gst_number");
 	        
-	        $v_regn_no = $this->input->post("v_regn_no");
+	//         $v_regn_no = $this->input->post("v_regn_no");
 	        
-	        $region = $this->lm->fetch_agent_region($agent_pos);
+	//         $region = $this->lm->fetch_agent_region($agent_pos);
 	        
-	        $region_id = "";
+	//         $region_id = "";
 	        
-	        if($region != null)
-	        {
-	            $region_id = $region->region;
-	        }
+	//         if($region != null)
+	//         {
+	//             $region_id = $region->region;
+	//         }
 	        
-	        $remarks = $this->input->post("remarks");
-	        $lead_created_by = $this->session->userdata('session_name');
+	//         $remarks = $this->input->post("remarks");
+	//         $lead_created_by = $this->session->userdata('session_name');
 	        
-	        $file = $this->input->post("files");
+	//         $file = $this->input->post("files");
 	        
-	        $created_date = date("Y-m-d H:i:sa");
-	        $updated_date = date("Y-m-d H:i:sa");
+	//         $created_date = date("Y-m-d H:i:sa");
+	//         $updated_date = date("Y-m-d H:i:sa");
 	        
-	        $res_1 = $this->lm->fetch_vechi_regn_no_already_exits($v_regn_no);
+	//         $res_1 = $this->lm->fetch_vechi_regn_no_already_exits($v_regn_no);
 	        
-	        if($class == "1" && $v_regn_no !="" && $res_1 > 1)
-	        {
-	            echo "Exits";
-	        }
-	        else
-	        {
-	            $data = array( 
-        	             "client_type_id" =>$client_type,
-        	             "client_name" =>$client_name,
-        	             "mobile_no" =>$mobile_no,
-        	             "other_contact_details"=>$other_contact_details,
-        	             "landline_no" => $landline_no,
-        	             "address" =>$address,
-        	             "email" =>$email_id,
-        	             "contact_person_name" =>$contact_person_name,
-        	             "contact_person_designation"=>$contact_person_des,
-        	             "gst_number" =>$gst_number,
-        	             "date_of_birth" => $dob,
-        	             "age" =>$age,
-        	             "area" =>$area,
-        	             "pin_code" =>$pin,
-    	             );
+	//         if($class == "1" && $v_regn_no !="" && $res_1 > 1)
+	//         {
+	//             echo "Exits";
+	//         }
+	//         else
+	//         {
+	//             $data = array( 
+    //     	             "client_type_id" =>$client_type,
+    //     	             "client_name" =>$client_name,
+    //     	             "mobile_no" =>$mobile_no,
+    //     	             "other_contact_details"=>$other_contact_details,
+    //     	             "landline_no" => $landline_no,
+    //     	             "address" =>$address,
+    //     	             "email" =>$email_id,
+    //     	             "contact_person_name" =>$contact_person_name,
+    //     	             "contact_person_designation"=>$contact_person_des,
+    //     	             "gst_number" =>$gst_number,
+    //     	             "date_of_birth" => $dob,
+    //     	             "age" =>$age,
+    //     	             "area" =>$area,
+    //     	             "pin_code" =>$pin,
+    // 	             );
 	             
-	              $res = $this->lm->add_client_details($data);
-	              if( $res ) {
-    		            $this->audit->log('list_of_clients', 'INSERT', null, null, $data);
-    		        }
+	//               $res = $this->lm->add_client_details($data);
+	//               if( $res ) {
+    // 		            $this->audit->log('list_of_clients', 'INSERT', null, null, $data);
+    // 		        }
 	             
-                    if(isset($_FILES))
-                    {
-                    	$config['upload_path'] = './datas/old_policy_document/';
-                    	$config['allowed_types'] = '*';
+    //                 if(isset($_FILES))
+    //                 {
+    //                 	$config['upload_path'] = './datas/old_policy_document/';
+    //                 	$config['allowed_types'] = '*';
                     	
-                    	$this->load->library('upload',$config);
-                    	$this->upload->initialize($config);
-                    	if(!$this->upload->do_upload('file'))
-                    	{
-                    		$file = '';
-                    	}
-                    	else
-                    	{
-                    		$file = $this->upload->data('file_name');
-                    	}
-                    }
+    //                 	$this->load->library('upload',$config);
+    //                 	$this->upload->initialize($config);
+    //                 	if(!$this->upload->do_upload('file'))
+    //                 	{
+    //                 		$file = '';
+    //                 	}
+    //                 	else
+    //                 	{
+    //                 		$file = $this->upload->data('file_name');
+    //                 	}
+    //                 }
             
-                     if($res != "")
-                     {
-                         $arr = array( 
-                         "client_id" =>$res,
-                         "business_type" =>$bussiness_type,
-                         "class"=>$class,
-                         "policy_type" => $policy_type,
-                         "lead_generated_date" => $lead_generated_date,
-                         "due_date" =>$due_date,
-                         "broken_policy" => $broken_policy,
-                         "location" =>$location,
-                         "classfication" =>$classification,
-                         "source"=>$source,
-                         "lead_status"=>"open",
-                         "agency_and_pos" => $agent_pos,
-                         "assigned_user" => $assign_to_user,
-                         "area_incharge" =>$area_incharge,
-                          "region_id" =>$region_id,
-                         "remarks" =>$remarks,
-                         "lead_created_by" =>$lead_created_by,
-                         "old_policy_document" =>$file,
-                         "lead_created_id" =>$this->session->userdata('session_id'),
-                         "created_date"=>$created_date,
-                         "updated_date"=>$updated_date
-                         );
+    //                  if($res != "")
+    //                  {
+    //                      $arr = array( 
+    //                      "client_id" =>$res,
+    //                      "business_type" =>$bussiness_type,
+    //                      "class"=>$class,
+    //                      "policy_type" => $policy_type,
+    //                      "lead_generated_date" => $lead_generated_date,
+    //                      "due_date" =>$due_date,
+    //                      "broken_policy" => $broken_policy,
+    //                      "location" =>$location,
+    //                      "classfication" =>$classification,
+    //                      "source"=>$source,
+    //                      "lead_status"=>"open",
+    //                      "agency_and_pos" => $agent_pos,
+    //                      "assigned_user" => $assign_to_user,
+    //                      "area_incharge" =>$area_incharge,
+    //                       "region_id" =>$region_id,
+    //                      "remarks" =>$remarks,
+    //                      "lead_created_by" =>$lead_created_by,
+    //                      "old_policy_document" =>$file,
+    //                      "lead_created_id" =>$this->session->userdata('session_id'),
+    //                      "created_date"=>$created_date,
+    //                      "updated_date"=>$updated_date
+    //                      );
                          
-                         $data_1 = $this->lm->add_lead_details($arr);
-                         if( $data_1 ) {
-        		            $this->audit->log('list_of_leads', 'INSERT', null, null, $arr);
-        		        }
-                     }
+    //                      $data_1 = $this->lm->add_lead_details($arr);
+    //                      if( $data_1 ) {
+    //     		            $this->audit->log('list_of_leads', 'INSERT', null, null, $arr);
+    //     		        }
+    //                  }
             
-                     if($class == "1")
-                     {
-                        $v_info = array("lead_id"=>$data_1,"vechi_register_no" =>$v_regn_no);
-                        $add_v_info = $this->lm->add_vechicle_regn_no($v_info);   
-                        if( $add_v_info ) {
-        		            $this->audit->log('vechile_details', 'INSERT', null, null, $v_info);
-        		        }
-                     }
-                    $activity_log = array("lead_id"=>$data_1,"action"=>"Created <b>New Lead</b>","action_type"=>"new_lead_creation","created_by"=>$lead_created_by,"time"=>$created_date);
-                    $add_activity = $this->lm->add_activity_log($activity_log);
-                    if( $add_activity ) {
-    		            $this->audit->log('notification_log', 'INSERT', null, null, $activity_log);
-    		        }
-                    echo $data_1;
-	        }
-	    }
-	}
-	    
-	    
+    //                  if($class == "1")
+    //                  {
+    //                     $v_info = array("lead_id"=>$data_1,"vechi_register_no" =>$v_regn_no);
+    //                     $add_v_info = $this->lm->add_vechicle_regn_no($v_info);   
+    //                     if( $add_v_info ) {
+    //     		            $this->audit->log('vechile_details', 'INSERT', null, null, $v_info);
+    //     		        }
+    //                  }
+    //                 $activity_log = array("lead_id"=>$data_1,"action"=>"Created <b>New Lead</b>","action_type"=>"new_lead_creation","created_by"=>$lead_created_by,"time"=>$created_date);
+    //                 $add_activity = $this->lm->add_activity_log($activity_log);
+    //                 if( $add_activity ) {
+    // 		            $this->audit->log('notification_log', 'INSERT', null, null, $activity_log);
+    // 		        }
+    //                 echo $data_1;
+	//         }
+	//     }
+	// }
+
+    public function add_lead_details()
+    {
+        if ($this->session->has_userdata('logged_in')) {
+
+            // === CLIENT INFO ===
+            $client_type          = $this->input->post("client_type");
+            $salutation           = $this->input->post("salutation");
+            $client_name          = $this->input->post("client_name");
+            $initial              = $this->input->post("initial");
+            $father_husband_name  = $this->input->post("father_husband_name");
+            $dob                  = $this->input->post("dob");
+            $age                  = $this->input->post("age");
+            $mobile_no            = $this->input->post("mobile_no");
+            $communication_address = $this->input->post("communication_address");
+            $permanent_address    = $this->input->post("permanent_address");
+            $district             = $this->input->post("district");
+            $state                = $this->input->post("state");
+            $country              = $this->input->post("country");
+            $pin                  = $this->input->post("pin_code");
+            $email_id             = $this->input->post("email_id");
+
+            // === POLICY / LEAD DETAILS ===
+            $bussiness_type       = $this->input->post("bussiness_type");
+            $class                = $this->input->post("policy_class");
+            $policy_type          = $this->input->post("policy_type");
+            $lead_generated_date  = $this->input->post("lead_generated_date");
+            $due_date             = $this->input->post("due_date");
+            $broken_policy        = $this->input->post("broken_policy");
+            $location             = $this->input->post("location");
+            $classification       = $this->input->post("classification");
+            $source               = $this->input->post("source");
+            $agent_pos            = $this->input->post("agent_pos");
+            $assign_to_user       = $this->input->post("assign_to_user");
+            $area_incharge        = $this->input->post("area_incharge");
+            $remarks              = $this->input->post("remarks");
+            $v_regn_no            = $this->input->post("v_regn_no");
+
+            $lead_created_by = $this->session->userdata('session_name');
+            $created_date    = date("Y-m-d H:i:s");
+            $updated_date    = date("Y-m-d H:i:s");
+
+            // === REGION LOGIC ===
+            $region = $this->lm->fetch_agent_region($agent_pos);
+            $region_id = ($region != null) ? $region->region : "";
+
+            // === DOCUMENT UPLOAD HANDLER ===
+            $upload_dir = FCPATH . 'datas/client_documents/'; // ✅ Use absolute path
+            if (!is_dir($upload_dir)) {
+                mkdir($upload_dir, 0777, true);
+            }
+            if (!is_writable($upload_dir)) {
+                chmod($upload_dir, 0777);
+            }
+
+            $this->load->library(['upload', 'image_lib']);
+
+            $doc_fields = ['doc_aadhar', 'doc_pan', 'doc_voter', 'doc_dl', 'doc_govt'];
+            $uploaded_docs = [];
+
+            foreach ($doc_fields as $field) {
+                if (!empty($_FILES[$field]['name'])) {
+
+                    // ✅ Fresh config for each file
+                    $file_name = time() . '_' . preg_replace('/\s+/', '_', $_FILES[$field]['name']);
+                    $config = [
+                        'upload_path'   => $upload_dir,
+                        'allowed_types' => 'jpg|jpeg|png|pdf',
+                        'max_size'      => 20480, // 20MB
+                        'file_name'     => $file_name,
+                        'overwrite'     => FALSE,
+                    ];
+
+                    $this->upload->initialize($config);
+
+                    if ($this->upload->do_upload($field)) {
+                        $uploadData = $this->upload->data();
+                        $file_path  = $uploadData['full_path'];
+                        $file_name  = $uploadData['file_name'];
+                        $file_ext   = strtolower($uploadData['file_ext']);
+
+                        // ✅ COMPRESS IMAGES (.jpg, .jpeg, .png) TO UNDER 500 KB
+                        if (in_array($file_ext, ['.jpg', '.jpeg', '.png'])) {
+                            $max_kb = 500; // target size (in KB)
+                            $quality = 85; // start quality
+                            $temp_file = $upload_dir . 'compressed_' . $file_name;
+
+                            do {
+                                // reinitialize GD2 config
+                                $img_config = [
+                                    'image_library'  => 'gd2',
+                                    'source_image'   => $file_path,
+                                    'new_image'      => $temp_file,
+                                    'maintain_ratio' => TRUE,
+                                    'quality'        => $quality,
+                                    'width'          => 1200,
+                                    'height'         => 1200
+                                ];
+
+                                $this->image_lib->initialize($img_config);
+
+                                if ($this->image_lib->resize()) {
+                                    clearstatcache();
+                                    $size_kb = round(filesize($temp_file) / 1024, 2);
+                                    if ($size_kb <= $max_kb || $quality <= 35) {
+                                        rename($temp_file, $file_path);
+                                        break;
+                                    } else {
+                                        $quality -= 10; // lower quality more
+                                    }
+                                } else {
+                                    log_message('error', 'Image resize failed: ' . $this->image_lib->display_errors());
+                                    break;
+                                }
+
+                                $this->image_lib->clear();
+                            } while (true);
+                        }
+
+                        // ✅ COMPRESS PDF FILES (if Ghostscript available)
+                        else if ($file_ext === '.pdf') {
+                            $compressed_path = $upload_dir . 'compressed_' . $file_name;
+                            if (shell_exec("which gs") || shell_exec("where gs")) {
+                                $cmd = "gs -sDEVICE=pdfwrite -dCompatibilityLevel=1.4 -dPDFSETTINGS=/ebook " .
+                                    "-dNOPAUSE -dQUIET -dBATCH -sOutputFile=\"$compressed_path\" \"$file_path\"";
+                                exec(escapeshellcmd($cmd), $output, $return_var);
+                                if (file_exists($compressed_path)) {
+                                    unlink($file_path);
+                                    rename($compressed_path, $file_path);
+                                }
+                            }
+                        }
+
+                        // ✅ Store only relative path
+                        $uploaded_docs[$field] = $file_name;
+
+                    } else {
+                        // ⚠️ Log and handle upload errors properly
+                        log_message('error', "Upload failed for {$field}: " . $this->upload->display_errors());
+                        $uploaded_docs[$field] = '';
+                    }
+                } else {
+                    $uploaded_docs[$field] = '';
+                }
+            }
+
+            // === DYNAMIC CUSTOM FIELDS (JSON) ===
+            $custom_labels = $this->input->post("custom_label");
+            $custom_values = $this->input->post("custom_value");
+
+            $custom_fields = [];
+            if (is_array($custom_labels) && is_array($custom_values)) {
+                for ($i = 0; $i < count($custom_labels); $i++) {
+                    $label = trim($custom_labels[$i]);
+                    $value = trim($custom_values[$i]);
+                    if ($label !== "") {
+                        $custom_fields[$label] = $value;
+                    }
+                }
+            }
+
+            $custom_fields_json = !empty($custom_fields) ? json_encode($custom_fields) : null;
+
+            // ✅ Auto-generate Customer ID based on name
+            $customer_id = $this->lm->generate_customer_id($client_name);
+
+            // === CLIENT DATA INSERT ===
+            $data = [
+                "customer_id"          => $customer_id,
+                "client_type_id"        => $client_type,
+                "salutation"            => $salutation,
+                "client_name"           => $client_name,
+                "initial"               => $initial,
+                "father_husband_name"   => $father_husband_name,
+                "mobile_no"             => $mobile_no,
+                "communication_address" => $communication_address,
+                "permanent_address"     => $permanent_address,
+                "district"              => $district,
+                "state"                 => $state,
+                "country"               => $country,
+                "email"                 => $email_id,
+                "date_of_birth"         => $dob,
+                "age"                   => $age,
+                "pin_code"              => $pin,
+                "doc_aadhar"            => $uploaded_docs['doc_aadhar'],
+                "doc_pan"               => $uploaded_docs['doc_pan'],
+                "doc_voter"             => $uploaded_docs['doc_voter'],
+                "doc_dl"                => $uploaded_docs['doc_dl'],
+                "doc_govt"              => $uploaded_docs['doc_govt'],
+                "custom_fields"         => $custom_fields_json,
+                "created_date"          => $created_date,
+                "updated_date"          => $updated_date
+            ];
+
+            $res = $this->lm->add_client_details($data);
+            if ($res) {
+                $this->audit->log('list_of_clients', 'INSERT', null, null, $data);
+            }
+
+            // === OLD POLICY DOCUMENT UPLOAD ===
+            $file = '';
+            $old_policy_dir = FCPATH . 'datas' . DIRECTORY_SEPARATOR . 'old_policy_document' . DIRECTORY_SEPARATOR;
+            if (!is_dir($old_policy_dir)) mkdir($old_policy_dir, 0777, true);
+
+            if (!empty($_FILES['file']['name'])) {
+                $file_name = time() . '_' . preg_replace('/\s+/', '_', $_FILES['file']['name']);
+                $config_old = [
+                    'upload_path'   => $old_policy_dir,
+                    'allowed_types' => 'jpg|jpeg|png|pdf|doc|docx',
+                    'max_size'      => 20480, // 20 MB
+                    'file_name'     => $file_name,
+                    'overwrite'     => FALSE
+                ];
+
+                $this->upload->initialize($config_old);
+                if ($this->upload->do_upload('file')) {
+                    $uploadData = $this->upload->data();
+                    $file = $uploadData['file_name'];
+                } else {
+                    log_message('error', 'Old Policy Upload Error: ' . $this->upload->display_errors());
+                }
+            }
+
+
+            // === LEAD DATA INSERT ===
+            if ($res != "") {
+                $arr = [
+                    "client_id"           => $res,
+                    "business_type"       => $bussiness_type,
+                    "class"               => $class,
+                    "policy_type"         => $policy_type,
+                    "lead_generated_date" => $lead_generated_date,
+                    "due_date"            => $due_date,
+                    "broken_policy"       => $broken_policy,
+                    "location"            => $location,
+                    "classfication"       => $classification,
+                    "source"              => $source,
+                    "lead_status"         => "open",
+                    "agency_and_pos"      => $agent_pos,
+                    "assigned_user"       => $assign_to_user,
+                    "area_incharge"       => $area_incharge,
+                    "region_id"           => $region_id,
+                    "remarks"             => $remarks,
+                    "lead_created_by"     => $lead_created_by,
+                    "old_policy_document" => $file,
+                    "lead_created_id"     => $this->session->userdata('session_id'),
+                    "created_date"        => $created_date,
+                    "updated_date"        => $updated_date
+                ];
+
+                $data_1 = $this->lm->add_lead_details($arr);
+                if ($data_1) {
+                    $this->audit->log('list_of_leads', 'INSERT', null, null, $arr);
+                }
+            }
+
+            // === VEHICLE INFO ===
+            if ($class == "1" && !empty($data_1)) {
+                $v_info = ["lead_id" => $data_1, "vechi_register_no" => $v_regn_no];
+                $add_v_info = $this->lm->add_vechicle_regn_no($v_info);
+                if ($add_v_info) {
+                    $this->audit->log('vechile_details', 'INSERT', null, null, $v_info);
+                }
+            }
+
+            // === ACTIVITY LOG ===
+            $activity_log = [
+                "lead_id"     => $data_1,
+                "action"      => "Created <b>New Lead</b>",
+                "action_type" => "new_lead_creation",
+                "created_by"  => $lead_created_by,
+                "time"        => $created_date
+            ];
+
+            $add_activity = $this->lm->add_activity_log($activity_log);
+            if ($add_activity) {
+                $this->audit->log('notification_log', 'INSERT', null, null, $activity_log);
+            }
+
+            echo $data_1;
+        }
+    }
+
+
+ 
 	    public function get_lead_details()
 	    {
     	    if($this->session->has_userdata('logged_in'))
@@ -4218,58 +4502,223 @@ public $pm;
     
     // UPDATE //
     
+    // public function update_client_details()
+    // {
+    //      if($this->session->has_userdata('logged_in'))
+    // 	 {
+    // 	    $lead_id = $this->input->post("lead_id");
+    // 	    $client_type = $this->input->post("client_type");
+	//         $client_name = $this->input->post("client_name");
+	//         $salutation = $this->input->post("salutation");
+    //         $mobile_no = $this->input->post("mobile_no");
+    //         $initial = $this->input->post("initial");
+    //         $add_custom_field = $this->input->post("add_custom_field");
+    //         $doc_aadhar = $this->input->post("doc_aadhar");
+    //         $doc_pan = $this->input->post("doc_pan");
+    //         $doc_voter = $this->input->post("doc_voter");
+    //         $doc_dl = $this->input->post("doc_dl");
+    //         $doc_govt = $this->input->post("doc_govt");
+    //         $communication_address = $this->input->post("communication_address");
+    //         $permanent_address = $this->input->post("permanent_address");
+    //         $district = $this->input->post("district");
+    //         $state = $this->input->post("state");
+    //         $country = $this->input->post("country");
+	//         // $other_contact_details = $this->input->post("other_contact_details");
+	//         // $landline_no = $this->input->post("landline_no");
+	//         // $address = $this->input->post("address");
+	//         $email_id = $this->input->post("email_id");
+	//         // $contact_person_name = $this->input->post("contact_person_name");
+	//         // $contact_person_des = $this->input->post("contact_person_des");
+	//         $dob = $this->input->post("dob");
+	//         $age = $this->input->post("age");
+	//         $area = $this->input->post("area");
+	//         $pin_code = $this->input->post("pin_code");
+	        
+	//         $client_id = $this->lm->fetch_client_id_by_lead_id($lead_id);
+	       
+    // 	       $data = array( 
+	//              "client_type_id" =>$client_type,
+	//              "client_name" =>$client_name,
+	//              "salutation" =>$salutation,
+    //              "initial" =>$initial,
+    //              "add_custom_field" =>$add_custom_field,
+    //              "doc_aadhar" =>$doc_aadhar,
+    //              "doc_pan" =>$doc_pan,
+    //              "doc_voter" =>$doc_voter,
+    //              "doc_dl" =>$doc_dl,
+    //              "doc_govt" =>$doc_govt,
+    //              "communication_address" =>$communication_address,
+    //              "permanent_address" =>$permanent_address,
+    //              "district" =>$district,
+    //              "state" =>$state,
+    //              "country" =>$country,
+    //              "mobile_no" =>$mobile_no,
+	//             //  "other_contact_details"=>$other_contact_details,
+	//             //  "landline_no" => $landline_no,
+	//             //  "address" =>$address,
+	//              "email" =>$email_id,
+	//             //  "contact_person_name" =>$contact_person_name,
+	//             //  "contact_person_designation"=>$contact_person_des,
+	//              "date_of_birth" => $dob,
+	//              "age" =>$age,
+	//              "area" =>$area,
+	//              "pin_code" =>$pin_code,
+	//              );
+	             
+	//            $old_data = $this->lm->get_receiver_email_by_id($client_id);
+	           
+	//            $res = $this->lm->update_client_details($client_id,$data);
+    //             if($res){
+	//                  $this->audit->log('list_of_clients', 'UPDATE', null, $old_data, $data);
+	//              }
+	             
+    //         	$activity_log = array("lead_id"=>$lead_id,"action"=>"Client Details Updated","action_type"=>"client_update","created_by"=>$this->session->userdata('session_name'),"time"=>date("Y-m-d h:i:sa"));
+    //             $add_activity = $this->lm->add_activity_log($activity_log);
+    //             if( $add_activity ){
+	//                  $this->audit->log('notification_log', 'INSERT', null, null, $activity_log);
+	//              }
+	//            echo "success";   
+    // 	 }
+    // }
+
     public function update_client_details()
     {
-         if($this->session->has_userdata('logged_in'))
-    	 {
-    	    $lead_id = $this->input->post("lead_id");
-    	    $client_type = $this->input->post("client_type");
-	        $client_name = $this->input->post("client_name");
-	        $mobile_no = $this->input->post("mobile_no");
-	        $other_contact_details = $this->input->post("other_contact_details");
-	        $landline_no = $this->input->post("landline_no");
-	        $address = $this->input->post("address");
-	        $email_id = $this->input->post("email_id");
-	        $contact_person_name = $this->input->post("contact_person_name");
-	        $contact_person_des = $this->input->post("contact_person_des");
-	        $dob = $this->input->post("dob");
-	        $age = $this->input->post("age");
-	        $area = $this->input->post("area");
-	        $pin_code = $this->input->post("pin_code");
-	        
-	        $client_id = $this->lm->fetch_client_id_by_lead_id($lead_id);
-	       
-    	       $data = array( 
-	             "client_type_id" =>$client_type,
-	             "client_name" =>$client_name,
-	             "mobile_no" =>$mobile_no,
-	             "other_contact_details"=>$other_contact_details,
-	             "landline_no" => $landline_no,
-	             "address" =>$address,
-	             "email" =>$email_id,
-	             "contact_person_name" =>$contact_person_name,
-	             "contact_person_designation"=>$contact_person_des,
-	             "date_of_birth" => $dob,
-	             "age" =>$age,
-	             "area" =>$area,
-	             "pin_code" =>$pin_code,
-	             );
-	             
-	           $old_data = $this->lm->get_receiver_email_by_id($client_id);
-	           
-	           $res = $this->lm->update_client_details($client_id,$data);
-                if($res){
-	                 $this->audit->log('list_of_clients', 'UPDATE', null, $old_data, $data);
-	             }
-	             
-            	$activity_log = array("lead_id"=>$lead_id,"action"=>"Client Details Updated","action_type"=>"client_update","created_by"=>$this->session->userdata('session_name'),"time"=>date("Y-m-d h:i:sa"));
+        if ($this->session->has_userdata('logged_in')) 
+        {
+            $lead_id             = $this->input->post("lead_id");
+            $client_type         = $this->input->post("client_type");
+            $client_name         = $this->input->post("client_name");
+            $salutation          = $this->input->post("salutation");
+            $mobile_no           = $this->input->post("mobile_no");
+            $initial             = $this->input->post("initial");
+            $custom_fields_input = $this->input->post("custom_fields");
+            $communication_address = $this->input->post("communication_address");
+            $permanent_address   = $this->input->post("permanent_address");
+            $district            = $this->input->post("district");
+            $state               = $this->input->post("state");
+            $country             = $this->input->post("country");
+            $email_id            = $this->input->post("email_id");
+            $dob                 = $this->input->post("dob");
+            $age                 = $this->input->post("age");
+            $pin_code            = $this->input->post("pin_code");
+
+            // ✅ Fetch client ID based on lead
+            $client_id = $this->lm->fetch_client_id_by_lead_id($lead_id);
+            if (empty($client_id)) {
+                echo "error";
+                return;
+            }
+
+            // ✅ Fetch existing client data for old file paths
+            $old_data = $this->lm->get_receiver_email_by_id($client_id);
+
+            // === DOCUMENT UPLOAD HANDLER (Same as add_lead_details) ===
+            $upload_dir = './datas/client_documents/';
+            if (!is_dir($upload_dir)) {
+                mkdir($upload_dir, 0777, true);
+            }
+
+            $config['upload_path']   = $upload_dir;
+            $config['allowed_types'] = 'jpg|jpeg|png|pdf';
+            $config['max_size']      = 5120;
+            $this->load->library('upload', $config);
+
+            $doc_fields = ['doc_aadhar', 'doc_pan', 'doc_voter', 'doc_dl', 'doc_govt'];
+            $uploaded_docs = [];
+
+            foreach ($doc_fields as $field) {
+                if (isset($_FILES[$field]) && $_FILES[$field]['name'] != '') {
+                    $this->upload->initialize($config);
+                    if ($this->upload->do_upload($field)) {
+                        $uploaded_docs[$field] = $this->upload->data('file_name');
+                    } else {
+                        $uploaded_docs[$field] = isset($old_data->$field) ? $old_data->$field : '';
+                    }
+                } else {
+                    // retain old file if no new upload
+                    $uploaded_docs[$field] = isset($old_data->$field) ? $old_data->$field : '';
+                }
+            }
+
+            // === DYNAMIC CUSTOM FIELDS (JSON) — same as add function ===
+            $custom_labels = $this->input->post("custom_label");
+            $custom_values = $this->input->post("custom_value");
+
+            $custom_fields = [];
+
+           // Case 1: coming as array (normal form)
+            if (is_array($custom_labels) && is_array($custom_values)) {
+                for ($i = 0; $i < count($custom_labels); $i++) {
+                    $label = trim($custom_labels[$i]);
+                    $value = trim($custom_values[$i]);
+                    if ($label !== "") {
+                        $custom_fields[$label] = $value;
+                    }
+                }
+            }
+
+            $custom_fields_json = !empty($custom_fields)
+                ? json_encode($custom_fields)
+                : (isset($old_data->custom_fields) ? $old_data->custom_fields : null);
+
+
+            // ✅ Prepare update data
+            $data = array(
+                "client_type_id"         => $client_type,
+                "client_name"            => $client_name,
+                "salutation"             => $salutation,
+                "initial"                => $initial,
+                "custom_fields"          => $custom_fields_json,
+                "doc_aadhar"             => $uploaded_docs['doc_aadhar'],
+                "doc_pan"                => $uploaded_docs['doc_pan'],
+                "doc_voter"              => $uploaded_docs['doc_voter'],
+                "doc_dl"                 => $uploaded_docs['doc_dl'],
+                "doc_govt"               => $uploaded_docs['doc_govt'],
+                "communication_address"  => $communication_address,
+                "permanent_address"      => $permanent_address,
+                "district"               => $district,
+                "state"                  => $state,
+                "country"                => $country,
+                "mobile_no"              => $mobile_no,
+                "email"                  => $email_id,
+                "date_of_birth"          => $dob,
+                "age"                    => $age,
+                "pin_code"               => $pin_code,
+                "updated_date"           => date("Y-m-d H:i:s")
+            );
+
+            // ✅ Perform update
+            $res = $this->lm->update_client_details($client_id, $data);
+
+            if ($res) {
+                // ✅ Log client update
+                $this->audit->log('list_of_clients', 'UPDATE', null, $old_data, $data);
+
+                // ✅ Add activity log
+                $activity_log = array(
+                    "lead_id"     => $lead_id,
+                    "action"      => "Client Details Updated",
+                    "action_type" => "client_update",
+                    "created_by"  => $this->session->userdata('session_name'),
+                    "time"        => date("Y-m-d h:i:sa")
+                );
+
                 $add_activity = $this->lm->add_activity_log($activity_log);
-                if( $add_activity ){
-	                 $this->audit->log('notification_log', 'INSERT', null, null, $activity_log);
-	             }
-	           echo "success";   
-    	 }
+                if ($add_activity) {
+                    $this->audit->log('notification_log', 'INSERT', null, null, $activity_log);
+                }
+
+                echo "success";
+            } else {
+                echo "error";
+            }
+        } 
+        else {
+            echo "unauthorized";
+        }
     }
+
+
     
     public function update_requirement_details()
     {
@@ -5684,6 +6133,38 @@ public $pm;
     	     echo json_encode($res);
     	 }
 	}
+
+    public function get_seating_capacity()
+    {
+        if ($this->session->has_userdata('logged_in')) {
+
+            $lead_id = $this->input->post("lead_id");
+
+            // ✅ 1. Get policy_type ID from list_of_leads
+            $lead = $this->db->select('policy_type')
+                            ->from('list_of_leads')
+                            ->where('id', $lead_id)
+                            ->get()
+                            ->row();
+
+            if ($lead && !empty($lead->policy_type)) {
+
+                // ✅ 2. Fetch seating capacities from pcv_seating using that policy_type ID
+                $result = $this->db->select('ps.id, ps.seating_capacity, lp.policy_type AS policy_name')
+                                ->from('pcv_seating ps')
+                                ->join('list_of_policy_type lp', 'lp.id = ps.policy_type', 'left')
+                                ->where('ps.policy_type', $lead->policy_type)
+                                ->get()
+                                ->result();
+
+                echo json_encode($result);
+            } else {
+                echo json_encode([]);
+            }
+        }
+    }
+
+
 	
 	
 	// Renewal //
