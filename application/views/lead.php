@@ -225,6 +225,8 @@
 		margin-top: 10px; /* or 15px for more space */
 	}
 
+
+
 	/* Space between each row (every 3 file inputs) */
 	#vehiclePhotosModal .row > .col-md-4:nth-child(3n+1) {
 		clear: both; /* ensures new row starts cleanly */
@@ -318,6 +320,90 @@
 		color: #155724;
 		box-shadow: 0 0 5px rgba(40, 167, 69, 0.4);
 	}
+
+
+
+	/* ===== Edit Vehicle Photos Modal Styles ===== */
+	#editVehiclePhotosModal .col-md-4 {
+		margin-bottom: 25px;
+	}
+
+	#editVehiclePhotosModal label {
+		display: block;
+		margin-bottom: 6px;
+		font-weight: 500;
+	}
+
+	#editVehiclePhotosModal input[type="file"] {
+		padding: 6px;
+		border-radius: 6px;
+		background: #fafafa;
+		border: 1px solid #ccc;
+		transition: all 0.2s ease;
+	}
+
+	#editVehiclePhotosModal input[type="file"].uploaded {
+		background-color: #e6ffe6;
+		border-color: #28a745;
+		color: #155724;
+		box-shadow: 0 0 5px rgba(40, 167, 69, 0.4);
+	}
+
+	/* Scroll if too tall */
+	#editVehiclePhotosModal .modal-body {
+		max-height: 75vh;
+		overflow-y: auto;
+	}
+
+	/* Responsive */
+	@media (max-width: 992px) {
+		#editVehiclePhotosModal .col-md-4 {
+			flex: 0 0 50%;
+			max-width: 50%;
+		}
+	}
+	@media (max-width: 576px) {
+		#editVehiclePhotosModal .col-md-4 {
+			flex: 0 0 100%;
+			max-width: 100%;
+		}
+	}
+
+	#editVehiclePhotosModal .col-md-4 {
+		margin-bottom: 25px;
+	}
+
+	#editVehiclePhotosModal label {
+		display: block;
+		margin-bottom: 6px;
+		font-weight: 500;
+	}
+
+	#editVehiclePhotosModal input[type="file"] {
+		padding: 6px;
+		border-radius: 6px;
+		background: #fafafa;
+		border: 1px solid #ccc;
+		transition: all 0.2s ease;
+	}
+
+	#editVehiclePhotosModal input[type="file"].uploaded {
+		background-color: #e6ffe6;
+		border-color: #28a745;
+		color: #155724;
+		box-shadow: 0 0 5px rgba(40, 167, 69, 0.4);
+	}
+
+	#editVehiclePhotosModal .existing-preview {
+		font-size: 13px;
+		margin-top: 4px;
+	}
+
+	#editVehiclePhotosModal .modal-body {
+		max-height: 75vh;
+		overflow-y: auto;
+	}
+
 
 
 </style>
@@ -3268,35 +3354,58 @@
 										<!-- Regn Address -->
 										<div class="form-group">
 											<div class="row">
-												<div class="col-md-4"><label>Regn Address</label></div>
+												<div class="col-md-4">
+													<label>Registration Address</label>
+												</div>
 												<div class="col-md-8">
 													<textarea
 														class="form-control"
 														name="regn_address"
 														id="regn_address"
+														rows="3"
+														placeholder="Enter registration address"
 													></textarea>
+
+													<!-- Copy Address Checkboxes -->
+													<div style="margin-top: 8px">
+														<div class="checkbox" style="margin-bottom: 5px">
+															<label style="padding-left: 0; display: inline-flex; align-items: center;">
+																<input
+																	type="checkbox"
+																	id="copy_client_comm_address"
+																	style="position: relative; top: 1px; margin-right: 8px"
+																/>
+																<span>Same as Client Communication Address</span>
+															</label>
+														</div>
+
+														<div class="checkbox">
+															<label style="padding-left: 0; display: inline-flex; align-items: center;">
+																<input
+																	type="checkbox"
+																	id="copy_client_perm_address"
+																	style="position: relative; top: 1px; margin-right: 8px"
+																/>
+																<span>Same as Client Permanent Address</span>
+															</label>
+														</div>
+													</div>
 												</div>
 											</div>
 										</div>
 
-										<!-- State -->
+										<!-- REGN STATE -->
 										<div class="form-group">
 											<div class="row">
 												<div class="col-md-4"><label>State</label></div>
 												<div class="col-md-8">
-													<select
-														class="form-control select2"
-														name="state"
-														id="state"
-														style="width: 100%"
-													>
-														<option value="">--Select--</option>
-														<?php foreach ($state as $da) { ?>
-														<option value="<?php echo $da->id ?>">
-															<?php echo $da->name; ?>
-														</option>
-														<?php } ?>
-													</select>
+													<input
+														type="text"
+														class="form-control"
+														name="regn_state"
+														id="regn_state"
+														placeholder="Enter State"
+													/>
 												</div>
 											</div>
 										</div>
@@ -3309,8 +3418,26 @@
 													<input
 														type="text"
 														class="form-control"
-														name="city"
-														id="city"
+														name="regn_city"
+														id="regn_city"
+														placeholder="Enter City"
+													/>
+												</div>
+											</div>
+										</div>
+
+										<!-- COUNTRY -->
+										<div class="form-group">
+											<div class="row">
+												<div class="col-md-4"><label>Country</label></div>
+												<div class="col-md-8">
+													<input
+														type="text"
+														class="form-control"
+														name="regn_country"
+														id="regn_country"
+														value="India"
+														placeholder="Enter Country"
 													/>
 												</div>
 											</div>
@@ -3324,12 +3451,15 @@
 													<input
 														type="text"
 														class="form-control"
-														name="pincode"
-														id="pincode"
+														name="regn_pincode"
+														id="regn_pincode"
+														maxlength="6"
+														placeholder="Enter 6-digit Pincode"
 													/>
 												</div>
 											</div>
 										</div>
+
 
 										<!-- Vehicle Photos Upload Button -->
 										<div class="form-group">
@@ -3343,6 +3473,23 @@
 														data-target="#vehiclePhotosModal"
 													>
 														<i class="fa fa-camera"></i> Upload Vehicle Photos
+													</button>
+												</div>
+											</div>
+										</div>
+
+										<!-- Vehicle Video Upload Button -->
+										<div class="form-group">
+											<div class="row">
+												<div class="col-md-4"></div>
+												<div class="col-md-8">
+													<button
+														type="button"
+														class="btn btn-warning"
+														data-toggle="modal"
+														data-target="#vehicleVideoModal"
+													>
+														<i class="fa fa-video-camera"></i> Upload Vehicle Video
 													</button>
 												</div>
 											</div>
@@ -10798,9 +10945,10 @@ From: Anywhere in India To: Anywhere in India</textarea
 								var zone = $("#zone").val();
 								var regn_address = $("#regn_address").val();
 								// ✅ Always get the Select2-selected value
-								var state = $('#state').val() || $('#state option:selected').val() || '';
-								var city = $("#city").val();
-								var pincode = $("#pincode").val();
+								var state = $("#regn_state").val();
+								var city = $("#regn_city").val();
+								var country = $("#regn_country").val();
+								var pincode = $("#regn_pincode").val();
 								var vechi_user_name = ""; //$("#vechi_user_name").val();
 								var vechi_user_cont = ""; //$("#vechi_user_cont").val();
 								var business_type = $("#bussiness_type").val();
@@ -10888,9 +11036,9 @@ From: Anywhere in India To: Anywhere in India</textarea
 								} else if (state == "") {
 									check = 1;
 									Swal.fire("Select State ?", "", "question");
-								} else if (pincode != "" && pincode.length != 6) {
+								} else if (pincode && (!/^\d{6}$/.test(pincode))) {
 									check = 1;
-									Swal.fire("Enter a valid Pincode ?", "", "question");
+									Swal.fire("Enter a valid 6-digit Pincode", "", "question");
 								} else if (check != 1) {
 									var formdata = new FormData();
 									formdata.append("id", id);
@@ -10917,9 +11065,10 @@ From: Anywhere in India To: Anywhere in India</textarea
 									formdata.append("rto", rto);
 									formdata.append("zone", zone);
 									formdata.append("regn_address", regn_address);
-									formdata.append("state", state);
-									formdata.append("city", city);
-									formdata.append("pincode", pincode);
+									formdata.append("regn_state", state);
+									formdata.append("regn_city", city);
+									formdata.append("regn_country", country);
+									formdata.append("regn_pincode", pincode);
 									formdata.append("vechi_user_name", vechi_user_name);
 									formdata.append("vechi_user_cont", vechi_user_cont);
 
@@ -10972,6 +11121,12 @@ From: Anywhere in India To: Anywhere in India</textarea
 												formdata.append(fieldName, input.files[0]);
 										}
 									});
+
+									// ✅ Handle vehicle video upload (single file)
+									var vehicleVideo = $("#vehicle_video")[0].files[0];
+									if (vehicleVideo) {
+										formdata.append("vehicle_video", vehicleVideo);
+									}
 
 									$.ajax({
 										url: "add_vechile_details",
@@ -11037,6 +11192,64 @@ From: Anywhere in India To: Anywhere in India</textarea
 									});
 								}
 							});
+                            
+							// ================== Copy Client Address to Registration Section ==================
+
+							// Communication checkbox
+							$("#copy_client_comm_address").on("change", function () {
+								if ($(this).is(":checked")) {
+									$("#copy_client_perm_address").prop("checked", false); // uncheck other
+									copyClientToRegn("comm");
+									Swal.fire({
+										icon: "info",
+										title: "Address Copied",
+										text: "Client Communication Address copied to Registration.",
+										timer: 1400,
+										showConfirmButton: false,
+									});
+								} else {
+									// clear only registration fields (leave client untouched)
+									$("#regn_address, #regn_city, #regn_state, #regn_country, #regn_pincode").val("");
+								}
+							});
+
+							// Permanent checkbox
+							$("#copy_client_perm_address").on("change", function () {
+								if ($(this).is(":checked")) {
+									$("#copy_client_comm_address").prop("checked", false); // uncheck other
+									copyClientToRegn("perm");
+									Swal.fire({
+										icon: "info",
+										title: "Address Copied",
+										text: "Client Permanent Address copied to Registration.",
+										timer: 1400,
+										showConfirmButton: false,
+									});
+								} else {
+									$("#regn_address, #regn_city, #regn_state, #regn_country, #regn_pincode").val("");
+								}
+							});
+
+
+							// ================== Vehicle Video Upload Handling ==================
+							$("#vehicle_video").on("change", function (event) {
+								const file = this.files[0];
+								if (!file) return;
+
+								// Preview video
+								const videoUrl = URL.createObjectURL(file);
+								$("#vehicle_video_preview").attr("src", videoUrl).show();
+
+								// Optional: show confirmation
+								Swal.fire({
+									icon: "info",
+									title: "Video Selected",
+									text: "Your video will be automatically compressed before upload.",
+									timer: 1500,
+									showConfirmButton: false,
+								});
+							});
+
 
 							$("#document_file").change(function () {
 								var document_type = $("#document_type").val();
@@ -12223,13 +12436,7 @@ From: Anywhere in India To: Anywhere in India</textarea
 										$("#edit_rto").val(obj.rto);
 										$("#edit_zone").val(obj.zone);
 										$("#edit_regn_address").val(obj.regn_address);
-										$("#edit_state").val(obj.state);
-										// ✅ Fix state value setting
-										if (obj.state && obj.state !== "") {
-										    $("#edit_state").val(obj.state.toString()).trigger("change");
-										} else {
-										    $("#edit_state").val("").trigger("change");
-										}
+										$("#edit_state").val(obj.state || "");
 										$("#edit_city").val(obj.city);
 										$("#edit_pincode").val(obj.pincode);
 										$("#edit_vechi_user_name").val(obj.vechi_user_name);
@@ -12277,6 +12484,27 @@ From: Anywhere in India To: Anywhere in India</textarea
                                             $("#edit_rc_preview").html("<small class='text-muted'>No RC uploaded yet</small>");
                                         }
 
+										// 🔹 Show current Vehicle Video (if uploaded)
+										if (obj.vehicle_video && obj.vehicle_video !== "") {
+											let videoFile = obj.vehicle_video;
+											let videoUrl = "./datas/Vehicle_Videos/" + videoFile;
+
+											$("#existing_vehicle_video_preview").html(`
+												<video width="100%" height="auto" controls style="border-radius: 6px; margin-bottom: 5px;">
+													<source src="${videoUrl}" type="video/mp4">
+													Your browser does not support the video tag.
+												</video>
+												<a href="${videoUrl}" target="_blank" class="text-primary">
+													<i class="fa fa-external-link"></i> View Full Video
+												</a>
+											`);
+										} else {
+											$("#existing_vehicle_video_preview").html(`
+												<small class="text-muted">No vehicle video uploaded yet</small>
+											`);
+										}
+
+
 										$.ajax({
 											url: "get_uploaded_vechicle_documents",
 											method: "POST",
@@ -12286,31 +12514,108 @@ From: Anywhere in India To: Anywhere in India</textarea
 											},
 										});
 
-										// ✅ Populate vehicle photo view links
-										const photoFields = 30;
-										$("#editVehiclePhotoContainer").html("");
-										for (let i = 1; i <= photoFields; i++) {
+										// ✅ Populate existing photo previews inside static modal
+										for (let i = 1; i <= 30; i++) {
 											let file = obj["img_" + i];
-											let preview = file
-												? `<a href="datas/Vehicle_Photos/${file}" target="_blank" class="text-primary d-block mt-1">
-													<i class="fa fa-eye"></i> View
-												</a>`
-												: `<small class="text-muted d-block mt-1">No file uploaded</small>`;
-											$("#editVehiclePhotoContainer").append(`
-												<div class="col-md-4 mb-4">
-												<label>Photo ${i}</label>
-												<input type="file" class="form-control vehicle-photo-edit"
-														name="vehicle_photos_edit[img_${i}]"
-														accept="image/*" />
-												${preview}
-												</div>
-											`);
+											let previewContainer = $(`input[name='vehicle_photos_edit[img_${i}]']`).closest(".col-md-4");
+
+											// Remove old preview (if re-editing)
+											previewContainer.find(".existing-preview").remove();
+
+											if (file && file !== "") {
+												previewContainer.append(`
+													<a href="datas/Vehicle_Photos/${file}" target="_blank"
+													class="existing-preview text-primary d-block mt-1">
+														<i class="fa fa-eye"></i> View
+													</a>
+												`);
+											} else {
+												previewContainer.append(`
+													<small class="existing-preview text-muted d-block mt-1">
+														No file uploaded
+													</small>
+												`);
+											}
 										}
+
+										// ================== COPY CLIENT ADDRESS TO EDIT VEHICLE SECTION ==================
+										$("#edit_copy_client_comm_address").off("change").on("change", function () {
+										if ($(this).is(":checked")) {
+											$("#edit_copy_client_perm_address").prop("checked", false); // uncheck the other
+
+											// Get values from client form
+											var commAddr = $("#communication_address").val() || "";
+											var district = $("#district").val() || "";
+											var clientState = $("input[name='state']").val() || $("#state").val() || "";
+											var country = $("#country").val() || "India";
+											var pin = $("#pin_code").val() || "";
+
+											// Set to edit registration fields
+											$("#edit_regn_address").val(commAddr);
+											$("#edit_city").val(district);
+											$("#edit_state").val(clientState);
+											$("#edit_country").val(country);
+											$("#edit_pincode").val(pin);
+
+											Swal.fire({
+											icon: "info",
+											title: "Address Copied",
+											text: "Client Communication Address copied to Vehicle Registration.",
+											timer: 1500,
+											showConfirmButton: false,
+											});
+										} else {
+											$("#edit_regn_address, #edit_city, #edit_state, #edit_country, #edit_pincode").val("");
+										}
+										});
+
+										$("#edit_copy_client_perm_address").off("change").on("change", function () {
+										if ($(this).is(":checked")) {
+											$("#edit_copy_client_comm_address").prop("checked", false); // uncheck the other
+
+											var permAddr = $("#permanent_address").val() || "";
+											var district = $("#district").val() || "";
+											var clientState = $("input[name='state']").val() || $("#state").val() || "";
+											var country = $("#country").val() || "India";
+											var pin = $("#pin_code").val() || "";
+
+											$("#edit_regn_address").val(permAddr);
+											$("#edit_city").val(district);
+											$("#edit_state").val(clientState).trigger("change");
+											$("#edit_country").val(country);
+											$("#edit_pincode").val(pin);
+
+											Swal.fire({
+											icon: "info",
+											title: "Address Copied",
+											text: "Client Permanent Address copied to Vehicle Registration.",
+											timer: 1500,
+											showConfirmButton: false,
+											});
+										} else {
+											$("#edit_regn_address, #edit_city, #edit_state, #edit_country, #edit_pincode").val("");
+										}
+										});
+
 
 										// ✅ show the modal now
 										$("#edit_vechile_model").modal("show");
 									},
 								});
+							});
+
+							// ================== Edit Vehicle Photos Modal Highlight ==================
+							$("#editVehiclePhotosModal").on("change", "input[type='file']", function () {
+								if (this.files && this.files.length > 0) {
+									$(this).addClass("uploaded");
+								} else {
+									$(this).removeClass("uploaded");
+								}
+							});
+
+							// Reset highlight on close
+							$("#editVehiclePhotosModal").on("hidden.bs.modal", function () {
+								$("#editVehiclePhotosModal input[type='file']").removeClass("uploaded");
 							});
 
 							$("#edit_doc_btn").click(function () {
@@ -12392,6 +12697,7 @@ From: Anywhere in India To: Anywhere in India</textarea
 								var regn_address = $("#edit_regn_address").val();
 								var state = $("#edit_state").val();
 								var city = $("#edit_city").val();
+								var country = $("#edit_country").val() || "India";
 								var pincode = $("#edit_pincode").val();
 								var vechi_user_name = ""; //$("#edit_vechi_user_name").val();
 								var vechi_user_cont = ""; //$("#edit_vechi_user_cont").val();
@@ -12494,6 +12800,12 @@ From: Anywhere in India To: Anywhere in India</textarea
 										}
 									});
 
+									// ✅ Handle vehicle video upload (single file)
+									var editVehicleVideo = $("#edit_vehicle_video")[0].files[0];
+									if (editVehicleVideo) {
+										formdata.append("edit_vehicle_video", editVehicleVideo);
+									}
+
 									formdata.append("id", id);
 									formdata.append("vechile_type", vechile_type);
 									formdata.append("vechi_make", vechi_make);
@@ -12519,6 +12831,7 @@ From: Anywhere in India To: Anywhere in India</textarea
 									formdata.append("regn_address", regn_address);
 									formdata.append("state", state);
 									formdata.append("city", city);
+									formdata.append("country", country);
 									formdata.append("pincode", pincode);
 									formdata.append("vechi_user_name", vechi_user_name);
 									formdata.append("vechi_user_cont", vechi_user_cont);
@@ -15711,7 +16024,30 @@ From: Anywhere in India To: Anywhere in India</textarea
                                 },
                             });
                         }
-                         
+                        
+						// Helper: copy values from client -> registration
+						function copyClientToRegn(source) {
+							// source: "comm" or "perm"
+							var addr = "";
+							if (source === "comm") {
+								addr = $("#communication_address").val() || "";
+							} else {
+								addr = $("#permanent_address").val() || "";
+							}
+
+							// client-side fields (existing IDs in your client form)
+							var district = $("#district").val() || "";
+							var clientState = $("#state").val() || "";      // client state input (original)
+							var clientCountry = $("#country").val() || "India"; // client country input (original)
+							var clientPin = $("#pin_code").val() || "";
+
+							// Set into registration inputs (new IDs)
+							$("#regn_address").val(addr);
+							$("#regn_city").val(district);
+							$("#regn_state").val(clientState);
+							$("#regn_country").val(clientCountry);
+							$("#regn_pincode").val(clientPin);
+						}
 
 
                     </script>
@@ -15901,13 +16237,27 @@ From: Anywhere in India To: Anywhere in India</textarea
 								$("#vehiclePhotosModal input[type='file']").removeClass("uploaded");
 							});
 
+							// ================== Edit Vehicle Video Modal ==================
+							$("#edit_vehicle_video").on("change", function () {
+								const file = this.files[0];
+								if (!file) return;
 
-							// Edit Vechicle Photos Section Start //
+								const videoUrl = URL.createObjectURL(file);
+								$("#edit_vehicle_video_preview").attr("src", videoUrl).show();
 
-							
+								Swal.fire({
+									icon: "info",
+									title: "Video Selected",
+									text: "Your video will be compressed automatically on save.",
+									timer: 1500,
+									showConfirmButton: false,
+								});
+							});
 
-							// Edit Vechicle Photos Section End //
-
+							// Reset on close
+							$("#editVehicleVideoModal").on("hidden.bs.modal", function () {
+								$("#edit_vehicle_video_preview").attr("src", "").hide();
+							});
 
 					    });
 
@@ -16473,41 +16823,46 @@ From: Anywhere in India To: Anywhere in India</textarea
 								<div class="form-group">
 									<div class="row">
 										<div class="col-md-4">
-											<label>Regn Address</label>
+										<label>Registration Address</label>
 										</div>
 										<div class="col-md-8">
 											<textarea
 												class="form-control"
 												name="edit_regn_address"
 												id="edit_regn_address"
+												rows="3"
+												placeholder="Enter registration address"
 											></textarea>
+
+											<!-- Copy Address Checkboxes -->
+											<div style="margin-top: 8px">
+												<div class="checkbox" style="margin-bottom: 5px">
+												<label style="padding-left: 0; display: inline-flex; align-items: center;">
+													<input
+													type="checkbox"
+													id="edit_copy_client_comm_address"
+													style="position: relative; top: 1px; margin-right: 8px"
+													/>
+													<span>Same as Client Communication Address</span>
+												</label>
+												</div>
+
+												<div class="checkbox">
+												<label style="padding-left: 0; display: inline-flex; align-items: center;">
+													<input
+													type="checkbox"
+													id="edit_copy_client_perm_address"
+													style="position: relative; top: 1px; margin-right: 8px"
+													/>
+													<span>Same as Client Permanent Address</span>
+												</label>
+												</div>
+											</div>
 										</div>
 									</div>
 								</div>
 
-								<div class="form-group">
-									<div class="row">
-										<div class="col-md-4">
-											<label>State</label>
-										</div>
-										<div class="col-md-8">
-											<select
-												class="form-control select2"
-												name="edit_state"
-												id="edit_state"
-												style="width: 100%"
-											>
-												<option value="">--select--</option>
-												<?php foreach ($state as $da) {?>
-												<option value="<?php echo $da->id ?>">
-													<?php echo $da->name; ?>
-												</option>
-												<?php } ?>
-											</select>
-										</div>
-									</div>
-								</div>
-
+								
 								<div class="form-group">
 									<div class="row">
 										<div class="col-md-4">
@@ -16523,6 +16878,41 @@ From: Anywhere in India To: Anywhere in India</textarea
 										</div>
 									</div>
 								</div>
+
+								<div class="form-group">
+									<div class="row">
+										<div class="col-md-4">
+										<label>State</label>
+										</div>
+										<div class="col-md-8">
+										<input
+											type="text"
+											class="form-control"
+											name="edit_state"
+											id="edit_state"
+											placeholder="Enter State"
+										/>
+										</div>
+									</div>
+								</div>
+
+
+								<div class="form-group">
+									<div class="row">
+										<div class="col-md-4"><label>Country</label></div>
+										<div class="col-md-8">
+										<input
+											type="text"
+											class="form-control"
+											name="edit_country"
+											id="edit_country"
+											value="India"
+											placeholder="Enter Country"
+										/>
+										</div>
+									</div>
+								</div>
+
 
 								<div class="form-group">
 									<div class="row">
@@ -16544,14 +16934,31 @@ From: Anywhere in India To: Anywhere in India</textarea
 									<div class="row">
 										<div class="col-md-4"></div>
 										<div class="col-md-8">
-										<button
-											type="button"
-											class="btn btn-primary"
-											data-toggle="modal"
-											data-target="#editVehiclePhotosModal"
-										>
-											<i class="fa fa-camera"></i> Update Vehicle Photos
-										</button>
+											<button
+												type="button"
+												class="btn btn-primary"
+												data-toggle="modal"
+												data-target="#editVehiclePhotosModal"
+											>
+												<i class="fa fa-camera"></i> Update Vehicle Photos
+											</button>
+										</div>
+									</div>
+								</div>
+
+								<!-- Vehicle Video Upload Button -->
+								<div class="form-group">
+									<div class="row">
+										<div class="col-md-4"></div>
+										<div class="col-md-8">
+											<button
+												type="button"
+												class="btn btn-warning"
+												data-toggle="modal"
+												data-target="#editVehicleVideoModal"
+											>
+												<i class="fa fa-video-camera"></i> Update Vehicle Video
+											</button>
 										</div>
 									</div>
 								</div>
@@ -16561,47 +16968,7 @@ From: Anywhere in India To: Anywhere in India</textarea
 					</div>
 				</div>
 
-				<!--  <div class="box">-->
-				<!--    <div class="box-header with-border" style="background:#f4f4f48c;">-->
-				<!--        <h3 class="box-title" _msthash="26273" _msttexthash="60619" style="text-align: left;font-size:14px;"><i class="fa fa-bars" aria-hidden="true"></i> &nbsp;&nbsp; Personal Details </h3>-->
-				<!--        <div class="box-tools pull-right">-->
-				<!--             <button type="button" class="btn btn-box-tool" data-widget="collapse" data-toggle="tooltip" title="" data-original-title="Collapse">-->
-				<!--              <i class="fa fa-minus"></i></button>-->
-				<!--        </div>-->
-				<!--    </div>-->
-				<!--    <div class="box-body" _msthash="1196936" _msttexthash="1190501" >-->
-				<!--       <div class="form-group">-->
-
-				<!--           <div class="row">-->
-				<!--               <div class="col-md-6">-->
-				<!--                   <div class="form-group">-->
-				<!--                       <div class="row">-->
-				<!--                           <div class="col-md-4">-->
-				<!--                               <label>Vechicle Username</label>-->
-				<!--                           </div>-->
-				<!--                           <div class="col-md-8">-->
-				<!--                               <input type="text" class="form-control" name="edit_vechi_user_name" id="edit_vechi_user_name">-->
-				<!--                           </div>-->
-				<!--                       </div>-->
-				<!--                   </div>-->
-				<!--               </div>-->
-				<!--               <div class="col-md-6">-->
-				<!--                   <div class="form-group">-->
-				<!--                       <div class="row">-->
-				<!--                           <div class="col-md-4">-->
-				<!--                               <label>Vechicle User Contact Details</label>-->
-				<!--                           </div>-->
-				<!--                           <div class="col-md-8">-->
-				<!--                               <input type="text" class="form-control" name="edit_vechi_user_cont" id="edit_vechi_user_cont">-->
-				<!--                           </div>-->
-				<!--                       </div>-->
-				<!--                   </div>-->
-				<!--               </div>-->
-
-				<!--           </div>-->
-				<!--       </div>-->
-				<!--  </div>-->
-				<!--</div> -->
+				
 
 				<div class="box">
 					<div class="box-header with-border" style="background: #f4f4f48c">
@@ -16707,7 +17074,7 @@ From: Anywhere in India To: Anywhere in India</textarea
 	</div>
 </div>
 
-<!-- ========================= Vehicle Photos Upload Modal ========================= -->
+<!-- ========================= Add Vehicle Photos Upload Modal ========================= -->
 <div class="modal fade" id="vehiclePhotosModal" tabindex="-1" role="dialog" aria-labelledby="vehiclePhotosLabel" aria-hidden="true">
 	<div class="modal-dialog modal-lg" role="document">
 		<div class="modal-content">
@@ -16726,43 +17093,43 @@ From: Anywhere in India To: Anywhere in India</textarea
 						
 						<!-- 1–10 -->
 						<div class="col-md-4 mb-4">
-							<label>1. Front View</label>
+							<label>1. FRONT VIEW</label>
 							<input type="file" class="form-control" name="front_view" accept="image/*">
 						</div>
 						<div class="col-md-4 mb-4">
-							<label>2. Back View</label>
+							<label>2. BACK VIEW</label>
 							<input type="file" class="form-control" name="back_view" accept="image/*">
 						</div>
 						<div class="col-md-4 mb-4">
-							<label>3. Left Side View</label>
+							<label>3. LEFT SIDE VIEW</label>
 							<input type="file" class="form-control" name="left_side_view" accept="image/*">
 						</div>
 						<div class="col-md-4 mb-4">
-							<label>4. Right Side View</label>
+							<label>4. RIGHT SIDE VIEW</label>
 							<input type="file" class="form-control" name="right_side_view" accept="image/*">
 						</div>
 						<div class="col-md-4 mb-4">
-							<label>5. Dashboard</label>
+							<label>5. ODOMETER</label>
 							<input type="file" class="form-control" name="dashboard" accept="image/*">
 						</div>
 						<div class="col-md-4 mb-4">
-							<label>6. Interior Front Seats</label>
+							<label>6. CHASSIS NUMBER</label>
 							<input type="file" class="form-control" name="interior_front_seats" accept="image/*">
 						</div>
 						<div class="col-md-4 mb-4">
-							<label>7. Interior Back Seats</label>
+							<label>7. WIND SHIELD </label>
 							<input type="file" class="form-control" name="interior_back_seats" accept="image/*">
 						</div>
 						<div class="col-md-4 mb-4">
-							<label>8. Engine Compartment</label>
+							<label>8. ENGINE </label>
 							<input type="file" class="form-control" name="engine_compartment" accept="image/*">
 						</div>
 						<div class="col-md-4 mb-4">
-							<label>9. Boot Space</label>
+							<label>9. ENGINE NUMBER</label>
 							<input type="file" class="form-control" name="boot_space" accept="image/*">
 						</div>
 						<div class="col-md-4 mb-4">
-							<label>10. Tyre Front Left</label>
+							<label>10. HOURS READING</label>
 							<input type="file" class="form-control" name="tyre_front_left" accept="image/*">
 						</div>
 
@@ -16866,14 +17233,7 @@ From: Anywhere in India To: Anywhere in India</textarea
 <!-- ========================= End Vehicle Photos Modal ========================= -->
 
 <!-- ========================= Edit Vehicle Photos Upload Modal ========================= -->
-<div
-	class="modal fade"
-	id="editVehiclePhotosModal"
-	tabindex="-1"
-	role="dialog"
-	aria-labelledby="editVehiclePhotosLabel"
-	aria-hidden="true"
->
+<div class="modal fade" id="editVehiclePhotosModal" tabindex="-1" role="dialog" aria-labelledby="editVehiclePhotosLabel" aria-hidden="true">
 	<div class="modal-dialog modal-lg" role="document">
 		<div class="modal-content">
 			<div class="modal-header" style="background: #f4f4f48c">
@@ -16887,22 +17247,275 @@ From: Anywhere in India To: Anywhere in India</textarea
 
 			<div class="modal-body">
 				<div class="container-fluid">
-					<div class="row" id="editVehiclePhotoContainer"></div>
+					<div class="row">
+
+						<!-- 1–10 -->
+						<div class="col-md-4 mb-4">
+							<label>1. FRONT VIEW</label>
+							<input type="file" class="form-control vehicle-photo-edit" name="vehicle_photos_edit[img_1]" accept="image/*">
+						</div>
+						<div class="col-md-4 mb-4">
+							<label>2. BACK VIEW</label>
+							<input type="file" class="form-control vehicle-photo-edit" name="vehicle_photos_edit[img_2]" accept="image/*">
+						</div>
+						<div class="col-md-4 mb-4">
+							<label>3. LEFT SIDE VIEW</label>
+							<input type="file" class="form-control vehicle-photo-edit" name="vehicle_photos_edit[img_3]" accept="image/*">
+						</div>
+						<div class="col-md-4 mb-4">
+							<label>4. RIGHT SIDE VIEW</label>
+							<input type="file" class="form-control vehicle-photo-edit" name="vehicle_photos_edit[img_4]" accept="image/*">
+						</div>
+						<div class="col-md-4 mb-4">
+							<label>5. ODOMETER</label>
+							<input type="file" class="form-control vehicle-photo-edit" name="vehicle_photos_edit[img_5]" accept="image/*">
+						</div>
+						<div class="col-md-4 mb-4">
+							<label>6. CHASSIS NUMBER</label>
+							<input type="file" class="form-control vehicle-photo-edit" name="vehicle_photos_edit[img_6]" accept="image/*">
+						</div>
+						<div class="col-md-4 mb-4">
+							<label>7. WIND SHIELD</label>
+							<input type="file" class="form-control vehicle-photo-edit" name="vehicle_photos_edit[img_7]" accept="image/*">
+						</div>
+						<div class="col-md-4 mb-4">
+							<label>8. ENGINE</label>
+							<input type="file" class="form-control vehicle-photo-edit" name="vehicle_photos_edit[img_8]" accept="image/*">
+						</div>
+						<div class="col-md-4 mb-4">
+							<label>9. ENGINE NUMBER</label>
+							<input type="file" class="form-control vehicle-photo-edit" name="vehicle_photos_edit[img_9]" accept="image/*">
+						</div>
+						<div class="col-md-4 mb-4">
+							<label>10. HOURS READING</label>
+							<input type="file" class="form-control vehicle-photo-edit" name="vehicle_photos_edit[img_10]" accept="image/*">
+						</div>
+
+						<!-- 11–20 -->
+						<div class="col-md-4 mb-4">
+							<label>11. Tyre Front Right</label>
+							<input type="file" class="form-control vehicle-photo-edit" name="vehicle_photos_edit[img_11]" accept="image/*">
+						</div>
+						<div class="col-md-4 mb-4">
+							<label>12. Tyre Rear Left</label>
+							<input type="file" class="form-control vehicle-photo-edit" name="vehicle_photos_edit[img_12]" accept="image/*">
+						</div>
+						<div class="col-md-4 mb-4">
+							<label>13. Tyre Rear Right</label>
+							<input type="file" class="form-control vehicle-photo-edit" name="vehicle_photos_edit[img_13]" accept="image/*">
+						</div>
+						<div class="col-md-4 mb-4">
+							<label>14. Number Plate Front</label>
+							<input type="file" class="form-control vehicle-photo-edit" name="vehicle_photos_edit[img_14]" accept="image/*">
+						</div>
+						<div class="col-md-4 mb-4">
+							<label>15. Number Plate Back</label>
+							<input type="file" class="form-control vehicle-photo-edit" name="vehicle_photos_edit[img_15]" accept="image/*">
+						</div>
+						<div class="col-md-4 mb-4">
+							<label>16. Roof</label>
+							<input type="file" class="form-control vehicle-photo-edit" name="vehicle_photos_edit[img_16]" accept="image/*">
+						</div>
+						<div class="col-md-4 mb-4">
+							<label>17. Windshield Front</label>
+							<input type="file" class="form-control vehicle-photo-edit" name="vehicle_photos_edit[img_17]" accept="image/*">
+						</div>
+						<div class="col-md-4 mb-4">
+							<label>18. Windshield Rear</label>
+							<input type="file" class="form-control vehicle-photo-edit" name="vehicle_photos_edit[img_18]" accept="image/*">
+						</div>
+						<div class="col-md-4 mb-4">
+							<label>19. Chassis Number Area</label>
+							<input type="file" class="form-control vehicle-photo-edit" name="vehicle_photos_edit[img_19]" accept="image/*">
+						</div>
+						<div class="col-md-4 mb-4">
+							<label>20. Odometer Reading</label>
+							<input type="file" class="form-control vehicle-photo-edit" name="vehicle_photos_edit[img_20]" accept="image/*">
+						</div>
+
+						<!-- 21–30 -->
+						<div class="col-md-4 mb-4">
+							<label>21. Battery Area</label>
+							<input type="file" class="form-control vehicle-photo-edit" name="vehicle_photos_edit[img_21]" accept="image/*">
+						</div>
+						<div class="col-md-4 mb-4">
+							<label>22. Tool Kit Area</label>
+							<input type="file" class="form-control vehicle-photo-edit" name="vehicle_photos_edit[img_22]" accept="image/*">
+						</div>
+						<div class="col-md-4 mb-4">
+							<label>23. Spare Wheel</label>
+							<input type="file" class="form-control vehicle-photo-edit" name="vehicle_photos_edit[img_23]" accept="image/*">
+						</div>
+						<div class="col-md-4 mb-4">
+							<label>24. Music System</label>
+							<input type="file" class="form-control vehicle-photo-edit" name="vehicle_photos_edit[img_24]" accept="image/*">
+						</div>
+						<div class="col-md-4 mb-4">
+							<label>25. AC Control Panel</label>
+							<input type="file" class="form-control vehicle-photo-edit" name="vehicle_photos_edit[img_25]" accept="image/*">
+						</div>
+						<div class="col-md-4 mb-4">
+							<label>26. Steering Area</label>
+							<input type="file" class="form-control vehicle-photo-edit" name="vehicle_photos_edit[img_26]" accept="image/*">
+						</div>
+						<div class="col-md-4 mb-4">
+							<label>27. Gear Console</label>
+							<input type="file" class="form-control vehicle-photo-edit" name="vehicle_photos_edit[img_27]" accept="image/*">
+						</div>
+						<div class="col-md-4 mb-4">
+							<label>28. Mirror Inside</label>
+							<input type="file" class="form-control vehicle-photo-edit" name="vehicle_photos_edit[img_28]" accept="image/*">
+						</div>
+						<div class="col-md-4 mb-4">
+							<label>29. Mirror Outside</label>
+							<input type="file" class="form-control vehicle-photo-edit" name="vehicle_photos_edit[img_29]" accept="image/*">
+						</div>
+						<div class="col-md-4 mb-4">
+							<label>30. Documents Photo</label>
+							<input type="file" class="form-control vehicle-photo-edit" name="vehicle_photos_edit[img_30]" accept="image/*">
+						</div>
+
+					</div>
 				</div>
 			</div>
 
 			<div class="modal-footer">
-				<button type="button" class="btn btn-secondary" data-dismiss="modal">
-					Close
-				</button>
-				// <button type="button" class="btn btn-success" id="updateVehiclePhotos">
-				// 	<i class="fa fa-save"></i> Update Photos
-				// </button>
+				<button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
 			</div>
 		</div>
 	</div>
 </div>
 <!-- ========================= End Edit Vehicle Photos Upload Modal ========================= -->
+
+<!-- =========================Add Vehicle Video Upload Modal ========================= -->
+<div
+	class="modal fade"
+	id="vehicleVideoModal"
+	tabindex="-1"
+	role="dialog"
+	aria-labelledby="vehicleVideoLabel"
+	aria-hidden="true"
+>
+	<div class="modal-dialog modal-md" role="document">
+		<div class="modal-content">
+			<div class="modal-header" style="background: #f4f4f48c">
+				<h4 class="modal-title" id="vehicleVideoLabel">
+					<i class="fa fa-video-camera"></i> Upload Vehicle Video
+				</h4>
+				<button
+					type="button"
+					class="close"
+					data-dismiss="modal"
+					aria-label="Close"
+				>
+					<span aria-hidden="true">&times;</span>
+				</button>
+			</div>
+
+			<div class="modal-body">
+				<div class="form-group">
+					<label>Select Vehicle Walkaround Video</label>
+					<input
+						type="file"
+						class="form-control"
+						name="vehicle_video"
+						id="vehicle_video"
+						accept="video/mp4,video/avi,video/mov,video/x-m4v,video/*"
+					/>
+					<small class="text-muted d-block mt-2">
+						Max size 200MB | Formats: MP4, AVI, MOV
+					</small>
+					<!-- Preview -->
+					<video
+						id="vehicle_video_preview"
+						controls
+						style="display: none; margin-top: 10px; width: 100%; border-radius: 6px"
+					></video>
+				</div>
+			</div>
+
+			<div class="modal-footer">
+				<button
+					type="button"
+					class="btn btn-secondary"
+					data-dismiss="modal"
+				>
+					Close
+				</button>
+			</div>
+		</div>
+	</div>
+</div>
+<!-- ========================= End Add Vehicle Video Upload Modal ========================= -->
+
+<!-- ========================= Edit Vehicle Video Modal ========================= -->
+<div
+	class="modal fade"
+	id="editVehicleVideoModal"
+	tabindex="-1"
+	role="dialog"
+	aria-labelledby="editVehicleVideoLabel"
+	aria-hidden="true"
+>
+	<div class="modal-dialog modal-md" role="document">
+		<div class="modal-content">
+			<div class="modal-header" style="background: #f4f4f48c">
+				<h4 class="modal-title" id="editVehicleVideoLabel">
+					<i class="fa fa-video-camera"></i> Update Vehicle Video
+				</h4>
+				<button
+					type="button"
+					class="close"
+					data-dismiss="modal"
+					aria-label="Close"
+				>
+					<span aria-hidden="true">&times;</span>
+				</button>
+			</div>
+
+			<div class="modal-body">
+				<div class="form-group">
+					<label>Replace Vehicle Video</label>
+					<input
+						type="file"
+						class="form-control"
+						name="edit_vehicle_video"
+						id="edit_vehicle_video"
+						accept="video/mp4,video/avi,video/mov,video/x-m4v,video/*"
+					/>
+					<small class="text-muted d-block mt-2">
+						Max size 200MB | Formats: MP4, AVI, MOV
+					</small>
+
+					<!-- Existing video preview -->
+					<div id="existing_vehicle_video_preview" style="margin-top: 10px"></div>
+
+					<!-- New video preview -->
+					<video
+						id="edit_vehicle_video_preview"
+						controls
+						style="display: none; margin-top: 10px; width: 100%; border-radius: 6px"
+					></video>
+				</div>
+			</div>
+
+			<div class="modal-footer">
+				<button
+					type="button"
+					class="btn btn-secondary"
+					data-dismiss="modal"
+				>
+					Close
+				</button>
+			</div>
+		</div>
+	</div>
+</div>
+<!-- ========================= End Edit Vehicle Video Modal ========================= -->
+
+
+
+
 
 
 

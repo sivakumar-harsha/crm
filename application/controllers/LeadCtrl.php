@@ -783,9 +783,10 @@ class LeadCtrl extends CI_Controller {
             $rto = $this->input->post("rto");
             $zone = $this->input->post("zone");
             $regn_address = $this->input->post("regn_address");
-            $state = $this->input->post("state");
-            $city = $this->input->post("city");
-            $pincode = $this->input->post("pincode");
+            $state = $this->input->post("regn_state");
+            $city = $this->input->post("regn_city");
+            $country = $this->input->post("regn_country");
+            $pincode = $this->input->post("regn_pincode");
             $vechi_user_name = $this->input->post("vechi_user_name");
             $vechi_user_cont = $this->input->post("vechi_user_cont");
             $date = date("Y-m-d");
@@ -872,6 +873,51 @@ class LeadCtrl extends CI_Controller {
                 $index++;
             }
 
+            // === Handle Vehicle Video Upload ===
+            $vehicle_video = "";
+            if (isset($_FILES['vehicle_video']) && $_FILES['vehicle_video']['name'] != '') {
+                $video_path = './datas/Vehicle_Videos/';
+                if (!file_exists($video_path)) mkdir($video_path, 0777, true);
+
+                $config = [
+                    'upload_path'   => $video_path,
+                    'allowed_types' => 'mp4|avi|mov|m4v',
+                    'max_size'      => 204800, // 200MB
+                    'file_name'     => time() . '_' . preg_replace('/\s+/', '_', $_FILES['vehicle_video']['name'])
+                ];
+
+                $this->load->library('upload');
+                $this->upload->initialize($config);
+
+                if ($this->upload->do_upload('vehicle_video')) {
+                    $upload_data = $this->upload->data();
+                    $vehicle_video = $upload_data['file_name'];
+                    $file_path = $upload_data['full_path'];
+                    $file_size = $upload_data['file_size'];
+
+                    // === Compress video if larger than 50MB ===
+                    if ($file_size > 51200) { // > 50MB
+                        $compressed_path = $video_path . 'compressed_' . $vehicle_video;
+                        $command = "ffmpeg -i \"$file_path\" -vcodec libx264 -crf 28 -preset medium \"$compressed_path\" 2>&1";
+                        exec($command, $output, $returnCode);
+
+                        if ($returnCode === 0 && file_exists($compressed_path)) {
+                            unlink($file_path);
+                            rename($compressed_path, $file_path);
+                            clearstatcache(true, $file_path);
+                            $final_size = round(filesize($file_path) / 1024, 2);
+                            log_message('info', "✅ Vehicle video compressed successfully to {$final_size} KB");
+                        } else {
+                            log_message('error', "❌ Vehicle video compression failed: " . implode("\n", $output));
+                        }
+                    }
+
+                    log_message('info', "✅ Vehicle video uploaded: {$vehicle_video}");
+                } else {
+                    log_message('error', "❌ Vehicle video upload failed: " . $this->upload->display_errors());
+                }
+            }
+
             // === Check for duplicate registration number ===
             $res_1 = $this->lm->check_regn_no_exits_by_lead_id($register_no, $id);
 
@@ -908,11 +954,13 @@ class LeadCtrl extends CI_Controller {
                 "regn_address" => $regn_address,
                 "state" => $state,
                 "city" => $city,
+                "country" => $country,
                 "pincode" => $pincode,
                 "vechi_user_name" => $vechi_user_name,
                 "vechi_user_cont" => $vechi_user_cont,
                 "created_at" => $date,
-                "regn_certificate" => $regn_certificate
+                "regn_certificate" => $regn_certificate,
+                "vehicle_video" => $vehicle_video,
             ];
 
             // === Merge uploaded image columns ===
@@ -5073,7 +5121,7 @@ class LeadCtrl extends CI_Controller {
             }
         }
         
-        public function update_vechicle_details()
+       public function update_vechicle_details()
         {
             if ($this->session->has_userdata('logged_in')) 
             {
@@ -5101,6 +5149,7 @@ class LeadCtrl extends CI_Controller {
                 $zone = $this->input->post("zone");
                 $regn_address = $this->input->post("regn_address");
                 $state = $this->input->post("state");
+                $country = $this->input->post("country");
                 $city = $this->input->post("city");
                 $pincode = $this->input->post("pincode");
                 $vechi_user_name = $this->input->post("vechi_user_name");
@@ -5110,13 +5159,8 @@ class LeadCtrl extends CI_Controller {
                 // ✅ Handle Additional Fields
                 $additionalFieldsJson = $this->input->post('additional_fields');
                 if (!empty($additionalFieldsJson)) {
-                    // Validate JSON
                     $decoded = json_decode($additionalFieldsJson, true);
-                    if (json_last_error() === JSON_ERROR_NONE && !empty($decoded)) {
-                        $additionalFields = $additionalFieldsJson;
-                    } else {
-                        $additionalFields = null;
-                    }
+                    $additionalFields = (json_last_error() === JSON_ERROR_NONE && !empty($decoded)) ? $additionalFieldsJson : null;
                 } else {
                     $additionalFields = null;
                 }
@@ -5126,7 +5170,7 @@ class LeadCtrl extends CI_Controller {
 
                 if ($res_1 < 1) 
                 {
-                    $data = array(
+                    $data = [
                         "vechile_type" => $vechile_type,
                         "vechi_make" => $vechi_make,
                         "vechi_model" => $vechi_model,
@@ -5151,18 +5195,18 @@ class LeadCtrl extends CI_Controller {
                         "regn_address" => $regn_address,
                         "state" => $state,
                         "city" => $city,
+                        "country" => $country,
                         "pincode" => $pincode,
                         "vechi_user_name" => $vechi_user_name,
                         "vechi_user_cont" => $vechi_user_cont,
                         "updated_at" => $date
-                    );
+                    ];
 
-                    // ✅ Append Additional Fields if present
                     if (!empty($additionalFields)) {
                         $data['additional_fields'] = $additionalFields;
                     }
 
-                    // ✅ Handle Registration Certificate upload
+                    // ✅ Handle Registration Certificate Upload
                     if (isset($_FILES['regn_certificate']) && $_FILES['regn_certificate']['name'] != '') {
                         $config['upload_path'] = './datas/Registration_Certificate/';
                         $config['allowed_types'] = 'jpg|jpeg|png|pdf';
@@ -5177,43 +5221,24 @@ class LeadCtrl extends CI_Controller {
                             $file_ext = strtolower($upload_data['file_ext']);
                             $regn_certificate = $upload_data['file_name'];
 
-                            // ✅ Step 1: Compress image if large
-                            if (in_array($file_ext, ['.jpg', '.jpeg', '.png'])) {
-                                $max_file_size_kb = 500; // compress if > 500 KB
-                                $current_size_kb = $upload_data['file_size'];
-
-                                if ($current_size_kb > $max_file_size_kb) {
-                                    compress_image($file_path, $file_path, 70); // resize + reduce quality
-                                }
+                            if (in_array($file_ext, ['.jpg', '.jpeg', '.png']) && $upload_data['file_size'] > 500) {
+                                compress_image($file_path, $file_path, 70);
                             }
 
-                            // ✅ Step 2: Compress PDF if large
-                            if ($file_ext === '.pdf') {
-                                $max_file_size_kb = 1024; // compress if > 1 MB
-                                $current_size_kb = $upload_data['file_size'];
-
-                                if ($current_size_kb > $max_file_size_kb) {
-                                    $compressed_pdf = $config['upload_path'] . 'compressed_' . $upload_data['file_name'];
-                                    compress_pdf($file_path, $compressed_pdf);
-                                    rename($compressed_pdf, $file_path);
-                                }
+                            if ($file_ext === '.pdf' && $upload_data['file_size'] > 1024) {
+                                $compressed_pdf = $config['upload_path'] . 'compressed_' . $upload_data['file_name'];
+                                compress_pdf($file_path, $compressed_pdf);
+                                rename($compressed_pdf, $file_path);
                             }
 
-                            // ✅ Step 3: Delete old RC file if exists
                             $old_file = $this->lm->get_old_regn_certificate($id);
                             if (!empty($old_file->regn_certificate)) {
                                 $old_path = './datas/Registration_Certificate/' . $old_file->regn_certificate;
-                                if (file_exists($old_path) && is_file($old_path)) {
-                                    unlink($old_path);
-                                }
+                                if (file_exists($old_path)) unlink($old_path);
                             }
 
-                            // ✅ Step 4: Store new file info
-                            $final_size_kb = round(filesize($file_path) / 1024, 2);
                             $data['regn_certificate'] = $regn_certificate;
-                            $data['regn_file_size_kb'] = $final_size_kb;
-
-                            log_message('info', "Compressed & Updated RC File: {$regn_certificate} ({$final_size_kb} KB)");
+                            $data['regn_file_size_kb'] = round(filesize($file_path) / 1024, 2);
                         }
                     }
 
@@ -5231,27 +5256,73 @@ class LeadCtrl extends CI_Controller {
                             if ($this->upload->do_upload($field_name)) {
                                 $upload_data = $this->upload->data();
                                 $file_path = $upload_data['full_path'];
-                                $file_ext = strtolower($upload_data['file_ext']);
-
-                                // ✅ Compress large images
-                                $max_file_size_kb = 500; // compress if > 500 KB
-                                $current_size_kb = $upload_data['file_size'];
-                                if ($current_size_kb > $max_file_size_kb) {
+                                if ($upload_data['file_size'] > 500) {
                                     compress_image($file_path, $file_path, 70);
                                 }
 
-                                // ✅ Delete old file if exists
                                 $old_file = $this->lm->get_old_vehicle_photo($id, $field_name);
                                 if (!empty($old_file->$field_name)) {
                                     $old_path = './datas/Vehicle_Photos/' . $old_file->$field_name;
-                                    if (file_exists($old_path) && is_file($old_path)) {
-                                        unlink($old_path);
-                                    }
+                                    if (file_exists($old_path)) unlink($old_path);
                                 }
 
-                                // ✅ Store new photo name
                                 $data[$field_name] = $upload_data['file_name'];
                             }
+                        }
+                    }
+
+                    // ✅ Handle Vehicle Video Upload (Add or Edit)
+                    $vehicle_video = "";
+                    $video_field = isset($_FILES['edit_vehicle_video']) && $_FILES['edit_vehicle_video']['name'] != ''
+                        ? 'edit_vehicle_video'
+                        : (isset($_FILES['vehicle_video']) && $_FILES['vehicle_video']['name'] != '' ? 'vehicle_video' : '');
+
+                    if ($video_field != '') {
+                        $video_path = './datas/Vehicle_Videos/';
+                        if (!file_exists($video_path)) mkdir($video_path, 0777, true);
+
+                        $config = [
+                            'upload_path'   => $video_path,
+                            'allowed_types' => 'mp4|avi|mov|m4v',
+                            'max_size'      => 204800,
+                            'file_name'     => time() . '_' . preg_replace('/\s+/', '_', $_FILES[$video_field]['name'])
+                        ];
+
+                        $this->load->library('upload');
+                        $this->upload->initialize($config);
+
+                        if ($this->upload->do_upload($video_field)) {
+                            $upload_data = $this->upload->data();
+                            $vehicle_video = $upload_data['file_name'];
+                            $file_path = $upload_data['full_path'];
+                            $file_size = $upload_data['file_size'];
+
+                            // ✅ Compress if > 50MB
+                            if ($file_size > 51200) {
+                                $compressed_path = $video_path . 'compressed_' . $vehicle_video;
+                                $command = "ffmpeg -i \"$file_path\" -vcodec libx264 -crf 28 -preset medium \"$compressed_path\" 2>&1";
+                                exec($command, $output, $returnCode);
+
+                                if ($returnCode === 0 && file_exists($compressed_path)) {
+                                    unlink($file_path);
+                                    rename($compressed_path, $file_path);
+                                    log_message('info', "✅ Vehicle video compressed successfully");
+                                } else {
+                                    log_message('error', "❌ Vehicle video compression failed: " . implode('\n', $output));
+                                }
+                            }
+
+                            // ✅ Delete old video if exists
+                            $old_video = $this->lm->get_old_vehicle_video($id);
+                            if (!empty($old_video->vehicle_video)) {
+                                $old_path = './datas/Vehicle_Videos/' . $old_video->vehicle_video;
+                                if (file_exists($old_path)) unlink($old_path);
+                            }
+
+                            $data['vehicle_video'] = $vehicle_video;
+                            log_message('info', "✅ Vehicle video uploaded: {$vehicle_video}");
+                        } else {
+                            log_message('error', "❌ Vehicle video upload failed: " . $this->upload->display_errors());
                         }
                     }
 
@@ -5260,18 +5331,16 @@ class LeadCtrl extends CI_Controller {
                     $res = $this->lm->update_vechicle_details($data, $id);
 
                     if ($res) {
-                        // Audit Log
                         $this->audit->log('vechile_details', 'UPDATE', null, $old_data, $data);
 
-                        // Add activity log
                         $arr = $this->lm->fetch_vechicle_lead_id($id);
-                        $activity_log = array(
+                        $activity_log = [
                             "lead_id" => $arr->lead_id,
                             "action" => "<b>Vehicle Details Updated</b>",
                             "action_type" => "vechicle_update",
                             "created_by" => $this->session->userdata('session_name'),
                             "time" => date("Y-m-d H:i:s")
-                        );
+                        ];
                         $this->lm->add_activity_log($activity_log);
                         $this->audit->log('notification_log', 'INSERT', null, null, $activity_log);
 
@@ -5284,6 +5353,7 @@ class LeadCtrl extends CI_Controller {
                 }
             }
         }
+
 
         
         public function get_recent_activities()

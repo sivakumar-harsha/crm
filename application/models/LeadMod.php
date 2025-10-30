@@ -1427,6 +1427,16 @@ class LeadMod extends CI_Model
 						->row();
 	}
 
+	public function get_old_vehicle_video($id)
+	{
+		return $this->db->select('vehicle_video')
+						->from('vechile_details')
+						->where('id', $id)
+						->get()
+						->row();
+	}
+
+
 	public function add_activity_log($data)
 	{
 	    if($this->db->insert("notification_log",$data)){
