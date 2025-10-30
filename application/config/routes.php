@@ -484,6 +484,8 @@ $route["get_vechicle_uploaded_file_by_id"] = "LeadCtrl/get_vechicle_uploaded_fil
 $route["edit_vehicle_documents"] = "LeadCtrl/edit_vehicle_documents";
 $route["delete_vechicle_documents"] = "LeadCtrl/delete_vechicle_documents";
 $route["update_vechicle_details"] = "LeadCtrl/update_vechicle_details";
+$route["fetch_vehicle_photos"] = "LeadCtrl/fetch_vehicle_photos";
+$route["update_vehicle_photos"] = "LeadCtrl/update_vehicle_photos";
 
 // Notification //
 $route["get_recent_activities"] = "LeadCtrl/get_recent_activities";

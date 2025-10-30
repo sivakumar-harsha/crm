@@ -705,6 +705,15 @@ class LeadMod extends CI_Model
   	    
   	    return false;
   	}
+
+	public function get_old_regn_certificate($id)
+	{
+		return $this->db->select('regn_certificate')
+						->where('id', $id)
+						->get('vechile_details')
+						->row();
+	}
+
   	
   	
   public function check_this_lead_id_already_exits($id)
@@ -1408,6 +1417,16 @@ class LeadMod extends CI_Model
 	     return false;
 	}
 	
+
+	public function get_old_vehicle_photo($id, $column)
+	{
+		return $this->db->select($column)
+						->from('vechile_details')
+						->where('id', $id)
+						->get()
+						->row();
+	}
+
 	public function add_activity_log($data)
 	{
 	    if($this->db->insert("notification_log",$data)){

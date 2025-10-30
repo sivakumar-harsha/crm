@@ -1,9 +1,11 @@
 <?php
 defined('BASEPATH') OR exit('No direct script access allowed');
 
+/** @property CI_Email $email */
+
 class LeadCtrl extends CI_Controller {
 
-public $pm;
+    public $pm;
     public $rm;
     public $cm;
     public $mm;
@@ -35,6 +37,7 @@ public $pm;
 		$this->load->library('audit');
 		$this->load->helper('url');
 		$this->load->helper('cookie');
+        $this->load->helper('compression');
 	}
 	
 	public function create_lead()
@@ -343,61 +346,37 @@ public $pm;
 
                         // ✅ COMPRESS IMAGES (.jpg, .jpeg, .png) TO UNDER 500 KB
                         if (in_array($file_ext, ['.jpg', '.jpeg', '.png'])) {
-                            $max_kb = 500; // target size (in KB)
-                            $quality = 85; // start quality
-                            $temp_file = $upload_dir . 'compressed_' . $file_name;
+                            $max_file_size_kb = 500;
+                            $current_kb = $uploadData['file_size'];
 
-                            do {
-                                // reinitialize GD2 config
-                                $img_config = [
-                                    'image_library'  => 'gd2',
-                                    'source_image'   => $file_path,
-                                    'new_image'      => $temp_file,
-                                    'maintain_ratio' => TRUE,
-                                    'quality'        => $quality,
-                                    'width'          => 1200,
-                                    'height'         => 1200
-                                ];
-
-                                $this->image_lib->initialize($img_config);
-
-                                if ($this->image_lib->resize()) {
-                                    clearstatcache();
-                                    $size_kb = round(filesize($temp_file) / 1024, 2);
-                                    if ($size_kb <= $max_kb || $quality <= 35) {
-                                        rename($temp_file, $file_path);
-                                        break;
-                                    } else {
-                                        $quality -= 10; // lower quality more
-                                    }
-                                } else {
-                                    log_message('error', 'Image resize failed: ' . $this->image_lib->display_errors());
-                                    break;
-                                }
-
-                                $this->image_lib->clear();
-                            } while (true);
+                            if ($current_kb > $max_file_size_kb) {
+                                // Call helper
+                                compress_image($file_path, $file_path, 70);
+                            }
                         }
 
-                        // ✅ COMPRESS PDF FILES (if Ghostscript available)
+                        // ✅ COMPRESS PDF FILES (Ghostscript)
                         else if ($file_ext === '.pdf') {
-                            $compressed_path = $upload_dir . 'compressed_' . $file_name;
-                            if (shell_exec("which gs") || shell_exec("where gs")) {
-                                $cmd = "gs -sDEVICE=pdfwrite -dCompatibilityLevel=1.4 -dPDFSETTINGS=/ebook " .
-                                    "-dNOPAUSE -dQUIET -dBATCH -sOutputFile=\"$compressed_path\" \"$file_path\"";
-                                exec(escapeshellcmd($cmd), $output, $return_var);
-                                if (file_exists($compressed_path)) {
-                                    unlink($file_path);
-                                    rename($compressed_path, $file_path);
+                            $max_file_size_kb = 1024;
+                            $current_kb = $uploadData['file_size'];
+
+                            if ($current_kb > $max_file_size_kb) {
+                                $compressed_pdf = $upload_dir . 'compressed_' . $file_name;
+                                if (compress_pdf($file_path, $compressed_pdf)) {
+                                    if (file_exists($compressed_pdf)) {
+                                        unlink($file_path);
+                                        rename($compressed_pdf, $file_path);
+                                    }
+                                } else {
+                                    log_message('error', 'PDF compression skipped or failed for ' . $file_path);
                                 }
                             }
                         }
 
-                        // ✅ Store only relative path
+                        // ✅ Store only file name
                         $uploaded_docs[$field] = $file_name;
 
                     } else {
-                        // ⚠️ Log and handle upload errors properly
                         log_message('error', "Upload failed for {$field}: " . $this->upload->display_errors());
                         $uploaded_docs[$field] = '';
                     }
@@ -406,22 +385,26 @@ public $pm;
                 }
             }
 
-            // === DYNAMIC CUSTOM FIELDS (JSON) ===
-            $custom_labels = $this->input->post("custom_label");
-            $custom_values = $this->input->post("custom_value");
+            // === DYNAMIC CUSTOM FIELDS (Proper JSON structure) ===
+            $custom_labels = $this->input->post('custom_label');
+            $custom_values = $this->input->post('custom_value');
 
             $custom_fields = [];
+
             if (is_array($custom_labels) && is_array($custom_values)) {
                 for ($i = 0; $i < count($custom_labels); $i++) {
                     $label = trim($custom_labels[$i]);
-                    $value = trim($custom_values[$i]);
-                    if ($label !== "") {
+                    $value = isset($custom_values[$i]) ? trim($custom_values[$i]) : '';
+
+                    // Only save if label is not empty
+                    if ($label !== '') {
                         $custom_fields[$label] = $value;
                     }
                 }
             }
 
-            $custom_fields_json = !empty($custom_fields) ? json_encode($custom_fields) : null;
+            // Convert to clean JSON
+            $custom_fields_json = (!empty($custom_fields)) ? json_encode($custom_fields, JSON_UNESCAPED_UNICODE) : null;
 
             // ✅ Auto-generate Customer ID based on name
             $customer_id = $this->lm->generate_customer_id($client_name);
@@ -771,105 +754,206 @@ public $pm;
 	    
 	    
 	    public function add_vechile_details()
-	    {
-	        if($this->session->has_userdata('logged_in'))
-    	    {
-    	          $id = $this->input->post("id");
-            	  $vechile_type = $this->input->post("vechile_type");
-            	  $policy_type = $this->input->post("policy_type");
-                  $vechi_make =$this->input->post("vechi_make");
-                  $vechi_model =$this->input->post("vechi_model");
-                  $vechi_varient =$this->input->post("vechi_varient");
-                  $vechi_cc =$this->input->post("vechi_cc");
-                  $vechi_manu_month =$this->input->post("vechi_manu_month");
-                  $vechi_manu_year =$this->input->post("vechi_manu_year");
-                  $vechi_seating =$this->input->post("vechi_seating");
-                  $vechi_classfication =$this->input->post("vechi_classfication");
-                  $vechi_fuel_type =$this->input->post("vechi_fuel_type");
-                  $vechi_gvw =$this->input->post("vechi_gvw");
-                  $passenger_carrying =$this->input->post("passenger_carrying");
-                  $vechi_engine_num =$this->input->post("vechi_engine_num");
-                  $vechi_chassis_num =$this->input->post("vechi_chassis_num");
-                  $vechi_hypothecation =$this->input->post("vechi_hypothecation");
-                  $created_user =$this->input->post("created_user");
-                  $vechi_remarks =$this->input->post("vechi_remarks");
-                  $regn_date =$this->input->post("regn_date");
-                  $register_no =$this->input->post("register_no"); 
-                  $rto =$this->input->post("rto");
-                  $zone =$this->input->post("zone");
-                  $regn_address =$this->input->post("regn_address");
-                  $state =$this->input->post("state");
-                  $city =$this->input->post("city");
-                  $pincode =$this->input->post("pincode");
-                  $vechi_user_name =$this->input->post("vechi_user_name");
-                  $vechi_user_cont =$this->input->post("vechi_user_cont");
-                  $date = date("Y-m-d");
+        {
+            if (!$this->session->has_userdata('logged_in')) {
+                return;
+            }
+
+            $id = $this->input->post("id");
+            $vechile_type = $this->input->post("vechile_type");
+            $policy_type = $this->input->post("policy_type");
+            $vechi_make = $this->input->post("vechi_make");
+            $vechi_model = $this->input->post("vechi_model");
+            $vechi_varient = $this->input->post("vechi_varient");
+            $vechi_cc = $this->input->post("vechi_cc");
+            $vechi_manu_month = $this->input->post("vechi_manu_month");
+            $vechi_manu_year = $this->input->post("vechi_manu_year");
+            $vechi_seating = $this->input->post("vechi_seating");
+            $vechi_classfication = $this->input->post("vechi_classfication");
+            $vechi_fuel_type = $this->input->post("vechi_fuel_type");
+            $vechi_gvw = $this->input->post("vechi_gvw");
+            $passenger_carrying = $this->input->post("passenger_carrying");
+            $vechi_engine_num = $this->input->post("vechi_engine_num");
+            $vechi_chassis_num = $this->input->post("vechi_chassis_num");
+            $vechi_hypothecation = $this->input->post("vechi_hypothecation");
+            $created_user = $this->input->post("created_user");
+            $vechi_remarks = $this->input->post("vechi_remarks");
+            $regn_date = $this->input->post("regn_date");
+            $register_no = $this->input->post("register_no"); 
+            $rto = $this->input->post("rto");
+            $zone = $this->input->post("zone");
+            $regn_address = $this->input->post("regn_address");
+            $state = $this->input->post("state");
+            $city = $this->input->post("city");
+            $pincode = $this->input->post("pincode");
+            $vechi_user_name = $this->input->post("vechi_user_name");
+            $vechi_user_cont = $this->input->post("vechi_user_cont");
+            $date = date("Y-m-d");
+
+            // === Handle RC file upload ===
+            $regn_certificate = "";
+            if (isset($_FILES['regn_certificate']) && $_FILES['regn_certificate']['name'] != '') {
+                $config['upload_path'] = './datas/Registration_Certificate/';
+                $config['allowed_types'] = 'jpg|jpeg|png|pdf';
+                $config['file_name'] = time() . '_' . preg_replace('/\s+/', '_', $_FILES['regn_certificate']['name']);
+                $this->load->library('upload', $config);
+                $this->upload->initialize($config);
                 
-                  $res_1 = $this->lm->check_regn_no_exits_by_lead_id($register_no,$id);
-	        
-        	        if($res_1 < 1)
-        	        {  
-                          $data = array(
-                                "lead_id" =>$id,
-                                "vechile_type" =>$vechile_type,
-                                "policy_type" =>$policy_type,
-                                "vechi_make" =>$vechi_make,
-                                "vechi_model" =>$vechi_model,
-                                "vechi_varient" =>$vechi_varient,
-                                "vechi_cc" =>$vechi_cc,
-                                "vechi_manu_month" =>$vechi_manu_month,
-                                "vechi_manu_year" =>$vechi_manu_year,
-                                "vechi_seating" =>$vechi_seating,
-                                "vechi_classfication" =>$vechi_classfication,
-                                "vechi_fuel_type" =>$vechi_fuel_type,
-                                "vechi_gvw" =>$vechi_gvw,
-                                "passenger_carrying" =>$passenger_carrying,
-                                "vechi_engine_num" =>$vechi_engine_num,
-                                "vechi_chassis_num" =>$vechi_chassis_num,
-                                "vechi_hypothecation" =>$vechi_hypothecation,
-                                "created_by" =>$created_user,
-                                "vechi_remarks" =>$vechi_remarks,
-                                "regn_date" =>$regn_date,
-                                "vechi_register_no" =>$register_no,
-                                "rto" =>$rto,
-                                "zone" =>$zone,
-                                "regn_address" =>$regn_address,
-                                "state" =>$state,
-                                "city" =>$city,
-                                "pincode" =>$pincode,
-                                "vechi_user_name" =>$vechi_user_name,
-                                "vechi_user_cont" =>$vechi_user_cont,
-                                "created_at" =>$date,
-                              );
-                          $check_lead_id = $this->lm->check_this_lead_id_already_exits($id);
-                          if($check_lead_id > 0)
-                          {
-                              $old_data = $this->lm->fetch_edit_vechicle_details($id);
-                              $res = $this->lm->update_vechicle_details_1($data,$id);
-                              if($res){
-            	                 $this->audit->log('vechile_details', 'UPDATE', null, $old_data, $data);
-            	              }
-                          }
-                          else
-                          {
-                              $res = $this->lm->add_vechicle_details($data);
-                              if( $res ) {
-                                    $this->audit->log('vechile_details', 'INSERT', null, null, $data);
-                                }
-                          }
-                         $activity_log = array("lead_id"=>$id,"action"=>"<i><b>New Vechicle</b></i> Details Added","action_type"=>"add_vechicle","created_by"=>$this->session->userdata('session_name'),"time"=>date("Y-m-d H:i:s"));
-                         $add_activity = $this->lm->add_activity_log($activity_log);
-                         if( $add_activity ) {
-                            $this->audit->log('notification_log', 'INSERT', null, null, $activity_log);
-                         }
-                         echo "success";
-        	        }
-        	        else 
-        	        {
-        	            echo "Exits";
-        	        }
-    	    }
-	    }
+                if ($this->upload->do_upload('regn_certificate')) {
+                    $upload_data = $this->upload->data();
+                    $regn_certificate = $upload_data['file_name'];
+                    $file_path = $upload_data['full_path'];
+
+                    // === Compress large images ===
+                    if (in_array(strtolower($upload_data['file_ext']), ['.jpg', '.jpeg', '.png']) && $upload_data['file_size'] > 500) {
+                        compress_image($file_path, $file_path, 70);
+                    }
+
+                    // === Compress large PDFs ===
+                    if (strtolower($upload_data['file_ext']) === '.pdf' && $upload_data['file_size'] > 1024) {
+                        $compressed_pdf = rtrim($config['upload_path'], '/') . '/compressed_' . $upload_data['file_name'];
+                        if (compress_pdf($file_path, $compressed_pdf) && file_exists($compressed_pdf)) {
+                            unlink($file_path);
+                            rename($compressed_pdf, $file_path);
+                        }
+                    }
+
+                    log_message('info', "✅ RC uploaded: {$regn_certificate}");
+                }
+            }
+
+            // === Handle 30 Vehicle Photo Uploads ===
+            $photo_fields = [
+                "front_view", "back_view", "left_side_view", "right_side_view", "dashboard",
+                "interior_front_seats", "interior_back_seats", "engine_compartment", "boot_space",
+                "tyre_front_left", "tyre_front_right", "tyre_rear_left", "tyre_rear_right",
+                "number_plate_front", "number_plate_back", "roof", "windshield_front",
+                "windshield_rear", "chassis_number_area", "odometer_reading", "battery_area",
+                "tool_kit_area", "spare_wheel", "music_system", "ac_control_panel",
+                "steering_area", "gear_console", "mirror_inside", "mirror_outside", "documents_photo"
+            ];
+
+            $upload_path = './datas/Vehicle_Photos/';
+            if (!file_exists($upload_path)) mkdir($upload_path, 0777, true);
+            $this->load->library('upload');
+
+            $uploaded_images = [];
+            $index = 1;
+            foreach ($photo_fields as $field) {
+                if (isset($_FILES[$field]) && $_FILES[$field]['name'] != '') {
+                    $file_name = time() . '_' . preg_replace('/\s+/', '_', $_FILES[$field]['name']);
+                    $config = [
+                        'upload_path'   => $upload_path,
+                        'allowed_types' => 'jpg|jpeg|png',
+                        'file_name'     => $file_name,
+                        'max_size'      => 20480 // 20MB
+                    ];
+                    $this->upload->initialize($config);
+
+                    if ($this->upload->do_upload($field)) {
+                        $upload_data = $this->upload->data();
+                        $file_path = $upload_data['full_path'];
+                        $ext = strtolower($upload_data['file_ext']);
+                        $size_kb = $upload_data['file_size'];
+
+                        // Compress if >500KB
+                        if (in_array($ext, ['.jpg', '.jpeg', '.png']) && $size_kb > 500) {
+                            compress_image($file_path, $file_path, 70);
+                            clearstatcache(true, $file_path);
+                            $size_kb = round(filesize($file_path) / 1024, 2);
+                        }
+
+                        $uploaded_images["img_" . $index] = $upload_data['file_name'];
+                        log_message('info', "✅ Vehicle Photo img_{$index} uploaded: {$upload_data['file_name']} ({$size_kb} KB)");
+                    } else {
+                        log_message('error', "❌ Failed to upload {$field}: " . $this->upload->display_errors());
+                    }
+                }
+                $index++;
+            }
+
+            // === Check for duplicate registration number ===
+            $res_1 = $this->lm->check_regn_no_exits_by_lead_id($register_no, $id);
+
+            if ($res_1 >= 1) {
+                echo "Exits";
+                return;
+            }
+
+            // === Build main insert data ===
+            $data = [
+                "lead_id" => $id,
+                "vechile_type" => $vechile_type,
+                "policy_type" => $policy_type,
+                "vechi_make" => $vechi_make,
+                "vechi_model" => $vechi_model,
+                "vechi_varient" => $vechi_varient,
+                "vechi_cc" => $vechi_cc,
+                "vechi_manu_month" => $vechi_manu_month,
+                "vechi_manu_year" => $vechi_manu_year,
+                "vechi_seating" => $vechi_seating,
+                "vechi_classfication" => $vechi_classfication,
+                "vechi_fuel_type" => $vechi_fuel_type,
+                "vechi_gvw" => $vechi_gvw,
+                "passenger_carrying" => $passenger_carrying,
+                "vechi_engine_num" => $vechi_engine_num,
+                "vechi_chassis_num" => $vechi_chassis_num,
+                "vechi_hypothecation" => $vechi_hypothecation,
+                "created_by" => $created_user,
+                "vechi_remarks" => $vechi_remarks,
+                "regn_date" => $regn_date,
+                "vechi_register_no" => $register_no,
+                "rto" => $rto,
+                "zone" => $zone,
+                "regn_address" => $regn_address,
+                "state" => $state,
+                "city" => $city,
+                "pincode" => $pincode,
+                "vechi_user_name" => $vechi_user_name,
+                "vechi_user_cont" => $vechi_user_cont,
+                "created_at" => $date,
+                "regn_certificate" => $regn_certificate
+            ];
+
+            // === Merge uploaded image columns ===
+            foreach ($uploaded_images as $column => $filename) {
+                $data[$column] = $filename;
+            }
+
+            // === Handle Additional Fields ===
+            $additionalFieldsJson = $this->input->post('additional_fields');
+            if (!empty($additionalFieldsJson) && json_decode($additionalFieldsJson, true)) {
+                $data["additional_fields"] = $additionalFieldsJson;
+            }
+
+            // === Insert or Update ===
+            $check_lead_id = $this->lm->check_this_lead_id_already_exits($id);
+            if ($check_lead_id > 0) {
+                $old_data = $this->lm->fetch_edit_vechicle_details($id);
+                $res = $this->lm->update_vechicle_details_1($data, $id);
+                if ($res) $this->audit->log('vechile_details', 'UPDATE', null, $old_data, $data);
+            } else {
+                $res = $this->lm->add_vechicle_details($data);
+                if ($res) $this->audit->log('vechile_details', 'INSERT', null, null, $data);
+            }
+
+            // === Activity Log ===
+            $activity_log = [
+                "lead_id" => $id,
+                "action" => "<i><b>New Vehicle</b></i> Details Added",
+                "action_type" => "add_vechicle",
+                "created_by" => $this->session->userdata('session_name'),
+                "time" => date("Y-m-d H:i:s")
+            ];
+            $add_activity = $this->lm->add_activity_log($activity_log);
+            if ($add_activity) {
+                $this->audit->log('notification_log', 'INSERT', null, null, $activity_log);
+            }
+
+            echo "success";
+        }
+
+
 	    public function get_exp_date()
 	    {
 	        $date = $this->input->post("date");
@@ -1458,35 +1542,44 @@ public $pm;
        }
   }
   
-  public function edit_follow_up_details()
-  {
-       if($this->session->has_userdata('logged_in'))
-	    {
-	        $id = $this->input->post("id");
-	        $lead_id = $this->input->post("lead_id");
-	        $follow_up_status = $this->input->post("follow_up_status");
-	        $follow_up_reason = $this->input->post("follow_up_reason");
-	        $next_follow_date = $this->input->post("enter_next_follow_date");
-	        $enter_next_follow_time = $this->input->post("enter_next_follow_time");
-	        $follow_comment =$this->input->post("follow_comment");
-	        $follow_up_updated_date = date("Y-m-d");
-	        
-	        $arr = array("next_follow_up_date"=>$next_follow_date);
-	        $lead_data = $this->lm->get_receiver_email_id($lead_id);
-    	     $update = $this->lm->update_follow_up_details($arr,$lead_id);
-    	     if($update){
-	            $this->audit->log('list_of_leads', 'UPDATE', null, $lead_data, $arr);
-	         }
-	        
-	      
-	        $data = array("follow_up_status"=>$follow_up_status,"next_follow_up_date"=>$next_follow_date,"next_follow_up_time" =>$enter_next_follow_time,"reason"=>$follow_up_reason,"comment" =>$follow_comment,"follow_up_created_date"=>$follow_up_created_date,'updated_by' => $this->session->userdata('session_id'));
-	        $old_data = $this->lm->fetch_edit_follow_up($id);
-	        $res = $this->lm->edit_follow_up_details($data,$id);
-	        if($res){
-	            $this->audit->log('list_of_leads', 'UPDATE', null, $old_data, $data);
-	         }
-	    }
-   }
+   public function edit_follow_up_details()
+    {
+        if ($this->session->has_userdata('logged_in')) {
+            $id = $this->input->post("id");
+            $lead_id = $this->input->post("lead_id");
+            $follow_up_status = $this->input->post("follow_up_status");
+            $follow_up_reason = $this->input->post("follow_up_reason");
+            $next_follow_date = $this->input->post("enter_next_follow_date");
+            $enter_next_follow_time = $this->input->post("enter_next_follow_time");
+            $follow_comment = $this->input->post("follow_comment");
+            $follow_up_updated_date = date("Y-m-d"); // current date
+
+            $arr = array("next_follow_up_date" => $next_follow_date);
+            $lead_data = $this->lm->get_receiver_email_id($lead_id);
+            $update = $this->lm->update_follow_up_details($arr, $lead_id);
+            if ($update) {
+                $this->audit->log('list_of_leads', 'UPDATE', null, $lead_data, $arr);
+            }
+
+            // ✅ Use updated_date or define created_date explicitly
+            $data = array(
+                "follow_up_status" => $follow_up_status,
+                "next_follow_up_date" => $next_follow_date,
+                "next_follow_up_time" => $enter_next_follow_time,
+                "reason" => $follow_up_reason,
+                "comment" => $follow_comment,
+                "follow_up_created_date" => $follow_up_updated_date, // ✅ fixed
+                "updated_by" => $this->session->userdata('session_id')
+            );
+
+            $old_data = $this->lm->fetch_edit_follow_up($id);
+            $res = $this->lm->edit_follow_up_details($data, $id);
+            if ($res) {
+                $this->audit->log('list_of_leads', 'UPDATE', null, $old_data, $data);
+            }
+        }
+    }
+
    
   // Generate policy //
   
@@ -1654,6 +1747,7 @@ public $pm;
                 $commission_id = $this->input->post("commission_id");
                 $policy_agency_pos = $this->input->post("policy_agency_pos");
                 $company = $this->input->post("company");
+                $no_claim_bonus = $this->input->post("no_claim_bonus");
                 $class_type = $this->lm->get_class_type($lead_id);
                 $agent_commission = 0;
                 $company_com = 0;
@@ -2532,9 +2626,22 @@ public $pm;
                         $data['applied_splcommission'] = ($this->input->post('applied_splcom') == "null") ? NULL : $this->input->post('applied_splcom');
                     }
                     // 2023-06-01 end
+
                     
                     if($class_type->class == "2")
                     {
+                        
+                            $disease_husband = $this->input->post("disease_husband");
+                            $disease_wife    = $this->input->post("disease_wife");
+                            $disease_daug_1  = $this->input->post("disease_daug_1");
+                            $disease_daug_2  = $this->input->post("disease_daug_2");
+                            $disease_daug_3  = $this->input->post("disease_daug_3");
+                            $disease_son_1   = $this->input->post("disease_son_1");
+                            $disease_son_2   = $this->input->post("disease_son_2");
+                            $disease_son_3   = $this->input->post("disease_son_3");
+                            $disease_father  = $this->input->post("disease_father");
+                            $disease_mother  = $this->input->post("disease_mother");
+
                             if(isset($_FILES))
                     		{
                     			$config['upload_path'] = './datas/Health_declaration/';
@@ -3800,6 +3907,8 @@ public $pm;
                                 "lead_type" =>"2",
                                  "lead_status"=>"completed",
                             );
+                            // ✅ Get existing data for audit log before update
+                            $lead_data = $this->lm->get_lead_details($id);
                             $data_1 = $this->lm->update_lead_type_status($arr,$id);
                             if($data_1){
             	                $this->audit->log('list_of_leads', 'UPDATE', null, $lead_data, $arr);
@@ -4815,7 +4924,7 @@ public $pm;
                         $add_activity = $this->lm->add_activity_log($activity_log);
     	             echo "success";
 	             }
-    	 }
+    }
     	 
     	 // Edit Vechicle Details // 
     	 
@@ -4943,6 +5052,8 @@ public $pm;
 			    {
 			        $get_docs = $this->lm->get_vechicle_uploaded_documents($data->lead_id);
 			        
+                    $html = "";
+
 			        foreach($get_docs as $da)
                     {
                     $html .="<tr>
@@ -4964,96 +5075,216 @@ public $pm;
         
         public function update_vechicle_details()
         {
-            if($this->session->has_userdata('logged_in'))
-    	    {
-                  $id = $this->input->post("id");
-            	  $vechile_type =$this->input->post("vechile_type");
-                  $vechi_make =$this->input->post("vechi_make");
-                  $vechi_model =$this->input->post("vechi_model");
-                  $vechi_varient =$this->input->post("vechi_varient");
-                  $vechi_cc =$this->input->post("vechi_cc");
-                  $vechi_manu_month =$this->input->post("vechi_manu_month");
-                  $vechi_manu_year =$this->input->post("vechi_manu_year");
-                  $vechi_seating =$this->input->post("vechi_seating");
-                  $vechi_classfication =$this->input->post("vechi_classfication");
-                  $vechi_fuel_type =$this->input->post("vechi_fuel_type");
-                  $vechi_gvw =$this->input->post("vechi_gvw");
-                  $passenger_carrying =$this->input->post("passenger_carrying");
-                  $vechi_engine_num =$this->input->post("vechi_engine_num");
-                  $vechi_chassis_num =$this->input->post("vechi_chassis_num");
-                  $vechi_hypothecation =$this->input->post("vechi_hypothecation");
-                  $vechi_agency_pos =$this->input->post("vechi_agency_pos");
-                  $vechi_remarks =$this->input->post("vechi_remarks");
-                  $regn_date =$this->input->post("regn_date");
-                  $register_no =$this->input->post("register_no"); 
-                  $rto =$this->input->post("rto");
-                  $zone =$this->input->post("zone");
-                  $regn_address =$this->input->post("regn_address");
-                  $state =$this->input->post("state");
-                  $city =$this->input->post("city");
-                  $pincode =$this->input->post("pincode");
-                  $vechi_user_name =$this->input->post("vechi_user_name");
-                  $vechi_user_cont =$this->input->post("vechi_user_cont");
-                  $date = date("Y-m-d");
-               
-                $res_1 = $this->lm->check_regn_no_exits($register_no,$id);
-	        
-        	        if($res_1 < 1)
-        	        {     
-                          $data = array(
-                                "vechile_type" =>$vechile_type,
-                                "vechi_make" =>$vechi_make,
-                                "vechi_model" =>$vechi_model,
-                                "vechi_varient" =>$vechi_varient,
-                                "vechi_cc" =>$vechi_cc,
-                                "vechi_manu_month" =>$vechi_manu_month,
-                                "vechi_manu_year" =>$vechi_manu_year,
-                                "vechi_seating" =>$vechi_seating,
-                                "vechi_classfication" =>$vechi_classfication,
-                                "vechi_fuel_type" =>$vechi_fuel_type,
-                                "vechi_gvw" =>$vechi_gvw,
-                                "passenger_carrying" =>$passenger_carrying,
-                                "vechi_engine_num" =>$vechi_engine_num,
-                                "vechi_chassis_num" =>$vechi_chassis_num,
-                                "vechi_hypothecation" =>$vechi_hypothecation,
-                                "created_by" =>$vechi_agency_pos,
-                                "vechi_remarks" =>$vechi_remarks,
-                                "regn_date" =>$regn_date,
-                                "vechi_register_no" =>$register_no,
-                                "rto" =>$rto,
-                                "zone" =>$zone,
-                                "regn_address" =>$regn_address,
-                                "state" =>$state,
-                                "city" =>$city,
-                                "pincode" =>$pincode,
-                                "vechi_user_name" =>$vechi_user_name,
-                                "vechi_user_cont" =>$vechi_user_cont,
-                                "updated_at" =>$date,
-                              );
-                          
-                          
-                          $old_data = $this->lm->fetch_edit_vechicle_details($id);
-                          $res = $this->lm->update_vechicle_details($data,$id);
-                          if($res){
-        	                 $this->audit->log('vechile_details', 'UPDATE', null, $old_data, $data);
-        	              }
-                          
-                          $arr = $this->lm->fetch_vechicle_lead_id($id);
-                          $activity_log = array("lead_id"=>$arr->lead_id,"action"=>"Vechicle Details Updated","action_type"=>"vechicle_update","created_by"=>$this->session->userdata('session_name'),"time"=>date("Y-m-d H:i:s"));
-                          $add_activity = $this->lm->add_activity_log($activity_log);
-                          if( $add_activity ){
-        	                 $this->audit->log('notification_log', 'INSERT', null, null, $data);
-        	              }
-                          echo "success";
-        	        }
-        	        else
-        	        {
-        	             echo "Exits";
-        	        }
-                  
-                  
-    	    }
+            if ($this->session->has_userdata('logged_in')) 
+            {
+                $id = $this->input->post("id");
+                $vechile_type = $this->input->post("vechile_type");
+                $vechi_make = $this->input->post("vechi_make");
+                $vechi_model = $this->input->post("vechi_model");
+                $vechi_varient = $this->input->post("vechi_varient");
+                $vechi_cc = $this->input->post("vechi_cc");
+                $vechi_manu_month = $this->input->post("vechi_manu_month");
+                $vechi_manu_year = $this->input->post("vechi_manu_year");
+                $vechi_seating = $this->input->post("vechi_seating");
+                $vechi_classfication = $this->input->post("vechi_classfication");
+                $vechi_fuel_type = $this->input->post("vechi_fuel_type");
+                $vechi_gvw = $this->input->post("vechi_gvw");
+                $passenger_carrying = $this->input->post("passenger_carrying");
+                $vechi_engine_num = $this->input->post("vechi_engine_num");
+                $vechi_chassis_num = $this->input->post("vechi_chassis_num");
+                $vechi_hypothecation = $this->input->post("vechi_hypothecation");
+                $vechi_agency_pos = $this->input->post("vechi_agency_pos");
+                $vechi_remarks = $this->input->post("vechi_remarks");
+                $regn_date = $this->input->post("regn_date");
+                $register_no = $this->input->post("register_no");
+                $rto = $this->input->post("rto");
+                $zone = $this->input->post("zone");
+                $regn_address = $this->input->post("regn_address");
+                $state = $this->input->post("state");
+                $city = $this->input->post("city");
+                $pincode = $this->input->post("pincode");
+                $vechi_user_name = $this->input->post("vechi_user_name");
+                $vechi_user_cont = $this->input->post("vechi_user_cont");
+                $date = date("Y-m-d H:i:s");
+
+                // ✅ Handle Additional Fields
+                $additionalFieldsJson = $this->input->post('additional_fields');
+                if (!empty($additionalFieldsJson)) {
+                    // Validate JSON
+                    $decoded = json_decode($additionalFieldsJson, true);
+                    if (json_last_error() === JSON_ERROR_NONE && !empty($decoded)) {
+                        $additionalFields = $additionalFieldsJson;
+                    } else {
+                        $additionalFields = null;
+                    }
+                } else {
+                    $additionalFields = null;
+                }
+
+                // ✅ Check for duplicate register number
+                $res_1 = $this->lm->check_regn_no_exits($register_no, $id);
+
+                if ($res_1 < 1) 
+                {
+                    $data = array(
+                        "vechile_type" => $vechile_type,
+                        "vechi_make" => $vechi_make,
+                        "vechi_model" => $vechi_model,
+                        "vechi_varient" => $vechi_varient,
+                        "vechi_cc" => $vechi_cc,
+                        "vechi_manu_month" => $vechi_manu_month,
+                        "vechi_manu_year" => $vechi_manu_year,
+                        "vechi_seating" => $vechi_seating,
+                        "vechi_classfication" => $vechi_classfication,
+                        "vechi_fuel_type" => $vechi_fuel_type,
+                        "vechi_gvw" => $vechi_gvw,
+                        "passenger_carrying" => $passenger_carrying,
+                        "vechi_engine_num" => $vechi_engine_num,
+                        "vechi_chassis_num" => $vechi_chassis_num,
+                        "vechi_hypothecation" => $vechi_hypothecation,
+                        "created_by" => $vechi_agency_pos,
+                        "vechi_remarks" => $vechi_remarks,
+                        "regn_date" => $regn_date,
+                        "vechi_register_no" => $register_no,
+                        "rto" => $rto,
+                        "zone" => $zone,
+                        "regn_address" => $regn_address,
+                        "state" => $state,
+                        "city" => $city,
+                        "pincode" => $pincode,
+                        "vechi_user_name" => $vechi_user_name,
+                        "vechi_user_cont" => $vechi_user_cont,
+                        "updated_at" => $date
+                    );
+
+                    // ✅ Append Additional Fields if present
+                    if (!empty($additionalFields)) {
+                        $data['additional_fields'] = $additionalFields;
+                    }
+
+                    // ✅ Handle Registration Certificate upload
+                    if (isset($_FILES['regn_certificate']) && $_FILES['regn_certificate']['name'] != '') {
+                        $config['upload_path'] = './datas/Registration_Certificate/';
+                        $config['allowed_types'] = 'jpg|jpeg|png|pdf';
+                        $config['file_name'] = time() . '_' . $_FILES['regn_certificate']['name'];
+
+                        $this->load->library('upload', $config);
+                        $this->upload->initialize($config);
+
+                        if ($this->upload->do_upload('regn_certificate')) {
+                            $upload_data = $this->upload->data();
+                            $file_path = $upload_data['full_path'];
+                            $file_ext = strtolower($upload_data['file_ext']);
+                            $regn_certificate = $upload_data['file_name'];
+
+                            // ✅ Step 1: Compress image if large
+                            if (in_array($file_ext, ['.jpg', '.jpeg', '.png'])) {
+                                $max_file_size_kb = 500; // compress if > 500 KB
+                                $current_size_kb = $upload_data['file_size'];
+
+                                if ($current_size_kb > $max_file_size_kb) {
+                                    compress_image($file_path, $file_path, 70); // resize + reduce quality
+                                }
+                            }
+
+                            // ✅ Step 2: Compress PDF if large
+                            if ($file_ext === '.pdf') {
+                                $max_file_size_kb = 1024; // compress if > 1 MB
+                                $current_size_kb = $upload_data['file_size'];
+
+                                if ($current_size_kb > $max_file_size_kb) {
+                                    $compressed_pdf = $config['upload_path'] . 'compressed_' . $upload_data['file_name'];
+                                    compress_pdf($file_path, $compressed_pdf);
+                                    rename($compressed_pdf, $file_path);
+                                }
+                            }
+
+                            // ✅ Step 3: Delete old RC file if exists
+                            $old_file = $this->lm->get_old_regn_certificate($id);
+                            if (!empty($old_file->regn_certificate)) {
+                                $old_path = './datas/Registration_Certificate/' . $old_file->regn_certificate;
+                                if (file_exists($old_path) && is_file($old_path)) {
+                                    unlink($old_path);
+                                }
+                            }
+
+                            // ✅ Step 4: Store new file info
+                            $final_size_kb = round(filesize($file_path) / 1024, 2);
+                            $data['regn_certificate'] = $regn_certificate;
+                            $data['regn_file_size_kb'] = $final_size_kb;
+
+                            log_message('info', "Compressed & Updated RC File: {$regn_certificate} ({$final_size_kb} KB)");
+                        }
+                    }
+
+                    // ✅ Handle Vehicle Photo Uploads (img_1 → img_30)
+                    for ($i = 1; $i <= 30; $i++) {
+                        $field_name = 'img_' . $i;
+                        if (isset($_FILES[$field_name]) && $_FILES[$field_name]['name'] != '') {
+                            $config['upload_path'] = './datas/Vehicle_Photos/';
+                            $config['allowed_types'] = 'jpg|jpeg|png';
+                            $config['file_name'] = time() . '_' . $_FILES[$field_name]['name'];
+
+                            $this->load->library('upload', $config);
+                            $this->upload->initialize($config);
+
+                            if ($this->upload->do_upload($field_name)) {
+                                $upload_data = $this->upload->data();
+                                $file_path = $upload_data['full_path'];
+                                $file_ext = strtolower($upload_data['file_ext']);
+
+                                // ✅ Compress large images
+                                $max_file_size_kb = 500; // compress if > 500 KB
+                                $current_size_kb = $upload_data['file_size'];
+                                if ($current_size_kb > $max_file_size_kb) {
+                                    compress_image($file_path, $file_path, 70);
+                                }
+
+                                // ✅ Delete old file if exists
+                                $old_file = $this->lm->get_old_vehicle_photo($id, $field_name);
+                                if (!empty($old_file->$field_name)) {
+                                    $old_path = './datas/Vehicle_Photos/' . $old_file->$field_name;
+                                    if (file_exists($old_path) && is_file($old_path)) {
+                                        unlink($old_path);
+                                    }
+                                }
+
+                                // ✅ Store new photo name
+                                $data[$field_name] = $upload_data['file_name'];
+                            }
+                        }
+                    }
+
+                    // ✅ Update Vehicle Details
+                    $old_data = $this->lm->fetch_edit_vechicle_details($id);
+                    $res = $this->lm->update_vechicle_details($data, $id);
+
+                    if ($res) {
+                        // Audit Log
+                        $this->audit->log('vechile_details', 'UPDATE', null, $old_data, $data);
+
+                        // Add activity log
+                        $arr = $this->lm->fetch_vechicle_lead_id($id);
+                        $activity_log = array(
+                            "lead_id" => $arr->lead_id,
+                            "action" => "<b>Vehicle Details Updated</b>",
+                            "action_type" => "vechicle_update",
+                            "created_by" => $this->session->userdata('session_name'),
+                            "time" => date("Y-m-d H:i:s")
+                        );
+                        $this->lm->add_activity_log($activity_log);
+                        $this->audit->log('notification_log', 'INSERT', null, null, $activity_log);
+
+                        echo "success";
+                    }
+                } 
+                else 
+                {
+                    echo "Exits";
+                }
+            }
         }
+
         
         public function get_recent_activities()
         {
@@ -8155,7 +8386,7 @@ public $pm;
                         {
                             $old_data = $this->lm->get_total_premium($lead_id);
                             $temp_data = $this->lm->update_temp_data_by_lead_id($data,$lead_id);
-                            if($res){
+                            if($temp_data){
             	                $this->audit->log('temp_policy_info', 'UPDATE', null, $old_data, $data);
             	            }
                         }
@@ -8448,13 +8679,13 @@ public $pm;
     }
     
    public function update_quote_status()
-   {
+    {
        if($this->session->has_userdata('logged_in'))
        {
             $id = $this->input->post("lead_id");
             $data = array("quote_status" =>"1");
            
-            $old_data = $this->lm->get_receiver_email_id($da->id);
+            $old_data = $this->lm->get_receiver_email_id($id);
                
             $res = $this->lm->update_quote_status($id,$data);
             if($res){
@@ -11760,8 +11991,8 @@ public $pm;
                         var_dump("ctype = " . $commission->commission_type);
                         
                         if($commission->commission_type == "1") {
-                            $temp_min = $da->no_policy_min;
-                            $temp_max = $da->no_policy_max;
+                            $temp_min = $commission->no_policy_min;
+                            $temp_max = $commission->no_policy_max;
                             
                             if($temp_min <= 1 && $temp_max >= 1) {
                                  $status = "1";
@@ -11781,17 +12012,27 @@ public $pm;
                     }
                 }
                 var_dump($commission_id);
-                if($da->state != "All")
+                if(!empty($commission_id))
                 {
                     $res = $this->cm->check_health_state($commission_id);
                     $commission_id = [];
-                    
-                    foreach($res as $da)
-                    {
-                        $commission_id[] = $da->id;
-                        $c_id = $da->id;
+                    $c_id = "";
+
+                    if(!empty($res)){
+                        foreach($res as $da)
+                        {
+                            if($da->state != "All") {  // ✅ check inside the loop, not before it
+                                $commission_id[] = $da->id;
+                                $c_id = $da->id;
+                            }
+                        }
+                    }
+
+                    if(!empty($commission_id)){
+                        $data1 = array("status" => "success", "commission_id" => $c_id);
                     }
                 }
+
                  $data1 = array("status" =>"success","commission_id"=>$c_id);
                 // if( isset( $policy_info->vocher_status ) && ( $policy_info->vocher_status == "1" ) && 
                 //     isset( $policy_info->company_vocher_status ) && ($policy_info->company_vocher_status == "0" ) )
@@ -13516,4 +13757,5 @@ public $pm;
 
         echo json_encode($output);
     }
+
 }
