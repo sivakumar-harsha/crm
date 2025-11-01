@@ -45,6 +45,15 @@
                   <label>Policy Type</label> <span id="add_policy_type_error" style="color: red;">*</span>
                   <input type="text" class="form-control" id="add_policy_type">
                 </div>
+
+                <!-- Fuel Type dropdown (hidden by default) -->
+                <div class="form-group" id="fuel_type_container" style="display:none;">
+                  <label>Fuel Type</label>
+                  <select class="form-control" id="fuel_type_dropdown">
+                      <option value="">-- Select Fuel Type --</option>
+                  </select>
+                </div>
+
             </div>
             <div class="modal-footer">
                 <button type="button" class="btn btn-sm btn-default pull-left" data-dismiss="modal">Close</button>
@@ -78,6 +87,17 @@
                   <label>Policy Type</label> <span id="edit_policy_type_error" style="color: red;">*</span>
                   <input type="text" class="form-control" id="edit_policy_type">
                 </div>
+
+                <div class="form-group" id="edit_fuel_type_container" style="display:none;">
+                  <label>Fuel Type</label>
+                  <select class="form-control" id="edit_fuel_type_dropdown" name="edit_fuel_type">
+                    <option value="">-- Select Fuel Type --</option>
+                    <?php foreach($fuel_types as $fuel) { ?>
+                      <option value="<?php echo $fuel->id; ?>"><?php echo $fuel->fuel_type; ?></option>
+                    <?php } ?>
+                  </select>
+                </div>
+
             </div>
             <div class="modal-footer">
                 <input type="hidden" id="edit_id">
@@ -99,6 +119,11 @@
         
         var policy_class = $("#policy_class").val();
 
+         // ✅ define safely — check if dropdown exists or visible
+          var fuel_type = $("#fuel_type_dropdown").length && $("#fuel_type_container").is(":visible")
+              ? $("#fuel_type_dropdown").val()
+              : "";
+
         $("#add_policy_type_error").html("*");
         
         var error_check = 0;
@@ -119,7 +144,7 @@
         {
           $.ajax({
             url:"add_policy_type",
-            data:{policy_class:policy_class,policy_type:policy_type},
+            data:{policy_class:policy_class,policy_type:policy_type,fuel_type: fuel_type },
             method:"POST",
             beforeSend:function(){
                 $("#add_btn").attr("disabled",true);
@@ -129,7 +154,9 @@
                 fetch_client();
                 $("#add_policy_type").val("");
                 $("#policy_class").val("");
-                $("#add_btn").attr("disabled",false);
+                $("#fuel_type_dropdown").val("");
+                $("#fuel_type_container").hide();
+                $("#add_btn").attr("disabled", false);
                 $("#add_model").modal("hide");
             },
             error: function(code) {   
@@ -144,6 +171,10 @@
         var policy_type = $("#edit_policy_type").val();
         var policy_class = $("#edit_policy_class").val();
         var id = $("#edit_id").val();
+
+        var fuel_type = $("#edit_fuel_type_dropdown").is(":visible")
+          ? $("#edit_fuel_type_dropdown").val()
+          : "";
 
         $("#edit_policy_type_error").html("*");
 
@@ -165,7 +196,7 @@
         {
           $.ajax({
             url:"edit_policy_type",
-            data:{policy_class:policy_class,policy_type:policy_type,id:id},
+            data:{policy_class:policy_class,policy_type:policy_type,fuel_type: fuel_type,id:id},
             method:"POST",
             beforeSend:function(){
                 $("#edit_btn").attr("disabled",true);
@@ -184,13 +215,46 @@
         }
       });
 
+
+      // When Policy Class changes
+      $("#policy_class").change(function() {
+          var selectedClass = $("#policy_class option:selected").text().trim();
+
+          if (selectedClass.toLowerCase() === "motor") {
+              // Show fuel type container
+              $("#fuel_type_container").show();
+
+              // Fetch fuel types via AJAX
+              $.ajax({
+                  url: "fetch_car_fuel_types",
+                  method: "GET",
+                  dataType: "json",
+                  success: function(response) {
+                      var options = '<option value="">-- Select Fuel Type --</option>';
+                      $.each(response, function(index, item) {
+                          options += `<option value="${item.id}">${item.fuel_type}</option>`;
+                      });
+                      $("#fuel_type_dropdown").html(options);
+                  },
+                  error: function(xhr) {
+                      console.error("Error loading fuel types:", xhr.statusText);
+                  }
+              });
+          } else {
+              // Hide dropdown for other classes
+              $("#fuel_type_container").hide();
+              $("#fuel_type_dropdown").html('<option value="">-- Select Fuel Type --</option>');
+          }
+      });
+
+
     });
     function fetch_client()
     {
       var content = "";
       content += "<div class='table-responsive'>";
       content += "<table id='table_id' class='table table-hover table-bordered'>"; 
-      content += "<thead><th>S.No</th><th>Policy Class</th><th>Policy Type</th><th>Action</th></thead>";
+      content += "<thead><th>S.No</th><th>Policy Class</th><th>Policy Type</th><th>Fuel Type</th><th>Action</th></thead>";
       content += "<tbody></tbody>";
       content += "</table>";
       content += "</div>";
@@ -208,6 +272,7 @@
           }
       });      
     }
+
     function edit_data(id)
     {
       $.ajax({
@@ -221,6 +286,18 @@
           $("#edit_policy_type").val(obj.policy_type);
           $("#edit_model").modal("show");
           $("#edit_id").val(id);
+
+            // ✅ Show fuel type dropdown only if class is 'Motor'
+            if (obj.class_name && obj.class_name.toLowerCase() === "motor") {
+              $("#edit_fuel_type_container").show();
+              $("#edit_fuel_type_dropdown").val(obj.fuel_type_id);
+            } else {
+              $("#edit_fuel_type_container").hide();
+              $("#edit_fuel_type_dropdown").val("");
+            }
+            
+            $("#edit_model").modal("show");
+
         },
         error: function(code) {   
             alert(code.statusText);

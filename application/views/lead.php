@@ -3035,12 +3035,12 @@
 													>
 														<option value="">--Select--</option>
 														<?php foreach ($fuel_type as $da) {
-                            if ($da->id != "4") { ?>
+                            								if ($da->id != "4") { ?>
 														<option value="<?php echo $da->id ?>">
 															<?php echo $da->fuel_type; ?>
 														</option>
 														<?php }
-                            } ?>
+														} ?>
 													</select>
 												</div>
 											</div>
@@ -3116,12 +3116,11 @@
 											<div class="row">
 												<div class="col-md-4"><label>Hypothecation</label></div>
 												<div class="col-md-8">
-													<input
-														type="text"
-														class="form-control"
-														name="vechi_hypothecation"
-														id="vechi_hypothecation"
-													/>
+													<select name="vechi_hypothecation" id="vechi_hypothecation" class="form-control">
+														<option value="">--Select--</option>
+														<option value="Haier Purchase">Haier Purchase</option>
+														<option value="Leese agriment">Leese agriment</option>
+													</select>
 												</div>
 											</div>
 										</div>
@@ -3301,7 +3300,7 @@
 													>
 														<option value="">--Select--</option>
 														<?php foreach ($rto as $da) {
-                            if (!in_array($da->id, ["1","2","3","4","5","6"])) {
+                                                           if (!in_array($da->id, ["1","2","3","4","5","6"])) {
 														?>
 														<option value="<?php echo $da->rto_no; ?>">
 															<?php echo $da->rto_no." ( ".$da->city." )"; ?>
@@ -11229,7 +11228,7 @@ From: Anywhere in India To: Anywhere in India</textarea
 									$("#regn_address, #regn_city, #regn_state, #regn_country, #regn_pincode").val("");
 								}
 							});
-
+							
 
 							// ================== Vehicle Video Upload Handling ==================
 							$("#vehicle_video").on("change", function (event) {
@@ -12255,10 +12254,12 @@ From: Anywhere in India To: Anywhere in India</textarea
 										// }
 
 										$("#add_vechile_model").modal("toggle");
+
 										fetch_make(obj.policy_type);
 										fetch_pcv_seating(obj.policy_type);
 										// ✅ New: Fetch Seating Capacity automatically
 										fetchSeatingCapacity(lead_id);
+										fetchFuelType(obj.policy_type);
 									},
 								});
 							});
@@ -16049,6 +16050,77 @@ From: Anywhere in India To: Anywhere in India</textarea
 							$("#regn_pincode").val(clientPin);
 						}
 
+						// =============================
+						// Auto-select RTO based on Regn No parts (1–4)
+						// =============================
+						function autoSelectRTO() {
+							var part1 = $('#regn_no_1').val().toUpperCase().trim(); // e.g., TN
+							var part2 = $('#regn_no_2').val().toUpperCase().trim(); // e.g., 45
+							var part3 = $('#regn_no_3').val().toUpperCase().trim();
+							var part4 = $('#regn_no_4').val().toUpperCase().trim();
+
+							var prefix2 = part1 + part2;   // TN45
+							var prefix3 = part1 + part2 + part3;
+							var full = part1 + part2 + part3 + part4;
+
+							let bestMatch = ""; // will store the best found RTO
+
+							if (part1.length >= 2) {
+								$('#rto option').each(function () {
+									var rtoValue = $(this).val().toUpperCase();
+
+									// Highest priority: TN45 -> then TN -> fallback none
+									if (rtoValue.startsWith(prefix2)) {
+										bestMatch = $(this).val();
+										return false; // exact match found, stop immediately
+									} 
+									// else if (!bestMatch && rtoValue.startsWith(part1)) {
+									// 	// store TN match, but keep looking in case we find TN45 later
+									// 	bestMatch = $(this).val();
+									// }
+								});
+
+								if (bestMatch) {
+									$('#rto').val(bestMatch).trigger('change');
+								} else {
+									$('#rto').val('').trigger('change');
+								}
+							} else {
+								$('#rto').val('').trigger('change');
+							}
+						}
+
+						// Trigger on keyup or change for any of the 4 fields
+						$('#regn_no_1, #regn_no_2, #regn_no_3, #regn_no_4').on('keyup change', autoSelectRTO);
+
+						// ✅ Function to fetch Fuel Type based on Vehicle Type
+						function fetchFuelType(vehicle_type_id) {
+							$.ajax({
+								url: "get_fuel_type_by_vehicle",
+								method: "POST",
+								data: { vehicle_type_id: vehicle_type_id },
+								success: function (res) {
+									var data = JSON.parse(res);
+									var $fuelDropdown = $("#vechi_fuel_type");
+
+									// ✅ Reset selection
+									$fuelDropdown.val("");
+
+									// ✅ If backend returns a matching fuel_type_id, just select it in the existing dropdown
+									if (data.length > 0) {
+										// Assuming your API returns one or more fuel types; we take the first match
+										var matchedFuelId = data[0].id;
+
+										// ✅ Set selected option (from the full list)
+										$fuelDropdown.val(matchedFuelId).trigger("change");
+									}
+								},
+								error: function (xhr, status, error) {
+									console.error("Error fetching fuel type:", error);
+								},
+							});
+						}
+
 
                     </script>
 
@@ -16602,12 +16674,11 @@ From: Anywhere in India To: Anywhere in India</textarea
 											<label>Hypothecation </label>
 										</div>
 										<div class="col-md-8">
-											<input
-												type="text"
-												class="form-control"
-												name="edit_vechi_hypothecation"
-												id="edit_vechi_hypothecation"
-											/>
+											<select name="edit_vechi_hypothecation" id="edit_vechi_hypothecation" class="form-control">
+												<option value="">--select--</option>
+												<option value="Haier Purchase">Haier Purchase</option>
+												<option value="Leese agriment">Leese agriment</option>
+											</select>	
 										</div>
 									</div>
 								</div>
@@ -16968,8 +17039,6 @@ From: Anywhere in India To: Anywhere in India</textarea
 					</div>
 				</div>
 
-				
-
 				<div class="box">
 					<div class="box-header with-border" style="background: #f4f4f48c">
 						<h3
@@ -17009,6 +17078,7 @@ From: Anywhere in India To: Anywhere in India</textarea
 						</table>
 					</div>
 				</div>
+
 			</div>
 		</div>
 	</div>
@@ -17456,7 +17526,7 @@ From: Anywhere in India To: Anywhere in India</textarea
 	role="dialog"
 	aria-labelledby="editVehicleVideoLabel"
 	aria-hidden="true"
->
+    >
 	<div class="modal-dialog modal-md" role="document">
 		<div class="modal-content">
 			<div class="modal-header" style="background: #f4f4f48c">

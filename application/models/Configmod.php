@@ -631,18 +631,40 @@ class Configmod extends CI_Model
   	}
   	
   	public function fetch_policy_type()
-  	{
-  	    $this->db->select("list_of_policy_type.*,list_of_class.class");
-  	    $this->db->from("list_of_policy_type");
-  	    $this->db->join("list_of_class","list_of_policy_type.policy_class=list_of_class.id");
-  	    return $this->db->get()->result();
-  	}
+	{
+		$this->db->select("
+			list_of_policy_type.*, 
+			list_of_class.class,
+			list_of_car_fuel_type.fuel_type AS fuel_type_name
+		");
+		$this->db->from("list_of_policy_type");
+		$this->db->join("list_of_class", "list_of_policy_type.policy_class = list_of_class.id", "left");
+		$this->db->join("list_of_car_fuel_type", "list_of_policy_type.fuel_type_id = list_of_car_fuel_type.id", "left");
+		return $this->db->get()->result();
+	}
+
   	
   	public function fetch_edit_policy_type($id)
-  	{
-  	    $this->db->where("id",$id);
-  	    return $this->db->get("list_of_policy_type")->row();
-  	}
+	{
+		$this->db->select("
+			list_of_policy_type.*,
+			list_of_class.class AS class_name,
+			list_of_car_fuel_type.fuel_type AS fuel_type_name
+		");
+		$this->db->from("list_of_policy_type");
+		$this->db->join("list_of_class", "list_of_policy_type.policy_class = list_of_class.id", "left");
+		$this->db->join("list_of_car_fuel_type", "list_of_policy_type.fuel_type_id = list_of_car_fuel_type.id", "left");
+		$this->db->where("list_of_policy_type.id", $id);
+
+		return $this->db->get()->row();
+	}
+
+	public function fetch_fuel_types()
+	{
+		return $this->db->get("list_of_car_fuel_type")->result();
+	}
+
+
   	
   	public function edit_policy_type($id, $data)
   	{

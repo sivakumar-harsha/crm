@@ -1,13 +1,20 @@
 <?php
 defined('BASEPATH') OR exit('No direct script access allowed');
 
+/**
+ * @property CI_Upload $upload
+ * @property CI_Session $session
+ * @property Audit $audit
+ * @property CI_Email $email
+ */
+
 class ConfigCtrl extends CI_Controller {
-     public $cm;
+    public $cm;
     public $am;
     public $lm;
     public $mm;
     public $pm;
-     public $rolepermissionModel ;
+    public $rolepermissionModel ;
     public $audit;
     public $audit_model;
     public $auth;
@@ -3198,8 +3205,9 @@ class ConfigCtrl extends CI_Controller {
 		   	$pro_data["project_info"] = $this->mm->fetch_project_info();
 		   	
 		   	$data["class"] = $this->cm->fetch_policy_class();
-		   	
 		   	$data["users"]=$this->cm->fetch_users();
+            $data["fuel_types"] = $this->cm->fetch_fuel_types();
+
     		$this->load->view('header',$pro_data);
     		$this->load->view('policy_type',$data);
     		$this->load->view('footer',$pro_data);
@@ -3212,6 +3220,9 @@ class ConfigCtrl extends CI_Controller {
 	        if($check_user_i->masters_view == "1")
 	        {
 	        $pro_data["project_info"] = $this->mm->fetch_project_info();
+
+            $data["fuel_types"] = $this->cm->fetch_fuel_types();
+            
     		$this->load->view('header',$pro_data);
     		$this->load->view('policy_type',$data);
     		$this->load->view('footer',$pro_data);
@@ -3226,6 +3237,19 @@ class ConfigCtrl extends CI_Controller {
 	    	redirect("login");
 	    }
 	}
+
+    public function fetch_car_fuel_types()
+    {
+        if ($this->session->has_userdata('logged_in')) {
+            $this->db->select('id, fuel_type');
+            $this->db->from('list_of_car_fuel_type');
+            $this->db->order_by('fuel_type', 'ASC');
+            $query = $this->db->get();
+
+            echo json_encode($query->result());
+        }
+    }
+
 	
 	public function fetch_policy_type()
 	{
@@ -3256,6 +3280,7 @@ class ConfigCtrl extends CI_Controller {
                 $a,
                 $da->class,
                 $da->policy_type,
+                ($da->fuel_type_name != "" ? $da->fuel_type_name : "-"),
                 $action,
             );
         }
@@ -3280,8 +3305,9 @@ class ConfigCtrl extends CI_Controller {
 	        {
         		$policy_type = $this->input->post("policy_type");
                 $policy_class = $this->input->post("policy_class");
+                $fuel_type = $this->input->post("fuel_type");
                 
-        		$data = array("policy_class" =>$policy_class,"policy_type" => $policy_type);
+        		$data = array("policy_class" =>$policy_class,"policy_type" => $policy_type,"fuel_type_id" => $fuel_type);
         		$res = $this->cm->add_policy_type($data);
         		if( $res ) {
     	            $this->audit->log('list_of_policy_type', 'INSERT', null, null, $data);
@@ -3315,9 +3341,10 @@ class ConfigCtrl extends CI_Controller {
 	        {
             		$policy_type = $this->input->post("policy_type");
             		$policy_class = $this->input->post("policy_class");
+                    $fuel_type    = $this->input->post("fuel_type");
             		$id = $this->input->post("id");
         
-            		$data = array("policy_class"=>$policy_class,"policy_type" => $policy_type);
+            		$data = array("policy_class"=>$policy_class,"policy_type" => $policy_type, "fuel_type_id" => $fuel_type);
             		$old_data = $this->cm->fetch_edit_policy_type($id);
             		$res = $this->cm->edit_policy_type($id, $data);
             		if( $res ) {
@@ -4192,7 +4219,8 @@ class ConfigCtrl extends CI_Controller {
                             
                         if($last_policy_id->policy_id == "")
                         {
-                            $com_policy_id = "1";
+                            $max_policy_id = 1; // ✅ initialize variable
+                            $com_policy_id = $max_policy_id;
                             $arr = array("policy_id" => $max_policy_id);
                             $insert = $this->cm->add_policy_id($arr);
                         }
@@ -5211,7 +5239,8 @@ class ConfigCtrl extends CI_Controller {
                                 
                             if($last_policy_id->policy_id == "")
                             {
-                                $com_policy_id = "1";
+                                $max_policy_id = 1; // ✅ initialize variable
+                                $com_policy_id = $max_policy_id;
                                 $arr = array("policy_id" => $max_policy_id);
                                 $insert = $this->cm->add_policy_id($arr);
                             }
@@ -9415,7 +9444,7 @@ class ConfigCtrl extends CI_Controller {
                                             }
                                             else 
                                             {
-                                              $check_varient_1 = $this->cm->check_varient_already_exits(array_unique($commission_id),$policy_type,$make,$model,$varient);
+                                              $check_varient_1 = $this->cm->check_varient_already_exits(array_unique($commission_id),$policy_type,$make,$model,$Varient);
                                                
                                                 if(count($check_varient_1) > 0)
                                                 {
@@ -10644,7 +10673,7 @@ class ConfigCtrl extends CI_Controller {
            
            
            
-  public function add_school_details()
+    public function add_school_details()
 	{
 	    if($this->session->has_userdata('logged_in')) 
     	{ 
@@ -10658,7 +10687,7 @@ class ConfigCtrl extends CI_Controller {
             //   $p_class = $this->input->post("p_class");
               $brand = $this->input->post("brand");
               $contact_person = $this->input->post("contact_person");
-            //   $contact_email = $this->input->post("contact_email");
+              $contact_email = $this->input->post("contact_email");
               $add_contact_no = $this->input->post("contact_no");
               $imgcount = $this->input->post("imgcount");
               

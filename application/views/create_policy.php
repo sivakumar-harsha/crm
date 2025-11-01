@@ -109,204 +109,224 @@ label {
     <section class="content">
         
         
+    <!-- ========================= CLIENT DETAILS ========================= -->
     <div class="box collapsed-box">
-        <div class="box-header with-border" style="background:#f4f4f48c;">
-            <h3 class="box-title" _msthash="26273" _msttexthash="60619" style="text-align: left;font-size:14px;"><i class="fa fa-user" aria-hidden="true"></i> &nbsp;&nbsp;Client Details</h3>
-            
+        <div class="box-header with-border" style="background: #f4f4f48c">
+            <h3 class="box-title" style="text-align: left; font-size: 14px">
+                <i class="fa fa-user"></i> &nbsp;&nbsp;Client Details
+            </h3>
             <div class="box-tools pull-right">
-                 <button type="button" class="btn btn-box-tool" data-widget="collapse" data-toggle="tooltip" title="" data-original-title="Collapse">
-                  <i class="fa fa-plus"></i></button>
+                <button type="button" class="btn btn-box-tool" data-widget="collapse">
+                    <i class="fa fa-minus"></i>
+                </button>
             </div>
         </div>
-        
-        <div class="box-body" _msthash="1196936" _msttexthash="1190501" style="text-align: left;">
+
+        <div class="box-body" style="text-align: left">
             <div class="row">
+                <!-- LEFT COLUMN -->
                 <div class="col-md-6">
-                    
+
+                    <!-- CLIENT TYPE -->
                     <div class="form-group">
-                        <div class="row">   
-                           <div class="col-md-4">
-                                <label>Client Type</label><span>*</span>
-                           </div>
-                           <div class="col-md-8">
+                        <div class="row">
+                            <div class="col-md-4"><label>Client Type</label><span>*</span></div>
+                            <div class="col-md-8">
                                 <select class="form-control" name="client_type" id="client_type">
                                     <option value="">--Select--</option>
-                                    <?php foreach($client_type as $da){ ?>
-                                    <option value="<?php echo $da->id ?>"><?php echo $da->client_type ?></option>
+                                    <?php foreach ($client_type as $da) { ?>
+                                        <option value="<?php echo $da->id ?>">
+                                            <?php echo $da->client_type ?>
+                                        </option>
                                     <?php } ?>
                                 </select>
-                           </div>
-                         </div>
+                            </div>
+                        </div>
                     </div>
-                    
+
+                    <!-- SALUTATION -->
                     <div class="form-group">
-                        <div class="row">   
-                           <div class="col-md-4">
-                                <label>Client Name</label><span>*</span>
-                           </div>
-                           <div class="col-md-8">
-                                <input type="text" class="form-control" name="client_name_1" id="client_name_1">
-                           </div>
-                         </div>
+                        <div class="row">
+                            <div class="col-md-4"><label>Salutation</label></div>
+                            <div class="col-md-8">
+                                <select class="form-control" id="salutation" name="salutation">
+                                    <option value="">--Select--</option>
+                                    <option value="Mr">Mr</option>
+                                    <option value="Mrs">Mrs</option>
+                                    <option value="Ms">Ms</option>
+                                </select>
+                            </div>
+                        </div>
                     </div>
-                    
+
+                    <!-- CLIENT NAME (READ-ONLY DISPLAY FIELD) -->
                     <div class="form-group">
-                        <div class="row">   
-                           <div class="col-md-4">
-                                <label>Mobile No</label><span>*</span>
-                           </div>
-                           <div class="col-md-8">
+                        <div class="row">
+                            <div class="col-md-4"><label>Client Name</label><span>*</span></div>
+                            <div class="col-md-8">
+                                <input type="text" class="form-control" id="display_client_name" name="display_client_name" readonly />
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- INITIAL -->
+                    <div class="form-group">
+                        <div class="row">
+                            <div class="col-md-4"><label>Initial</label></div>
+                            <div class="col-md-8">
+                                <input type="text" class="form-control" id="initial" name="initial" />
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- FATHER / HUSBAND NAME -->
+                    <div class="form-group">
+                        <div class="row">
+                            <div class="col-md-4"><label>Father / Husband Name</label></div>
+                            <div class="col-md-8">
+                                <input type="text" class="form-control" id="father_husband_name" name="father_husband_name" />
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- DATE OF BIRTH -->
+                    <div class="form-group">
+                        <div class="row">
+                            <div class="col-md-4"><label>Date of Birth</label></div>
+                            <div class="col-md-8">
+                                <input type="date" class="form-control" id="dob" name="dob" />
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- AGE -->
+                    <div class="form-group">
+                        <div class="row">
+                            <div class="col-md-4"><label>Age</label></div>
+                            <div class="col-md-8">
+                                <input type="text" class="form-control" id="age" name="age" placeholder="Auto" />
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- MOBILE NUMBER -->
+                    <div class="form-group">
+                        <div class="row">
+                            <div class="col-md-4"><label>Mobile No</label><span>*</span></div>
+                            <div class="col-md-8">
                                 <div class="input-group">
                                     <div class="input-group-addon">+91</div>
-                                
-                                  <input type="text" class="form-control" name="mobile_no" maxlength="10" minlength="10" size="10" id="mobile_no">
-                                
-                              </div>
-                              
+                                    <input type="number" class="form-control" name="mobile_no" maxlength="10" id="mobile_no" />
+                                </div>
                             </div>
-                          
-                         </div>
+                        </div>
                     </div>
-                    
-                    
-                <div class="form-group">
-                            <div class="row">   
-                               <div class="col-md-4">
-                                    <label>Other contact Details</label>
-                               </div>
-                               <div class="col-md-8">
-                                    <input type="text" class="form-control" name="other_contact_details" id="other_contact_details">
-                               </div>
-                             </div>
-                   </div>
-                    
-                <div class="form-group">
-                    <div class="row">   
-                       <div class="col-md-4">
-                            <label>Landline no</label>
-                       </div>
-                       <div class="col-md-8">
-                           <input type="text" class="form-control" name="landline_no" id="landline_no">
-                       </div>
-                     </div>
+
+                    <!-- EMAIL -->
+                    <div class="form-group">
+                        <div class="row">
+                            <div class="col-md-4"><label>Email ID</label></div>
+                            <div class="col-md-8">
+                                <input type="email" class="form-control" name="email_id" id="email_id" placeholder="example@gmail.com" />
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- ADDITIONAL CUSTOM FIELDS SECTION -->
+                    <div class="form-group">
+                        <div class="row">
+                            <div class="col-md-12">
+                                <label style="font-weight: bold">Additional Fields</label>
+                                <div id="custom_fields_container"></div>
+                            </div>
+                        </div>
+                    </div>
                 </div>
-                    
-                     <div class="form-group">
-                            <div class="row">   
-                               <div class="col-md-4">
-                                     <label>Address</label>
-                               </div>
-                               <div class="col-md-8">
-                                   <textarea class="form-control" name="address" id="address" rows="3"></textarea>
-                               </div>
-                             </div>
-                     </div>
-                </div>
-                
+
+                <!-- RIGHT COLUMN -->
                 <div class="col-md-6">
-                    
-                     <div class="form-group">
-                          <div class="row">   
-                               <div class="col-md-4">
-                                    <label>Email Id</label>
-                               </div>
-                               <div class="col-md-8">
-                                   <input type="email" class="form-control" name="email_id" id="email_id">
-                               </div>
-                        </div>
-                    </div>
-                    
+
+                    <!-- COMMUNICATION ADDRESS -->
                     <div class="form-group">
-                         <div class="row">   
-                               <div class="col-md-4">
-                                     <label>Advisor Name</label>
-                               </div>
-                               <div class="col-md-8">
-                                   <input type="text" class="form-control" name="cont_person_name" id="cont_person_name">
-                               </div>
-                        </div>
-                    </div>
-                    
-                     <div class="form-group">
-                         <div class="row">   
-                               <div class="col-md-4">
-                                     <label>Advisor Designation</label>
-                               </div>
-                               <div class="col-md-8">
-                                   <input type="text" class="form-control" name="cont_person_des" id="cont_person_des">
-                               </div>
-                        </div>
-                    </div>
-                    
-                     <div class="form-group">
-                      <div class="row">   
-                           <div class="col-md-4">
-                               <label>Date of Birth</label>
-                           </div>
+                        <div class="row">
+                            <div class="col-md-4"><label>Communication Address</label></div>
                             <div class="col-md-8">
-                                <input type="date" class="form-control" name="dob" id="dob">
+                                <textarea class="form-control" name="communication_address" id="communication_address" rows="3"></textarea>
                             </div>
                         </div>
                     </div>
-                    
+
+                    <!-- PERMANENT ADDRESS -->
                     <div class="form-group">
-                        <div class="row">   
-                           <div class="col-md-4">
-                               <label>Age</label>
-                           </div>
+                        <div class="row">
+                            <div class="col-md-4"><label>Permanent Address</label></div>
                             <div class="col-md-8">
-                                <input type="text" class="form-control" name="age" id="age">
+                                <textarea class="form-control" name="permanent_address" id="permanent_address" rows="3"></textarea>
                             </div>
                         </div>
                     </div>
-                    
-                     <div class="form-group">
-                         <div class="row">   
-                           <div class="col-md-4">
-                                <label>Area</label>
-                           </div>
-                            <div class="col-md-8">
-                                <input type="text" class="form-control" name="area" id="area">
-                            </div>
-                        </div>
-                    </div>
-                    
+
+                    <!-- DISTRICT -->
                     <div class="form-group">
-                         <div class="row">   
-                           <div class="col-md-4">
-                                <label>Pin Code</label>
-                           </div>
+                        <div class="row">
+                            <div class="col-md-4"><label>District</label></div>
                             <div class="col-md-8">
-                                <input type="text" class="form-control" placeholder="Enter 6 Digit" name="pincode" maxlength="6" size="6" id="pin_code">
+                                <input type="text" class="form-control" id="district" name="district" placeholder="Enter District" />
                             </div>
                         </div>
                     </div>
-                    
-                    
-                    
+
+                    <!-- STATE -->
                     <div class="form-group">
-                         <div class="row">   
-                           <div class="col-md-4">
-                                
-                           </div>
+                        <div class="row">
+                            <div class="col-md-4"><label>State</label></div>
                             <div class="col-md-8">
-                              
-                              <button class="btn btn-danger btn-xs pull-right" id="edit_client_btn"><i class="fa fa-pencil-square-o" aria-hidden="true"></i> Edit Client Details</button>
-                              
-                              <button class="btn btn-success btn-xs pull-right hidden" id="update_client_btn"><i class="fa fa-save" aria-hidden="true"></i> Update Client</button>
-                              
+                                <input type="text" class="form-control" id="state" name="state" value="TamilNadu" />
                             </div>
                         </div>
                     </div>
-                    
-                    
+
+                    <!-- COUNTRY -->
+                    <div class="form-group">
+                        <div class="row">
+                            <div class="col-md-4"><label>Country</label></div>
+                            <div class="col-md-8">
+                                <input type="text" class="form-control" id="country" name="country" value="India" />
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- PIN CODE -->
+                    <div class="form-group">
+                        <div class="row">
+                            <div class="col-md-4"><label>Pin Code</label></div>
+                            <div class="col-md-8">
+                                <input type="text" class="form-control" id="pin_code" name="pin_code" maxlength="6" placeholder="Enter 6-digit Pin Code" />
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- BUTTONS -->
+                    <div class="form-group">
+                        <div class="row">
+                            <div class="col-md-4"></div>
+                            <div class="col-md-8">
+                                <button class="btn btn-danger btn-xs pull-right hidden" id="edit_client_btn">
+                                    <i class="fa fa-pencil-square-o"></i> Edit Client Details
+                                </button>
+                                <button class="btn btn-success btn-xs pull-right hidden" id="update_client_btn">
+                                    <i class="fa fa-save"></i> Update Client
+                                </button>
+                            </div>
+                        </div>
+                    </div>
                 </div>
-                
             </div>
         </div>
     </div>
+    <!-- ========================= END CLIENT DETAILS ========================= -->
   
-  
+
     <div class="box collapsed-box">
         <div class="box-header with-border" style="background:#f4f4f48c;">
             <h3 class="box-title" _msthash="26273" _msttexthash="60619" style="text-align: left;font-size:14px;"><i class="fa fa-bars" aria-hidden="true"></i> &nbsp;&nbsp;Requirement Details</h3>
@@ -915,48 +935,6 @@ label {
       </div>
     </div> 
     
-    <!-- <div class="box">-->
-    <!--    <div class="box-header with-border" style="background:#f4f4f48c;">-->
-    <!--        <h3 class="box-title" _msthash="26273" _msttexthash="60619" style="text-align: left;font-size:14px;"><i class="fa fa-bars" aria-hidden="true"></i> &nbsp;&nbsp; ADD ONS </h3>-->
-    <!--        <div class="box-tools pull-right">-->
-    <!--             <button type="button" class="btn btn-box-tool" data-widget="collapse" data-toggle="tooltip" title="" data-original-title="Collapse">-->
-    <!--              <i class="fa fa-minus"></i></button>-->
-    <!--        </div>-->
-    <!--    </div>-->
-    <!--    <div class="box-body" _msthash="1196936" _msttexthash="1190501" style="text-align: left;">-->
-            
-    <!--        <div class="row">-->
-                
-    <!--            <div class="col-md-6">-->
-    <!--                <div class="form-group">-->
-    <!--                    <div class="row">-->
-    <!--                        <div class="col-md-4">-->
-    <!--                           <label>Add-ons-opted</label>-->
-    <!--                       </div>-->
-    <!--                       <div class="col-md-8">-->
-    <!--                           <textarea type="text" class="form-control" name="add_ons_opted" id="add_ons_opted" rows="3"></textarea>-->
-    <!--                       </div>-->
-    <!--                    </div>-->
-    <!--                  </div>-->
-    <!--            </div>-->
-                
-    <!--            <div class="col-md-6">-->
-    <!--                <div class="form-group">-->
-    <!--                    <div class="row">-->
-    <!--                        <div class="col-md-4">-->
-    <!--                           <label>Add-ons Not Opted</label>-->
-    <!--                       </div>-->
-    <!--                       <div class="col-md-8">-->
-    <!--                           <select class="form-control" name="add_ons_not_opt" id="add_ons_not_opt">-->
-    <!--                               <option value="">--Select--</option>-->
-    <!--                           </select>-->
-    <!--                       </div>-->
-    <!--                    </div>-->
-    <!--                </div>-->
-    <!--            </div>-->
-    <!--        </div>-->
-    <!--  </div>-->
-    <!--</div> -->
     
     <div class="box">
         <div class="box-header with-border" style="background:#f4f4f48c;">
@@ -986,7 +964,7 @@ label {
                       <div class="form-group">
                         <div class="row">
                             <div class="col-md-4">
-                               <label>Discount Percentage</label>
+                               <label>Discount Percentage / Loading </label>
                            </div>
                            <div class="col-md-8">
                                <input type="number" class="form-control" name="discount_percent" id="discount_percent">
@@ -1012,7 +990,16 @@ label {
                                <label>Value</label>
                            </div>
                            <div class="col-md-4">
-                               <input type="number" class="form-control" name="no_claim_bonus_val" id="no_claim_bonus_val">
+                               <!-- <input type="number" class="form-control" name="no_claim_bonus_val" id="no_claim_bonus_val"> -->
+                               <select name="no_claim_bonus_val" id="no_claim_bonus_val" class="form-control">
+                                <option value=""> Select </option>
+                                <option value="20">20</option>
+                                <option value="25">25</option>
+                                <option value="35">35</option>
+                                <option value="45">45</option>
+                                <option value="50">50</option>
+                                <option value="55">55</option>
+                               </select>
                            </div>
                         </div>
                     </div>
@@ -1327,199 +1314,192 @@ label {
     
     <div class="box">
         <div class="box-header with-border" style="background:#f4f4f48c;">
-            <h3 class="box-title" _msthash="26273" _msttexthash="60619" style="text-align: left;font-size:14px;"><i class="fa fa-bars" aria-hidden="true"></i> &nbsp;&nbsp; Policy Additional Details </h3>
+            <h3 class="box-title" style="text-align: left;font-size:14px;">
+                <i class="fa fa-bars" aria-hidden="true"></i> &nbsp;&nbsp; Policy Additional Details
+            </h3>
             <div class="box-tools pull-right">
-                 <button type="button" class="btn btn-box-tool" data-widget="collapse" data-toggle="tooltip" title="" data-original-title="Collapse">
-                  <i class="fa fa-minus"></i></button>
+                <button type="button" class="btn btn-box-tool" data-widget="collapse" data-toggle="tooltip" title="" data-original-title="Collapse">
+                    <i class="fa fa-minus"></i>
+                </button>
             </div>
         </div>
-        <div class="box-body" _msthash="1196936" _msttexthash="1190501" style="text-align: left;">
-            
+
+        <div class="box-body" style="text-align: left;">
             <div class="row">
-                
+
                 <div class="col-md-6">
+
                     <div class="form-group">
                         <div class="row">
                             <div class="col-md-4">
-                               <label>Issue Date</label>
-                           </div>
-                           <div class="col-md-8">
-                               <input type="date" class="form-control" name="policy_issue_date" id="policy_issue_date">
-                           </div>
+                                <label>Issue Date</label>
+                            </div>
+                            <div class="col-md-8">
+                                <input type="date" class="form-control" name="policy_issue_date" id="policy_issue_date">
+                            </div>
                         </div>
-                      </div>
-                      
-                      <div class="form-group">
+                    </div>
+
+                    <div class="form-group">
                         <div class="row">
                             <div class="col-md-4">
-                               <label>Agency / Pos</label>
-                           </div>
-                           <div class="col-md-8">
-                              <select class="form-control select2" name="policy_agency_pos" id="policy_agency_pos">
+                                <label>Agency / Pos</label>
+                            </div>
+                            <div class="col-md-8">
+                                <select class="form-control select2" name="policy_agency_pos" id="policy_agency_pos">
                                     <option value="">--select--</option>
-                                    <?php foreach($agents_pos as $da){?>
-                                    <option value="<?php echo $da->id ?>"><?php echo $da->name."  (".$da->agent_pos_code.")" ?></option>
-                                     
+                                    <?php foreach($agents_pos as $da){ ?>
+                                        <option value="<?php echo $da->id ?>">
+                                            <?php echo $da->name."  (".$da->agent_pos_code.")" ?>
+                                        </option>
                                     <?php } ?>
                                 </select>
-                           </div>
+                            </div>
                         </div>
-                      </div>
-                      
-                      <div class="form-group">
+                    </div>
+
+                    <div class="form-group">
                         <div class="row">
                             <div class="col-md-4">
-                               <label>Source</label>
-                           </div>
-                           <div class="col-md-8">
-                               <select class="form-control" name="policy_source" id="policy_source">
-                                   <option value="">--Select--</option>
-                                   <option value="Website">Website</option>
-                                   <option value="Social Media">Social Media</option>
-                                   <option value="Adverdisment">Adverdisment</option>
-                                   <option value="Agents_and_POS">Agents and POS</option>
-                                   <option value="Others">Others</option>
-                               </select>
-                           </div>
+                                <label>Source</label>
+                            </div>
+                            <div class="col-md-8">
+                                <select class="form-control" name="policy_source" id="policy_source">
+                                    <option value="">--Select--</option>
+                                    <option value="Website">Website</option>
+                                    <option value="Social Media">Social Media</option>
+                                    <option value="Adverdisment">Adverdisment</option>
+                                    <option value="Agents_and_POS">Agents and POS</option>
+                                    <option value="Others">Others</option>
+                                </select>
+                            </div>
                         </div>
-                      </div>
-                      
-                       <div class="form-group">
+                    </div>
+
+                    <div class="form-group">
                         <div class="row">
                             <div class="col-md-4">
-                               <label>User</label>
-                           </div>
-                           <div class="col-md-8">
-                               <select class="form-control" name="policy_user" id="policy_user">
-                                   <option value="<?php echo $this->session->userdata('session_name')?>" selected><?php echo $this->session->userdata('session_name')?></option>
-                               </select>
-                           </div>
+                                <label>User</label>
+                            </div>
+                            <div class="col-md-8">
+                                <select class="form-control" name="policy_user" id="policy_user">
+                                    <option value="<?php echo $this->session->userdata('session_name')?>" selected>
+                                        <?php echo $this->session->userdata('session_name')?>
+                                    </option>
+                                </select>
+                            </div>
                         </div>
-                      </div>
-                      
-                      <!--<div class="form-group">-->
-                      <!--  <div class="row">-->
-                      <!--      <div class="col-md-4">-->
-                      <!--         <label>Location</label>-->
-                      <!--     </div>-->
-                      <!--     <div class="col-md-8">-->
-                      <!--         <input type="text" class="form-control" name="policy_location" id="policy_location">-->
-                      <!--     </div>-->
-                      <!--  </div>-->
-                      <!--</div>-->
-                      
-                       <div class="form-group">
+                    </div>
+
+                    <!-- ✅ New Field: Previous Insurance Type (moved above Previous Policy No) -->
+                    <div class="form-group">
                         <div class="row">
                             <div class="col-md-4">
-                               <label>Previous Policy No</label>
-                           </div>
-                           <div class="col-md-8">
-                               <input type="text" class="form-control" name="previous_policy_no" id="previous_policy_no">
-                           </div>
+                                <label>Previous Insurance Type</label>
+                            </div>
+                            <div class="col-md-8">
+                                <select class="form-control" name="previous_insurance_type" id="previous_insurance_type">
+                                    <option value="">--Select--</option>
+                                    <option value="Pkg">Pkg</option>
+                                    <option value="STD">STD</option>
+                                    <option value="SOD">SOD</option>
+                                    <option value="Bundle">Bundle</option>
+                                    <option value="No Policy">No Policy</option>
+                                </select>
+                            </div>
                         </div>
-                      </div>
-                      
-                      <div class="form-group">
+                    </div>
+
+                    <!-- ✅ Existing Field: Previous Policy No -->
+                    <div class="form-group">
                         <div class="row">
                             <div class="col-md-4">
-                               <label>Previous Insurer</label>
-                           </div>
-                           <div class="col-md-8">
-                               <select class="form-control select2" name="previous_insurer" id="previous_insurer">
-                                   <option value="">--Select--</option>
-                                    <?php foreach($company as $da){?>
-                                    <option value="<?php echo $da->id ?>"><?php echo $da->company_name; ?></option>
-                                     
+                                <label>Previous Policy No</label>
+                            </div>
+                            <div class="col-md-8">
+                                <input type="text" class="form-control" name="previous_policy_no" id="previous_policy_no">
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <div class="row">
+                            <div class="col-md-4">
+                                <label>Previous Insurer</label>
+                            </div>
+                            <div class="col-md-8">
+                                <select class="form-control select2" name="previous_insurer" id="previous_insurer">
+                                    <option value="">--Select--</option>
+                                    <?php foreach($company as $da){ ?>
+                                        <option value="<?php echo $da->id ?>"><?php echo $da->company_name; ?></option>
                                     <?php } ?>
-                               </select>
-                           </div>
+                                </select>
+                            </div>
                         </div>
-                      </div>
-                      
-                   
-                      
-                      <div class="form-group">
-                        <div class="row">
-                            <div class="col-md-4">
-                               <label>Previous Agency / Pos</label>
-                           </div>
-                           <div class="col-md-8">
-                               <input type="text" class="form-control" name="previous_agency_pos" id="previous_agency_pos">
-                           </div>
-                        </div>
-                      </div>
-                      
-                      <!--<div class="form-group">-->
-                      <!--  <div class="row">-->
-                      <!--      <div class="col-md-4">-->
-                      <!--         <label>Previous Source</label>-->
-                      <!--     </div>-->
-                      <!--     <div class="col-md-8">-->
-                      <!--         <select type="text" class="form-control" name="previous_source" id="previous_source">-->
-                      <!--             <option value="">--Select--</option>-->
-                      <!--         </select>-->
-                      <!--     </div>-->
-                      <!--  </div>-->
-                      <!--</div>-->
+                    </div>
+
+
                 </div>
-                
+
                 <div class="col-md-6">
-                    
+
                     <div class="form-group">
                         <div class="row">
                             <div class="col-md-4">
-                               <label>Dectable Details</label>
-                           </div>
-                           <div class="col-md-8">
-                               <textarea class="form-control" name="dectable_details" id="dectable_details"></textarea>
-                           </div>
+                                <label>Previous Agency / Pos</label>
+                            </div>
+                            <div class="col-md-8">
+                                <input type="text" class="form-control" name="previous_agency_pos" id="previous_agency_pos">
+                            </div>
                         </div>
                     </div>
-                    
+
                     <div class="form-group">
                         <div class="row">
                             <div class="col-md-4">
-                               <label>Policy Additional Informations</label>
-                           </div>
-                           <div class="col-md-8">
-                               <textarea class="form-control" name="policy_additional_info" id="policy_additional_info"></textarea>
-                           </div>
+                                <label>Dectable Details</label>
+                            </div>
+                            <div class="col-md-8">
+                                <textarea class="form-control" name="dectable_details" id="dectable_details"></textarea>
+                            </div>
                         </div>
                     </div>
-                    
+
                     <div class="form-group">
                         <div class="row">
                             <div class="col-md-4">
-                               <label>Reference number</label>
-                           </div>
-                           <div class="col-md-8">
-                               <input type="text" class="form-control" name="reference_no" id="reference_no">
-                           </div>
+                                <label>Policy Additional Informations</label>
+                            </div>
+                            <div class="col-md-8">
+                                <textarea class="form-control" name="policy_additional_info" id="policy_additional_info"></textarea>
+                            </div>
                         </div>
                     </div>
-                    
+
                     <div class="form-group">
                         <div class="row">
                             <div class="col-md-4">
-                               <label>Other Reference number</label>
-                           </div>
-                           <div class="col-md-8">
-                               <input type="text" class="form-control" name="other_reference_no" id="other_reference_no">
-                           </div>
+                                <label>Reference number</label>
+                            </div>
+                            <div class="col-md-8">
+                                <input type="text" class="form-control" name="reference_no" id="reference_no">
+                            </div>
                         </div>
                     </div>
-                    
+
                     <div class="form-group">
                         <div class="row">
                             <div class="col-md-4">
-                               <label>Previous Insurance Plan</label>
-                           </div>
-                           <div class="col-md-8">
-                               <input type="text" class="form-control" name="previous_insurance_plan" id="previous_insurance_plan">
-                           </div>
+                                <label>Other Reference number</label>
+                            </div>
+                            <div class="col-md-8">
+                                <input type="text" class="form-control" name="other_reference_no" id="other_reference_no">
+                            </div>
                         </div>
-                      </div>
-                      
+                    </div>
+
+                    <!-- 🔄 Removed old "Previous Insurance Plan" field -->
+                    
                     <div class="form-group splcom_container hidden">
                         <div class="row">
                             <div class="col-md-4">
@@ -1533,66 +1513,13 @@ label {
                             </div>
                         </div>
                     </div>
-                    
-                    <!--<div class="form-group">-->
-                    <!--    <div class="row">-->
-                    <!--        <div class="col-md-4">-->
-                    <!--           <label>Policy Received</label>-->
-                    <!--       </div>-->
-                    <!--       <div class="col-md-8">-->
-                    <!--           <input type="checkbox" class="form-check-input" id="policy_received" name="policy_received">-->
-                    <!--       </div>-->
-                    <!--    </div>-->
-                    <!--</div>-->
-                    
-                    <!-- <div class="form-group">-->
-                    <!--    <div class="row">-->
-                    <!--        <div class="col-md-4">-->
-                    <!--           <label>Policy Verified</label>-->
-                    <!--       </div>-->
-                    <!--       <div class="col-md-1">-->
-                    <!--           <input type="checkbox" class="form-check-input" id="policy_verified" name="policy_verified">-->
-                    <!--       </div>-->
-                           
-                    <!--        <div class="col-md-7">-->
-                    <!--           <input type="text" class="form-control" id="policy_verified_info" name="policy_verified_info">-->
-                    <!--       </div>-->
-                           
-                    <!--    </div>-->
-                    <!--</div>-->
-                    
-                    <!--<div class="form-group">-->
-                    <!--    <div class="row">-->
-                    <!--        <div class="col-md-4">-->
-                    <!--           <label>Policy Cancelled</label>-->
-                    <!--       </div>-->
-                    <!--       <div class="col-md-1">-->
-                    <!--           <input type="checkbox" class="form-check-input" id="policy_cancelled" name="policy_cancelled">-->
-                    <!--       </div>-->
-                    <!--        <div class="col-md-7">-->
-                    <!--           <input type="text" class="form-control" id="policy_cancelled_info" name="policy_cancelled_info">-->
-                    <!--       </div>-->
-                    <!--    </div>-->
-                    <!--</div>-->
-                    
-                    <!-- <div class="form-group">-->
-                    <!--    <div class="row">-->
-                    <!--        <div class="col-md-4">-->
-                    <!--           <label>Commission Geneation</label>-->
-                    <!--       </div>-->
-                    <!--       <div class="col-md-8">-->
-                    <!--           <select class="form-control" id="commisson_generation" name="commisson_generation">-->
-                    <!--               <option value="">---Select---</option>-->
-                    <!--               <option value="completed">Completed</option>-->
-                    <!--               <option value="pending">Pending</option>-->
-                    <!--           </select>-->
-                    <!--       </div>-->
-                    <!--    </div>-->
-                    <!--</div>-->
+
                 </div>
+
             </div>
-      </div>
-    </div> 
+        </div>
+    </div>
+
     
     
     <div class="box">
@@ -1616,9 +1543,9 @@ label {
                            <div class="col-md-8">
                                <select class="form-control" name="payment_type" id="payment_type">
                                    <option value="">---Select---</option>
-                                   <option value="Online">Online</option>
-                                   <option value="Offine">Offine</option>
+                                   <option value="Cash">Cash</option>
                                    <option value="Check">Check</option>
+                                   <option value="Online">Online</option>
                                    <option value="Bank Transfer">Bank Transfer</option>
                                    <option value="NEFT">NEFT</option>
                                </select>
@@ -1644,6 +1571,17 @@ label {
                            </div>
                            <div class="col-md-8">
                               <input type="text" class="form-control" name="bank_name" id="bank_name">
+                           </div>
+                        </div>
+                      </div>
+
+                      <div class="form-group">
+                        <div class="row">
+                            <div class="col-md-4">
+                               <label>Payment Receipt No</label>
+                           </div>
+                           <div class="col-md-8">
+                              <input type="text" class="form-control" name="payment_receipt_no" id="payment_receipt_no">
                            </div>
                         </div>
                       </div>
@@ -1679,7 +1617,7 @@ label {
                                <label>Remarks</label>
                            </div>
                            <div class="col-md-8">
-                              <textarea class="form-control" name="remarks" id="remarks" rows="3"></textarea>
+                              <textarea class="form-control" name="remarks_pay" id="remarks_pay" rows="3"></textarea>
                            </div>
                         </div>
                       </div>
@@ -1696,8 +1634,8 @@ label {
                       </div>
                    </div>
                 </div>
-             </div> 
-         </div>
+            </div> 
+    </div>
     
     <div class="box" id="upload_doc">
         <div class="box-header with-border" style="background:#f4f4f48c;">
@@ -1739,6 +1677,7 @@ label {
                 </div>
             </div>
     </div> 
+
     </div>
     <?php
      if($this->session->userdata("session_role") == "user")
@@ -2123,58 +2062,86 @@ label {
                  data : {last_inserted_id:lead_id},
                  success:function(response)
                  {
-                    $("#client_type").attr("disabled",true);
-                    $("#client_name").attr("disabled",true);
-                    $("#mobile_no").attr("disabled",true);
-                    $("#other_contact_details").attr("disabled",true);
-                    $("#landline_no").attr("disabled",true);
-                    $("#address").attr("disabled",true);
-                    $("#email_id").attr("disabled",true);
-                    $("#cont_person_name").attr("disabled",true);
-                    $("#cont_person_des").attr("disabled",true);
-                    $("#dob").attr("disabled",true);
-                    $("#age").attr("disabled",true);
-                    $("#area").attr("disabled",true);
-                    $("#bussiness_type").attr("disabled",true);
-                    $("#policy_class").attr("disabled",true);
-                    $("#policy_type").attr("disabled",true);
-                    $("#lead_generated_date").attr("disabled",true);
-                    $("#due_date").attr("disabled",true);
-                    $("#location").attr("disabled",true);
-                    $("#classification").attr("disabled",true);
-                    $("#source").attr("disabled",true);
-                    $("#agent_pos").attr("disabled",true);
-                    $("#assign_to_user").attr("disabled",true);
-                    $("#area_incharge").attr("disabled",true);
-                    $("#remarks").attr("disabled",true);
-                     var obj = jQuery.parseJSON(response);
-                     $("#client_name").html(obj.client_name);
-                     $("#policy_agency_pos").val(obj.agency_and_pos);
-                     $("#policy_agency_pos").trigger("change");
                     
+                    var obj = jQuery.parseJSON(response);
+
+                    // ✅ Disable fields (initially read-only)
+                    $("#client_type, #salutation, #display_client_name, #initial, #father_husband_name, #dob, #age, #mobile_no, #email_id, #communication_address, #permanent_address, #district, #state, #country, #pin_code").attr("disabled", true);
+
+                    // ✅ Disable rest of policy-related inputs
+                    $("#bussiness_type, #policy_class, #policy_type, #lead_generated_date, #due_date, #location, #classification, #source, #agent_pos, #assign_to_user, #area_incharge, #remarks").attr("disabled", true);
+
+
+                    $("#client_name").html(obj.client_name);
+                    $("#policy_agency_pos").val(obj.agency_and_pos);
+                    $("#policy_agency_pos").trigger("change");
+                    
+                    // Fill client data
                     $("#client_type").val(obj.client_type_id);
-                    $("#client_name_1").val(obj.client_name);
-                    $("#mobile_no").val(obj.mobile_no);
-                    $("#other_contact_details").val(obj.other_contact_details);
-                    $("#landline_no").val(obj.landline_no);
-                    $("#address").val(obj.address);
-                    $("#email_id").val(obj.email);
-                    $("#cont_person_name").val(obj.contact_person_name);
-                    $("#cont_person_des").val(obj.contact_person_designation);
+                    $("#salutation").val(obj.salutation);
+                    $("#display_client_name").val(obj.client_name); // ✅ read-only client name field
+                    $("#initial").val(obj.initial);
+                    $("#father_husband_name").val(obj.father_husband_name);
                     $("#dob").val(obj.date_of_birth);
                     $("#age").val(obj.age);
-                    $("#area").val(obj.area);
+                    $("#mobile_no").val(obj.mobile_no);
+                    $("#email_id").val(obj.email);
+                    $("#communication_address").val(obj.communication_address);
+                    $("#permanent_address").val(obj.permanent_address);
+                    $("#district").val(obj.district);
+                    $("#state").val(obj.state);
+                    $("#country").val(obj.country);
+                    $("#pin_code").val(obj.pin_code);
+
+                    // === LOAD CUSTOM FIELDS ===
+                    $("#custom_fields_container").html("");
+                    if (obj.custom_fields && obj.custom_fields !== "") {
+                        try {
+                            let customFields = JSON.parse(obj.custom_fields);
+                            if (!Array.isArray(customFields)) {
+                                customFields = Object.entries(customFields).map(([label, value]) => ({
+                                    label,
+                                    value,
+                                }));
+                            }
+                            customFields.forEach(function (field, index) {
+                                let label = field.label || field.key || Object.keys(field)[0];
+                                let value = field.value || field[label] || "";
+                                let fieldHtml = `
+                                    <div class="row mb-2" id="custom_field_${index}" style="margin-top:10px;">
+                                        <div class="col-md-5">
+                                            <input type="text" class="form-control custom_label" name="custom_label[]" value="${label}" placeholder="Label" disabled>
+                                        </div>
+                                        <div class="col-md-5">
+                                            <input type="text" class="form-control custom_value" name="custom_value[]" value="${value}" placeholder="Value" disabled>
+                                        </div>
+                                    </div>`;
+                                $("#custom_fields_container").append(fieldHtml);
+                            });
+                        } catch (e) {
+                            console.error("Error parsing custom fields JSON:", e);
+                            $("#custom_fields_container").html('<p class="text-danger">Error loading custom fields</p>');
+                        }
+                    } else {
+                        $("#custom_fields_container").html('<p class="text-muted">No additional fields</p>');
+                    }
+
+                    // ✅ Set lead-related fields (unchanged)
                     $("#bussiness_type").val(obj.business_type);
                     $("#policy_class").val(obj.class);
                     $("#classification").val(obj.classfication);
                     $("#source").val(obj.source);
-                    $("#agent_pos").val(obj.agency_and_pos);
-                    $("#agent_pos").trigger("change");
+                    $("#agent_pos").val(obj.agency_and_pos).trigger("change");
                     $("#location").val(obj.location);
-                     $("#remarks").val(obj.remarks);
+                    $("#remarks").val(obj.remarks);
+                    $("#lead_generated_date").val(obj.lead_generated_date);
+                    $("#due_date").val(obj.due_date);
+                    $("#lead_Status").val(obj.lead_status);
+
                     var policy_type_id = obj.policy_type;
-                     policy_class = obj.class;
-                       $.ajax({
+                    policy_class = obj.class;
+
+                        $.ajax({
                             url : "fetch_policy_type_using_class",
                             method : "POST",
                             data:{policy_class:policy_class},
@@ -2195,11 +2162,9 @@ label {
                                 }
                                 $("#policy_type").html(str);
                             }
-                       });
-                    
-                    $("#lead_generated_date").val(obj.lead_generated_date);
-                    $("#due_date").val(obj.due_date);
-                    $("#lead_Status").val(obj.lead_status);
+                        });
+
+
 
                      if(obj.class == "2")
                      {
@@ -2260,10 +2225,14 @@ label {
                          $("#own_damage_title").addClass("hidden");
                          $("#add_commision_btn").removeClass("hidden");
                      }
-                 }
+
+                     // ✅ Show Edit Button (important!)
+		            $("#edit_client_btn").removeClass("hidden");
+
+                }
         });
     
-          $.ajax({
+        $.ajax({
                  url : "get_temp_data",
                  method : "POST",
                  data : {lead_id:lead_id},
@@ -2347,6 +2316,7 @@ label {
                             $("#payment_type").val(obj.payment_type);
                             $("#pay_ref_no").val(obj.pay_ref_no);
                             $("#bank_name").val(obj.bank_name);
+                            $("#payment_receipt_no").val(obj.payment_receipt_no);
                             $("#payment_check_date").val(obj.payment_check_date);
                             $("#payment_and_check_no").val(obj.payment_and_check_no);
                             $("#remarks").val(obj.remarks);
@@ -2503,6 +2473,7 @@ label {
                 var payment_type = $("#payment_type").val();
                 var pay_ref_no = $("#pay_ref_no").val();
                 var bank_name = $("#bank_name").val();
+                var payment_receipt_no = $("#payment_receipt_no").val();
                 var payment_check_date = $("#payment_check_date").val();
                 var payment_and_check_no = $("#payment_and_check_no").val();
                 var remarks = $("#remarks").val();
@@ -3095,6 +3066,7 @@ label {
                     formdata.append('payment_type',payment_type);
                     formdata.append('pay_ref_no',pay_ref_no);
                     formdata.append('bank_name',bank_name);
+                    formdata.append('payment_receipt_no',payment_receipt_no);
                     formdata.append('payment_check_date',payment_check_date);
                     formdata.append('payment_and_check_no',payment_and_check_no);
                     formdata.append('remarks',remarks);
@@ -3298,6 +3270,7 @@ label {
                 var payment_type = $("#payment_type").val();
                 var pay_ref_no = $("#pay_ref_no").val();
                 var bank_name = $("#bank_name").val();
+                var payment_receipt_no = $("#payment_receipt_no").val();
                 var payment_check_date = $("#payment_check_date").val();
                 var payment_and_check_no = $("#payment_and_check_no").val();
                 var remarks = $("#remarks").val();
@@ -3880,6 +3853,7 @@ label {
                     formdata.append('payment_type',payment_type);
                     formdata.append('pay_ref_no',pay_ref_no);
                     formdata.append('bank_name',bank_name);
+                    formdata.append('payment_receipt_no',payment_receipt_no);
                     formdata.append('payment_check_date',payment_check_date);
                     formdata.append('payment_and_check_no',payment_and_check_no);
                     formdata.append('remarks',remarks);
@@ -4001,7 +3975,7 @@ label {
                 var commission = 0;
                  $("#commisson_base_premium").val(commission);
             }
-     }); 
+        }); 
      
         $("#policy_no").keyup(function(){
                   myText = $("#policy_no").val();
@@ -4069,11 +4043,11 @@ label {
       
         $("#document_file").change(function(){
             upload_documents();
-       });
+        });
        
         $("#document_type").change(function(){
             upload_documents();
-       });
+        });
        
         $("#email_btn").click(function(){
             var lead_id = $("#lead_id").val();
@@ -4137,7 +4111,7 @@ label {
                       $("#doc_files").html(response);
                   }
           });
-       });
+        });
        
         $("#check_all").click(function(){
 
@@ -4149,7 +4123,7 @@ label {
            {
                 $(".check_file").prop('checked', false);
            }
-       });
+        });
        
         $("#add_doc").click(function(){
           var document_files = $(".check_file").val();
@@ -4168,23 +4142,23 @@ label {
             $('#check_all').prop('checked', false);
             $("#email_modal").modal("show");
             
-       });
+        });
        
         $("#submit_btn").click(function(){
-        var lead_id = $("#lead_id").val();
-         var sender_email_id = $("#sender_email_id").val();
-         var sender_name = $("#sender_name").val();
-         var receiver_email_id = $("#receiver_email_id").val();
-         var subject = $("#email_subject").val();
-         var content = CKEDITOR.instances['email_message'].getData();
-         
-        // var formdata = new FormData();
-        // formdata.append('sender_email_id',sender_email_id);
-        // formdata.append('sender_name',sender_name);
-        // formdata.append('receiver_email_id',receiver_email_id);
-        // formdata.append('email_subject',email_subject);
-          //formdata.append('email_message',email_message);
-          //formdata.append('arr',arr);
+            var lead_id = $("#lead_id").val();
+            var sender_email_id = $("#sender_email_id").val();
+            var sender_name = $("#sender_name").val();
+            var receiver_email_id = $("#receiver_email_id").val();
+            var subject = $("#email_subject").val();
+            var content = CKEDITOR.instances['email_message'].getData();
+            
+            // var formdata = new FormData();
+            // formdata.append('sender_email_id',sender_email_id);
+            // formdata.append('sender_name',sender_name);
+            // formdata.append('receiver_email_id',receiver_email_id);
+            // formdata.append('email_subject',email_subject);
+            //formdata.append('email_message',email_message);
+            //formdata.append('arr',arr);
          
          $.ajax({
                  url : "send_mail",
@@ -4212,7 +4186,7 @@ label {
                       $("#email_modal").modal("toggle");
                       notification_log(lead_id)
                  }
-         });
+            });
         });
         
         $("#commisson_base_premium").keyup(function(){
@@ -4287,6 +4261,7 @@ label {
             var payment_type = $("#payment_type").val();
             var pay_ref_no = $("#pay_ref_no").val();
             var bank_name = $("#bank_name").val();
+            var payment_receipt_no = $("#payment_receipt_no").val();
             var payment_check_date = $("#payment_check_date").val();
             var payment_and_check_no = $("#payment_and_check_no").val();
             var remarks = $("#remarks").val();
@@ -4870,6 +4845,7 @@ label {
                     formdata.append('payment_type',payment_type);
                     formdata.append('pay_ref_no',pay_ref_no);
                     formdata.append('bank_name',bank_name);
+                    formdata.append('payment_receipt_no',payment_receipt_no);
                     formdata.append('payment_check_date',payment_check_date);
                     formdata.append('payment_and_check_no',payment_and_check_no);
                     formdata.append('remarks',remarks);
@@ -4951,7 +4927,7 @@ label {
                     });
                  }
                 }
-           });
+        });
            
         $("#agent_pos").change(function(){
             var agent_pos = $("#agent_pos").val();
@@ -4992,121 +4968,123 @@ label {
        
           // Edit Client
        
-      $("#edit_client_btn").click(function(){
-          
-           let timerInterval
-                Swal.fire({
-                  title: 'Loading',
-                  html: 'Fetch Client Data',
-                  timer: 1000,
-                  timerProgressBar: true,
-                  didOpen: () => {
-                    Swal.showLoading()
-                    const b = Swal.getHtmlContainer().querySelector('b')
-                    timerInterval = setInterval(() => {
-                      b.textContent = Swal.getTimerLeft()
-                    }, 100)
-                  },
-                  willClose: () => {
-                    clearInterval(timerInterval)
-                  }
-                }).then((result) => {
-                  /* Read more about handling dismissals below */
-                  if (result.dismiss === Swal.DismissReason.timer) {
-                    console.log('I was closed by the timer')
-                  }
-                })
-           
-            $("#client_type").attr("disabled",false);
-            $("#client_name").attr("disabled",false);
-            $("#mobile_no").attr("disabled",false);
-            $("#other_contact_details").attr("disabled",false);
-            $("#landline_no").attr("disabled",false);
-            $("#address").attr("disabled",false);
-            $("#email_id").attr("disabled",false);
-            $("#cont_person_name").attr("disabled",false);
-            $("#cont_person_des").attr("disabled",false);
-            $("#dob").attr("disabled",false);
-            $("#age").attr("disabled",false);
-            $("#area").attr("disabled",false);
-            
-            $("#client_type").css("border-color", "#6ec3f5");
-            $("#client_name").css("border-color", "#6ec3f5");
-            $("#mobile_no").css("border-color", "#6ec3f5");
-            $("#other_contact_details").css("border-color", "#6ec3f5");
-            $("#landline_no").css("border-color", "#6ec3f5");
-            $("#address").css("border-color", "#6ec3f5");
-            $("#email_id").css("border-color", "#6ec3f5");
-            $("#cont_person_name").css("border-color", "#6ec3f5");
-            $("#cont_person_des").css("border-color", "#6ec3f5");
-            $("#dob").css("border-color", "#6ec3f5");
-            $("#age").css("border-color", "#6ec3f5");
-            $("#area").css("border-color", "#6ec3f5");
-            
+        // ================= EDIT BUTTON =================
+        $("#edit_client_btn").click(function () {
+            let timerInterval;
+            Swal.fire({
+                title: 'Loading',
+                html: 'Fetch Client Data',
+                timer: 1000,
+                timerProgressBar: true,
+                didOpen: () => Swal.showLoading(),
+                willClose: () => clearInterval(timerInterval),
+            });
+
+            // Enable all except client_name
+            $("#client_type, #salutation, #initial, #father_husband_name, #dob, #age, #mobile_no, #email_id, #communication_address, #permanent_address, #district, #state, #country, #pin_code, .custom_label, .custom_value").attr("disabled", false);
+
+            // Keep client name readonly
+            $("#display_client_name").attr("disabled", true).css("border-color", "#ddd");
+
             $("#edit_client_btn").addClass("hidden");
             $("#update_client_btn").removeClass("hidden");
-            
-      });
+        });
+
       
-      $("#update_client_btn").click(function(){
-          
-         var lead_id = $("#lead_id").val();
-         var client_type = $("#client_type").val();
-         var client_name = $("#client_name_1").val();
-         var mobile_no = $("#mobile_no").val();
-         var other_contact_details = $("#other_contact_details").val();
-         var landline_no= $("#landline_no").val();
-         var address = $("#address").val();
-         var email_id = $("#email_id").val();
-         var contact_person_name =$("#cont_person_name").val();
-         var contact_person_des = $("#cont_person_des").val();
-         var dob = $("#dob").val();
-         var age = $("#age").val();
-         var area = $("#area").val();
-         var pin_code = $("#pin_code").val();
-         
-         $.ajax({
-                url : "update_client_details",
-                method : "POST",
-                data:{
-                       lead_id : lead_id,
-                       client_type:client_type,
-                       client_name:client_name,
-                       mobile_no:mobile_no,
-                       other_contact_details:other_contact_details,
-                       landline_no:landline_no,
-                       address:address,
-                       email_id:email_id,
-                       contact_person_name:contact_person_name,
-                       contact_person_des:contact_person_des,
-                       dob:dob,
-                       age:age,
-                       area:area,
-                       pin_code:pin_code,
-                },
-                beforeSend:function(){
-                    $("#update_client_btn").attr("disabled",true);
-                },
-                success:function(response)
-                {
-                        Swal.fire({
-                        position: 'top-end',
-                        icon: 'success',
-                        title: 'Client Details updated Successfully',
-                        showConfirmButton: false,
-                        timer: 1500
-                        })
-                    $("#update_client_btn").attr("disabled",false);
-                    window.location.href="generate_policy?id="+lead_id;
-                    notification_log(lead_id)
+        // ================= UPDATE BUTTON =================
+        $("#update_client_btn").click(function () {
+            var lead_id = $("#lead_id").val();
+            var client_type = $("#client_type").val();
+            var salutation = $("#salutation").val();
+            var initial = $("#initial").val();
+            var father_husband_name = $("#father_husband_name").val();
+            var dob = $("#dob").val();
+            var age = $("#age").val();
+            var mobile_no = $("#mobile_no").val();
+            var email_id = $("#email_id").val();
+            var communication_address = $("#communication_address").val();
+            var permanent_address = $("#permanent_address").val();
+            var district = $("#district").val();
+            var state = $("#state").val();
+            var country = $("#country").val();
+            var pin_code = $("#pin_code").val();
+
+            // ✅ Capture custom fields
+            let customFields = {};
+            $(".custom_label").each(function (i) {
+                let label = $(this).val();
+                let value = $(".custom_value").eq(i).val();
+                if (label !== "") {
+                    customFields[label] = value;
                 }
-         });
-         
-      });
+            });
+
+            if (client_type === "" || mobile_no.trim() === "") {
+                Swal.fire({
+                    icon: "warning",
+                    title: "Missing Required Fields",
+                    text: "Please fill all mandatory fields before updating.",
+                });
+                return;
+            }
+
+            $.ajax({
+                url: "update_client_details",
+                method: "POST",
+                data: {
+                    lead_id,
+                    client_type,
+                    salutation,
+                    initial,
+                    father_husband_name,
+                    dob,
+                    age,
+                    mobile_no,
+                    email_id,
+                    communication_address,
+                    permanent_address,
+                    district,
+                    state,
+                    country,
+                    pin_code,
+                    custom_fields: JSON.stringify(customFields),
+                },
+                beforeSend: function () {
+                    $("#update_client_btn").attr("disabled", true);
+                },
+                success: function (response) {
+                    Swal.fire({
+                        position: "top-end",
+                        icon: "success",
+                        title: "Client details updated successfully!",
+                        showConfirmButton: false,
+                        timer: 1500,
+                    });
+
+                    $("#update_client_btn").attr("disabled", false);
+                    $("#update_client_btn").addClass("hidden");
+                    $("#edit_client_btn").removeClass("hidden");
+
+                    $("#client_type, #salutation, #display_client_name, #initial, #father_husband_name, #dob, #age, #mobile_no, #email_id, #communication_address, #permanent_address, #district, #state, #country, #pin_code, .custom_label, .custom_value").attr("disabled", true);
+
+                    notification_log(lead_id);
+                    window.location.href = "generate_policy?id=" + lead_id;
+                },
+                error: function () {
+                    Swal.fire({
+                        icon: "error",
+                        title: "Update Failed",
+                        text: "An error occurred while updating client details.",
+                    });
+                    $("#update_client_btn").attr("disabled", false);
+                },
+            });
+        });
+
       
       // Edit Requirement Details
       
-      $("#edit_req_btn").click(function(){
+        $("#edit_req_btn").click(function(){
          
             $("#bussiness_type").attr("disabled",false);
             $("#policy_class").attr("disabled",false);
@@ -5137,7 +5115,7 @@ label {
           
         });
       
-      $("#update_req_btn").click(function(){
+        $("#update_req_btn").click(function(){
              var lead_id = $("#lead_id").val();
              var bussiness_type = $("#bussiness_type").val();
              var policy_class = $("#policy_class").val();
@@ -5246,230 +5224,230 @@ label {
              });
              }
           
-      });  
+        });  
       
-      $("#add_commision_btn").click(function(){
-          
-          var lead_id = $("#lead_id").val();
-         $.ajax({
-                  url : "fetch_total_premium",
-                  method : "POST",
-                  data : {lead_id:lead_id},
-                  success:function(response)
-                  {
-                      var obj = jQuery.parseJSON(response);
-                      
-                      if(obj.total_premium != "" && obj.total_premium != "0.00" && obj.total_premium != undefined)
-                      {
-                          $("#tot_premium_amt").val(obj.total_premium);
-                          if(obj.own_commission_amt > 0 ){
-                              percentage = getPercentage(obj.own_commission_amt ,obj.total_premium);
-                              $('#own_com_amt').html(obj.own_commission_amt);
-                              $("#own_com_per").val(percentage);
-                          }
-                          
-                          // 2023-05-25 start
-                          if(obj.own_commission > 0 ){
-                              percentage = getPercentage(obj.own_commission ,obj.total_premium);
-                              $('#orc_com_amt').html(obj.own_commission);
-                              $("#orc_com_per").val(percentage);
-                          }
-                          
-                          if(obj.agent_commission_amt > 0 ){
-                              percentage = getPercentage(obj.agent_commission_amt ,obj.total_premium);
-                              $('#agn_amount').html(obj.agent_commission_amt);
-                              $("#agn_com").val(percentage);
-                          }
-                          
-                          if(obj.sub_agn_amt_1 > 0 ){
-                              percentage = getPercentage(obj.sub_agn_amt_1 ,obj.agent_commission_amt);
-                              $('#sub_agn_amt').html(obj.sub_agn_amt_1);
-                              $("#sub_agn_per").val(percentage);
-                          }
-                          
-                          
-                          if(obj.sub_agn_amt_2 > 0 ){
-                              percentage = getPercentage(obj.sub_agn_amt_2 ,obj.agent_commission_amt);
-                              $('#sub_agn_amt_2').html(obj.sub_agn_amt_2);
-                              $("#sub_agn_per_2").val(percentage);
-                          }
-                          
-                          if(obj.ai_com > 0 ){
-                              
-                              percentage = getPercentage(obj.ai_com ,obj.own_commission_amt);
-                              console.log('ai amt = ' + obj.ai_com + ', total = ' + obj.total_premium+', per = ' + percentage);
-                              $('#ai_amt').html(obj.ai_com);
-                              $("#ai_com").val(percentage);
-                          }
-                          
-                          $("#add_com_modal").modal("toggle");
-                      }
-                      else
-                      {
-                        snackbar_show("Add Premium Amounts");   
-                      }
-                      
-                  }
-         });  
-          
-           
-      });
+        $("#add_commision_btn").click(function(){
+            
+            var lead_id = $("#lead_id").val();
+            $.ajax({
+                    url : "fetch_total_premium",
+                    method : "POST",
+                    data : {lead_id:lead_id},
+                    success:function(response)
+                    {
+                        var obj = jQuery.parseJSON(response);
+                        
+                        if(obj.total_premium != "" && obj.total_premium != "0.00" && obj.total_premium != undefined)
+                        {
+                            $("#tot_premium_amt").val(obj.total_premium);
+                            if(obj.own_commission_amt > 0 ){
+                                percentage = getPercentage(obj.own_commission_amt ,obj.total_premium);
+                                $('#own_com_amt').html(obj.own_commission_amt);
+                                $("#own_com_per").val(percentage);
+                            }
+                            
+                            // 2023-05-25 start
+                            if(obj.own_commission > 0 ){
+                                percentage = getPercentage(obj.own_commission ,obj.total_premium);
+                                $('#orc_com_amt').html(obj.own_commission);
+                                $("#orc_com_per").val(percentage);
+                            }
+                            
+                            if(obj.agent_commission_amt > 0 ){
+                                percentage = getPercentage(obj.agent_commission_amt ,obj.total_premium);
+                                $('#agn_amount').html(obj.agent_commission_amt);
+                                $("#agn_com").val(percentage);
+                            }
+                            
+                            if(obj.sub_agn_amt_1 > 0 ){
+                                percentage = getPercentage(obj.sub_agn_amt_1 ,obj.agent_commission_amt);
+                                $('#sub_agn_amt').html(obj.sub_agn_amt_1);
+                                $("#sub_agn_per").val(percentage);
+                            }
+                            
+                            
+                            if(obj.sub_agn_amt_2 > 0 ){
+                                percentage = getPercentage(obj.sub_agn_amt_2 ,obj.agent_commission_amt);
+                                $('#sub_agn_amt_2').html(obj.sub_agn_amt_2);
+                                $("#sub_agn_per_2").val(percentage);
+                            }
+                            
+                            if(obj.ai_com > 0 ){
+                                
+                                percentage = getPercentage(obj.ai_com ,obj.own_commission_amt);
+                                console.log('ai amt = ' + obj.ai_com + ', total = ' + obj.total_premium+', per = ' + percentage);
+                                $('#ai_amt').html(obj.ai_com);
+                                $("#ai_com").val(percentage);
+                            }
+                            
+                            $("#add_com_modal").modal("toggle");
+                        }
+                        else
+                        {
+                            snackbar_show("Add Premium Amounts");   
+                        }
+                        
+                    }
+            });  
+            
+            
+        });
       
-      $("#own_com_per").keyup(function(){
-            var own_com_per = $("#own_com_per").val();
-            var tot_premium_amt = $("#tot_premium_amt").val();
-            var own_com_amt = (tot_premium_amt * own_com_per) / 100;
-            $("#own_com_amt").html("₹ "+own_com_amt+".00");
-            var sync = $("#orc_com_amt").val();
-            if(sync.length > 0) {
-                $("#orc_com_per").val('');
-                $("#orc_com_amt").html('');
-            }
-      });
+        $("#own_com_per").keyup(function(){
+                var own_com_per = $("#own_com_per").val();
+                var tot_premium_amt = $("#tot_premium_amt").val();
+                var own_com_amt = (tot_premium_amt * own_com_per) / 100;
+                $("#own_com_amt").html("₹ "+own_com_amt+".00");
+                var sync = $("#orc_com_amt").val();
+                if(sync.length > 0) {
+                    $("#orc_com_per").val('');
+                    $("#orc_com_amt").html('');
+                }
+        });
       
-      $("#orc_com_per").keyup(function(){
-            var orc_com_per = $("#orc_com_per").val();
-            var tot_premium_amt = $("#tot_premium_amt").val();
-            var orc_com_amt = ((tot_premium_amt * orc_com_per) / 100).toFixed(2);
-            $("#orc_com_amt").html("₹ "+orc_com_amt);
-            var sync = $("#ai_com").val();
-            if(sync.length > 0) {
-                $("#ai_com").val('');
-                $("#ai_amt").html('');
-            }
-      });
+        $("#orc_com_per").keyup(function(){
+                var orc_com_per = $("#orc_com_per").val();
+                var tot_premium_amt = $("#tot_premium_amt").val();
+                var orc_com_amt = ((tot_premium_amt * orc_com_per) / 100).toFixed(2);
+                $("#orc_com_amt").html("₹ "+orc_com_amt);
+                var sync = $("#ai_com").val();
+                if(sync.length > 0) {
+                    $("#ai_com").val('');
+                    $("#ai_amt").html('');
+                }
+        });
       
-      $("#agn_com").keyup(function(){
-            var agn_com = $("#agn_com").val();
-            var tot_premium_amt = $("#tot_premium_amt").val();
-            var agn_com_amt = (tot_premium_amt * agn_com) / 100;
-            $("#agn_amount").html("₹ "+agn_com_amt+".00"); 
-      });
+        $("#agn_com").keyup(function(){
+                var agn_com = $("#agn_com").val();
+                var tot_premium_amt = $("#tot_premium_amt").val();
+                var agn_com_amt = (tot_premium_amt * agn_com) / 100;
+                $("#agn_amount").html("₹ "+agn_com_amt+".00"); 
+        });
       
-       $("#ai_com").keyup(function(){
-            var ai_com = $("#ai_com").val();
-            var own_com_per = $("#own_com_per").val();
-            var tot_premium_amt = $("#tot_premium_amt").val();
-            var own_com_amt = (tot_premium_amt * own_com_per) / 100;
-            var ai_com_amt = (own_com_amt * ai_com) / 100;
-            $("#ai_amt").html("₹ "+ai_com_amt+".00"); 
-      });
+        $("#ai_com").keyup(function(){
+                var ai_com = $("#ai_com").val();
+                var own_com_per = $("#own_com_per").val();
+                var tot_premium_amt = $("#tot_premium_amt").val();
+                var own_com_amt = (tot_premium_amt * own_com_per) / 100;
+                var ai_com_amt = (own_com_amt * ai_com) / 100;
+                $("#ai_amt").html("₹ "+ai_com_amt+".00"); 
+        });
    
-      $("#sub_agn_per").keyup(function(){
+        $("#sub_agn_per").keyup(function(){
+                var sub_agn_per = $("#sub_agn_per").val();
+                var agn_com = $("#agn_com").val();
+                var tot_premium_amt = $("#tot_premium_amt").val();
+                var agn_com_amt = (tot_premium_amt * agn_com) / 100;
+                var sub_agn_amt1 = (agn_com_amt * sub_agn_per) / 100;
+                $("#sub_agn_amt").html("₹ "+sub_agn_amt1+".00"); 
+        });
+      
+        $("#sub_agn_per_2").keyup(function(){
+                var sub_agn_per_2 = $("#sub_agn_per_2").val();
+                var agn_com = $("#agn_com").val();
+                var tot_premium_amt = $("#tot_premium_amt").val();
+                var agn_com_amt = (tot_premium_amt * agn_com) / 100;
+                var sub_agn_amt2 = (agn_com_amt * sub_agn_per_2) / 100;
+                $("#sub_agn_amt_2").html("₹ "+sub_agn_amt2+".00"); 
+        });
+      
+        $("#sub_com_btn").click(function(){
+            
+            var lead_id = $("#lead_id").val();
+            var own_com_per = $("#own_com_per").val();
+            var orc_com_per = $("#orc_com_per").val();
+            var agn_com = $("#agn_com").val(); 
+            var ai_com = $("#ai_com").val();
+            var sub_agn_1 = $("#sub_agn_1").val();
             var sub_agn_per = $("#sub_agn_per").val();
-            var agn_com = $("#agn_com").val();
-            var tot_premium_amt = $("#tot_premium_amt").val();
-            var agn_com_amt = (tot_premium_amt * agn_com) / 100;
-            var sub_agn_amt1 = (agn_com_amt * sub_agn_per) / 100;
-            $("#sub_agn_amt").html("₹ "+sub_agn_amt1+".00"); 
-      });
-      
-      $("#sub_agn_per_2").keyup(function(){
+            var sub_agn_2 = $("#sub_agn_2").val();
             var sub_agn_per_2 = $("#sub_agn_per_2").val();
-            var agn_com = $("#agn_com").val();
-            var tot_premium_amt = $("#tot_premium_amt").val();
-            var agn_com_amt = (tot_premium_amt * agn_com) / 100;
-            var sub_agn_amt2 = (agn_com_amt * sub_agn_per_2) / 100;
-            $("#sub_agn_amt_2").html("₹ "+sub_agn_amt2+".00"); 
-      });
-      
-      $("#sub_com_btn").click(function(){
-          
-         var lead_id = $("#lead_id").val();
-         var own_com_per = $("#own_com_per").val();
-         var orc_com_per = $("#orc_com_per").val();
-         var agn_com = $("#agn_com").val(); 
-         var ai_com = $("#ai_com").val();
-         var sub_agn_1 = $("#sub_agn_1").val();
-         var sub_agn_per = $("#sub_agn_per").val();
-         var sub_agn_2 = $("#sub_agn_2").val();
-         var sub_agn_per_2 = $("#sub_agn_per_2").val();
-         var policy_no = $("#policy_no").val();
-         
-     
-             if(own_com_per == "")
-             {
-                 snackbar_show("Enter Own Commission Percentage");         
-             }
-             else if(orc_com_per == "")
-             {
-                 snackbar_show("Enter Orc Commission Percentage");         
-             }
-             else if(agn_com == "")
-             {
-                 snackbar_show("Enter Agent Commission Percentage");      
-             }
-             else if(ai_com == "")
-             {
-                 snackbar_show("Enter Ai Commission Percentage");     
-             }
-             else if(sub_agn_1 != "" && sub_agn_per == "")
-             {
-                 snackbar_show("Enter Sub Agent 1 Percentage");
-             }
-             else if(sub_agn_2 != "" && sub_agn_per_2 == "")
-             {
-                 snackbar_show("Enter Sub Agent 2 Percentage");
-             }
-             else
-             {
-                    var own_com_per = $("#own_com_per").val();
-                    var orc_com_per = $("#orc_com_per").val();
-                    var tot_premium_amt = $("#tot_premium_amt").val();
-                    var own_com_amt = (tot_premium_amt * own_com_per) / 100;
-                    var orc_com_amt = (tot_premium_amt * orc_com_per) / 100;
-                    var agn_com_amt = (tot_premium_amt * agn_com) / 100;
-                    
-                    var ai_com_amt = (own_com_amt * ai_com) / 100;
-                    var sub_agn_amt1  = "";
-                    var sub_agn_amt2 = "";
-                    
-                    if(sub_agn_per != "")
-                    {
-                         sub_agn_amt1 = (agn_com_amt * sub_agn_per) / 100;
-                    }
-                    
-                    if(sub_agn_per_2 != "")
-                    {
-                         sub_agn_amt2 = (agn_com_amt * sub_agn_per_2) / 100;
-                    }
+            var policy_no = $("#policy_no").val();
+            
+        
+                if(own_com_per == "")
+                {
+                    snackbar_show("Enter Own Commission Percentage");         
+                }
+                else if(orc_com_per == "")
+                {
+                    snackbar_show("Enter Orc Commission Percentage");         
+                }
+                else if(agn_com == "")
+                {
+                    snackbar_show("Enter Agent Commission Percentage");      
+                }
+                else if(ai_com == "")
+                {
+                    snackbar_show("Enter Ai Commission Percentage");     
+                }
+                else if(sub_agn_1 != "" && sub_agn_per == "")
+                {
+                    snackbar_show("Enter Sub Agent 1 Percentage");
+                }
+                else if(sub_agn_2 != "" && sub_agn_per_2 == "")
+                {
+                    snackbar_show("Enter Sub Agent 2 Percentage");
+                }
+                else
+                {
+                        var own_com_per = $("#own_com_per").val();
+                        var orc_com_per = $("#orc_com_per").val();
+                        var tot_premium_amt = $("#tot_premium_amt").val();
+                        var own_com_amt = (tot_premium_amt * own_com_per) / 100;
+                        var orc_com_amt = (tot_premium_amt * orc_com_per) / 100;
+                        var agn_com_amt = (tot_premium_amt * agn_com) / 100;
+                        
+                        var ai_com_amt = (own_com_amt * ai_com) / 100;
+                        var sub_agn_amt1  = "";
+                        var sub_agn_amt2 = "";
+                        
+                        if(sub_agn_per != "")
+                        {
+                            sub_agn_amt1 = (agn_com_amt * sub_agn_per) / 100;
+                        }
+                        
+                        if(sub_agn_per_2 != "")
+                        {
+                            sub_agn_amt2 = (agn_com_amt * sub_agn_per_2) / 100;
+                        }
 
-                    $.ajax({
-                                url : "add_sme_commission",
-                                method : "POST",
-                                data : {lead_id:lead_id,policy_no:policy_no,own_com_amt:own_com_amt,orc_com_amt:orc_com_amt,agn_com_amt:agn_com_amt,ai_com_amt:ai_com_amt,sub_agn_1:sub_agn_1,sub_agn_2:sub_agn_2,sub_agn_amt1:sub_agn_amt1,sub_agn_amt2:sub_agn_amt2},
-                                beforeSend:function(){
-                                    $("#sub_com_btn").attr("disabled",true);
-                                },
-                                success:function(response)
-                                {
-                                     $("#sub_com_btn").attr("disabled",false);
-                                     
-                                     if(response == "Exits")
-                                     {
-                                          snackbar_show("Policy Already Exits In Active Policy!");
-                                          window.location.href="generate_policy1";
-                                     }
-                                     else
-                                     {
-                                         $("#add_com_modal").modal("toggle");
-                                         
-                                          $("#save_btn").attr("disabled",false);
-                                                Swal.fire({
-                                                position: 'top-end',
-                                                icon: 'success',
-                                                title: 'Policy Has Been Generated Successfully..',
-                                                showConfirmButton: false,
-                                                timer: 1500
-                                            })
+                        $.ajax({
+                                    url : "add_sme_commission",
+                                    method : "POST",
+                                    data : {lead_id:lead_id,policy_no:policy_no,own_com_amt:own_com_amt,orc_com_amt:orc_com_amt,agn_com_amt:agn_com_amt,ai_com_amt:ai_com_amt,sub_agn_1:sub_agn_1,sub_agn_2:sub_agn_2,sub_agn_amt1:sub_agn_amt1,sub_agn_amt2:sub_agn_amt2},
+                                    beforeSend:function(){
+                                        $("#sub_com_btn").attr("disabled",true);
+                                    },
+                                    success:function(response)
+                                    {
+                                        $("#sub_com_btn").attr("disabled",false);
+                                        
+                                        if(response == "Exits")
+                                        {
+                                            snackbar_show("Policy Already Exits In Active Policy!");
                                             window.location.href="generate_policy1";
-                                            notification_log(lead_id);
-                                     }
-                                }
-                    });
-             }
-         
-      });
+                                        }
+                                        else
+                                        {
+                                            $("#add_com_modal").modal("toggle");
+                                            
+                                            $("#save_btn").attr("disabled",false);
+                                                    Swal.fire({
+                                                    position: 'top-end',
+                                                    icon: 'success',
+                                                    title: 'Policy Has Been Generated Successfully..',
+                                                    showConfirmButton: false,
+                                                    timer: 1500
+                                                })
+                                                window.location.href="generate_policy1";
+                                                notification_log(lead_id);
+                                        }
+                                    }
+                        });
+                }
+            
+        });
       
       
         //2023-06-01 start
@@ -5486,6 +5464,15 @@ label {
                 });
             }
         }); 
+
+        // ✅ Set today's date as default and make it readonly
+        const today = new Date().toISOString().split('T')[0];
+            $("#payment_collected_date")
+                .val(today)       // set today's date
+                .attr("readonly", true) // prevent typing
+                .on("keydown mousedown", function(e) {
+                    e.preventDefault(); // prevent datepicker from opening or editing
+                });
       
 
     });
@@ -5500,8 +5487,8 @@ label {
         return percent;
     }
     
-      function calculate()
-      {
+    function calculate()
+    {
             var total_liablity = 0;
             var total_premium = 0;
             
@@ -5563,10 +5550,10 @@ label {
                 $("#gst").val(gst1);
                 $("#premium_gst").val(tot);
             }
-        }
+    }
         
-      function notification_log(id)
-      {
+    function notification_log(id)
+    {
             $.ajax({
                         url : "get_recent_activities",
                         method : "POST",
@@ -5576,23 +5563,23 @@ label {
                           $("#recent_activity_div").html(response);
                         }
                 });
-      }
+    }
       
       
-      function fetch_health_details(lead_id)
-      {
-          $.ajax({
-                     url : "fetch_edit_health_details",
-                     method : "POST",
-                     data : {lead_id:lead_id},
-                     success:function(response)
-                     {
-                         var obj = jQuery.parseJSON(response);
-                         
-                         var html = "";
-                         
-                         if(obj.gender == "Male")
-                         {
+    function fetch_health_details(lead_id)
+    {
+        $.ajax({
+                    url : "fetch_edit_health_details",
+                    method : "POST",
+                    data : {lead_id:lead_id},
+                    success:function(response)
+                    {
+                        var obj = jQuery.parseJSON(response);
+                        
+                        var html = "";
+                        
+                        if(obj.gender == "Male")
+                        {
                             Applicant_gender =  obj.gender;
                             
                             var date    = new Date(obj.husband_dob),
@@ -5602,7 +5589,7 @@ label {
                             newDate = day + '-' + month + '-' + yr;
                             
                             Husband_status = "1";
-                       
+                    
                             html += "<tr>";
                             html += "<td>"+obj.husband_name+"</td>";
                             html += "<td>"+obj.husband_age+" Y/O</td>";
@@ -5651,11 +5638,11 @@ label {
                                 html += "</td>";
                                 html += "</tr>";
                             }
-                         }
-                         else
-                         {
-                               Applicant_gender =  obj.gender; 
-                               
+                        }
+                        else
+                        {
+                            Applicant_gender =  obj.gender; 
+                            
                                 Wife_status = "1";
                                 
                                 var date    = new Date(obj.wife_dob),
@@ -5713,15 +5700,15 @@ label {
                                     html += "</td>";
                                     html += "</tr>";
                                 }
-                         }
-                         
-                         if(obj.duaghter == "1")
-                         {
-                               if(obj.daughter_name_1 != "0" && obj.daughter_name_1 != "")
-                               {
+                        }
+                        
+                        if(obj.duaghter == "1")
+                        {
+                            if(obj.daughter_name_1 != "0" && obj.daughter_name_1 != "")
+                            {
                                     Daughter_1_status = "1";
                                     
-                                   if(obj.daughter1_age > 12)
+                                if(obj.daughter1_age > 12)
                                     {
                                         var age_format = "Y";
                                         var age = obj.daughter1_age/12;
@@ -5756,12 +5743,12 @@ label {
                                     html += "    <input type='file' class='form-control' id='daug_1_file'>";
                                     html += "</td>";
                                     html += "</tr>";
-                               }
-                               
-                               if(obj.daughter_name_2 != "0" && obj.daughter_name_2 != "")
-                               {
-                                   Daughter_2_status = "1";
-                                   
+                            }
+                            
+                            if(obj.daughter_name_2 != "0" && obj.daughter_name_2 != "")
+                            {
+                                Daughter_2_status = "1";
+                                
                                     var date    = new Date(obj.daughter_dob_2),
                                     yr      = date.getFullYear(),
                                     month   = date.getMonth() < 10 ? '0' + date.getMonth() : date.getMonth(),
@@ -5797,11 +5784,11 @@ label {
                                     html += "    <input type='file' class='form-control' id='daug_2_file'>";
                                     html += "</td>";
                                     html += "</tr>";
-                               }
-                               
-                               if(obj.daughter_name_3 != "0" && obj.daughter_name_3 != "")
-                               {
-                                   Daughter_3_status = "1";
+                            }
+                            
+                            if(obj.daughter_name_3 != "0" && obj.daughter_name_3 != "")
+                            {
+                                Daughter_3_status = "1";
                                     var date    = new Date(obj.daughter_dob_3),
                                     yr      = date.getFullYear(),
                                     month   = date.getMonth() < 10 ? '0' + date.getMonth() : date.getMonth(),
@@ -5837,17 +5824,17 @@ label {
                                     html += "    <input type='file' class='form-control' id='daug_3_file'>";
                                     html += "</td>";
                                     html += "</tr>";
-                               }
-                         }
-                         
-                         
-                         if(obj.son == "1")
-                         {
-                               if(obj.son_name_1 != "0" && obj.son_name_1 != "")
-                               {
-                                   Son_1_status = "1";
-                                   
-                                   if(obj.son1_age > 12)
+                            }
+                        }
+                        
+                        
+                        if(obj.son == "1")
+                        {
+                            if(obj.son_name_1 != "0" && obj.son_name_1 != "")
+                            {
+                                Son_1_status = "1";
+                                
+                                if(obj.son1_age > 12)
                                     {
                                         var age_format = "Y";
                                         var age = obj.son1_age/12;
@@ -5882,13 +5869,13 @@ label {
                                     html += "    <input type='file' class='form-control' id='son_1_file'>";
                                     html += "</td>";
                                     html += "</tr>";
-                               }
-                               
-                               if(obj.son_name_2 != "0" && obj.son_name_2 != "")
-                               {
-                                   Son_2_status = "1";
-                                   
-                                   if(obj.son2_age > 12)
+                            }
+                            
+                            if(obj.son_name_2 != "0" && obj.son_name_2 != "")
+                            {
+                                Son_2_status = "1";
+                                
+                                if(obj.son2_age > 12)
                                     {
                                         var age_format = "Y";
                                         var age = obj.son2_age/12;
@@ -5923,13 +5910,13 @@ label {
                                     html += "    <input type='file' class='form-control' id='son_2_file'>";
                                     html += "</td>";
                                     html += "</tr>";
-                               }
-                               
-                               if(obj.son_name_3 != "0" && obj.son_name_3 != "")
-                               {
-                                   Son_3_status = "1";
-                                   
-                                   if(obj.son3_age > 12)
+                            }
+                            
+                            if(obj.son_name_3 != "0" && obj.son_name_3 != "")
+                            {
+                                Son_3_status = "1";
+                                
+                                if(obj.son3_age > 12)
                                     {
                                         var age_format = "Y";
                                         var age = obj.son3_age/12;
@@ -5964,16 +5951,16 @@ label {
                                     html += "    <input type='file' class='form-control' id='son_3_file'>";
                                     html += "</td>";
                                     html += "</tr>";
-                               }
-                         }
-                         
-                         
-                         if(obj.father == "1")
-                         {
-                               if(obj.father_name != "0" && obj.father_name != "")
-                               {
-                                   Father_status = "1";
-                                  
+                            }
+                        }
+                        
+                        
+                        if(obj.father == "1")
+                        {
+                            if(obj.father_name != "0" && obj.father_name != "")
+                            {
+                                Father_status = "1";
+                                
                                     var date    = new Date(obj.father_dob),
                                     yr      = date.getFullYear(),
                                     month   = date.getMonth() < 10 ? '0' + date.getMonth() : date.getMonth(),
@@ -5998,18 +5985,18 @@ label {
                                     html += "    <input type='file' class='form-control' id='father_file'>";
                                     html += "</td>";
                                     html += "</tr>";
-                               }
-                         
+                            }
+                        
                         $("#insurer_details").html(html);
-                     }
-                     
-                         if(obj.mother == "1")
-                         {
-                               Mother_status = "1";
-                               
-                               if(obj.mother_name != "0" && obj.mother_name != "")
-                               {
-                                  
+                    }
+                    
+                        if(obj.mother == "1")
+                        {
+                            Mother_status = "1";
+                            
+                            if(obj.mother_name != "0" && obj.mother_name != "")
+                            {
+                                
                                     var date    = new Date(obj.mother_dob),
                                     yr      = date.getFullYear(),
                                     month   = date.getMonth() < 10 ? '0' + date.getMonth() : date.getMonth(),
@@ -6034,37 +6021,37 @@ label {
                                     html += "    <input type='file' class='form-control' id='mother_file'>";
                                     html += "</td>";
                                     html += "</tr>";
-                               }
-                         }
-                         
+                            }
+                        }
+                        
                         $("#insurer_details").html(html);
-                     }
+                    }
             });
-      }
+    }
       
-      function upload_documents()
-      {
-           var document_type = $("#document_type").val();
-           var doc_file = $("#document_file").val();
-           var lead_id = $("#lead_id").val();
-           var files = $("#document_file").prop('files')[0];
-           var formdata = new FormData();
-           formdata.append('file',files);
-           formdata.append('id',lead_id);
-           formdata.append('document_type',document_type);
-       
+    function upload_documents()
+    {
+        var document_type = $("#document_type").val();
+        var doc_file = $("#document_file").val();
+        var lead_id = $("#lead_id").val();
+        var files = $("#document_file").prop('files')[0];
+        var formdata = new FormData();
+        formdata.append('file',files);
+        formdata.append('id',lead_id);
+        formdata.append('document_type',document_type);
+    
         if(document_type == "")
         {
-              Swal.fire({
+                Swal.fire({
                             icon: 'warning',
                             title: 'Oops...',
                             text: 'Enter Document name!',
                             footer: ''
-                        })
+                    })
         }
         else if(doc_file == "")
         {
-               Swal.fire({
+                Swal.fire({
                             icon: 'warning',
                             title: 'Oops...',
                             text: 'Select a File!',
@@ -6073,7 +6060,7 @@ label {
         }
         else 
         {
-          $.ajax({
+            $.ajax({
                 type:"POST",
                 url:"upload_policy_document_files",
                 data:formdata,
@@ -6086,9 +6073,9 @@ label {
                     var document_type = $("#document_type").val("");
                     var files = $("#document_file").val("");
                     $("#table_view").append(response);
-           
+            
                 }
-          });
+            });
         }
     }
     

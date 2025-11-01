@@ -376,6 +376,7 @@ $route["delete_bussiness_type"] = "ConfigCtrl/delete_bussiness_type";
 
 $route["policy_type"] = "ConfigCtrl/policy_type";
 $route["fetch_policy_type"] = "ConfigCtrl/fetch_policy_type";
+$route["fetch_car_fuel_types"] = "ConfigCtrl/fetch_car_fuel_types";
 $route["add_policy_type"] = "ConfigCtrl/add_policy_type";
 $route["fetch_edit_policy_type"] = "ConfigCtrl/fetch_edit_policy_type";
 $route["edit_policy_type"] = "ConfigCtrl/edit_policy_type";
@@ -388,6 +389,8 @@ $route["add_lead_details"] = "LeadCtrl/add_lead_details";
 $route["get_lead_details"] = "LeadCtrl/get_lead_details";
 $route["add_follow_up_details"] = "LeadCtrl/add_follow_up_details";
 $route["fetch_policy_type_using_class"] = "LeadCtrl/fetch_policy_type_using_class";
+$route["get_fuel_type_by_vehicle"] = "LeadCtrl/get_fuel_type_by_vehicle";
+
 //
 $route["fetch_make"] = "LeadCtrl/fetch_make";
 $route["fetch_model"] = "LeadCtrl/fetch_model";

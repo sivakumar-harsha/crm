@@ -751,7 +751,20 @@ class LeadCtrl extends CI_Controller {
     	        echo json_encode($res);
     	    }
 	    }
-	    
+
+        public function get_fuel_type_by_vehicle()
+        {
+            if ($this->session->has_userdata('logged_in')) 
+            {
+                $vehicle_type_id = $this->input->post("vehicle_type_id");
+
+                // Fetch fuel type(s) for this vehicle type
+                $res = $this->lm->get_fuel_type_by_vehicle($vehicle_type_id);
+
+                echo json_encode($res);
+            }
+        }
+
 	    
 	    public function add_vechile_details()
         {
@@ -2242,6 +2255,7 @@ class LeadCtrl extends CI_Controller {
                         "payment_type"=> $this->input->post("payment_type"),
                         "pay_ref_no"=> $this->input->post("pay_ref_no"),
                         "bank_name"=> $this->input->post("bank_name"),
+                        "payment_receipt_no"=> $this->input->post("payment_receipt_no"),
                         "payment_check_date"=> $this->input->post("payment_check_date"),
                         "payment_and_check_no"=> $this->input->post("payment_and_check_no"),
                         "remarks"=> $this->input->post("remarks"),
@@ -2537,9 +2551,9 @@ class LeadCtrl extends CI_Controller {
                         echo "Policy No Already Exits";
                     }
            }
-    }
+        }
     
-     public function update_generated_policy()
+        public function update_generated_policy()
         {
             if($this->session->has_userdata('logged_in'))
             {
@@ -3299,7 +3313,7 @@ class LeadCtrl extends CI_Controller {
        }
      }
     
-      public function save_manual_generated_policy()
+        public function save_manual_generated_policy()
         {
              if($this->session->has_userdata('logged_in'))
             {
@@ -4748,6 +4762,7 @@ class LeadCtrl extends CI_Controller {
             $salutation          = $this->input->post("salutation");
             $mobile_no           = $this->input->post("mobile_no");
             $initial             = $this->input->post("initial");
+            $father_husband_name = $this->input->post("father_husband_name");
             $custom_fields_input = $this->input->post("custom_fields");
             $communication_address = $this->input->post("communication_address");
             $permanent_address   = $this->input->post("permanent_address");
@@ -4825,6 +4840,7 @@ class LeadCtrl extends CI_Controller {
                 "client_name"            => $client_name,
                 "salutation"             => $salutation,
                 "initial"                => $initial,
+                "father_husband_name"    => $father_husband_name,
                 "custom_fields"          => $custom_fields_json,
                 "doc_aadhar"             => $uploaded_docs['doc_aadhar'],
                 "doc_pan"                => $uploaded_docs['doc_pan'],
@@ -5121,7 +5137,7 @@ class LeadCtrl extends CI_Controller {
             }
         }
         
-       public function update_vechicle_details()
+        public function update_vechicle_details()
         {
             if ($this->session->has_userdata('logged_in')) 
             {
@@ -5353,8 +5369,6 @@ class LeadCtrl extends CI_Controller {
                 }
             }
         }
-
-
         
         public function get_recent_activities()
         {

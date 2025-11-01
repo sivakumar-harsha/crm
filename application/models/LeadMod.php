@@ -1436,6 +1436,16 @@ class LeadMod extends CI_Model
 						->row();
 	}
 
+	public function get_fuel_type_by_vehicle($vehicle_type_id)
+	{
+		$this->db->select("list_of_car_fuel_type.id, list_of_car_fuel_type.fuel_type");
+		$this->db->from("list_of_car_fuel_type");
+		$this->db->join("list_of_policy_type", "list_of_policy_type.fuel_type_id = list_of_car_fuel_type.id", "left");
+		$this->db->where("list_of_policy_type.id", $vehicle_type_id);
+		return $this->db->get()->result();
+	}
+
+
 
 	public function add_activity_log($data)
 	{
