@@ -6914,8 +6914,8 @@ class LeadCtrl extends CI_Controller {
 	}
 	
 	
-	  public function check_commission_status()
-      {
+	public function check_commission_status()
+    {
             if($this->session->has_userdata('logged_in')) 
         	{
         	    $check_user_i = $this->mm->fetch_user_permissions($this->session->userdata('session_id'));
@@ -8055,7 +8055,7 @@ class LeadCtrl extends CI_Controller {
                
                  }
         	}
-       }
+    }
        
   //direct renewals 
        
@@ -8417,7 +8417,7 @@ class LeadCtrl extends CI_Controller {
                         "policy_location"=> $this->input->post("policy_location"),
                         "previous_policy_no"=> $this->input->post("previous_policy_no"),
                         "previous_insurer"=> $this->input->post("previous_insurer"),
-                        "previous_insurance_plan"=> $this->input->post("previous_insurance_plan"),
+                        "previous_insurance_type"=> $this->input->post("previous_insurance_type"),
                         "previous_agency_pos"=> $this->input->post("previous_agency_pos"),
                         "previous_source"=> $this->input->post("previous_source"),
                         "dectable_details"=> $this->input->post("dectable_details"),
@@ -8434,6 +8434,7 @@ class LeadCtrl extends CI_Controller {
                         "pay_ref_no"=> $this->input->post("pay_ref_no"),
                         "bank_name"=> $this->input->post("bank_name"),
                         "payment_check_date"=> $this->input->post("payment_check_date"),
+                        "payment_receipt_no"=> $this->input->post("payment_receipt_no"),
                         "payment_and_check_no"=> $this->input->post("payment_and_check_no"),
                         "remarks"=> $this->input->post("remarks"),
                         "company"=> $this->input->post("company"),
@@ -8840,6 +8841,7 @@ class LeadCtrl extends CI_Controller {
                     "previous_policy_no"=> $this->input->post("previous_policy_no"),
                     "previous_insurer"=> $this->input->post("previous_insurer"),
                     "previous_insurance_plan"=> $this->input->post("previous_insurance_plan"),
+                    "previous_insurance_type"=> $this->input->post("previous_insurance_type"),
                     "previous_agency_pos"=> $this->input->post("previous_agency_pos"),
                     "previous_source"=> $this->input->post("previous_source"),
                     "dectable_details"=> $this->input->post("dectable_details"),
@@ -8856,6 +8858,7 @@ class LeadCtrl extends CI_Controller {
                     "pay_ref_no"=> $this->input->post("pay_ref_no"),
                     "bank_name"=> $this->input->post("bank_name"),
                     "payment_check_date"=> $this->input->post("payment_check_date"),
+                    "payment_check_date"=> $this->input->post("payment_receipt_no"),
                     "payment_and_check_no"=> $this->input->post("payment_and_check_no"),
                     "remarks"=> $this->input->post("remarks"),
                     "company"=> $this->input->post("company"),

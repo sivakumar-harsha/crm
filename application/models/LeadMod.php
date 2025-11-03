@@ -937,6 +937,7 @@ class LeadMod extends CI_Model
             
             $this->db->where("list_of_leads.policy_status !=","1");
             $this->db->where("list_of_leads.lead_type !=","2");
+			$this->db->or_where("list_of_leads.business_type", 3);
   	}
   	
   	
@@ -1927,6 +1928,16 @@ class LeadMod extends CI_Model
        return $this->db->get()->row();
        
    }
+
+   public function get_state_name($id)
+	{
+		return $this->db->select('name')
+						->from('list_of_commision_state')
+						->where('id', $id)
+						->get()
+						->row();
+	}
+
   
    public function get_class_type($lead_id)
    {

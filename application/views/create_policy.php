@@ -61,9 +61,8 @@ label {
   <div class="content-wrapper">
     <section class="content-header">
      
-              <?php 
-                if(isset($_GET["id"]))
-                {
+              <?php
+                if (isset($_GET["id"])) {
                     $id = $_GET["id"];
                 }
               ?>
@@ -75,8 +74,7 @@ label {
                             <input type="hidden" id="_commission_id" value=""/>
                   </div>
                
-                      <?php  if(isset($_GET["sec"])) 
-                      {  ?>
+                      <?php  if (isset($_GET["sec"])) {  ?>
                       
                         <div class="col-md-6 pull-right">
                            <button class="btn btn-success pull-right" id="update_btn"> <i class="fa fa-save"></i> Update</button>
@@ -84,9 +82,8 @@ label {
                            <button class="btn btn-danger pull-right hidden" id="add_commision_btn"> <i class="fa fa-inr"></i> Edit Commission</button>
                         </div>
                       
-                      <?php }
-                      else{ 
-                      ?>
+                      <?php } else {
+                          ?>
                      
                       
                         <div class="col-md-6 pull-right">
@@ -349,7 +346,7 @@ label {
                            <div class="col-md-8">
                                 <select class="form-control" name="bussiness_type" id="bussiness_type">
                                     <option value="">--select--</option>
-                                    <?php foreach($business as $da){?>
+                                    <?php foreach ($business as $da) {?>
                                     <option value="<?php echo $da->id ?>"><?php echo $da->bussiness_type ?></option>
                                     <?php } ?>
                                 </select>
@@ -365,7 +362,7 @@ label {
                            <div class="col-md-8">
                                 <select class="form-control" name="policy_class" id="policy_class">
                                     <option value="">--select--</option>
-                                    <?php foreach($class as $da){ ?>
+                                    <?php foreach ($class as $da) { ?>
                                       <option value="<?php echo $da->id ?>"><?php echo $da->class ?></option>
                                     <?php } ?>
                                 </select>
@@ -425,7 +422,7 @@ label {
                              </div>
                      </div>
                  
-                 <?php if(!isset($_GET["id"])){ ?>
+                 <?php if (!isset($_GET["id"])) { ?>
                  
                      <div class="form-group">
                             <div class="row">   
@@ -503,7 +500,7 @@ label {
                             <div class="col-md-8">
                                 <select class="form-control select2" name="agent_pos" id="agent_pos" style='width:100%'>
                                     <option value="">--select--</option>
-                                    <?php foreach($agents_pos as $da){?>
+                                    <?php foreach ($agents_pos as $da) {?>
                                       <option value="<?php echo $da->id ?>"><?php echo $da->name."  - ".$da->agent_pos_code."" ?></option>
                                     <?php } ?>
                                 </select>
@@ -521,11 +518,11 @@ label {
                             <div class="col-md-8">
                                 <select class="form-control" name="assign_to_user" id="assign_to_user">
                                  <?php
-                                    if($this->session->userdata("session_role") == "admin")
-                                    { ?>
-                                    <?php foreach($users as $da){?>
+                                        if ($this->session->userdata("session_role") == "admin") { ?>
+                                    <?php foreach ($users as $da) {?>
                                     <option value="<?php echo $da->id ?>"><?php echo $da->username."  (".$da->email_id.")" ?></option>
-                                    <?php }} ?>
+                                    <?php }
+                                    } ?>
                                 </select>
                             </div>
                         </div>
@@ -571,7 +568,7 @@ label {
         </div>
     </div>
 
-     <div class="box">
+    <div class="box">
         <div class="box-header with-border" style="background:#f4f4f48c;">
             <h3 class="box-title" _msthash="26273" _msttexthash="60619" style="text-align: left;font-size:14px;"><i class="fa fa-bars" aria-hidden="true"></i> &nbsp;&nbsp; Policy Details </h3>
             <div class="box-tools pull-right">
@@ -603,7 +600,7 @@ label {
                            <div class="col-md-8">
                                <select class="form-control select2" name="company" id="company">
                                     <option value="">--select--</option>
-                                    <?php foreach($company as $da){?>
+                                    <?php foreach ($company as $da) {?>
                                     <option value="<?php echo $da->id ?>"><?php echo $da->company_name; ?></option>
                                      
                                     <?php } ?>
@@ -657,6 +654,18 @@ label {
                            </div>
                         </div>
                     </div>
+
+                    <div class="form-group">
+                        <div class="row">
+                            <div class="col-md-4">
+                            <label>Days Insured</label>
+                            </div>
+                            <div class="col-md-8">
+                            <input type="text" class="form-control" id="days_insured" readonly>
+                            </div>
+                        </div>
+                    </div>
+
                 </div>
                 
                 <div class="col-md-6">
@@ -668,7 +677,7 @@ label {
                            <div class="col-md-8">
                                <select class="form-control" name="policy_premium" id="policy_premium">
                                    <option value="">--Select--</option>
-                                   <?php  foreach($premium_cover_type as $da){ ?>
+                                   <?php  foreach ($premium_cover_type as $da) { ?>
                                         <option value="<?php echo $da->id ?>"><?php echo $da->name ?></option>
                                    <?php } ?>
                                </select>
@@ -1348,7 +1357,7 @@ label {
                             <div class="col-md-8">
                                 <select class="form-control select2" name="policy_agency_pos" id="policy_agency_pos">
                                     <option value="">--select--</option>
-                                    <?php foreach($agents_pos as $da){ ?>
+                                    <?php foreach ($agents_pos as $da) { ?>
                                         <option value="<?php echo $da->id ?>">
                                             <?php echo $da->name."  (".$da->agent_pos_code.")" ?>
                                         </option>
@@ -1430,7 +1439,7 @@ label {
                             <div class="col-md-8">
                                 <select class="form-control select2" name="previous_insurer" id="previous_insurer">
                                     <option value="">--Select--</option>
-                                    <?php foreach($company as $da){ ?>
+                                    <?php foreach ($company as $da) { ?>
                                         <option value="<?php echo $da->id ?>"><?php echo $da->company_name; ?></option>
                                     <?php } ?>
                                 </select>
@@ -1679,9 +1688,10 @@ label {
     </div> 
 
     </div>
+
     <?php
-     if($this->session->userdata("session_role") == "user")
-    { ?>
+     if ($this->session->userdata("session_role") == "user") { ?>
+
      <!--   <div class="box" id="upload_doc">
             <div class="box-header with-border" style="background:#f4f4f48c;">
                 <h3 class="box-title" _msthash="26273" _msttexthash="60619" style="text-align: left;font-size:14px;"><i class="fa fa-bars" aria-hidden="true"></i> &nbsp;&nbsp; Renewal By </h3>
@@ -1697,7 +1707,7 @@ label {
                             <div class="col-md-4">
                                 <select class="form-control" name="renewal_user" id="renewal_user">
                                     
-                                    <?php foreach($users as $da){?>
+                                    <?php foreach ($users as $da) {?>
                                     <option value="<?php echo $da->id ?>"><?php echo $da->username."  (".$da->email_id.")" ?></option>
                                     <?php } ?>
                                 </select>
@@ -1733,7 +1743,7 @@ label {
                     <div class="col-md-10">
                         <select class="form-control" name="template_id" id="template_id">
                             <option value="">--Select--</option>
-                            <?php foreach($email_templates as $da){?>
+                            <?php foreach ($email_templates as $da) {?>
                               <option value="<?php echo $da->id ?>"><?php echo $da->template_name ?></option>
                             <?php } ?>
                         </select>
@@ -1957,7 +1967,7 @@ label {
                        <label>Sub Agent 1</label>
                         <select class="form-control select2" name="sub_agn_1" id="sub_agn_1" style="width:100%">
                             <option value="">--select--</option>
-                                <?php foreach($agents_pos as $da){?>
+                                <?php foreach ($agents_pos as $da) {?>
                                 <option value="<?php echo $da->id ?>"><?php echo $da->name."  (".$da->agent_pos_code.")" ?></option>
                                  
                                 <?php } ?>
@@ -1983,7 +1993,7 @@ label {
                     <label>Sub Agent 2</label>
                     <select class="form-control select2" name="sub_agn_2" id="sub_agn_2" style="width:100%">
                         <option value="">--select--</option>
-                            <?php foreach($agents_pos as $da){?>
+                            <?php foreach ($agents_pos as $da) {?>
                             <option value="<?php echo $da->id ?>"><?php echo $da->name."  (".$da->agent_pos_code.")" ?></option>
                              
                             <?php } ?>
@@ -2306,7 +2316,7 @@ label {
                             $("#previous_policy_no").val(obj.previous_policy_no);
                             $("#previous_insurer").val(obj.previous_insurer);
                             $("#previous_insurer").trigger("change");
-                            $("#previous_insurance_plan").val(obj.previous_insurance_plan);
+                            $("#previous_insurance_type").val(obj.previous_insurance_type);
                             $("#previous_agency_pos").val(obj.previous_agency_pos);
                             $("#previous_source").val(obj.previous_source);
                             $("#dectable_details").val(obj.dectable_details);
@@ -2353,19 +2363,49 @@ label {
             
         });
         
-        $("#policy_s_date").change(function(){
+        $("#policy_s_date").change(function() {
             var date = $("#policy_s_date").val();
-             $.ajax({
-                 url : "get_exp_date",
-                 method : "POST",
-                 data : {date:date},
-                 success:function(response)
-                 {
-                     $("#policy_ex_date").val(response);
-                     $("#next_due_date").val(response);
-                 }
+            $.ajax({
+                url: "get_exp_date",
+                method: "POST",
+                data: { date: date },
+                success: function(response) {
+                    // Set expiry and next due dates
+                    $("#policy_ex_date").val(response);
+                    $("#next_due_date").val(response);
+
+                    // ✅ Calculate Days Insured automatically
+                    var startVal = $("#policy_s_date").val();
+                    var endVal = $("#policy_ex_date").val();
+
+                    if (startVal && endVal) {
+                        var startDate = new Date(startVal);
+                        var endDate = new Date(endVal);
+                        if (!isNaN(startDate.getTime()) && !isNaN(endDate.getTime())) {
+                            var diffTime = endDate - startDate;
+                            var days = Math.ceil(diffTime / (1000 * 60 * 60 * 24)) + 1; // include both dates
+                            $("#days_insured").val(days + " days");
+                        } else {
+                            $("#days_insured").val("");
+                        }
+                    }
+                }
             });
         });
+
+        // ✅ Optional: Recalculate if expiry is changed manually
+        $("#policy_ex_date").change(function() {
+            var startVal = $("#policy_s_date").val();
+            var endVal = $("#policy_ex_date").val();
+            if (startVal && endVal) {
+                var startDate = new Date(startVal);
+                var endDate = new Date(endVal);
+                var diffTime = endDate - startDate;
+                var days = Math.ceil(diffTime / (1000 * 60 * 60 * 24)) + 1;
+                $("#days_insured").val(days + " days");
+            }
+        });
+
         
         $("#policy_agency_pos").change(function(){
             var agent_id = $("#policy_agency_pos").val();
@@ -2453,7 +2493,7 @@ label {
                 var policy_location =""; //$("#policy_location").val();
                 var previous_policy_no = $("#previous_policy_no").val();
                 var previous_insurer = $("#previous_insurer").val();
-                var previous_insurance_plan = $("#previous_insurance_plan").val();
+                var previous_insurance_type = $("#previous_insurance_type").val();
                 var previous_agency_pos = $("#previous_agency_pos").val();
                 var previous_source =""; //$("#previous_source").val();
                 var dectable_details = $("#dectable_details").val();
@@ -3050,7 +3090,7 @@ label {
                     formdata.append('policy_location',policy_location);
                     formdata.append('previous_policy_no',previous_policy_no);
                     formdata.append('previous_insurer',previous_insurer);
-                    formdata.append('previous_insurance_plan',previous_insurance_plan);
+                    formdata.append('previous_insurance_type',previous_insurance_type);
                     formdata.append('previous_agency_pos',previous_agency_pos);
                     formdata.append('previous_source',previous_source);
                     formdata.append('dectable_details',dectable_details);
@@ -3244,7 +3284,7 @@ label {
                 var policy_location =""; //$("#policy_location").val();
                 var previous_policy_no = $("#previous_policy_no").val();
                 var previous_insurer = $("#previous_insurer").val();
-                var previous_insurance_plan = $("#previous_insurance_plan").val();
+                var previous_insurance_type = $("#previous_insurance_type").val();
                 var previous_agency_pos = $("#previous_agency_pos").val();
                 var previous_source =""; //$("#previous_source").val();
                 var dectable_details = $("#dectable_details").val();
@@ -3837,7 +3877,7 @@ label {
                     formdata.append('policy_location',policy_location);
                     formdata.append('previous_policy_no',previous_policy_no);
                     formdata.append('previous_insurer',previous_insurer);
-                    formdata.append('previous_insurance_plan',previous_insurance_plan);
+                    formdata.append('previous_insurance_type',previous_insurance_type);
                     formdata.append('previous_agency_pos',previous_agency_pos);
                     formdata.append('previous_source',previous_source);
                     formdata.append('dectable_details',dectable_details);
@@ -4244,7 +4284,7 @@ label {
             var policy_location =""; //$("#policy_location").val();
             var previous_policy_no = $("#previous_policy_no").val();
             var previous_insurer = $("#previous_insurer").val();
-            var previous_insurance_plan = $("#previous_insurance_plan").val();
+            var previous_insurance_type = $("#previous_insurance_type").val();
             var previous_agency_pos = $("#previous_agency_pos").val();
             var previous_source =""; //$("#previous_source").val();
             var dectable_details = $("#dectable_details").val();
@@ -4829,7 +4869,7 @@ label {
                     formdata.append('policy_location',policy_location);
                     formdata.append('previous_policy_no',previous_policy_no);
                     formdata.append('previous_insurer',previous_insurer);
-                    formdata.append('previous_insurance_plan',previous_insurance_plan);
+                    formdata.append('previous_insurance_type',previous_insurance_type);
                     formdata.append('previous_agency_pos',previous_agency_pos);
                     formdata.append('previous_source',previous_source);
                     formdata.append('dectable_details',dectable_details);
@@ -4847,6 +4887,7 @@ label {
                     formdata.append('bank_name',bank_name);
                     formdata.append('payment_receipt_no',payment_receipt_no);
                     formdata.append('payment_check_date',payment_check_date);
+                    formdata.append('payment_receipt_no',payment_receipt_no);
                     formdata.append('payment_and_check_no',payment_and_check_no);
                     formdata.append('remarks',remarks);
                     formdata.append('payment_collected_date',payment_collected_date);

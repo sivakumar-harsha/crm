@@ -489,6 +489,7 @@
 
 	<!-- Main content -->
 	<section class="content">
+
 		<!-- Client Details Start -->
 
 		<div class="box">
@@ -889,13 +890,22 @@
 							<div class="row">
 								<div class="col-md-4"><label>State</label></div>
 								<div class="col-md-8">
-									<input
-										type="text"
-										class="form-control"
-										id="state"
+									<select
+										class="form-control select2"
 										name="state"
-										value="TamilNadu"
-									/>
+										id="state"
+										style="width: 100%;"
+									>
+										<option value="">--Select--</option>
+										<?php foreach ($state as $st) { ?>
+											<option
+												value="<?php echo $st->id; ?>"
+												<?php echo (trim($st->name) == 'TamilNadu') ? 'selected' : ''; ?>
+											>
+												<?php echo $st->name; ?>
+											</option>
+										<?php } ?>
+									</select>
 								</div>
 							</div>
 						</div>
@@ -3398,6 +3408,7 @@
 											<div class="row">
 												<div class="col-md-4"><label>State</label></div>
 												<div class="col-md-8">
+													<input type="hidden" id="regn_state_name" name="regn_state_name" />
 													<input
 														type="text"
 														class="form-control"
@@ -10944,7 +10955,11 @@ From: Anywhere in India To: Anywhere in India</textarea
 								var zone = $("#zone").val();
 								var regn_address = $("#regn_address").val();
 								// ✅ Always get the Select2-selected value
-								var state = $("#regn_state").val();
+								// Get the state ID (from client dropdown) and state name (for display)
+								var stateId = $("#state").val(); // from client form (ID)
+								var stateName = $("#state option:selected").text().trim(); // name (optional for display)
+								// If registration section has dropdown, use its value directly
+								var regnStateId = $("#regn_state").val() || stateId;
 								var city = $("#regn_city").val();
 								var country = $("#regn_country").val();
 								var pincode = $("#regn_pincode").val();
@@ -11064,7 +11079,7 @@ From: Anywhere in India To: Anywhere in India</textarea
 									formdata.append("rto", rto);
 									formdata.append("zone", zone);
 									formdata.append("regn_address", regn_address);
-									formdata.append("regn_state", state);
+									formdata.append("regn_state", regnStateId);
 									formdata.append("regn_city", city);
 									formdata.append("regn_country", country);
 									formdata.append("regn_pincode", pincode);
@@ -12438,6 +12453,7 @@ From: Anywhere in India To: Anywhere in India</textarea
 										$("#edit_zone").val(obj.zone);
 										$("#edit_regn_address").val(obj.regn_address);
 										$("#edit_state").val(obj.state || "");
+										$("#edit_state").val(obj.state).trigger("change");
 										$("#edit_city").val(obj.city);
 										$("#edit_pincode").val(obj.pincode);
 										$("#edit_vechi_user_name").val(obj.vechi_user_name);
@@ -12554,7 +12570,8 @@ From: Anywhere in India To: Anywhere in India</textarea
 											// Set to edit registration fields
 											$("#edit_regn_address").val(commAddr);
 											$("#edit_city").val(district);
-											$("#edit_state").val(clientState);
+											var clientStateId = $("#state").val(); // ID from main client form
+											$("#edit_state").val(clientStateId).trigger("change");
 											$("#edit_country").val(country);
 											$("#edit_pincode").val(pin);
 
@@ -12696,7 +12713,7 @@ From: Anywhere in India To: Anywhere in India</textarea
 								var rto = $("#edit_rto").val();
 								var zone = $("#edit_zone").val();
 								var regn_address = $("#edit_regn_address").val();
-								var state = $("#edit_state").val();
+								var stateId = $("#edit_state").val() || $("#state").val(); 
 								var city = $("#edit_city").val();
 								var country = $("#edit_country").val() || "India";
 								var pincode = $("#edit_pincode").val();
@@ -12830,7 +12847,7 @@ From: Anywhere in India To: Anywhere in India</textarea
 									formdata.append("rto", rto);
 									formdata.append("zone", zone);
 									formdata.append("regn_address", regn_address);
-									formdata.append("state", state);
+									formdata.append("state", stateId);
 									formdata.append("city", city);
 									formdata.append("country", country);
 									formdata.append("pincode", pincode);
@@ -16038,14 +16055,16 @@ From: Anywhere in India To: Anywhere in India</textarea
 
 							// client-side fields (existing IDs in your client form)
 							var district = $("#district").val() || "";
-							var clientState = $("#state").val() || "";      // client state input (original)
+							var clientStateId = $("#state").val() || "";
+							var clientStateName = $("#state option:selected").text().trim() || "";   
 							var clientCountry = $("#country").val() || "India"; // client country input (original)
 							var clientPin = $("#pin_code").val() || "";
 
 							// Set into registration inputs (new IDs)
 							$("#regn_address").val(addr);
 							$("#regn_city").val(district);
-							$("#regn_state").val(clientState);
+							$("#regn_state").val(clientStateId);
+							$("#regn_state_name").val(clientStateName);
 							$("#regn_country").val(clientCountry);
 							$("#regn_pincode").val(clientPin);
 						}
@@ -16953,16 +16972,22 @@ From: Anywhere in India To: Anywhere in India</textarea
 								<div class="form-group">
 									<div class="row">
 										<div class="col-md-4">
-										<label>State</label>
+											<label>State</label>
 										</div>
 										<div class="col-md-8">
-										<input
-											type="text"
-											class="form-control"
-											name="edit_state"
-											id="edit_state"
-											placeholder="Enter State"
-										/>
+											<select
+												class="form-control select2"
+												name="edit_state"
+												id="edit_state"
+												style="width: 100%"
+											>
+												<option value="">--Select--</option>
+												<?php foreach ($state as $s) { ?>
+													<option value="<?php echo $s->id; ?>">
+														<?php echo $s->name; ?>
+													</option>
+												<?php } ?>
+											</select>
 										</div>
 									</div>
 								</div>
