@@ -40,80 +40,170 @@ class LeadCtrl extends CI_Controller {
         $this->load->helper('compression');
 	}
 	
-	public function create_lead()
-	{
+	// public function create_lead()
+	// {
 	    
-	    if( !( $this->session->has_userdata('logged_in') ) ){
+	//     if( !( $this->session->has_userdata('logged_in') ) ){
+    //         redirect('login', 'refresh');
+    //     }
+        
+	    
+	//     if($this->session->has_userdata('logged_in') && $this->session->userdata('session_role') == "admin") 
+    // 	{    		
+	// 	   	$pro_data["project_info"] = $this->mm->fetch_project_info();
+	// 	   	$data["users"] = $this->lm->fetch_users();
+	// 	   	$data["ai"] = $this->lm->fetch_ai();
+	// 	   	$data["agents_pos"] = $this->lm->fetch_agents_pos();
+	// 	   	$data["policy_type"] = $this->lm->fetch_list_of_policy_type_motor();
+	// 	   	$data["client_type"] = $this->lm->fetch_client_type();
+	// 	   	$data["business"] = $this->lm->fetch_business_type();
+	// 	   	$data["class"] = $this->lm->fetch_list_of_class();
+	// 	   	$data["fuel_type"] = $this->lm->fetch_fuel_type();
+	// 	   	$data["rto"] = $this->lm->fetch_rto();
+	// 	   	$data["state"] = $this->lm->fetch_state();
+	// 	   	$data["region"] = $this->lm->fetch_region();
+    // 		$this->load->view('header',$pro_data);
+    // 		$this->load->view('lead',$data);
+    // 		$this->load->view('footer',$pro_data);
+	//     }
+	//     else if($this->session->has_userdata('logged_in') && ($this->session->userdata('session_role') == "user" || $this->session->userdata('session_role') == "AI"))
+	//     {
+	//         $pro_data["project_info"] = $this->mm->fetch_project_info();
+	        
+	//         $data["users"] = $this->cm->fetch_user_by_session_id($this->session->userdata('session_id'));
+	//         $check_user_i = $this->cm->fetch_user_permissions($this->session->userdata('session_id'));
+	       
+	//         if($this->session->userdata("session_role") == "user")
+	//         {
+	//            $data["agents_pos"] = $this->lm->fetch_agents_pos();
+	           
+	//            $data["region"] = $this->lm->fetch_region();
+	//         }
+	//         else if($this->session->userdata("session_role") == "AI")
+	//         {
+	//             $data["agents_pos"] = $this->lm->fetch_agents_pos_by_area_incharge($this->session->userdata("session_id"));
+	//             $data["region"] = $this->lm->fetch_region_by_area_incharge($this->session->userdata("session_id"));
+	//         }
+	//         if($check_user_i->masters_add == "1")
+	//         {
+	//         $data["users"] = $this->lm->fetch_users();
+	//         $data["ai"] = $this->lm->fetch_ai();
+	//         $data["client_type"] = $this->lm->fetch_client_type();
+	//         $data["business"] = $this->lm->fetch_business_type();
+	//         $data["class"] = $this->lm->fetch_list_of_class();
+	//         $data["policy_type"] = $this->lm->fetch_list_of_policy_type_motor();
+	//         $data["fuel_type"] = $this->lm->fetch_fuel_type();
+	//         $data["rto"] = $this->lm->fetch_rto();
+	//         $data["state"] = $this->lm->fetch_state();
+    // 		$this->load->view('header',$pro_data);
+    // 		$this->load->view('lead',$data);
+    // 		$this->load->view('footer',$pro_data);
+	//         }
+	//         else
+	//         {
+	//              echo "<script>alert('Permission Denied');window.location.href='home';</script>";
+    // 	          //redirect("home");
+	//         }
+	//     }
+	//     else
+	//     {
+	//     	redirect("login");
+	//     }
+	    
+	// }
+
+    public function create_lead()
+    {
+        if( !($this->session->has_userdata('logged_in')) ){
             redirect('login', 'refresh');
         }
-        
-	   // if(!$this->auth->can_access('Create Leads')){
-	   //     redirect('access_denied', 'refresh');
-	   // }
-	    
-	    if($this->session->has_userdata('logged_in') && $this->session->userdata('session_role') == "admin") 
-    	{    		
-		   	$pro_data["project_info"] = $this->mm->fetch_project_info();
-		   	$data["users"] = $this->lm->fetch_users();
-		   	$data["ai"] = $this->lm->fetch_ai();
-		   	$data["agents_pos"] = $this->lm->fetch_agents_pos();
-		   	$data["policy_type"] = $this->lm->fetch_list_of_policy_type_motor();
-		   	$data["client_type"] = $this->lm->fetch_client_type();
-		   	$data["business"] = $this->lm->fetch_business_type();
-		   	$data["class"] = $this->lm->fetch_list_of_class();
-		   	$data["fuel_type"] = $this->lm->fetch_fuel_type();
-		   	$data["rto"] = $this->lm->fetch_rto();
-		   	$data["state"] = $this->lm->fetch_state();
-		   	$data["region"] = $this->lm->fetch_region();
-    		$this->load->view('header',$pro_data);
-    		$this->load->view('lead',$data);
-    		$this->load->view('footer',$pro_data);
-	    }
-	    else if($this->session->has_userdata('logged_in') && ($this->session->userdata('session_role') == "user" || $this->session->userdata('session_role') == "AI"))
-	    {
-	        $pro_data["project_info"] = $this->mm->fetch_project_info();
-	        
-	        $data["users"] = $this->cm->fetch_user_by_session_id($this->session->userdata('session_id'));
-	        $check_user_i = $this->cm->fetch_user_permissions($this->session->userdata('session_id'));
-	       
-	        if($this->session->userdata("session_role") == "user")
-	        {
-	           $data["agents_pos"] = $this->lm->fetch_agents_pos();
-	           
-	           $data["region"] = $this->lm->fetch_region();
-	        }
-	        else if($this->session->userdata("session_role") == "AI")
-	        {
-	            $data["agents_pos"] = $this->lm->fetch_agents_pos_by_area_incharge($this->session->userdata("session_id"));
-	            $data["region"] = $this->lm->fetch_region_by_area_incharge($this->session->userdata("session_id"));
-	        }
-	        if($check_user_i->masters_add == "1")
-	        {
-	        $data["users"] = $this->lm->fetch_users();
-	        $data["ai"] = $this->lm->fetch_ai();
-	        $data["client_type"] = $this->lm->fetch_client_type();
-	        $data["business"] = $this->lm->fetch_business_type();
-	        $data["class"] = $this->lm->fetch_list_of_class();
-	        $data["policy_type"] = $this->lm->fetch_list_of_policy_type_motor();
-	        $data["fuel_type"] = $this->lm->fetch_fuel_type();
-	        $data["rto"] = $this->lm->fetch_rto();
-	        $data["state"] = $this->lm->fetch_state();
-    		$this->load->view('header',$pro_data);
-    		$this->load->view('lead',$data);
-    		$this->load->view('footer',$pro_data);
-	        }
-	        else
-	        {
-	             echo "<script>alert('Permission Denied');window.location.href='home';</script>";
-    	          //redirect("home");
-	        }
-	    }
-	    else
-	    {
-	    	redirect("login");
-	    }
-	    
-	}
+
+        // Common project info
+        $pro_data["project_info"] = $this->mm->fetch_project_info();
+
+        // ✅ Define form name (used in permission table)
+        $form_name = 'lead';
+        $user_id = $this->session->userdata('session_id');
+
+        // ✅ Fetch field-level permissions for this user and form
+        $permissions = $this->db->get_where('field_permissions', [
+            'user_id' => $user_id,
+            'form_name' => $form_name
+        ])->result();
+
+        $perm_map = [];
+        foreach ($permissions as $p) {
+            $perm_map[$p->field_name] = [
+                'view' => $p->can_view,
+                'edit' => $p->can_edit
+            ];
+        }
+
+        // Attach to view data
+        $data['perm_map'] = $perm_map;
+
+        // ✅ ADMIN ROLE
+        if($this->session->userdata('session_role') == "admin") 
+        {    		
+            $data["users"] = $this->lm->fetch_users();
+            $data["ai"] = $this->lm->fetch_ai();
+            $data["agents_pos"] = $this->lm->fetch_agents_pos();
+            $data["policy_type"] = $this->lm->fetch_list_of_policy_type_motor();
+            $data["client_type"] = $this->lm->fetch_client_type();
+            $data["business"] = $this->lm->fetch_business_type();
+            $data["class"] = $this->lm->fetch_list_of_class();
+            $data["fuel_type"] = $this->lm->fetch_fuel_type();
+            $data["rto"] = $this->lm->fetch_rto();
+            $data["state"] = $this->lm->fetch_state();
+            $data["region"] = $this->lm->fetch_region();
+
+            $this->load->view('header', $pro_data);
+            $this->load->view('lead', $data);
+            $this->load->view('footer', $pro_data);
+        }
+        // ✅ USER / AI ROLE
+        else if($this->session->userdata('session_role') == "user" || $this->session->userdata('session_role') == "AI")
+        {
+            $data["users"] = $this->cm->fetch_user_by_session_id($user_id);
+            $check_user_i = $this->cm->fetch_user_permissions($user_id);
+
+            if($this->session->userdata("session_role") == "user")
+            {
+                $data["agents_pos"] = $this->lm->fetch_agents_pos();
+                $data["region"] = $this->lm->fetch_region();
+            }
+            else if($this->session->userdata("session_role") == "AI")
+            {
+                $data["agents_pos"] = $this->lm->fetch_agents_pos_by_area_incharge($user_id);
+                $data["region"] = $this->lm->fetch_region_by_area_incharge($user_id);
+            }
+
+            if($check_user_i->masters_add == "1")
+            {
+                $data["ai"] = $this->lm->fetch_ai();
+                $data["client_type"] = $this->lm->fetch_client_type();
+                $data["business"] = $this->lm->fetch_business_type();
+                $data["class"] = $this->lm->fetch_list_of_class();
+                $data["policy_type"] = $this->lm->fetch_list_of_policy_type_motor();
+                $data["fuel_type"] = $this->lm->fetch_fuel_type();
+                $data["rto"] = $this->lm->fetch_rto();
+                $data["state"] = $this->lm->fetch_state();
+
+                $this->load->view('header', $pro_data);
+                $this->load->view('lead', $data);
+                $this->load->view('footer', $pro_data);
+            }
+            else
+            {
+                echo "<script>alert('Permission Denied');window.location.href='home';</script>";
+            }
+        }
+        else
+        {
+            redirect("login");
+        }
+    }
+
 	
 	
 	// public function add_lead_details()

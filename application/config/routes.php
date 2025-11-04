@@ -637,6 +637,9 @@ $route["fetch_user_permissions"] = "ConfigCtrl/fetch_user_permissions";
 $route["check_add_permission"] = "ConfigCtrl/check_add_permission";
 $route["check_add_permission_1"] = "MasterCtrl/check_add_permission_1";
 
+$route["get_form_fields"] = "ConfigCtrl/get_form_fields";
+$route["save_field_permissions"] = "ConfigCtrl/save_field_permissions";
+
 
 // Bulk Lead Upload //
 

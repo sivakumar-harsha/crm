@@ -1522,6 +1522,7 @@ class ConfigCtrl extends CI_Controller {
          
             		 
           $action .= "<button class='btn btn-primary btn-xs' onclick=permission(".$da->id.")><i class='fa fa-lock'></i> &nbsp;</button>"; 
+          $action .= "<button class='btn btn-warning btn-xs' onclick=field_permission(".$da->id.")><i class='fa fa-key'></i></button>";
             
 
             if($da->reigion !="")
@@ -2006,7 +2007,7 @@ class ConfigCtrl extends CI_Controller {
                   echo "<script>alert('Permission Denied');window.location.href='create_pos';</script>";
               }
           }
-    	}
+    }
 
     public function fetch_pos()
 	{
@@ -5703,6 +5704,127 @@ class ConfigCtrl extends CI_Controller {
                              $res = $this->cm->update_user_permissions($data,$user_id);    
         	   }
        }
+
+        public function get_form_fields()
+        {
+            $form = $this->input->post('form_name');
+            $user_id = $this->input->post('user_id');
+            $section_index = (int)$this->input->post('section_index');
+            $mode = $this->input->post('mode');
+
+            $file_path = FCPATH . "application/views/" . $form . ".php";
+            if (!file_exists($file_path)) {
+                echo json_encode(['error' => "Form not found"]);
+                return;
+            }
+
+            $html = file_get_contents($file_path);
+            $html = preg_replace('/<\?(?:php)?[\s\S]*?\?>/i', '', $html);
+
+            libxml_use_internal_errors(true);
+            $dom = new DOMDocument();
+            @$dom->loadHTML(mb_convert_encoding($html, 'HTML-ENTITIES', 'UTF-8'));
+            $xpath = new DOMXPath($dom);
+
+            // ✅ find all main .box divs
+            $boxes = $xpath->query('//div[contains(concat(" ", normalize-space(@class), " "), " box ")]');
+
+            // ✅ extract all titles (<h3 class="box-title">)
+            $titles = [];
+            foreach ($xpath->query('//h3[contains(@class,"box-title")]') as $node) {
+                $titles[] = trim(preg_replace('/\s+/', ' ', $node->textContent));
+            }
+
+            // MODE 1: just send section list
+            if ($mode === 'sections') {
+                $section_list = [];
+                foreach ($titles as $i => $t) {
+                    if ($i >= 2) break;
+                    $section_list[] = ['index' => $i, 'name' => $t];
+                }
+                echo json_encode($section_list);
+                return;
+            }
+
+            // MODE 2: extract fields inside the selected .box
+            if (!isset($boxes[$section_index])) {
+                echo json_encode([]);
+                return;
+            }
+
+            /** @var DOMElement $box */
+            $box = $boxes->item($section_index);
+            $inputs = $xpath->query('.//input|.//select|.//textarea', $box);
+
+            $field_list = [];
+
+            foreach ($inputs as $f) {
+                if (!($f instanceof DOMElement)) continue;
+
+                $name = $f->getAttribute('name');
+                if (!$name || in_array($name, ['csrf_token', 'submit', 'action', 'lead_id', 'files', 'file_name'])) continue;
+
+                // find nearest label text
+                $labelNode = $xpath->query('preceding::label[1]', $f);
+                $label_text = '';
+                if ($labelNode->length > 0) {
+                    $label_text = trim(preg_replace('/\s+/', ' ', $labelNode->item(0)->textContent));
+                }
+                if ($label_text === '') {
+                    $label_text = ucfirst(str_replace('_', ' ', $name));
+                }
+
+                // fetch permissions
+                $perm = $this->db->get_where('field_permissions', [
+                    'user_id' => $user_id,
+                    'form_name' => $form,
+                    'field_name' => $name
+                ])->row();
+
+                $field_list[] = [
+                    'field_name' => $name,
+                    'display_name' => $label_text,
+                    'can_view' => $perm ? (int)$perm->can_view : 1,
+                    'can_edit' => $perm ? (int)$perm->can_edit : 1,
+                    'required' => strpos($label_text, '*') !== false ? 1 : 0
+                ];
+            }
+
+            echo json_encode(array_values($field_list));
+        }
+
+        public function save_field_permissions()
+        {
+            $user_id = $this->input->post('user_id');
+            $form_name = $this->input->post('form_name');
+            $fields = json_decode($this->input->post('fields'), true);
+
+            foreach ($fields as $f) {
+                $exists = $this->db->get_where('field_permissions', [
+                    'user_id' => $user_id,
+                    'form_name' => $form_name,
+                    'field_name' => $f['field_name']
+                ])->row();
+
+                $data = [
+                    'can_view' => $f['can_view'],
+                    'can_edit' => $f['can_edit'],
+                    'updated_at' => date('Y-m-d H:i:s')
+                ];
+
+                if ($exists) {
+                    $this->db->where('id', $exists->id)->update('field_permissions', $data);
+                } else {
+                    $data['user_id'] = $user_id;
+                    $data['form_name'] = $form_name;
+                    $data['field_name'] = $f['field_name'];
+                    $this->db->insert('field_permissions', $data);
+                }
+            }
+
+            echo json_encode(['status' => 'success']);
+        }
+
        
        // permissions
        

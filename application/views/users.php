@@ -233,303 +233,323 @@
     </div>
   </div>
   
-     <div class="modal fade" id="user_mod" role="dialog">
-    <div class="modal-dialog">
-    
-      <!-- Modal content-->
-      <div class="modal-content">
-        <div class="modal-header">
-          <button type="button" class="close" data-dismiss="modal">&times;</button>
-          <h4 class="modal-title">User Permissions</h4>
-        </div>
-        <div class="modal-body">
-          
-          <div class="form-group">
-               <input class="form-check-input check" type="checkbox" value="Yes" id="select_all">
-                    &nbsp;Select All
-          </div>
-          
-          
-          <input type="hidden" id="permission_id"> 
-          
-          <div class="row">
-              <div class = "col-md-5">
-                <label>POS  </label>
-              </div>
-              
-              <div class="col-md-1">
-                  <p>:</p>
-              </div>
-              
-              <div class="col-md-2">
-                  <input class="form-check-input check" type="checkbox" value="1" id="pos_add">&nbsp;Add
-              </div>
-              
-              <div class="col-md-2">
-                  <input class="form-check-input check" type="checkbox" value="1" id="pos_edit">&nbsp;Edit
-              </div>
-              
-              <div class="col-md-2">
-                  <input class="form-check-input check" type="checkbox" value="1" id="pos_view">&nbsp;View
-              </div>
-              
-          </div>
-          
-          <div class="row">
-              <div class = "col-md-5">
-                <label>Agent </label>
-              </div>
-              
-              <div class="col-md-1">
-                  <p>:</p>
-              </div>
-              
-              <div class="col-md-2">
-                  <input class="form-check-input check" type="checkbox" value="1" id="agent_add">&nbsp;Add
-              </div>
-              
-              <div class="col-md-2">
-                  <input class="form-check-input check" type="checkbox" value="1" id="agent_edit">&nbsp;Edit
-              </div>
-              
-              <div class="col-md-2">
-                  <input class="form-check-input check" type="checkbox" value="1" id="agent_view">&nbsp;View
-              </div>
-              
-          </div>
-          
-          <div class="row">
-              <div class = "col-md-5">
-                <label>Lead </label>
-              </div>
-              
-              <div class="col-md-1">
-                  <p>:</p>
-              </div>
-              
-              <div class="col-md-2">
-                  <input class="form-check-input check" type="checkbox" value="1" id="masters_add">&nbsp;Add
-              </div>
-              
-            <!--  <div class="col-md-2">
-                  <input class="form-check-input check" type="checkbox" value="1" id="masters_edit">&nbsp;Edit
-              </div>
-              -->
-              <div class="col-md-2">
-                  <input class="form-check-input check" type="checkbox" value="1" id="masters_view">&nbsp;View
-              </div>
-              
-              
-          </div>
-          <div class="row">
-              <div class = "col-md-5">
-                <label> Renewals Lead</label>
-              </div>
-              
-              <div class="col-md-1">
-                  <p>:</p>
-              </div>
-              
-              <div class="col-md-3">
-                  <input class="form-check-input check" type="checkbox" value="1" id="lead_renewals_view">&nbsp;view
-              </div>
-              <div class="col-md-3">
-                  <input class="form-check-input check" type="checkbox" value="1" id="lead_renewals_action">&nbsp;Assign
-              </div>
-          </div>
-
-          <div class="row">
-              <div class = "col-md-5">
-                <label>Follow Ups  </label>
-              </div>
-              
-              <div class="col-md-1">
-                  <p>:</p>
-              </div>
-              
-            <!--    <div class="col-md-2">
-                  <input class="form-check-input check" type="checkbox" value="1" id="follow_add">&nbsp;Add
-              </div>
-              
-            <div class="col-md-2">
-                  <input class="form-check-input check" type="checkbox" value="1" id="follow_edit">&nbsp;Edit
-              </div>-->
-              
-              <div class="col-md-2">
-                  <input class="form-check-input check" type="checkbox" value="1" id="follow_view">&nbsp;View
-              </div>
-              
-          </div>
-          <div class="row">
-              <div class = "col-md-5">
-                <label>Customers</label>
-              </div>
-              
-              <div class="col-md-1">
-                  <p>:</p>
-              </div>
-              
-          <!--    <div class="col-md-2">
-                  <input class="form-check-input check" type="checkbox" value="1" id="cust_add">&nbsp;Add
-              </div>
-              
-              <div class="col-md-2">
-                  <input class="form-check-input check" type="checkbox" value="1" id="cust_edit">&nbsp;Edit
-              </div>
-              -->
-              <div class="col-md-2">
-                  <input class="form-check-input check" type="checkbox" value="1" id="cust_view">&nbsp;View
-              </div>
-              
-          </div>
-           <div class="row">
-              <div class = "col-md-5">
-                <label> Renewals </label>
-              </div>
-              
-              <div class="col-md-1">
-                  <p>:</p>
-              </div>
-              
-              <div class="col-md-3">
-                  <input class="form-check-input check" type="checkbox" value="1" id="renewals_view">&nbsp;view
-              </div>
-          </div>
-
-       <!--   <div class="row">
-              <div class = "col-md-5">
-                <label>Policy</label>
-              </div>
-              
-              <div class="col-md-1">
-                  <p>:</p>
-              </div>
-              
-              <div class="col-md-2">
-                  <input class="form-check-input check" type="checkbox" value="1" id="business_add">&nbsp;Business Complete
-              </div>
-              
-              <div class="col-md-2">
-                  <input class="form-check-input check" type="checkbox" value="1" id="business_edit">&nbsp;Active Policy
-              </div>
-              
-              <div class="col-md-2">
-                  <input class="form-check-input check" type="checkbox" value="1" id="business_view">&nbsp;View
-              </div>
-              
-          </div>-->
-
-          <div class="row">
-              <div class = "col-md-5">
-                <label>AI Performance</label>
-              </div>
-              
-              <div class="col-md-1">
-                  <p>:</p>
-              </div>
-              
-              <div class="col-md-2">
-                  <input class="form-check-input check" type="checkbox" value="1" id="ai_add">&nbsp;Add
-              </div>
-              
-            <!--  <div class="col-md-2">
-                  <input class="form-check-input check" type="checkbox" value="1" id="ai_edit">&nbsp;Edit
-              </div>
-              -->
-              <div class="col-md-2">
-                  <input class="form-check-input check" type="checkbox" value="1" id="ai_view">&nbsp;View
-              </div>
-              
-          </div>
-
-          <div class="row">
-              <div class = "col-md-5">
-                <label>Claim </label>
-              </div>
-              
-              <div class="col-md-1">
-                  <p>:</p>
-              </div>
-              
-              <div class="col-md-2">
-                  <input class="form-check-input check" type="checkbox" value="1" id="claim_add">&nbsp;Add
-              </div>
-              
-          <!--    <div class="col-md-2">
-                  <input class="form-check-input check" type="checkbox" value="1" id="claim_edit">&nbsp;Action
-              </div>
-              -->
-              <div class="col-md-2">
-                  <input class="form-check-input check" type="checkbox" value="1" id="claim_view">&nbsp;View
-              </div>
-              
-          </div>
-
-          
-          
-          <div class="row">
-              <div class = "col-md-5">
-                <label>Policy </label>
-              </div>
-              
-              <div class="col-md-1">
-                  <p>:</p>
-              </div>
-              
-              <div class="col-md-3">
-                  <input class="form-check-input check" type="checkbox" value="1" id="policy_view">&nbsp;Business Complete
-              </div>
-              
-               <div class="col-md-3">
-                  <input class="form-check-input check" type="checkbox" value="1" id="policy_add">&nbsp;Active Policy
-              </div>
-              
-          </div>
-          
-         
-          <div class="row">
-              <div class = "col-md-5">
-                <label> Failure Leads </label>
-              </div>
-              
-              <div class="col-md-1">
-                  <p>:</p>
-              </div>
-              
-              <div class="col-md-3">
-                  <input class="form-check-input check" type="checkbox" value="1" id="fail_view">&nbsp;view
-              </div>
-          </div>
-          
-          <?php if($this->session->userdata('session_company_type') == "unicorn"){ ?>
-          <div class="row" id="unicon_div">
-              <div class = "col-md-5">
-                <label> Unicorn </label>
-              </div>
-              
-              <div class="col-md-1">
-                  <p>:</p>
-              </div>
-              
-              <div class="col-md-3">
-                  <input class="form-check-input check" type="checkbox" value="0" id="unicon_access">&nbsp;Access
-              </div>
-          </div>
-        <?php } ?>
-        </div>
-        <div class="modal-footer">
+    <div class="modal fade" id="user_mod" role="dialog">
+        <div class="modal-dialog">
+        
+        <!-- Modal content-->
+        <div class="modal-content">
+            <div class="modal-header">
+            <button type="button" class="close" data-dismiss="modal">&times;</button>
+            <h4 class="modal-title">User Permissions</h4>
+            </div>
+            <div class="modal-body">
             
-          <button type="button" class="btn btn-primary" id="add_permission_btn">Submit</button>
-          <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+            <div class="form-group">
+                <input class="form-check-input check" type="checkbox" value="Yes" id="select_all">
+                        &nbsp;Select All
+            </div>
+            
+            
+            <input type="hidden" id="permission_id"> 
+            
+            <div class="row">
+                <div class = "col-md-5">
+                    <label>POS  </label>
+                </div>
+                
+                <div class="col-md-1">
+                    <p>:</p>
+                </div>
+                
+                <div class="col-md-2">
+                    <input class="form-check-input check" type="checkbox" value="1" id="pos_add">&nbsp;Add
+                </div>
+                
+                <div class="col-md-2">
+                    <input class="form-check-input check" type="checkbox" value="1" id="pos_edit">&nbsp;Edit
+                </div>
+                
+                <div class="col-md-2">
+                    <input class="form-check-input check" type="checkbox" value="1" id="pos_view">&nbsp;View
+                </div>
+                
+            </div>
+            
+            <div class="row">
+                <div class = "col-md-5">
+                    <label>Agent </label>
+                </div>
+                
+                <div class="col-md-1">
+                    <p>:</p>
+                </div>
+                
+                <div class="col-md-2">
+                    <input class="form-check-input check" type="checkbox" value="1" id="agent_add">&nbsp;Add
+                </div>
+                
+                <div class="col-md-2">
+                    <input class="form-check-input check" type="checkbox" value="1" id="agent_edit">&nbsp;Edit
+                </div>
+                
+                <div class="col-md-2">
+                    <input class="form-check-input check" type="checkbox" value="1" id="agent_view">&nbsp;View
+                </div>
+                
+            </div>
+            
+            <div class="row">
+                <div class = "col-md-5">
+                    <label>Lead </label>
+                </div>
+                
+                <div class="col-md-1">
+                    <p>:</p>
+                </div>
+                
+                <div class="col-md-2">
+                    <input class="form-check-input check" type="checkbox" value="1" id="masters_add">&nbsp;Add
+                </div>
+                
+                <!--  <div class="col-md-2">
+                    <input class="form-check-input check" type="checkbox" value="1" id="masters_edit">&nbsp;Edit
+                </div>
+                -->
+                <div class="col-md-2">
+                    <input class="form-check-input check" type="checkbox" value="1" id="masters_view">&nbsp;View
+                </div>
+                
+                
+            </div>
+            <div class="row">
+                <div class = "col-md-5">
+                    <label> Renewals Lead</label>
+                </div>
+                
+                <div class="col-md-1">
+                    <p>:</p>
+                </div>
+                
+                <div class="col-md-3">
+                    <input class="form-check-input check" type="checkbox" value="1" id="lead_renewals_view">&nbsp;view
+                </div>
+                <div class="col-md-3">
+                    <input class="form-check-input check" type="checkbox" value="1" id="lead_renewals_action">&nbsp;Assign
+                </div>
+            </div>
+
+            <div class="row">
+                <div class = "col-md-5">
+                    <label>Follow Ups  </label>
+                </div>
+                
+                <div class="col-md-1">
+                    <p>:</p>
+                </div>
+                
+                <!--    <div class="col-md-2">
+                    <input class="form-check-input check" type="checkbox" value="1" id="follow_add">&nbsp;Add
+                </div>
+                
+                <div class="col-md-2">
+                    <input class="form-check-input check" type="checkbox" value="1" id="follow_edit">&nbsp;Edit
+                </div>-->
+                
+                <div class="col-md-2">
+                    <input class="form-check-input check" type="checkbox" value="1" id="follow_view">&nbsp;View
+                </div>
+                
+            </div>
+            <div class="row">
+                <div class = "col-md-5">
+                    <label>Customers</label>
+                </div>
+                
+                <div class="col-md-1">
+                    <p>:</p>
+                </div>
+                
+            <!--    <div class="col-md-2">
+                    <input class="form-check-input check" type="checkbox" value="1" id="cust_add">&nbsp;Add
+                </div>
+                
+                <div class="col-md-2">
+                    <input class="form-check-input check" type="checkbox" value="1" id="cust_edit">&nbsp;Edit
+                </div>
+                -->
+                <div class="col-md-2">
+                    <input class="form-check-input check" type="checkbox" value="1" id="cust_view">&nbsp;View
+                </div>
+                
+            </div>
+            <div class="row">
+                <div class = "col-md-5">
+                    <label> Renewals </label>
+                </div>
+                
+                <div class="col-md-1">
+                    <p>:</p>
+                </div>
+                
+                <div class="col-md-3">
+                    <input class="form-check-input check" type="checkbox" value="1" id="renewals_view">&nbsp;view
+                </div>
+            </div>
+
+       
+
+            <div class="row">
+                <div class = "col-md-5">
+                    <label>AI Performance</label>
+                </div>
+                
+                <div class="col-md-1">
+                    <p>:</p>
+                </div>
+                
+                <div class="col-md-2">
+                    <input class="form-check-input check" type="checkbox" value="1" id="ai_add">&nbsp;Add
+                </div>
+                
+                <!--  <div class="col-md-2">
+                    <input class="form-check-input check" type="checkbox" value="1" id="ai_edit">&nbsp;Edit
+                </div>
+                -->
+                <div class="col-md-2">
+                    <input class="form-check-input check" type="checkbox" value="1" id="ai_view">&nbsp;View
+                </div>
+                
+            </div>
+
+            <div class="row">
+                <div class = "col-md-5">
+                    <label>Claim </label>
+                </div>
+                
+                <div class="col-md-1">
+                    <p>:</p>
+                </div>
+                
+                <div class="col-md-2">
+                    <input class="form-check-input check" type="checkbox" value="1" id="claim_add">&nbsp;Add
+                </div>
+                
+            <!--    <div class="col-md-2">
+                    <input class="form-check-input check" type="checkbox" value="1" id="claim_edit">&nbsp;Action
+                </div>
+                -->
+                <div class="col-md-2">
+                    <input class="form-check-input check" type="checkbox" value="1" id="claim_view">&nbsp;View
+                </div>
+                
+            </div>
+
+            
+            
+            <div class="row">
+                <div class = "col-md-5">
+                    <label>Policy </label>
+                </div>
+                
+                <div class="col-md-1">
+                    <p>:</p>
+                </div>
+                
+                <div class="col-md-3">
+                    <input class="form-check-input check" type="checkbox" value="1" id="policy_view">&nbsp;Business Complete
+                </div>
+                
+                <div class="col-md-3">
+                    <input class="form-check-input check" type="checkbox" value="1" id="policy_add">&nbsp;Active Policy
+                </div>
+                
+            </div>
+            
+            
+            <div class="row">
+                <div class = "col-md-5">
+                    <label> Failure Leads </label>
+                </div>
+                
+                <div class="col-md-1">
+                    <p>:</p>
+                </div>
+                
+                <div class="col-md-3">
+                    <input class="form-check-input check" type="checkbox" value="1" id="fail_view">&nbsp;view
+                </div>
+            </div>
+            
+            <?php if($this->session->userdata('session_company_type') == "unicorn"){ ?>
+            <div class="row" id="unicon_div">
+                <div class = "col-md-5">
+                    <label> Unicorn </label>
+                </div>
+                
+                <div class="col-md-1">
+                    <p>:</p>
+                </div>
+                
+                <div class="col-md-3">
+                    <input class="form-check-input check" type="checkbox" value="0" id="unicon_access">&nbsp;Access
+                </div>
+            </div>
+            <?php } ?>
+            </div>
+            <div class="modal-footer">
+                
+            <button type="button" class="btn btn-primary" id="add_permission_btn">Submit</button>
+            <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+            </div>
         </div>
-      </div>
-      
+        
+        </div>
     </div>
-  </div>
+
+    <!-- ================= FIELD PERMISSION MODAL ================= -->
+    <div class="modal fade" id="field_permission_modal">
+        <div class="modal-dialog modal-lg">
+            <div class="modal-content">
+            <div class="modal-header bg-warning">
+                <button type="button" class="close" data-dismiss="modal">&times;</button>
+                <h4 class="modal-title">Field Permissions</h4>
+            </div>
+            <div class="modal-body">
+                <input type="hidden" id="field_permission_user_id">
+
+                <div class="form-group">
+                <label>Select Form</label>
+                <select id="select_form_name" class="form-control">
+                    <option value="">--Select Form--</option>
+                    <option value="lead">Lead</option>
+                    <option value="agent_form">Agent Form</option>
+                    <!-- <option value="customer_form">Customer Form</option> -->
+                </select>
+                </div>
+
+                <table class="table table-bordered" id="fieldPermissionTable">
+                <thead>
+                    <tr>
+                    <th>Field Name</th>
+                    <th>Can View</th>
+                    <th>Can Edit</th>
+                    </tr>
+                </thead>
+                <tbody></tbody>
+                </table>
+            </div>
+            <div class="modal-footer">
+                <button class="btn btn-success" id="saveFieldPermissionBtn">Save</button>
+                <button class="btn btn-default" data-dismiss="modal">Close</button>
+            </div>
+            </div>
+        </div>
+    </div>
+
+
   
-  
-     <div class="modal fade in" id="change_modal">
-    <div class="modal-dialog modal-sm">
+    <div class="modal fade in" id="change_modal">
+      <div class="modal-dialog modal-sm">
         <div class="modal-content">
             <div class="modal-header bg-primary">
                 <button type="button" class="close" data-dismiss="modal" aria-label="Close">
@@ -551,8 +571,8 @@
                 <button type="button" class="btn btn-sm btn-primary" id="change_btn">Submit</button>
             </div>
         </div>
+      </div>
     </div>
-  </div>
   
 
   <div class="modal fade in" id="change_ai_modal">
@@ -620,60 +640,60 @@
     
   var role = 'user';
      
-     $(document).ready(function(){
+    $(document).ready(function(){
 
-          $('.select2').select2();
+        $('.select2').select2();
          fetch_users(role);
          
-         $("#add_btn").click(function(){
-          var district = $("#add_district").val();
-          var region = $("#add_region").val();
-          var position = $("#select_position").val(); 
-          var username = $("#add_username").val();
-          var password = $("#add_password").val();
-          var email = $("#add_email").val();
-          var mobile = $("#add_mobile").val();   
-          var address = $("#add_address").val();
-          
-          var check = 0;
+        $("#add_btn").click(function(){
+            var district = $("#add_district").val();
+            var region = $("#add_region").val();
+            var position = $("#select_position").val(); 
+            var username = $("#add_username").val();
+            var password = $("#add_password").val();
+            var email = $("#add_email").val();
+            var mobile = $("#add_mobile").val();   
+            var address = $("#add_address").val();
+            
+            var check = 0;
 
-          if(position == "")
-          {
-              snackbar_show("Select Role");
+            if(position == "")
+            {
+                snackbar_show("Select Role");
             check = 1;  
-          }
-          else if(position == "user" && district == "")
-          {
-              snackbar_show("Select District");
-              check = 1;
-          }
-          else if(position == "AI" && region == "")
-          {
-              snackbar_show("Select Region");
-              check = 1;
-          }
-          else if(username == "")
-          {
-              snackbar_show("Enter a Name");
-              check = 1; 
-          }
-          else if(password == "")
-          {
-              snackbar_show("Enter a Password");
-              check = 1; 
-          }
-          else if(email == "")
-          {
-              snackbar_show("Enter a Email");
-              check = 1; 
-          }
-          else if(mobile == "")
-          {
-              snackbar_show("Enter a mobile Number");
-              check = 1; 
-          }
-          else if(check != 1)
-          {
+            }
+            else if(position == "user" && district == "")
+            {
+                snackbar_show("Select District");
+                check = 1;
+            }
+            else if(position == "AI" && region == "")
+            {
+                snackbar_show("Select Region");
+                check = 1;
+            }
+            else if(username == "")
+            {
+                snackbar_show("Enter a Name");
+                check = 1; 
+            }
+            else if(password == "")
+            {
+                snackbar_show("Enter a Password");
+                check = 1; 
+            }
+            else if(email == "")
+            {
+                snackbar_show("Enter a Email");
+                check = 1; 
+            }
+            else if(mobile == "")
+            {
+                snackbar_show("Enter a mobile Number");
+                check = 1; 
+            }
+            else if(check != 1)
+            {
             
             if(position == "user")
             {
@@ -683,42 +703,42 @@
             {
                 district = "";
             }
-              
-            $.ajax({
-             url : "add_users",
-             method : "POST",
-             data :{username:username,region:region,district:district,position:position,password:password,email:email,mobile:mobile,address:address},
-             beforeSend:function(){
-                 $("#add_btn").attr("disabled",true);
-             },
-             success:function(response)
-             {
-                 if(response =="Exits")
-                 {
-                     $("#add_btn").attr("disabled",false);
-                     $("#add_email_error").html("* This email already exits.");
-                 }
-                 else
-                 {
-                    $("#add_btn").attr("disabled",false);   
-                    $("#add_model").modal("toggle");
-                    $("#select_reigion").val("");
-                    $("#add_email_error").html("");
-                    $("#add_reigion").val("");
-                    $("#add_username").val("");
-                    $("#add_password").val("");
-                    $("#add_email").val("");
-                    $("#add_mobile").val("");   
-                    $("#add_address").val("");
-                    fetch_users(role);
-                 }
                 
-             }
-         }); 
-      }
-      });
+                $.ajax({
+                    url : "add_users",
+                    method : "POST",
+                    data :{username:username,region:region,district:district,position:position,password:password,email:email,mobile:mobile,address:address},
+                    beforeSend:function(){
+                        $("#add_btn").attr("disabled",true);
+                    },
+                    success:function(response)
+                    {
+                        if(response =="Exits")
+                        {
+                            $("#add_btn").attr("disabled",false);
+                            $("#add_email_error").html("* This email already exits.");
+                        }
+                        else
+                        {
+                        $("#add_btn").attr("disabled",false);   
+                        $("#add_model").modal("toggle");
+                        $("#select_reigion").val("");
+                        $("#add_email_error").html("");
+                        $("#add_reigion").val("");
+                        $("#add_username").val("");
+                        $("#add_password").val("");
+                        $("#add_email").val("");
+                        $("#add_mobile").val("");   
+                        $("#add_address").val("");
+                        fetch_users(role);
+                        }
+                    
+                    }
+                }); 
+            }
+        });
       
-         $("#edit_btn").click(function(){
+        $("#edit_btn").click(function(){
           var id = $("#edit_id").val();
           var district = $("#edit_district").val();
           var region = $("#edit_region").val();
@@ -779,41 +799,41 @@
             {
                 district = "";
             }
-            $.ajax({
-             url : "edit_users",
-             method : "POST",
-             data :{id:id,username:username,district:district,s_district:s_district,region:region,role:role,password:password,email:email,mobile:mobile,address:address},
-             beforeSend:function(){
-                 $("#edit_btn").attr("disabled",true);
-             },
-             success:function(response)
-             {
-                 if(response =="Exits")
-                 {
-                     $("#edit_btn").attr("disabled",false);
-                     $("#edit_email_error").html("* This email already exits.");
-                 }
-                 else
-                 {
-                        $("#edit_role").val("");
-                        $("#edit_btn").attr("disabled",false);   
-                        $("#edit_model").modal("toggle");
-                        $("#edit_email_error").html("");
-                        $("#edit_reigion").val("");
-                        $("#edit_username").val("");
-                        $("#edit_password").val("");
-                        $("#edit_email").val("");
-                        $("#edit_mobile").val("");   
-                        $("#edit_address").val("");
-                        fetch_users(role);
-                 }
-                
-             }
-         }); 
-      }
-      });
+                $.ajax({
+                    url : "edit_users",
+                    method : "POST",
+                    data :{id:id,username:username,district:district,s_district:s_district,region:region,role:role,password:password,email:email,mobile:mobile,address:address},
+                    beforeSend:function(){
+                        $("#edit_btn").attr("disabled",true);
+                    },
+                    success:function(response)
+                    {
+                        if(response =="Exits")
+                        {
+                            $("#edit_btn").attr("disabled",false);
+                            $("#edit_email_error").html("* This email already exits.");
+                        }
+                        else
+                        {
+                                $("#edit_role").val("");
+                                $("#edit_btn").attr("disabled",false);   
+                                $("#edit_model").modal("toggle");
+                                $("#edit_email_error").html("");
+                                $("#edit_reigion").val("");
+                                $("#edit_username").val("");
+                                $("#edit_password").val("");
+                                $("#edit_email").val("");
+                                $("#edit_mobile").val("");   
+                                $("#edit_address").val("");
+                                fetch_users(role);
+                        }
+                        
+                    }
+                }); 
+            }
+        });
       
-         $("#add_permission_btn").click(function(){
+        $("#add_permission_btn").click(function(){
         
         
          var user_id = $("#permission_id").val();
@@ -912,10 +932,10 @@
                         
                     }
          });
-    });
+        });
          
          
-          $("#select_all").click(function(){
+        $("#select_all").click(function(){
               
                   if($("#select_all").prop("checked") == true)
                   {
@@ -925,10 +945,10 @@
                   {
                       $(".check").prop('checked', false);
                   }
-             });
+        });
              
              
-          $("#select_position").change(function(){
+        $("#select_position").change(function(){
               
                   var position = $("#select_position").val();
                  
@@ -946,10 +966,10 @@
                  }
                  
                  
-             });
+        });
              
              
-            $("#edit_role").change(function(){
+        $("#edit_role").change(function(){
                
                 var role = $("#edit_role").val();
                  alert(role);
@@ -965,10 +985,10 @@
                      $("#edit_district_div").addClass("hidden");
                       $("#edit_district").val("");
                  }
-             });
+        });
              
              
-            $("#change_btn").click(function(){
+        $("#change_btn").click(function(){
                
                var select_foe = $("#select_foe").val();
                var current_foe_id = $("#current_foe_id").val();
@@ -992,9 +1012,9 @@
                
                
                 
-            }); 
+        }); 
             
-             $("#change_btn_ai").click(function(){
+        $("#change_btn_ai").click(function(){
                
                    var select_ai = $("#select_ai").val();
                    var current_ai_id = $("#current_ai_id").val();
@@ -1014,10 +1034,10 @@
                                  fetch_users(role);
                              }
                    });
-            }); 
+        }); 
             
             
-            $("#swap_ai_btn").click(function(){
+        $("#swap_ai_btn").click(function(){
                 var swap_ai_1 = $("#swap_ai_id").val();
                 var swap_ai_2 = $("#select_to_ai").val();
                 
@@ -1036,9 +1056,9 @@
                                  fetch_users(role);
                              }
                    });
-            });
+        });
             
-            $("#report_btn").click(function(){
+        $("#report_btn").click(function(){
                 
                 var select_date = $("#select_date").val();
                 var select_order_by = $("#select_order_by").val();
@@ -1056,9 +1076,92 @@
                     window.open("feo_report?date="+select_date+"&order_by="+select_order_by);
                 }
                  
+        });
+
+        $('#select_form_name').on('change', function(){
+            let form_name = $(this).val();
+            let user_id = $('#field_permission_user_id').val();
+
+            if(form_name != ''){
+                // 🟢 Step 1: Load SECTIONS only
+                $.post('get_form_fields', {form_name: form_name, user_id: user_id, mode: 'sections'}, function(res){
+                    let sections = JSON.parse(res);
+                    let html = '';
+
+                    sections.forEach(sec => {
+                        html += `<tr class="section-row bg-light" data-index="${sec.index}" style="background:#f8f8f8;font-weight:bold;cursor:pointer;">
+                                    <td colspan="3"><i class="fa fa-folder-open"></i> ${sec.name}</td>
+                                </tr>`;
+                    });
+
+                    $('#fieldPermissionTable tbody').html(html);
+                });
+            }
+        });
+    
+        // 🟢 Step 2: When clicking a section, load its fields
+        $(document).on('click', '.section-row', function(){
+            let form_name = $('#select_form_name').val();
+            let user_id = $('#field_permission_user_id').val();
+            let section_index = $(this).data('index');
+            let row = $(this);
+
+            // If already loaded, toggle collapse
+            if(row.next().hasClass('field-row')){
+                row.nextUntil('.section-row').toggle();
+                return;
+            }
+
+            // Load fields dynamically
+            $.post('get_form_fields', {
+                form_name: form_name,
+                user_id: user_id,
+                section_index: section_index,
+                mode: 'fields'
+            }, function(res){
+                let fields = JSON.parse(res);
+                let fieldHtml = '';
+
+                fields.forEach(rowData => {
+                    fieldHtml += `<tr class="field-row">
+                        <td style="padding-left:30px;">${rowData.display_name}</td>
+                        <td><input type="checkbox" class="can_view" data-field="${rowData.field_name}" ${rowData.can_view == 1 ? 'checked' : ''}></td>
+                        <td><input type="checkbox" class="can_edit" data-field="${rowData.field_name}" ${rowData.can_edit == 1 ? 'checked' : ''}></td>
+                    </tr>`;
+                });
+
+                // Insert after clicked section row
+                row.after(fieldHtml);
             });
+        });
+
+        // Save button
+        $('#saveFieldPermissionBtn').click(function(){
+            let user_id = $('#field_permission_user_id').val();
+            let form_name = $('#select_form_name').val();
+
+            let fields = [];
+            $('#fieldPermissionTable tbody .field-row').each(function(){
+                fields.push({
+                    field_name: $(this).find('.can_view').data('field'),
+                    can_view: $(this).find('.can_view').is(':checked') ? 1 : 0,
+                    can_edit: $(this).find('.can_edit').is(':checked') ? 1 : 0
+                });
+            });
+
+            $.post('save_field_permissions', {
+                user_id: user_id,
+                form_name: form_name,
+                fields: JSON.stringify(fields)
+            }, function(res){
+                Swal.fire('Success', 'Field permissions updated successfully!', 'success');
+                $("#field_permission_modal").modal('hide');
+            });
+        });
+
+
      
-     });
+    });
       
       
       function fetch_users(role)
@@ -1552,6 +1655,14 @@
                      }
           });
       }
+
+      function field_permission(id) 
+      {
+        $("#field_permission_user_id").val(id);
+        $("#field_permission_modal").modal("show");
+        $("#fieldPermissionTable tbody").html('');
+      }
+
       
       function change_data(id)
       {

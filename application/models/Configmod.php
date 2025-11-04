@@ -330,15 +330,26 @@ class Configmod extends CI_Model
   	    }
   	}
   	
-  	public function fetch_users()
-  	{
-  	    $this->db->select("admin_login.*,list_of_reigion.reigion");
-  	    $this->db->from("admin_login");
-  	    $this->db->join("list_of_reigion","admin_login.reigion_id=list_of_reigion.id",'left');
-  	    $this->db->where("role","user");
-  	    $this->db->where("status","active");
-  	    return $this->db->get()->result();
-  	}
+  	// public function fetch_users()
+  	// {
+  	//     $this->db->select("admin_login.*,list_of_reigion.reigion");
+  	//     $this->db->from("admin_login");
+  	//     $this->db->join("list_of_reigion","admin_login.reigion_id=list_of_reigion.id",'left');
+  	//     $this->db->where("role","user");
+  	//     $this->db->where("status","active");
+  	//     return $this->db->get()->result();
+  	// }
+
+	public function fetch_users()
+	{
+		$this->db->select('a.id, a.username, a.email_id, a.phoneno, a.reigion_id, r.reigion');
+		$this->db->from('admin_login as a');
+		$this->db->join('list_of_reigion as r', 'a.reigion_id = r.id', 'left');
+		$this->db->where(['a.role' => 'user', 'a.status' => 'active']);
+		$this->db->order_by('a.id', 'DESC');
+		return $this->db->get()->result();
+	}
+
   	
   	
   	public function fetch_regions($order_by = '', $order_type = 'ASC')

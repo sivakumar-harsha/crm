@@ -489,6 +489,7 @@
 
 	<!-- Main content -->
 	<section class="content">
+		</script>
 
 		<!-- Client Details Start -->
 
@@ -898,10 +899,7 @@
 									>
 										<option value="">--Select--</option>
 										<?php foreach ($state as $st) { ?>
-											<option
-												value="<?php echo $st->id; ?>"
-												<?php echo (trim($st->name) == 'TamilNadu') ? 'selected' : ''; ?>
-											>
+											<option value="<?php echo $st->id; ?>">
 												<?php echo $st->name; ?>
 											</option>
 										<?php } ?>
@@ -1187,20 +1185,6 @@
 							</div>
 						</div>
 
-						<!--<div class="form-group">-->
-						<!--     <div class="row">   -->
-						<!--          <div class="col-md-4">-->
-						<!--              <label>Region *</label>-->
-						<!--          </div>-->
-						<!--           <div class="col-md-8">-->
-						<!--               <select class="form-control select2" name="region" id="region" >-->
-						<!--                   <option value="">--select--</option>-->
-
-						<!--               </select>-->
-						<!--           </div>-->
-						<!--       </div>-->
-						<!--   </div>-->
-
 						<div class="form-group">
 							<div class="row">
 								<div class="col-md-4">
@@ -1283,7 +1267,7 @@
 								</div>
 							</div>
 						</div>
-
+<!-- 
 						<div class="hidden" id="sme_gst_number">
 							<div class="form-group">
 								<div class="row">
@@ -1300,7 +1284,7 @@
 									</div>
 								</div>
 							</div>
-						</div>
+						</div> -->
 
 						<div class="form-group">
 							<div class="row">
@@ -9789,6 +9773,17 @@ From: Anywhere in India To: Anywhere in India</textarea
 						var business_owner_type = "Owner";
 
 						$(document).ready(function () {
+
+							const DEFAULT_STATE_ID = 1; // Tamil Nadu ID
+
+							// ✅ Only auto-select TamilNadu for *new* clients (when no lead_id)
+							const lead_id = $("#last_inserted_id").val();
+							if (!lead_id || lead_id === "") {
+								if (!$("#state").val() || $("#state").val() === "") {
+									$("#state").val(DEFAULT_STATE_ID).trigger("change");
+								}
+							}
+
 							$(".select2").select2();
 
 							$("#policy_btn").click(function () {
@@ -9924,7 +9919,11 @@ From: Anywhere in India To: Anywhere in India</textarea
 										$("#communication_address").val(obj.communication_address);
 										$("#permanent_address").val(obj.permanent_address);
 										$("#district").val(obj.district);
-										$("#state").val(obj.state);
+										if (obj.state && obj.state !== "") {
+											$("#state").val(obj.state).trigger("change");
+										} else {
+											$("#state").val(1).trigger("change");
+										}
 										$("#country").val(obj.country);
 										$("#pin_code").val(obj.pin_code);
 										$("#gst_number").val(obj.gst_number);
@@ -11989,6 +11988,13 @@ From: Anywhere in India To: Anywhere in India</textarea
 									return;
 								}
 
+								// ✅ Default Tamil Nadu ID for missing state
+								const DEFAULT_STATE_ID = 1;
+								let selectedState = $("#state").val();
+								if (!selectedState || selectedState === "") {
+									$("#state").val(DEFAULT_STATE_ID).trigger("change");
+								}
+
 								// ✅ Create FormData for file + text data
 								var formData = new FormData();
 								formData.append("lead_id", lead_id);
@@ -11996,6 +12002,7 @@ From: Anywhere in India To: Anywhere in India</textarea
 								formData.append("client_name", $("#client_name").val());
 								formData.append("salutation", $("#salutation").val());
 								formData.append("initial", $("#initial").val());
+								formData.append("father_husband_name", $("#father_husband_name").val());
 								formData.append(
 									"communication_address",
 									$("#communication_address").val()
@@ -12005,7 +12012,9 @@ From: Anywhere in India To: Anywhere in India</textarea
 									$("#permanent_address").val()
 								);
 								formData.append("district", $("#district").val());
-								formData.append("state", $("#state").val());
+								// ✅ Ensure we always send the state ID (not text)
+								let stateValue = $("#state").find(":selected").val() || $("#state").val();
+								formData.append("state", stateValue);
 								formData.append("country", $("#country").val());
 								formData.append("mobile_no", $("#mobile_no").val());
 								formData.append("email_id", $("#email_id").val());
@@ -16355,9 +16364,54 @@ From: Anywhere in India To: Anywhere in India</textarea
                 </script>
 
 
+
 				</div>
 			</div>
 		</div>
+
+
+		<script>
+			$(document).ready(function(){
+				// Pass PHP permissions to JS
+				let userPermissions = <?php echo json_encode($perm_map ?? []); ?>;
+
+				$.each(userPermissions, function(field, perm){
+					let $field = $(`[name='${field}']`);
+
+					// 🟢 Handle "Additional Custom Fields" (not real input)
+					if (field === 'custom_field_dynamic') {
+						if (perm.view == 0) {
+							$("#custom_fields_container").closest('.form-group').hide();
+						} else if (perm.edit == 0) {
+							$("#add_custom_field").prop('disabled', true);
+						}
+						return; // skip to next
+					}
+
+					// 🟢 For all normal form fields
+					if ($field.length) {
+						// Hide entire group if no view permission
+						if (perm.view == 0) {
+							$field.closest('.form-group').hide();
+						}
+
+						// Disable input if edit permission is off
+						else if (perm.edit == 0) {
+							// For select2 dropdowns
+							if ($field.hasClass('select2')) {
+								$field.prop('disabled', true);
+								$field.trigger('change.select2');
+							} else {
+								$field.prop('readonly', true);
+								$field.prop('disabled', true);
+							}
+						}
+					}
+				});
+			});
+		</script>
+
+
 	</section>
 </div>
 
