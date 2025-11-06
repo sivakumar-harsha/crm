@@ -1920,29 +1920,39 @@ class LeadCtrl extends CI_Controller {
                 
                 $commission_type = "";
                 $status = "0";
+
+            // ✅ Commission ID safe guard: if empty, skip all commission logic
+            if (empty($commission_id)) {
+                $company_com = 0;
+                $agent_commission = 0;
+                $jayantha_commission = 0;
+                $jayantha_agent_commission = 0;
+                $commission_type = "No Slab";
+                log_message('info', '🟡 Policy saved without commission slab for lead ID: ' . $lead_id);
+            } else {
        
-                  if($class_type->class == "1")
-                  {
-                        $get_lead_info = $this->lm->get_lead_info($lead_id);
-                        $bussiness_type = $get_lead_info->business_type;
-                        $policy_class = $get_lead_info->class;
-                        $policy_type =  $get_lead_info->policy_type;
-                        $fuel_type = $get_lead_info->vechi_fuel_type;
-                        $cc  = $get_lead_info->vechi_cc;
-                        $v_gvw = $get_lead_info->vechi_gvw;
-                        $make = $get_lead_info->vechi_make;
-                        $model = $get_lead_info->vechi_model;
-                        $Varient = $get_lead_info->vechi_varient;
-                  }
-                  else if($class_type->class == "2")
-                  {
-                       $bussiness_type = $class_type->business_type;
-                       $policy_class = $class_type->class;
-                       $policy_type =  $class_type->policy_type;
-                       $state = "";
-                       $age ="";
-                       $rto = "";
-                       
+                    if($class_type->class == "1")
+                    {
+                            $get_lead_info = $this->lm->get_lead_info($lead_id);
+                            $bussiness_type = $get_lead_info->business_type;
+                            $policy_class = $get_lead_info->class;
+                            $policy_type =  $get_lead_info->policy_type;
+                            $fuel_type = $get_lead_info->vechi_fuel_type;
+                            $cc  = $get_lead_info->vechi_cc;
+                            $v_gvw = $get_lead_info->vechi_gvw;
+                            $make = $get_lead_info->vechi_make;
+                            $model = $get_lead_info->vechi_model;
+                            $Varient = $get_lead_info->vechi_varient;
+                    }
+                    else if($class_type->class == "2")
+                    {
+                        $bussiness_type = $class_type->business_type;
+                        $policy_class = $class_type->class;
+                        $policy_type =  $class_type->policy_type;
+                        $state = "";
+                        $age ="";
+                        $rto = "";
+                        
                         $disease_husband= $this->input->post("disease_husband");
                         $husband_file= $this->input->post("husband_file");
                         $disease_wife= $this->input->post("disease_husband");
@@ -1965,29 +1975,29 @@ class LeadCtrl extends CI_Controller {
                         $disease_mother= $this->input->post("disease_mother");
                         $father_file= $this->input->post("father_file");
                         $mother_file= $this->input->post("mother_file");
-                  }
-                  $res = $this->lm->fetch_policy_info($commission_id);
-                $agn_commission_type = $res->agn_com_type ;
-                
-                $ird_od_commission = (isset($res->ird_od_commission) && ($res->ird_od_commission) > 0) ? $res->ird_od_commission : 0;
-        		$ird_tp_commission = (isset($res->ird_tp_commission) && ($res->ird_tp_commission) > 0) ? $res->ird_tp_commission : 0;
-        		
-                if($agn_commission_type != "TP")
-                {
-                    $jayantha_commission = ($own_damage * $ird_od_commission)/100;
-                    $jayantha_agent_commission = ($own_damage * $ird_od_commission)/100;
-                }
-                if($agn_commission_type != "OD")
-        		{
-        			$jayantha_commission = (float)$jayantha_commission + (($tp * $ird_tp_commission)/100);   
-        		}
-        		
-        		if($agn_commission_type == "OD_AND_TP")
-        		{
-        		    $a = ($own_damage * $ird_od_commission)/100;
-        			$b = (float)$jayantha_commission + (($tp * $ird_tp_commission)/100);   
-        			$jayantha_commission=$a+$b;
-        		}
+                    }
+                    $res = $this->lm->fetch_policy_info($commission_id);
+                    $agn_commission_type = $res->agn_com_type;
+                    
+                    $ird_od_commission = (isset($res->ird_od_commission) && ($res->ird_od_commission) > 0) ? $res->ird_od_commission : 0;
+                    $ird_tp_commission = (isset($res->ird_tp_commission) && ($res->ird_tp_commission) > 0) ? $res->ird_tp_commission : 0;
+                    
+                    if($agn_commission_type != "TP")
+                    {
+                        $jayantha_commission = ($own_damage * $ird_od_commission)/100;
+                        $jayantha_agent_commission = ($own_damage * $ird_od_commission)/100;
+                    }
+                    if($agn_commission_type != "OD")
+                    {
+                        $jayantha_commission = (float)$jayantha_commission + (($tp * $ird_tp_commission)/100);   
+                    }
+                    
+                    if($agn_commission_type == "OD_AND_TP")
+                    {
+                        $a = ($own_damage * $ird_od_commission)/100;
+                        $b = (float)$jayantha_commission + (($tp * $ird_tp_commission)/100);   
+                        $jayantha_commission=$a+$b;
+                    }
         		
                     if($class_type->class == "1")
                     {
@@ -2248,6 +2258,8 @@ class LeadCtrl extends CI_Controller {
                                 }
                         }
                     }
+            }
+
                     if($company_com <= $jayantha_commission)
                     {
                         $jayantha_commission = $company_com;
@@ -2329,7 +2341,7 @@ class LeadCtrl extends CI_Controller {
                         "policy_location"=> $this->input->post("policy_location"),
                         "previous_policy_no"=> $this->input->post("previous_policy_no"),
                         "previous_insurer"=> $this->input->post("previous_insurer"),
-                        "previous_insurance_plan"=> $this->input->post("previous_insurance_plan"),
+                        "previous_insurance_type"=> $this->input->post("previous_insurance_type"),
                         "previous_agency_pos"=> $this->input->post("previous_agency_pos"),
                         "previous_source"=> $this->input->post("previous_source"),
                         "dectable_details"=> $this->input->post("dectable_details"),
@@ -2360,7 +2372,7 @@ class LeadCtrl extends CI_Controller {
                         "add_ons_3_details" =>$add_ons_3_details,
                         "add_ons_4_details" =>$add_ons_4_details,
                         "add_ons_5_details" =>$add_ons_5_details,
-                        "commission_id" =>$commission_id,
+                        "commission_id" => !empty($commission_id) ? $commission_id : NULL, // ✅ NULL safe
                         "company"=> $this->input->post("company"),
                         "commission_type"=> ((isset($commission_type) && !empty($commission_type)) ? $commission_type : 0),
                         "agent_commission_amt"=> $jayantha_agent_commission,
@@ -4017,7 +4029,7 @@ class LeadCtrl extends CI_Controller {
                         "policy_location"=> $this->input->post("policy_location"),
                         "previous_policy_no"=> $this->input->post("previous_policy_no"),
                         "previous_insurer"=> $this->input->post("previous_insurer"),
-                        "previous_insurance_plan"=> $this->input->post("previous_insurance_plan"),
+                        "previous_insurance_type"=> $this->input->post("previous_insurance_type"),
                         "previous_agency_pos"=> $this->input->post("previous_agency_pos"),
                         "previous_source"=> $this->input->post("previous_source"),
                         "dectable_details"=> $this->input->post("dectable_details"),
@@ -4034,6 +4046,7 @@ class LeadCtrl extends CI_Controller {
                         "pay_ref_no"=> $this->input->post("pay_ref_no"),
                         "bank_name"=> $this->input->post("bank_name"),
                         "payment_check_date"=> $this->input->post("payment_check_date"),
+                        "payment_receipt_no"=> $this->input->post("payment_receipt_no"),
                         "payment_and_check_no"=> $this->input->post("payment_and_check_no"),
                         "state"=> $this->input->post("state"),
                         "commission_id" =>$commission_id,
@@ -7033,6 +7046,12 @@ class LeadCtrl extends CI_Controller {
                    
                    if($class_type->class == "1")
                    {
+                            // ✅ Always initialize $data1 to prevent undefined variable error
+                            $data1 = array(
+                                "status" => "",
+                                "commission_id" => ""
+                            );
+
                             $get_lead_info = $this->lm->get_lead_info($lead_id);
                             $bussiness_type = $get_lead_info->business_type;
                             $policy_class = $get_lead_info->class;
@@ -7067,8 +7086,6 @@ class LeadCtrl extends CI_Controller {
                             $fuel_status = "0";
                             $state_status = "0";
                             $fuel_type_status = "0";
-                            
-                            $data1 = array("status" =>"Commission Slab Not Exits","commission_id"=>"");
                             
                             $check = $this->cm->check_commission($company,$policy_premium,$policy_class,$bussiness_type,$policy_type,$state,$from_date_1,$to_date_1);
                  
@@ -8056,7 +8073,17 @@ class LeadCtrl extends CI_Controller {
                                     }
                                 }
                             }
-                           echo json_encode($data1);
+
+                            // ✅ Fallback for motor when no commission matched
+                            if (!isset($data1["status"]) || $data1["status"] == "" || $data1["status"] != "success") {
+                                $data1 = array(
+                                    "status" => "success_no_slab",
+                                    "commission_id" => NULL
+                                );
+                            }
+
+                            echo json_encode($data1);
+
                    }
                    else if($class_type->class == "2")
                    {
@@ -8140,10 +8167,21 @@ class LeadCtrl extends CI_Controller {
                                 	}
                                 }
                             }
-                             echo json_encode($data1);
-                      }
+
+                            // ✅ Allow saving even if no commission slab matched
+                            if (!isset($data1["status"]) || $data1["status"] == "" || $data1["status"] != "success") {
+                                $data1 = array(
+                                    "status" => "success_no_slab",
+                                    "commission_id" => NULL
+                                );
+                            }
+
+                            // ✅ Return final response
+                            echo json_encode($data1);
+
+                    }
                
-                 }
+                }
         	}
     }
        
@@ -8179,8 +8217,8 @@ class LeadCtrl extends CI_Controller {
 	    }
   }
   
-  public function fetch_direct_renewals()
-  {
+    public function fetch_direct_renewals()
+    {
        if($this->session->has_userdata('logged_in')) 
        { 
            $draw = intval($this->input->post("draw"));
@@ -8219,7 +8257,7 @@ class LeadCtrl extends CI_Controller {
     				);
           echo json_encode($result);
        }
-   }
+    }
    
    public function direct_renewals_excel()
    {
@@ -8427,7 +8465,7 @@ class LeadCtrl extends CI_Controller {
    }
    
    
-    public function check_policy_no_already_exits()
+   public function check_policy_no_already_exits()
    {
       if($this->session->has_userdata('logged_in')) 
       {
@@ -8589,7 +8627,7 @@ class LeadCtrl extends CI_Controller {
                     echo "Exits";
                 }
             }
-       }
+        }
         
         public function get_temp_data()
         {
@@ -8623,7 +8661,7 @@ class LeadCtrl extends CI_Controller {
         }
         
         
-   public function edit_health_details()
+    public function edit_health_details()
     {
       if($this->session->has_userdata('logged_in'))
        {
@@ -8853,7 +8891,7 @@ class LeadCtrl extends CI_Controller {
        }
     }
     
-   public function update_quote_status()
+    public function update_quote_status()
     {
        if($this->session->has_userdata('logged_in'))
        {
@@ -10035,1451 +10073,1425 @@ class LeadCtrl extends CI_Controller {
 	  
 	  // acc own commission
 	  
-	  public function acc_own_commission_ledg($lead_id)
-	  {
-           if($this->session->has_userdata('logged_in')) 
-           {
-                    $res = $this->lm->get_policy_details($lead_id);
-                    $own_com_id = "acc21";
-                    $own_com = 0;
-                    $total_irda = 0;
-                    $total_orc = 0;
-                           
-                    $date = date("Y-m-d H:i:s");
-                    $year = date('y');
-                    $month = date('m');
-                    
-                    if($month < 4)
-                    {
-                        $year = $year-1;
-                    }
-                    /*
-                    $x = 0;
-                    
-                    do 
-                    {
-                        $x++;
-                        $new_sr_no = "OC/".$x."/".$year;
-                    } 
-                    while($this->lm->check_sr_no_already_exits($new_sr_no));
-                    */
-                    $sr_no = $this->lm->getMaxSRNo('OC');
-                    $new_sr_no =  "OC/{$sr_no}/".$year;
-                       
-                    $res0 = $this->lm->get_commission_details($res->commission_id);
-                    
-                    if($res0 != "" || $res0 != null)
-                    {
-                        $irda_od_percentage = (isset($res0->ird_od_commission) && ($res0->ird_od_commission) > 0) ? $res0->ird_od_commission : 0;
-        		        $irda_tp_percentage = (isset($res0->ird_tp_commission) && ($res0->ird_tp_commission) > 0) ? $res0->ird_tp_commission : 0;    
-        		        
-                       if($res0->own_od == "0.00" && $res0->own_tp == "0.00" && $res0->on_net != "0.00")
-                       {
-                        //   $irda_od_percentage = 15;
-                        //   $irda_tp_percentage = 2.5;
-                           $od = $res->total_own_damage;
-                           $tp = $res->tot_liability_premium;
-                           $irda_od = $res->total_own_damage * $irda_od_percentage/100;
-                           $irda_tp = $res->tot_liability_premium * $irda_tp_percentage/100;
-                           $total_irda = $irda_od + $irda_tp;
-                           $total_orc = $res->own_commission_amt + $res->own_commission - $total_irda;
-                       }
-                       else if($res0->own_od != "0.00" && $res0->own_tp != "0.00" && $res0->on_net == "0.00")
-                       {
-                        //   $irda_od_percentage = 15;
-                        //   $irda_tp_percentage = 2.5;
-                           $od = $res->total_own_damage;
-                           $tp = $res->tot_liability_premium;
-                           $irda_od = $res->total_own_damage * $irda_od_percentage/100;
-                           $irda_tp = $res->tot_liability_premium * $irda_tp_percentage/100;
-                           $total_irda = $irda_od + $irda_tp;
-                           $total_orc = $res->own_commission_amt + $res->own_commission - $total_irda;
-                       }
-                       else if($res0->own_od != "0.00" && $res0->own_tp == "0.00" && $res0->on_net == "0.00")
-                       {
-                        //   $irda_od_percentage = 15;
-                           $od = $res->total_own_damage;
-                           $irda_od = $res->total_own_damage * $irda_od_percentage/100;
-                           $total_irda = $irda_od;
-                           $total_orc = $res->own_commission_amt + $res->own_commission - $total_irda;
-                       }
-                       else if($res0->own_od == "0.00" && $res0->own_tp != "0.00" && $res0->on_net == "0.00")
-                       {
-                        //   $irda_tp_percentage = 2.5;
-                           $tp = $res->tot_liability_premium;
-                           $irda_tp = $res->tot_liability_premium * $irda_tp_percentage/100;
-                           $total_irda = $irda_tp;
-                           $total_orc = $res->own_commission_amt + $res->own_commission - $total_irda;
-                       }
-                     
-                       
-                    }
-                    
-                    if($res->class == "10") { // sme policy
-                        $total_irda = $res->own_commission_amt;
-                        $total_orc  = $res->own_commission;
-                    }
-                    
-                    if($res != "" || $res != null)
-                    {
-                       $check = $this->lm->check_ac_policy_no_already_exits($res->policy_no);
-                       $check0 = $this->lm->check_ac_policy_no_already_exits_orc($res->policy_no);
-                       
-                       $ins_ledger = $this->lm->fetch_insurance_company_ledger_main($res->company);
-                       $ins_ledger_orc = $this->lm->fetch_insurance_company_ledger_orc($res->company);
-                    
-                       if($check < 1)
-                       {
-                            $data_irda = array(
-                                "sr_no" =>$new_sr_no,
-                                "credit"=>floor($total_irda),
-                                "cr_parent_id" =>$own_com_id,
-                                "dr_parent_id" =>$ins_ledger->vchaccid,
-                                "tds" =>0,
-                                "lead_id"=>$lead_id,
-                                "sub_id" =>$res->policy_no,
-                                "insurer_id" =>$res->company,
-                                "note" =>"Own commission Credit",
-                                "datetime" =>date("Y-m-d H:i:s")
-                                );
-                            $res0 = $this->lm->add_acc_own_commission($data_irda);
-                            if( $res0 ){
-            	                 $this->audit->log('acc_commission_ledger', 'INSERT', null, null, $data_irda);
-            	             }
-                       }  
-                       
-                       if($check0 < 1)
-                       {
-                            $data_orc = array(
-                                    "sr_no" =>$new_sr_no,
-                                    "credit"=>floor($total_orc),
-                                    "cr_parent_id" =>$own_com_id,
-                                    "dr_parent_id" =>$ins_ledger_orc->vchaccid,
-                                    "tds" =>0,
-                                    "lead_id"=>$lead_id,
-                                    "sub_id" =>$res->policy_no,
-                                    "insurer_id" =>$res->company,
-                                    "note" =>"Own commission Credit",
-                                    "datetime" =>date("Y-m-d H:i:s")
-                                    );
-                            $res1 = $this->lm->add_acc_own_commission_orc($data_orc);
-                            if( $res1 ){
-            	                 $this->audit->log('acc_commission_ledger_orc', 'INSERT', null, null, $data_orc);
-            	             }
-                       }
-                    }
-                }
-	  }
-	  
-	  public function acc_agn_commission_ledg($lead_id)
-	  {
-	      if($this->session->has_userdata('logged_in')) 
-          {    
-                    $res = $this->lm->get_policy_details($lead_id);
-                    $own_com_id = "acc21";
-                    $agn_com_id = "acc42";
-                    $total_irda = 0;
-                    $total_orc = 0;
-                    $tds = 0;
-                    
-                    $date = date("Y-m-d H:i:s");
-                    $year = date('y');
-                    $month = date('m');
-                    
-                    if($month < 4)
-                    {
-                        $year = $year-1;
-                    }
-                    /*
-                    $x = 0;
-                    do 
-                    {
-                        $x++;
-                        $new_sr_no = "AC/".$x."/".$year;
-                    } 
-                    while($this->lm->check_sr_no_already_exits($new_sr_no));
-                    */
-                    
-                    $sr_no = $this->lm->getMaxSRNo('AC');
-                    $new_sr_no =  "AC/{$sr_no}/".$year;
-                    
-                    $res0 = $this->lm->get_commission_details($res->commission_id);
-                    $agn_category = $this->lm->fetch_agent_category($res->policy_agency_pos);
-                
-                    if($res0 != "" || $res0 != null)
-                    {
-                        $irda_od_percentage = (isset($res0->ird_od_commission) && ($res0->ird_od_commission) > 0) ? $res0->ird_od_commission : 0;
-                        $irda_tp_percentage = (isset($res0->ird_tp_commission) && ($res0->ird_tp_commission) > 0) ? $res0->ird_tp_commission : 0;    
-        		            
-                        if($res0->agn_com_type == "ON-NET")
-                        {
-                        //   $irda_od_percentage = 15;
-                           $od = $res->total_own_damage;
-                           $tp = $res->tot_liability_premium;
-                           $total_irda = $res->total_own_damage * $irda_od_percentage/100;
-                           $total_orc = $res->agent_commission_amt + $res->agent_commission - $total_irda;
-                        }
-                        else if($res0->agn_com_type == "OD_AND_TP")
-                        {
-                        //   $irda_od_percentage = 15;
-                           $od = $res->total_own_damage;
-                           $tp = $res->tot_liability_premium;
-                           $total_irda = $res->total_own_damage * $irda_od_percentage/100;
-                           $total_orc = $res->agent_commission_amt + $res->agent_commission - $total_irda;
-                        }
-                        else if($res0->agn_com_type == "OD")
-                        {
-                        //   $irda_od_percentage = 12;
-                           $od = $res->total_own_damage;
-                           $irda_od = $res->total_own_damage * $irda_od_percentage/100;
-                           $total_irda = $irda_od;
-                           $total_orc = $res->agent_commission_amt + $res->agent_commission - $total_irda;
-                        }
-                        else if($res0->agn_com_type == "TP")
-                        {
-                           $total_irda = 0;
-                           $total_orc = 0;
-                        }
-                    }
-                    
-                    if($res->class == "10") { // sme policy
-                        $total_irda = $res->agent_commission_amt;
-                        $total_orc  = $res->agent_commission;
-                    }
-                      
-                    if($res != "" || $res != null)
-                    {
-                        $data_irda1 =   array(
-                            "sr_no" =>$new_sr_no,
-                            "debit"=>$total_irda,
-                            "cr_parent_id" =>$agn_com_id,
-                            "dr_parent_id" =>$own_com_id,
-                            "tds" =>$tds,
-                            "sub_id" =>$res->policy_agency_pos,
-                            "lead_id"=>$lead_id,
-                            "note" =>"Own commission Debit",
-                            "datetime" =>date("Y-m-d H:i:s")
-                        );
-                            
-                        $res0 = $this->lm->add_acc_own_commission($data_irda1);
-                        if( $res0 ){
-                            $this->audit->log('acc_commission_ledger', 'INSERT', null, null, $data_irda1);
-                        }
-            	             
-                        $data_irda2 =   array(
-                            "sr_no" =>$new_sr_no,
-                            "credit"=>$total_irda,
-                            "cr_parent_id" =>$agn_com_id,
-                            "dr_parent_id" =>$own_com_id,
-                            "tds" =>$tds,
-                            "sub_id" =>$res->policy_agency_pos,
-                            "lead_id"=>$lead_id,
-                            "note" =>"Agent commission Credit",
-                            "datetime" =>date("Y-m-d H:i:s")
-                        );
-                                    
-                        $res1 = $this->lm->add_acc_own_commission($data_irda2);
-                        if( $res1 ){
-	                        $this->audit->log('acc_commission_ledger', 'INSERT', null, null, $data_irda2);
-    	                }
-            	             
-                            
-                        $data_orc1 =   array(
-                            "sr_no" =>$new_sr_no,
-                            "debit"=>$total_orc,
-                            "cr_parent_id" =>$agn_com_id,
-                            "dr_parent_id" =>$own_com_id,
-                            "tds" =>$tds,
-                            "sub_id" =>$res->policy_agency_pos,
-                            "lead_id"=>$lead_id,
-                            "note" =>"Own commission Debit",
-                            "datetime" =>date("Y-m-d H:i:s")
-                        );
-                        $res0 = $this->lm->add_acc_own_commission_orc($data_orc1);
-                        if( $res0 ){
-                            $this->audit->log('acc_commission_ledger_orc', 'INSERT', null, null, $data_orc1);
-                        }
-            	             
-                        $data_orc2 =   array(
-                            "sr_no" =>$new_sr_no,
-                            "credit"=>$total_orc,
-                            "cr_parent_id" =>$agn_com_id,
-                            "dr_parent_id" =>$own_com_id,
-                            "tds" =>$tds,
-                            "sub_id" =>$res->policy_agency_pos,
-                            "lead_id"=>$lead_id,
-                            "note" =>"Agent commission Credit",
-                            "datetime" =>date("Y-m-d H:i:s")
-                        );
-                        $res1 = $this->lm->add_acc_own_commission_orc($data_orc2);
-                        if( $res1 ){
-                            $this->audit->log('acc_commission_ledger_orc', 'INSERT', null, null, $data_orc2);
-                        }
-                        
-                    }
-                      
-                }
-	  }
-	  
-	  
-	   public function test_check_commission_status()
-      {
-            if($this->session->has_userdata('logged_in')) 
-        	{
-        	        $lead_id = $this->input->get("id");
-        	        $data = $this->lm->fetch_policy_informations($lead_id);     
-                    $policy_no = $data->policy_no;
-                    $policy_issue_date = $data->policy_issue_date;
-                    $policy_agency_pos = $data->policy_agency_pos;
-                    $company = $data->company;
-                    $policy_premium = $data->policy_premium;
-                    $total_premium = $data->total_premium;
-                    
-                    $rto = "";
-                    $age = "";
-                    
-                    $class_type = $this->lm->get_class_type($lead_id);
-                    $from_date_1 = date_format(date_create($policy_issue_date),"01-m-Y");
-                    $to_date_1 = date_format(date_create($from_date_1),"t-m-Y");
+    public function acc_own_commission_ledg($lead_id)
+    {
+        if($this->session->has_userdata('logged_in')) 
+        {
+            $res = $this->lm->get_policy_details($lead_id);
+            if(!$res) {
+                log_message('error', "❌ acc_own_commission_ledg: No policy found for lead_id $lead_id");
+                return;
+            }
 
-                       if($class_type->class == "1")
-                       {
-                                $get_lead_info = $this->lm->get_lead_info($lead_id);
-                                $bussiness_type = $get_lead_info->business_type;
-                                $policy_class = $get_lead_info->class;
-                                $policy_type =  $get_lead_info->policy_type;
-                                $state = $get_lead_info->state;
-                                $rto = $get_lead_info->rto;
-                                $regndate =$get_lead_info->regn_date;
-                                $today = date("Y-m-d");
-                                $diff = date_diff(date_create($regndate), date_create($today));
+            $own_com_id = "acc21"; // own commission account
+            $own_com = 0;
+            $total_irda = 0;
+            $total_orc = 0;
+            $date = date("Y-m-d H:i:s");
+            $year = date('y');
+            $month = date('m');
+            if($month < 4) $year = $year - 1;
+
+            $sr_no = $this->lm->getMaxSRNo('OC');
+            $new_sr_no = "OC/{$sr_no}/{$year}";
+
+            // Get commission config
+            $res0 = $this->lm->get_commission_details($res->commission_id);
+
+            if(!empty($res0)) {
+                $irda_od_percentage = (isset($res0->ird_od_commission) && $res0->ird_od_commission > 0) ? $res0->ird_od_commission : 0;
+                $irda_tp_percentage = (isset($res0->ird_tp_commission) && $res0->ird_tp_commission > 0) ? $res0->ird_tp_commission : 0;
+
+                // Compute IRDA & ORC
+                if($res0->own_od == "0.00" && $res0->own_tp == "0.00" && $res0->on_net != "0.00") {
+                    $irda_od = $res->total_own_damage * $irda_od_percentage / 100;
+                    $irda_tp = $res->tot_liability_premium * $irda_tp_percentage / 100;
+                    $total_irda = $irda_od + $irda_tp;
+                    $total_orc = $res->own_commission_amt + $res->own_commission - $total_irda;
+                }
+                else if($res0->own_od != "0.00" && $res0->own_tp != "0.00" && $res0->on_net == "0.00") {
+                    $irda_od = $res->total_own_damage * $irda_od_percentage / 100;
+                    $irda_tp = $res->tot_liability_premium * $irda_tp_percentage / 100;
+                    $total_irda = $irda_od + $irda_tp;
+                    $total_orc = $res->own_commission_amt + $res->own_commission - $total_irda;
+                }
+                else if($res0->own_od != "0.00" && $res0->own_tp == "0.00") {
+                    $irda_od = $res->total_own_damage * $irda_od_percentage / 100;
+                    $total_irda = $irda_od;
+                    $total_orc = $res->own_commission_amt + $res->own_commission - $total_irda;
+                }
+                else if($res0->own_od == "0.00" && $res0->own_tp != "0.00") {
+                    $irda_tp = $res->tot_liability_premium * $irda_tp_percentage / 100;
+                    $total_irda = $irda_tp;
+                    $total_orc = $res->own_commission_amt + $res->own_commission - $total_irda;
+                }
+            }
+
+            if($res->class == "10") { // SME policy override
+                $total_irda = $res->own_commission_amt;
+                $total_orc  = $res->own_commission;
+            }
+
+            $check  = $this->lm->check_ac_policy_no_already_exits($res->policy_no);
+            $check0 = $this->lm->check_ac_policy_no_already_exits_orc($res->policy_no);
+
+            $ins_ledger      = $this->lm->fetch_insurance_company_ledger_main($res->company);
+            $ins_ledger_orc  = $this->lm->fetch_insurance_company_ledger_orc($res->company);
+
+            // ✅ Null-safety for missing ledgers
+            $dr_parent_main = !empty($ins_ledger->vchaccid) ? $ins_ledger->vchaccid : 'acc21';
+            $dr_parent_orc  = !empty($ins_ledger_orc->vchaccid) ? $ins_ledger_orc->vchaccid : 'acc21';
+
+            if(empty($ins_ledger->vchaccid) || empty($ins_ledger_orc->vchaccid)) {
+                log_message('error', "⚠️ Missing insurer ledger for company {$res->company} | used fallback acc21");
+            }
+
+            // Insert IRDA entry
+            if($check < 1) {
+                $data_irda = array(
+                    "sr_no"        => $new_sr_no,
+                    "credit"       => floor($total_irda),
+                    "cr_parent_id" => $own_com_id,
+                    "dr_parent_id" => $dr_parent_main,
+                    "tds"          => 0,
+                    "lead_id"      => $lead_id,
+                    "sub_id"       => $res->policy_no,
+                    "insurer_id"   => $res->company,
+                    "note"         => "Own commission Credit",
+                    "datetime"     => date("Y-m-d H:i:s")
+                );
+                $res0 = $this->lm->add_acc_own_commission($data_irda);
+                if($res0) $this->audit->log('acc_commission_ledger', 'INSERT', null, null, $data_irda);
+            }
+
+            // Insert ORC entry
+            if($check0 < 1) {
+                $data_orc = array(
+                    "sr_no"        => $new_sr_no,
+                    "credit"       => floor($total_orc),
+                    "cr_parent_id" => $own_com_id,
+                    "dr_parent_id" => $dr_parent_orc,
+                    "tds"          => 0,
+                    "lead_id"      => $lead_id,
+                    "sub_id"       => $res->policy_no,
+                    "insurer_id"   => $res->company,
+                    "note"         => "Own commission Credit",
+                    "datetime"     => date("Y-m-d H:i:s")
+                );
+                $res1 = $this->lm->add_acc_own_commission_orc($data_orc);
+                if($res1) $this->audit->log('acc_commission_ledger_orc', 'INSERT', null, null, $data_orc);
+            }
+        }
+    }
+        
+    public function acc_agn_commission_ledg($lead_id)
+    {
+        if($this->session->has_userdata('logged_in')) 
+        {    
+                $res = $this->lm->get_policy_details($lead_id);
+                $own_com_id = "acc21";
+                $agn_com_id = "acc42";
+                $total_irda = 0;
+                $total_orc = 0;
+                $tds = 0;
+                
+                $date = date("Y-m-d H:i:s");
+                $year = date('y');
+                $month = date('m');
+                
+                if($month < 4)
+                {
+                    $year = $year-1;
+                }
+                /*
+                $x = 0;
+                do 
+                {
+                    $x++;
+                    $new_sr_no = "AC/".$x."/".$year;
+                } 
+                while($this->lm->check_sr_no_already_exits($new_sr_no));
+                */
+                
+                $sr_no = $this->lm->getMaxSRNo('AC');
+                $new_sr_no =  "AC/{$sr_no}/".$year;
+                
+                $res0 = $this->lm->get_commission_details($res->commission_id);
+                $agn_category = $this->lm->fetch_agent_category($res->policy_agency_pos);
+            
+                if($res0 != "" || $res0 != null)
+                {
+                    $irda_od_percentage = (isset($res0->ird_od_commission) && ($res0->ird_od_commission) > 0) ? $res0->ird_od_commission : 0;
+                    $irda_tp_percentage = (isset($res0->ird_tp_commission) && ($res0->ird_tp_commission) > 0) ? $res0->ird_tp_commission : 0;    
+                        
+                    if($res0->agn_com_type == "ON-NET")
+                    {
+                    //   $irda_od_percentage = 15;
+                        $od = $res->total_own_damage;
+                        $tp = $res->tot_liability_premium;
+                        $total_irda = $res->total_own_damage * $irda_od_percentage/100;
+                        $total_orc = $res->agent_commission_amt + $res->agent_commission - $total_irda;
+                    }
+                    else if($res0->agn_com_type == "OD_AND_TP")
+                    {
+                    //   $irda_od_percentage = 15;
+                        $od = $res->total_own_damage;
+                        $tp = $res->tot_liability_premium;
+                        $total_irda = $res->total_own_damage * $irda_od_percentage/100;
+                        $total_orc = $res->agent_commission_amt + $res->agent_commission - $total_irda;
+                    }
+                    else if($res0->agn_com_type == "OD")
+                    {
+                    //   $irda_od_percentage = 12;
+                        $od = $res->total_own_damage;
+                        $irda_od = $res->total_own_damage * $irda_od_percentage/100;
+                        $total_irda = $irda_od;
+                        $total_orc = $res->agent_commission_amt + $res->agent_commission - $total_irda;
+                    }
+                    else if($res0->agn_com_type == "TP")
+                    {
+                        $total_irda = 0;
+                        $total_orc = 0;
+                    }
+                }
+                
+                if($res->class == "10") { // sme policy
+                    $total_irda = $res->agent_commission_amt;
+                    $total_orc  = $res->agent_commission;
+                }
+                    
+                if($res != "" || $res != null)
+                {
+                    $data_irda1 =   array(
+                        "sr_no" =>$new_sr_no,
+                        "debit"=>$total_irda,
+                        "cr_parent_id" =>$agn_com_id,
+                        "dr_parent_id" =>$own_com_id,
+                        "tds" =>$tds,
+                        "sub_id" =>$res->policy_agency_pos,
+                        "lead_id"=>$lead_id,
+                        "note" =>"Own commission Debit",
+                        "datetime" =>date("Y-m-d H:i:s")
+                    );
+                        
+                    $res0 = $this->lm->add_acc_own_commission($data_irda1);
+                    if( $res0 ){
+                        $this->audit->log('acc_commission_ledger', 'INSERT', null, null, $data_irda1);
+                    }
+                            
+                    $data_irda2 =   array(
+                        "sr_no" =>$new_sr_no,
+                        "credit"=>$total_irda,
+                        "cr_parent_id" =>$agn_com_id,
+                        "dr_parent_id" =>$own_com_id,
+                        "tds" =>$tds,
+                        "sub_id" =>$res->policy_agency_pos,
+                        "lead_id"=>$lead_id,
+                        "note" =>"Agent commission Credit",
+                        "datetime" =>date("Y-m-d H:i:s")
+                    );
                                 
-                                //$age = $diff->format('%y');
-                                $_vechage = $this->lm->getVechicleAge($lead_id, $policy_issue_date);
-                                $age = $_vechage->age;
+                    $res1 = $this->lm->add_acc_own_commission($data_irda2);
+                    if( $res1 ){
+                        $this->audit->log('acc_commission_ledger', 'INSERT', null, null, $data_irda2);
+                    }
+                            
+                        
+                    $data_orc1 =   array(
+                        "sr_no" =>$new_sr_no,
+                        "debit"=>$total_orc,
+                        "cr_parent_id" =>$agn_com_id,
+                        "dr_parent_id" =>$own_com_id,
+                        "tds" =>$tds,
+                        "sub_id" =>$res->policy_agency_pos,
+                        "lead_id"=>$lead_id,
+                        "note" =>"Own commission Debit",
+                        "datetime" =>date("Y-m-d H:i:s")
+                    );
+                    $res0 = $this->lm->add_acc_own_commission_orc($data_orc1);
+                    if( $res0 ){
+                        $this->audit->log('acc_commission_ledger_orc', 'INSERT', null, null, $data_orc1);
+                    }
+                            
+                    $data_orc2 =   array(
+                        "sr_no" =>$new_sr_no,
+                        "credit"=>$total_orc,
+                        "cr_parent_id" =>$agn_com_id,
+                        "dr_parent_id" =>$own_com_id,
+                        "tds" =>$tds,
+                        "sub_id" =>$res->policy_agency_pos,
+                        "lead_id"=>$lead_id,
+                        "note" =>"Agent commission Credit",
+                        "datetime" =>date("Y-m-d H:i:s")
+                    );
+                    $res1 = $this->lm->add_acc_own_commission_orc($data_orc2);
+                    if( $res1 ){
+                        $this->audit->log('acc_commission_ledger_orc', 'INSERT', null, null, $data_orc2);
+                    }
+                    
+                }
+                    
+            }
+    }
+	  
+	  
+    public function test_check_commission_status()
+    {
+        if($this->session->has_userdata('logged_in')) 
+        {
+                $lead_id = $this->input->get("id");
+                $data = $this->lm->fetch_policy_informations($lead_id);     
+                $policy_no = $data->policy_no;
+                $policy_issue_date = $data->policy_issue_date;
+                $policy_agency_pos = $data->policy_agency_pos;
+                $company = $data->company;
+                $policy_premium = $data->policy_premium;
+                $total_premium = $data->total_premium;
+                
+                $rto = "";
+                $age = "";
+                
+                $class_type = $this->lm->get_class_type($lead_id);
+                $from_date_1 = date_format(date_create($policy_issue_date),"01-m-Y");
+                $to_date_1 = date_format(date_create($from_date_1),"t-m-Y");
+
+                    if($class_type->class == "1")
+                    {
+                            $get_lead_info = $this->lm->get_lead_info($lead_id);
+                            $bussiness_type = $get_lead_info->business_type;
+                            $policy_class = $get_lead_info->class;
+                            $policy_type =  $get_lead_info->policy_type;
+                            $state = $get_lead_info->state;
+                            $rto = $get_lead_info->rto;
+                            $regndate =$get_lead_info->regn_date;
+                            $today = date("Y-m-d");
+                            $diff = date_diff(date_create($regndate), date_create($today));
+                            
+                            //$age = $diff->format('%y');
+                            $_vechage = $this->lm->getVechicleAge($lead_id, $policy_issue_date);
+                            $age = $_vechage->age;
+                            
+                            $fuel_type = $get_lead_info->vechi_fuel_type;
+                            $cc  = $get_lead_info->vechi_cc;
+                            $v_gvw = $get_lead_info->vechi_gvw;
+                            $v_seating = $get_lead_info->passenger_carrying;
+                            $make = $get_lead_info->vechi_make;
+                            $model = $get_lead_info->vechi_model;
+                            $Varient = $get_lead_info->vechi_varient;
+                            
+                            
+                            $commission_id = [];
+                            
+                            $status = "0";
+                            $make_status = "0";
+                            $model_status = "0";
+                            $varient_status = "0";
+                            $rto_status = "0";
+                            $gvw_status = "0";
+                            $fuel_status = "0";
+                            $state_status = "0";
+                            $fuel_type_status = "0";
+                            
+                            $data1 = array("status" =>"Commission Slab Not Exits","commission_id"=>"");
+                            
+                            $check = $this->cm->check_commission($company,$policy_premium,$policy_class,$bussiness_type,$policy_type,$state,$from_date_1,$to_date_1);
                                 
-                                $fuel_type = $get_lead_info->vechi_fuel_type;
-                                $cc  = $get_lead_info->vechi_cc;
-                                $v_gvw = $get_lead_info->vechi_gvw;
-                                $v_seating = $get_lead_info->passenger_carrying;
-                                $make = $get_lead_info->vechi_make;
-                                $model = $get_lead_info->vechi_model;
-                                $Varient = $get_lead_info->vechi_varient;
-                                
-                               
-                                $commission_id = [];
-                                
-                                $status = "0";
-                                $make_status = "0";
-                                $model_status = "0";
-                                $varient_status = "0";
-                                $rto_status = "0";
-                                $gvw_status = "0";
-                                $fuel_status = "0";
-                                $state_status = "0";
-                                $fuel_type_status = "0";
-                                
-                                $data1 = array("status" =>"Commission Slab Not Exits","commission_id"=>"");
-                                
-                                $check = $this->cm->check_commission($company,$policy_premium,$policy_class,$bussiness_type,$policy_type,$state,$from_date_1,$to_date_1);
-                                 
-                                foreach($check as $da)
+                            foreach($check as $da)
+                            {
+                                if($da->commission_type == "2")
                                 {
-                                    if($da->commission_type == "2")
+                                    foreach($check as $da)
                                     {
-                                        foreach($check as $da)
-                                    	{
-                                                $temp_min = $da->vehicle_age_min;
-                                                $temp_max = $da->vehicle_age_max;
-                                                $g_status = "0";
-                                                $fuel_status = "0";
-                                		    
-                                        	    if($temp_min <= $age && $temp_max >= $age)
-                                        		{
-                                        			$g_status = "1";
-                                        		}
-                                        		
-                                                if($fuel_type == "1")
-                                                {
-                                                	if($da->fuel_type == "4" || $da->fuel_type == "5" || $da->fuel_type == "1" || $da->fuel_type == "6")
-                                                	{
-                                                	    $fuel_status = "1";
-                                                	}
-                                                }
-                                                if($fuel_type == "2")
-                                                {
-                                                    if($da->fuel_type == "5" || $da->fuel_type == "2" || $da->fuel_type == "6")
-                                                	{
-                                                	    $fuel_status = "1";
-                                                	}
-                                                }
-                                                if($fuel_type == "5")
-                                                {
-                                                    if($da->fuel_type == "5" || $da->fuel_type == "1" || $da->fuel_type == "2" || $da->fuel_type == "6")
-                                                	{
-                                                	    $fuel_status = "1";
-                                                	}
-                                                }
-                                                if($fuel_type == "6")
-                                                {
-                                                    if($da->fuel_type == "1" || $da->fuel_type == "2" || $da->fuel_type == "3" || $da->fuel_type == "4" || $da->fuel_type == "5" || $da->fuel_type == "6")
-                                                	{
-                                                	    $fuel_status = "1";
-                                                	}
-                                                }
-                                                if($fuel_type == "7")
-                                                {
-                                                    if($da->fuel_type == "7" || $da->fuel_type == "6")
-                                                	{
-                                                	    $fuel_status = "1";
-                                                	}
-                                                }
-                                    		   
-                                    			if($g_status == "1" && $fuel_status == "1")
-                                    			{
-                                    			    $commission_id[] = $da->id;
-                                    			    $status = "1";
-                                                    $fuel_type_status = "1";
-                                    			}
-                                	      }
-                                	    
-                                        if($status == "1")
-                                        {
-                                            $check_state = $this->cm->check_state_by_commission_id(array_unique($commission_id));
-                                            $commission_id = [];
-                                            
-                                            foreach($check_state as $da)
-                                            {
-                                                if($da->state == $state)
-                                                {
-                                                     $commission_id[] = $da->id;
-                                                     $state_status = "1";
-                                                }
-                                                else if($da->state == "All")
-                                                {
-                                                    $commission_id[] = $da->id;
-                                                    $state_status = "1";
-                                                }
-                                           }
-                                           
-    
-                                             if($state_status == "1")
-                                             {
-                                                $classification = $this->cm->check_classification_by_commission_id(array_unique($commission_id));
-                                                
-                                                $temp_commission_id = [];
-                                                $temp_commission_id = $commission_id;
-                                                $commission_id = [];
-                                               
-                                                foreach($classification as $cl)
-                                                {
-                                                    if($policy_type == "7" || $policy_type == "12" || $policy_type == "13" || $policy_type == "14" || $policy_type == "59" || $policy_type == "60" || $policy_type == "65" || $policy_type == "66" || $policy_type == "67" || $policy_type == "68" || $policy_type == "69" || $policy_type == "70")
-                                                    {
-                                                        if($cl->classification != "")
-                                                        {
-                                                           $classification = $this->cm->check_seating($v_seating,$policy_type,$temp_commission_id);
-                                                          
-                                                            if(count($classification) > 0)
-                                                            {
-                                                                $gvw_status = "1";
-                                                                foreach($classification as $da)
-                                                                {
-                                                                    $commission_id[] = $cl->id;
-                                                                    $gvw_status = "1";
-                                                                }
-                                                            }
-                                                        }
-                                                        else
-                                                        {
-                                                            $commission_id = $temp_commission_id;
-                                                            $gvw_status = "1";
-                                                        }
-                                                    }
-                                                    else if($policy_type == "1" || $policy_type == "2" || $policy_type == "3" || $policy_type == "4" || $policy_type == "55")
-                                                    {
-                                                        if($cl->classification != "")
-                                                        {
-                                                            $classification = $this->lm->get_classification($cl->classification,$policy_type);
-                                                         
-                                                            if($classification != null || $classification != "")
-                                                            {
-                                                                 $temp_min = $classification->from_gvw_cc;
-                                                                 $temp_max = $classification->to_gvw_cc;
-    
-                                                                 if(($cc >= $temp_min && $cc <= $temp_max))
-                                                                 {
-                                                                     $commission_id[] = $cl->id;
-                                                                     $gvw_status = "1";
-                                                                 }
-                                                            }
-                                                        }
-                                                        else
-                                                        {
-                                                            $gvw_status = "1";
-                                                            $commission_id = $temp_commission_id;
-                                                        }
-                                                    }
-                                                    else
-                                                    {
-                                                        if($cl->classification != "")
-                                                        {
-                                                            $classification = $this->lm->get_classification($cl->classification,$policy_type);
-                                                          
-                                                            if($classification != null)
-                                                            {
-                                                                $temp_min = $classification->from_gvw_cc;
-                                                                $temp_max = $classification->to_gvw_cc;
-                                                                
-                                                                if($v_gvw >= $temp_min && $v_gvw <= $temp_max)
-                                                                {
-                                                                    $gvw_status = "1";
-                                                                    $commission_id[] = $cl->id;
-                                                                }
-                                                            }
-                                                        }
-                                                        else
-                                                        {
-                                                            $gvw_status = "1";
-                                                            $commission_id = $temp_commission_id;
-                                                        }
-                                                    }
-                                                }
-                                                
-                                               $check_make_1 = $this->cm->check_make_already_exits(array_unique($commission_id),$policy_type,$make);
-                                                
-                                                if(count($check_make_1) > 0)
-                                                {
-                                                        if(count($check_make_1) > 0)
-                                                        {
-                                                            $commission_id = [];
-                                                            
-                                                            foreach($check_make_1 as $da)
-                                                            {
-                                                                 $commission_id[] = $da->commission_id;
-                                                            }
-                                                            $status = "1";
-                                                            $make_status = "1";
-                                                        }
-                                                        else
-                                                        {
-                                                            $make_status = "0";
-                                                        }
-                                                }
-                                                else
-                                                {
-                                                    $check_make = $this->lm->check_make_all_already_exits(array_unique($commission_id),$policy_type);
-                                                    
-                                                    if(count($check_make) > 0)
-                                                    {
-                                                        $commission_id = [];
-                                                        
-                                                        foreach($check_make as $da)
-                                                        {
-                                                          $commission_id[] = $da->id;
-                                                        }
-                                                        
-                                                        $status = "1";
-                                                        $make_status = "1";
-                                                    }
-                                                }
-    
-                                                $check_model_1 = $this->lm->check_model_already_exits(array_unique($commission_id),$policy_type,$make,$model);
-                                                 
-                                                if(count($check_model_1) > 0)
-                                                {
-                                                    $commission_id = [];
-                                                    
-                                                    foreach($check_model_1 as $da)
-                                                    {
-                                                       $commission_id[] = $da->commission_id;
-                                                    }
-                                                    
-                                                    $status = "1";
-                                                    $model_status = "1";
-                                                }
-                                                else
-                                                {
-                                                    $check_model = $this->pm->check_model_all_already_exits(array_unique($commission_id),$policy_type);
-                                                    if(count($check_model) > 0)
-                                                    {
-                                                            $commission_id = [];
-                                                            foreach($check_model as $da)
-                                                            {
-                                                                 $commission_id[] = $da->id;
-                                                            }
-                                                         $status = "1";
-                                                         $model_status = "1";
-                                                    }
-                                                }
-                                                
-                                                if($make_status == "1" && $model_status == "1")
-                                                {
-                                                    $check_varient_1 = $this->cm->check_varient_already_exits(array_unique($commission_id),$policy_type,$make,$model,$Varient);
-                                                   
-                                                    if(count($check_varient_1) > 0) 
-                                                    {
-                                                        $commission_id = [];
-                                                        foreach($check_varient_1 as $da)
-                                                        {
-                                                          $commission_id[] = $da->commission_id;
-                                                        }
-                                                        $status = "1";
-                                                        $varient_status = "1";
-                                                    }
-                                                    else
-                                                    {
-                                                        $check_varient = $this->pm->check_varient_all_already_exits(array_unique($commission_id),$policy_type);
-                                                        if(count($check_varient) > 0)
-                                                        {
-                                                            $commission_id = [];
-                                                            
-                                                            foreach($check_varient as $da)
-                                                            {
-                                                                 $commission_id[] = $da->id;
-                                                            }
-                                                             $status = "1";
-                                                	         $varient_status = "1";
-                                                        }
-                                                    }
-                                                }
-                                       
-                                                if($status == "1" && $state_status == "1" && $fuel_type_status == "1" && $gvw_status == "1" && $make_status == "1" && $model_status == "1" && $varient_status == "1")
-                                                {
-                                                     $check_rto = $this->cm->check_rto_already_exits_2(array_unique($commission_id),$rto);
-                                                     
-                                                        if(count($check_rto) > 0)
-                                                        {
-                                                            foreach($check_rto as $rt)
-                                                            {
-                                                                $com_id = $rt->commission_id;
-                                                            }
-                                                          
-                                                            if(!$this->cm->check_policy_already_exits($lead_id))
-                                                            {
-                                                                if(!$this->cm->check_policy_no_already_exits($policy_no))
-                                                                {
-                                                                     $data1 = array("status" =>"success" ,"commission_id"=>$com_id);
-                                                                }
-                                                                else
-                                                                {
-                                                                     $data1 = array("status" =>"Policy No Already Exits" ,"commission_id"=>$com_id);
-                                                                }
-                                                            }
-                                                            else
-                                                            {
-                                                                $data1 = array("status" =>"Lead Id Already Exits","commission_id"=>"");
-                                                            }
-                                                        }
-                                                        else
-                                                        {
-                                                            $data1 = array("status" =>"RTO Mismatched","commission_id"=>"");
-                                                        }
-                                                 }
-                                                else if($state_status == "0")
-                                                {
-                                                    $data1 = array("status" =>"State Mismacthed","commission_id"=>"");
-                                                }
-                                                else if($fuel_type_status == "0")
-                                                {
-                                                    $data1 = array("status" =>"Fuel Type Mismacthed","commission_id"=>"");
-                                                }
-                                                else if($gvw_status == "0")
-                                                {
-                                                    $data1 = array("status" =>"Classification Mismatched","commission_id"=>"");
-                                                }
-                                                else if($make_status == "0")
-                                                {
-                                                     $data1 = array("status" =>"Make Mismactched","commission_id"=>"");
-                                                }
-                                                else if($model_status == "0")
-                                                {
-                                                     $data1 = array("status" =>"Model Mismactched","commission_id"=>"");
-                                                }
-                                                else if($varient_status == "0")
-                                                {
-                                                     $data1 = array("status" =>"Varient Mismactched","commission_id"=>"");
-                                                }
-                                            }
-                                             else
-                                             {
-                                                 $data1 = array("status" =>"State Mismacthed","commission_id"=>"");
-                                             }
-                                         }
-                                        else
-                                        {
-                                             $data1 = array("status" =>"Insurance company or Slab or Fuel Type Mismacthed","commission_id"=>"");
-                                         }
-                                     }
-                                    else if($da->commission_type == "1")
-                                    {
-                                        $g_status = "0";
-                                        $fuel_status = "0";
+                                            $temp_min = $da->vehicle_age_min;
+                                            $temp_max = $da->vehicle_age_max;
+                                            $g_status = "0";
+                                            $fuel_status = "0";
                                         
-                                        foreach($check as $da)
-                                    	{
-                                            $temp_min = $da->no_policy_min;
-                                            $temp_max = $da->no_policy_max;
-                                            
-    
-                                            if($temp_min <= 1 && $temp_max >= 1)
+                                            if($temp_min <= $age && $temp_max >= $age)
                                             {
-                                                 $g_status = "1";
-                                                 $commission_id[] = $da->id;
+                                                $g_status = "1";
                                             }
                                             
                                             if($fuel_type == "1")
                                             {
-                                            	if($da->fuel_type == "4" || $da->fuel_type == "5" || $da->fuel_type == "1" || $da->fuel_type == "6")
-                                            	{
-                                            	    $fuel_status = "1";
-                                            	}
+                                                if($da->fuel_type == "4" || $da->fuel_type == "5" || $da->fuel_type == "1" || $da->fuel_type == "6")
+                                                {
+                                                    $fuel_status = "1";
+                                                }
                                             }
-                                            
                                             if($fuel_type == "2")
                                             {
                                                 if($da->fuel_type == "5" || $da->fuel_type == "2" || $da->fuel_type == "6")
-                                            	{
-                                            	    $fuel_status = "1";
-                                            	}
+                                                {
+                                                    $fuel_status = "1";
+                                                }
                                             }
-                                            
                                             if($fuel_type == "5")
                                             {
                                                 if($da->fuel_type == "5" || $da->fuel_type == "1" || $da->fuel_type == "2" || $da->fuel_type == "6")
-                                            	{
-                                            	    $fuel_status = "1";
-                                            	}
+                                                {
+                                                    $fuel_status = "1";
+                                                }
                                             }
-                                            
                                             if($fuel_type == "6")
                                             {
                                                 if($da->fuel_type == "1" || $da->fuel_type == "2" || $da->fuel_type == "3" || $da->fuel_type == "4" || $da->fuel_type == "5" || $da->fuel_type == "6")
-                                            	{
-                                            	    $fuel_status = "1";
-                                            	}
+                                                {
+                                                    $fuel_status = "1";
+                                                }
                                             }
-                                            
                                             if($fuel_type == "7")
                                             {
                                                 if($da->fuel_type == "7" || $da->fuel_type == "6")
-                                            	{
-                                            	    $fuel_status = "1";
-                                            	}
-                                            }
-                                		   
-                                			if($g_status == "1" && $fuel_status == "1")
-                                			{
-                                			    $commission_id[] = $da->id;
-                                			    $status = "1";
-                                                $fuel_type_status = "1";
-                                			}
-                                    	}
-                                    	
-                                        if($status == "1")
-                                        {
-                                            $check_state = $this->cm->check_state_by_commission_id(array_unique($commission_id));
-                                            
-                                            $commission_id = [];
-                                            
-                                            foreach($check_state as $da)
-                                            {
-                                                if($da->state == $state)
                                                 {
-                                                     $commission_id[] = $da->id;
-                                                     $state_status = "1";
+                                                    $fuel_status = "1";
                                                 }
-                                                else if($da->state == "All")
-                                                {
+                                            }
+                                            
+                                            if($g_status == "1" && $fuel_status == "1")
+                                            {
+                                                $commission_id[] = $da->id;
+                                                $status = "1";
+                                                $fuel_type_status = "1";
+                                            }
+                                        }
+                                    
+                                    if($status == "1")
+                                    {
+                                        $check_state = $this->cm->check_state_by_commission_id(array_unique($commission_id));
+                                        $commission_id = [];
+                                        
+                                        foreach($check_state as $da)
+                                        {
+                                            if($da->state == $state)
+                                            {
                                                     $commission_id[] = $da->id;
                                                     $state_status = "1";
-                                                }
                                             }
-                                            
+                                            else if($da->state == "All")
+                                            {
+                                                $commission_id[] = $da->id;
+                                                $state_status = "1";
+                                            }
+                                        }
+                                        
+
                                             if($state_status == "1")
                                             {
-                                                $classification = $this->cm->check_classification_by_commission_id(array_unique($commission_id));
-                                                $temp_commission_id = [];
-                                                $temp_commission_id = $commission_id;
-                                                $commission_id = [];
+                                            $classification = $this->cm->check_classification_by_commission_id(array_unique($commission_id));
                                             
-                                                foreach($classification as $cl)
+                                            $temp_commission_id = [];
+                                            $temp_commission_id = $commission_id;
+                                            $commission_id = [];
+                                            
+                                            foreach($classification as $cl)
+                                            {
+                                                if($policy_type == "7" || $policy_type == "12" || $policy_type == "13" || $policy_type == "14" || $policy_type == "59" || $policy_type == "60" || $policy_type == "65" || $policy_type == "66" || $policy_type == "67" || $policy_type == "68" || $policy_type == "69" || $policy_type == "70")
                                                 {
-                                                    if($policy_type == "7" || $policy_type == "12" || $policy_type == "13" || $policy_type == "14" || $policy_type == "59" || $policy_type == "60" || $policy_type == "65" || $policy_type == "66" || $policy_type == "67" || $policy_type == "68" || $policy_type == "69" || $policy_type == "70")
+                                                    if($cl->classification != "")
                                                     {
-                                                        if($cl->classification != "")
+                                                        $classification = $this->cm->check_seating($v_seating,$policy_type,$temp_commission_id);
+                                                        
+                                                        if(count($classification) > 0)
                                                         {
-                                                           $classification = $this->cm->check_seating($v_seating,$policy_type,$temp_commission_id);
-                                                           
-                                                            if(count($classification) > 0)
+                                                            $gvw_status = "1";
+                                                            foreach($classification as $da)
                                                             {
+                                                                $commission_id[] = $cl->id;
                                                                 $gvw_status = "1";
-                                                                
-                                                                foreach($classification as $da)
-                                                                {
-                                                                    $commission_id[] = $cl->id;
-                                                                    $gvw_status = "1";
-                                                                }
                                                             }
-                                                        }
-                                                        else
-                                                        {
-                                                            $commission_id = $temp_commission_id;
-                                                            $gvw_status = "1";
-                                                        }
-                                                    }
-                                                    else if($policy_type == "1" || $policy_type == "2" || $policy_type == "3" || $policy_type == "4" || $policy_type == "55")
-                                                    {
-                                                        if($cl->classification != "")
-                                                        {
-                                                            $classification = $this->lm->get_classification($cl->classification,$policy_type);
-                                                         
-                                                            if($classification != null)
-                                                            {
-                                                                 $temp_min = $classification->from_gvw_cc;
-                                                                 $temp_max = $classification->to_gvw_cc;
-                                                                 
-                                                                 if(($cc >= $temp_min && $cc <= $temp_max))
-                                                                 {
-                                                                     $commission_id[] = $cl->id;
-                                                                     $gvw_status = "1";
-                                                                 }
-                                                            }
-                                                        }
-                                                        else
-                                                        {
-                                                            $gvw_status = "1";
-                                                            $commission_id = $temp_commission_id;
                                                         }
                                                     }
                                                     else
                                                     {
-                                                        if($cl->classification != "")
-                                                        {
-                                                            $classification = $this->lm->get_classification($cl->classification,$policy_type);
-                                                          
-                                                            if($classification != null)
-                                                            {
-                                                                $temp_min = $classification->from_gvw_cc;
-                                                                $temp_max = $classification->to_gvw_cc;
-                                                                
-                                                                if($v_gvw >= $temp_min && $v_gvw <= $temp_max)
-                                                                {
-                                                                    $gvw_status = "1";
-                                                                    $commission_id[] = $cl->id;
-                                                                }
-                                                            }
-                                                        }
-                                                        else
-                                                        {
-                                                            $gvw_status = "1";
-                                                            $commission_id = $temp_commission_id;
-                                                        }
+                                                        $commission_id = $temp_commission_id;
+                                                        $gvw_status = "1";
                                                     }
                                                 }
-                                            
-                                                $check_make_1 = $this->cm->check_make_already_exits(array_unique($commission_id),$policy_type,$make);
-                                                
-                                                if(count($check_make_1) > 0)
+                                                else if($policy_type == "1" || $policy_type == "2" || $policy_type == "3" || $policy_type == "4" || $policy_type == "55")
                                                 {
-                                                        if(count($check_make_1) > 0)
+                                                    if($cl->classification != "")
+                                                    {
+                                                        $classification = $this->lm->get_classification($cl->classification,$policy_type);
+                                                        
+                                                        if($classification != null || $classification != "")
                                                         {
-                                                            $commission_id = [];
-                                                            
-                                                            foreach($check_make_1 as $da)
-                                                            {
-                                                                 $commission_id[] = $da->commission_id;
-                                                            }
-                                                            $status = "1";
-                                                            $make_status = "1";
+                                                                $temp_min = $classification->from_gvw_cc;
+                                                                $temp_max = $classification->to_gvw_cc;
+
+                                                                if(($cc >= $temp_min && $cc <= $temp_max))
+                                                                {
+                                                                    $commission_id[] = $cl->id;
+                                                                    $gvw_status = "1";
+                                                                }
                                                         }
-                                                        else
-                                                        {
-                                                            $make_status = "0";
-                                                        }
+                                                    }
+                                                    else
+                                                    {
+                                                        $gvw_status = "1";
+                                                        $commission_id = $temp_commission_id;
+                                                    }
                                                 }
                                                 else
                                                 {
-                                                    $check_make = $this->lm->check_make_all_already_exits(array_unique($commission_id),$policy_type);
-                                                    
-                                                    if(count($check_make) > 0)
+                                                    if($cl->classification != "")
+                                                    {
+                                                        $classification = $this->lm->get_classification($cl->classification,$policy_type);
+                                                        
+                                                        if($classification != null)
+                                                        {
+                                                            $temp_min = $classification->from_gvw_cc;
+                                                            $temp_max = $classification->to_gvw_cc;
+                                                            
+                                                            if($v_gvw >= $temp_min && $v_gvw <= $temp_max)
+                                                            {
+                                                                $gvw_status = "1";
+                                                                $commission_id[] = $cl->id;
+                                                            }
+                                                        }
+                                                    }
+                                                    else
+                                                    {
+                                                        $gvw_status = "1";
+                                                        $commission_id = $temp_commission_id;
+                                                    }
+                                                }
+                                            }
+                                            
+                                            $check_make_1 = $this->cm->check_make_already_exits(array_unique($commission_id),$policy_type,$make);
+                                            
+                                            if(count($check_make_1) > 0)
+                                            {
+                                                    if(count($check_make_1) > 0)
                                                     {
                                                         $commission_id = [];
                                                         
-                                                        foreach($check_make as $da)
+                                                        foreach($check_make_1 as $da)
                                                         {
-                                                          $commission_id[] = $da->id;
+                                                                $commission_id[] = $da->commission_id;
                                                         }
-                                                        
                                                         $status = "1";
                                                         $make_status = "1";
                                                     }
-                                                }
-    
-                                                $check_model_1 = $this->lm->check_model_already_exits(array_unique($commission_id),$policy_type,$make,$model);
-                                                 
-                                                if(count($check_model_1) > 0)
-                                                {
-                                                    $commission_id = [];
-                                                    
-                                                    foreach($check_model_1 as $da)
-                                                    {
-                                                       $commission_id[] = $da->commission_id;
-                                                    }
-                                                    
-                                                    $status = "1";
-                                                    $model_status = "1";
-                                                }
-                                                else
-                                                {
-                                                    $check_model = $this->pm->check_model_all_already_exits(array_unique($commission_id),$policy_type);
-                                                    if(count($check_model) > 0)
-                                                    {
-                                                            $commission_id = [];
-                                                            foreach($check_model as $da)
-                                                            {
-                                                                 $commission_id[] = $da->id;
-                                                            }
-                                                         $status = "1";
-                                                         $model_status = "1";
-                                                    }
-                                                }
-                                                
-                                                if($make_status == "1" && $model_status == "1")
-                                                {
-                                                    $check_varient_1 = $this->cm->check_varient_already_exits(array_unique($commission_id),$policy_type,$make,$model,$Varient);
-                                                   
-                                                    if(count($check_varient_1) > 0) 
-                                                    {
-                                                        $commission_id = [];
-                                                        foreach($check_varient_1 as $da)
-                                                        {
-                                                          $commission_id[] = $da->commission_id;
-                                                        }
-                                                        $status = "1";
-                                                        $varient_status = "1";
-                                                    }
                                                     else
                                                     {
-                                                        $check_varient = $this->pm->check_varient_all_already_exits(array_unique($commission_id),$policy_type);
-                                                        if(count($check_varient) > 0)
-                                                        {
-                                                            $commission_id = [];
-                                                            
-                                                            foreach($check_varient as $da)
-                                                            {
-                                                                 $commission_id[] = $da->id;
-                                                            }
-                                                             $status = "1";
-                                                	         $varient_status = "1";
-                                                        }
+                                                        $make_status = "0";
                                                     }
-                                                }
-                                    
-                                                if($status == "1" && $state_status == "1" && $fuel_type_status == "1" && $gvw_status == "1" && $make_status == "1" && $model_status == "1" && $varient_status == "1")
-                                                {
-                                                     $check_rto = $this->cm->check_rto_already_exits_2(array_unique($commission_id),$rto);
-                                                     
-                                                        if(count($check_rto) > 0)
-                                                        {
-                                                            foreach($check_rto as $rt)
-                                                            {
-                                                                $com_id = $rt->commission_id;
-                                                            }
-                                                            if(!$this->cm->check_policy_already_exits($lead_id))
-                                                            {
-                                                                if(!$this->cm->check_policy_no_already_exits($policy_no))
-                                                                {
-                                                                     $data1 = array("status" =>"success" ,"commission_id"=>$com_id);
-                                                                }
-                                                            }
-                                                            else
-                                                            {
-                                                                $data1 = array("status" =>"Policy Already Exits","commission_id"=>"");
-                                                            }
-                                                        }
-                                                 }
-                                                else if($fuel_type_status == "0")
-                                                {
-                                                  $data1 = array("status" =>"Fuel Type Mismacthed","commission_id"=>"");
-                                                }
-                                                else if($gvw_status == "0")
-                                                {
-                                                  $data1 = array("status" =>"Classification Mismatched","commission_id"=>"");
-                                                }
-                                                else if($make_status == "0")
-                                                {
-                                                  $data1 = array("status" =>"Make Mismactched","commission_id"=>"");
-                                                }
-                                                else if($model_status == "0")
-                                                {
-                                                  $data1 = array("status" =>"Model Mismactched","commission_id"=>"");
-                                                }
-                                                else if($varient_status == "0")
-                                                {
-                                                  $data1 = array("status" =>"Varient Mismactched","commission_id"=>"");
-                                                }
                                             }
                                             else
                                             {
-                                                 $data1 = array("status" =>"State Mismacthed","commission_id"=>"");
-                                            }
-                                         }
-                                        else 
-                                        {
-                                          $data1 = array("status" =>"Insurance company or Slab Mismacthed","commission_id"=>"");
-                                        }
-                                    }
-                                    else if($da->commission_type == "3")
-                                    {
-                                        $g_status = "0";
-                                        $fuel_status = "0";
-                                        
-                                        foreach($check as $da)
-                                    	{
-                                            $temp_min = $da->min_val;
-                                            $temp_max = $da->max_val;
-                                            
-                                            if($temp_min <= $total_premium && $temp_max >= $total_premium)
-                                            {
-                                                 $g_status = "1";
-                                                 $commission_id[] = $da->id;
-                                            }
-                                            
-                                            if($fuel_type == "1")
-                                            {
-                                            	if($da->fuel_type == "4" || $da->fuel_type == "5" || $da->fuel_type == "1" || $da->fuel_type == "6")
-                                            	{
-                                            	    $fuel_status = "1";
-                                            	}
-                                            }
-                                            if($fuel_type == "2")
-                                            {
-                                                if($da->fuel_type == "5" || $da->fuel_type == "2" || $da->fuel_type == "6")
-                                            	{
-                                            	    $fuel_status = "1";
-                                            	}
-                                            }
-                                            if($fuel_type == "5")
-                                            {
-                                                if($da->fuel_type == "5" || $da->fuel_type == "1" || $da->fuel_type == "2" || $da->fuel_type == "6")
-                                            	{
-                                            	    $fuel_status = "1";
-                                            	}
-                                            }
-                                            if($fuel_type == "6")
-                                            {
-                                                if($da->fuel_type == "1" || $da->fuel_type == "2" || $da->fuel_type == "3" || $da->fuel_type == "4" || $da->fuel_type == "5" || $da->fuel_type == "6")
-                                            	{
-                                            	    $fuel_status = "1";
-                                            	}
-                                            }
-                                            if($fuel_type == "7")
-                                            {
-                                                if($da->fuel_type == "7" || $da->fuel_type == "6")
-                                            	{
-                                            	    $fuel_status = "1";
-                                            	}
-                                            }
-                                		   
-                                			if($g_status == "1" && $fuel_status == "1")
-                                			{
-                                			    $commission_id[] = $da->id;
-                                			    $status = "1";
-                                                $fuel_type_status = "1";
-                                              
-                                			}
-                                    	}
-                                    	
-                                        if($status == "1")
-                                        {
-                                            $check_state = $this->cm->check_state_by_commission_id(array_unique($commission_id));
-                                            $commission_id = [];
-                                            
-                                            foreach($check_state as $da)
-                                            {
-                                                if($da->state == $state)
-                                                {
-                                                     $commission_id[] = $da->id;
-                                                     $state_status = "1";
-                                                }
-                                                else if($da->state == "All")
-                                                {
-                                                    $commission_id[] = $da->id;
-                                                    $state_status = "1";
-                                                }
-                                            }
-                                            
-                                            if($state_status == "1")
-                                            {
-                                                $classification = $this->cm->check_classification_by_commission_id(array_unique($commission_id));
-                                                $temp_commission_id = [];
-                                                $temp_commission_id = $commission_id;
-                                            
-                                                 $commission_id = [];
-                                            
-                                                foreach($classification as $cl)
-                                                {
-                                                    if($policy_type == "7" || $policy_type == "12" || $policy_type == "13" || $policy_type == "14" || $policy_type == "59" || $policy_type == "60" || $policy_type == "65" || $policy_type == "66" || $policy_type == "67" || $policy_type == "68" || $policy_type == "69" || $policy_type == "70")
-                                                    {
-                                                        if($cl->classification != "")
-                                                        {
-                                                           $classification = $this->cm->check_seating($v_seating,$policy_type,$temp_commission_id);
-                                                           
-                                                            if(count($classification) > 0)
-                                                            {
-                                                                $gvw_status = "1";
-                                                                
-                                                                foreach($classification as $da)
-                                                                {
-                                                                    $commission_id[] = $cl->id;
-                                                                    $gvw_status = "1";
-                                                                }
-                                                            }
-                                                        }
-                                                        else
-                                                        {
-                                                            $commission_id = $temp_commission_id;
-                                                            $gvw_status = "1";
-                                                        }
-                                                    }
-                                                    else if($policy_type == "1" || $policy_type == "2" || $policy_type == "3" || $policy_type == "4" || $policy_type == "55")
-                                                    {
-                                                        if($cl->classification != "")
-                                                        {
-                                                            $classification = $this->lm->get_classification($cl->classification,$policy_type);
-                                                         
-                                                            if($classification != null)
-                                                            {
-                                                                 $temp_min = $classification->from_gvw_cc;
-                                                                 $temp_max = $classification->to_gvw_cc;
-                                                                 
-                                                                 if(($cc >= $temp_min && $cc <= $temp_max))
-                                                                 {
-                                                                     $commission_id[] = $cl->id;
-                                                                     $gvw_status = "1";
-                                                                 }
-                                                            }
-                                                        }
-                                                        else
-                                                        {
-                                                            $gvw_status = "1";
-                                                            $commission_id = $temp_commission_id;
-                                                        }
-                                                    }
-                                                    else
-                                                    {
-                                                        if($cl->classification != "")
-                                                        {
-                                                            $classification = $this->lm->get_classification($cl->classification,$policy_type);
-                                                          
-                                                            if($classification != null)
-                                                            {
-                                                                $temp_min = $classification->from_gvw_cc;
-                                                                $temp_max = $classification->to_gvw_cc;
-                                                                
-                                                                if($v_gvw >= $temp_min && $v_gvw <= $temp_max)
-                                                                {
-                                                                    $gvw_status = "1";
-                                                                    $commission_id[] = $cl->id;
-                                                                }
-                                                            }
-                                                        }
-                                                        else
-                                                        {
-                                                            $gvw_status = "1";
-                                                            $commission_id = $temp_commission_id;
-                                                        }
-                                                    }
-                                                }
-                                            
-                                                 $check_make_1 = $this->cm->check_make_already_exits(array_unique($commission_id),$policy_type,$make);
+                                                $check_make = $this->lm->check_make_all_already_exits(array_unique($commission_id),$policy_type);
                                                 
-                                                if(count($check_make_1) > 0)
-                                                {
-                                                        if(count($check_make_1) > 0)
-                                                        {
-                                                            $commission_id = [];
-                                                            
-                                                            foreach($check_make_1 as $da)
-                                                            {
-                                                                 $commission_id[] = $da->commission_id;
-                                                            }
-                                                            $status = "1";
-                                                            $make_status = "1";
-                                                        }
-                                                        else
-                                                        {
-                                                            $make_status = "0";
-                                                        }
-                                                }
-                                                else
-                                                {
-                                                    $check_make = $this->lm->check_make_all_already_exits(array_unique($commission_id),$policy_type);
-                                                    
-                                                    if(count($check_make) > 0)
-                                                    {
-                                                        $commission_id = [];
-                                                        
-                                                        foreach($check_make as $da)
-                                                        {
-                                                          $commission_id[] = $da->id;
-                                                        }
-                                                        
-                                                        $status = "1";
-                                                        $make_status = "1";
-                                                    }
-                                                }
-    
-                                                $check_model_1 = $this->lm->check_model_already_exits(array_unique($commission_id),$policy_type,$make,$model);
-                                                 
-                                                if(count($check_model_1) > 0)
+                                                if(count($check_make) > 0)
                                                 {
                                                     $commission_id = [];
                                                     
-                                                    foreach($check_model_1 as $da)
+                                                    foreach($check_make as $da)
                                                     {
-                                                       $commission_id[] = $da->commission_id;
+                                                        $commission_id[] = $da->id;
                                                     }
                                                     
                                                     $status = "1";
-                                                    $model_status = "1";
+                                                    $make_status = "1";
+                                                }
+                                            }
+
+                                            $check_model_1 = $this->lm->check_model_already_exits(array_unique($commission_id),$policy_type,$make,$model);
+                                                
+                                            if(count($check_model_1) > 0)
+                                            {
+                                                $commission_id = [];
+                                                
+                                                foreach($check_model_1 as $da)
+                                                {
+                                                    $commission_id[] = $da->commission_id;
+                                                }
+                                                
+                                                $status = "1";
+                                                $model_status = "1";
+                                            }
+                                            else
+                                            {
+                                                $check_model = $this->pm->check_model_all_already_exits(array_unique($commission_id),$policy_type);
+                                                if(count($check_model) > 0)
+                                                {
+                                                        $commission_id = [];
+                                                        foreach($check_model as $da)
+                                                        {
+                                                                $commission_id[] = $da->id;
+                                                        }
+                                                        $status = "1";
+                                                        $model_status = "1";
+                                                }
+                                            }
+                                            
+                                            if($make_status == "1" && $model_status == "1")
+                                            {
+                                                $check_varient_1 = $this->cm->check_varient_already_exits(array_unique($commission_id),$policy_type,$make,$model,$Varient);
+                                                
+                                                if(count($check_varient_1) > 0) 
+                                                {
+                                                    $commission_id = [];
+                                                    foreach($check_varient_1 as $da)
+                                                    {
+                                                        $commission_id[] = $da->commission_id;
+                                                    }
+                                                    $status = "1";
+                                                    $varient_status = "1";
                                                 }
                                                 else
                                                 {
-                                                    $check_model = $this->pm->check_model_all_already_exits(array_unique($commission_id),$policy_type);
-                                                    if(count($check_model) > 0)
-                                                    {
-                                                            $commission_id = [];
-                                                            foreach($check_model as $da)
-                                                            {
-                                                                 $commission_id[] = $da->id;
-                                                            }
-                                                         $status = "1";
-                                                         $model_status = "1";
-                                                    }
-                                                }
-                                                
-                                                if($make_status == "1" && $model_status == "1")
-                                                {
-                                                    $check_varient_1 = $this->cm->check_varient_already_exits(array_unique($commission_id),$policy_type,$make,$model,$Varient);
-                                                   
-                                                    if(count($check_varient_1) > 0) 
+                                                    $check_varient = $this->pm->check_varient_all_already_exits(array_unique($commission_id),$policy_type);
+                                                    if(count($check_varient) > 0)
                                                     {
                                                         $commission_id = [];
-                                                        foreach($check_varient_1 as $da)
+                                                        
+                                                        foreach($check_varient as $da)
                                                         {
-                                                          $commission_id[] = $da->commission_id;
+                                                                $commission_id[] = $da->id;
                                                         }
-                                                        $status = "1";
-                                                        $varient_status = "1";
-                                                    }
-                                                    else
-                                                    {
-                                                        $check_varient = $this->pm->check_varient_all_already_exits(array_unique($commission_id),$policy_type);
-                                                        if(count($check_varient) > 0)
-                                                        {
-                                                            $commission_id = [];
-                                                            
-                                                            foreach($check_varient as $da)
-                                                            {
-                                                                 $commission_id[] = $da->id;
-                                                            }
-                                                             $status = "1";
-                                                	         $varient_status = "1";
-                                                        }
+                                                            $status = "1";
+                                                            $varient_status = "1";
                                                     }
                                                 }
-                                                
-                                                if($status == "1" && $state_status == "1" && $fuel_type_status == "1" && $gvw_status == "1" && $make_status == "1" && $model_status == "1" && $varient_status == "1")
-                                                {
-                                                     $check_rto = $this->cm->check_rto_already_exits_2(array_unique($commission_id),$rto);
-                                                     
-                                                        if(count($check_rto) > 0)
+                                            }
+                                    
+                                            if($status == "1" && $state_status == "1" && $fuel_type_status == "1" && $gvw_status == "1" && $make_status == "1" && $model_status == "1" && $varient_status == "1")
+                                            {
+                                                    $check_rto = $this->cm->check_rto_already_exits_2(array_unique($commission_id),$rto);
+                                                    
+                                                    if(count($check_rto) > 0)
+                                                    {
+                                                        foreach($check_rto as $rt)
                                                         {
-                                                            foreach($check_rto as $rt)
+                                                            $com_id = $rt->commission_id;
+                                                        }
+                                                        
+                                                        if(!$this->cm->check_policy_already_exits($lead_id))
+                                                        {
+                                                            if(!$this->cm->check_policy_no_already_exits($policy_no))
                                                             {
-                                                                $com_id = $rt->commission_id;
-                                                            }
-                                                            
-                                                            if(!$this->cm->check_policy_already_exits($lead_id))
-                                                            {
-                                                                if(!$this->cm->check_policy_no_already_exits($policy_no))
-                                                                {
-                                                                     $data1 = array("status" =>"success" ,"commission_id"=>$com_id);
-                                                                }
+                                                                    $data1 = array("status" =>"success" ,"commission_id"=>$com_id);
                                                             }
                                                             else
                                                             {
-                                                                $data1 = array("status" =>"Policy Already Exits","commission_id"=>"");
+                                                                    $data1 = array("status" =>"Policy No Already Exits" ,"commission_id"=>$com_id);
                                                             }
                                                         }
-                                                 }
-                                                else if($fuel_type_status == "0")
-                                                {
-                                                  $data1 = array("status" =>"Fuel Type Mismacthed","commission_id"=>"");
+                                                        else
+                                                        {
+                                                            $data1 = array("status" =>"Lead Id Already Exits","commission_id"=>"");
+                                                        }
+                                                    }
+                                                    else
+                                                    {
+                                                        $data1 = array("status" =>"RTO Mismatched","commission_id"=>"");
+                                                    }
                                                 }
-                                                else if($gvw_status == "0")
-                                                {
-                                                  $data1 = array("status" =>"Classification Mismatched","commission_id"=>"");
-                                                }
-                                                else if($make_status == "0")
-                                                {
-                                                  $data1 = array("status" =>"Make Mismactched","commission_id"=>"");
-                                                }
-                                                else if($model_status == "0")
-                                                {
-                                                  $data1 = array("status" =>"Model Mismactched","commission_id"=>"");
-                                                }
-                                                else if($varient_status == "0")
-                                                {
-                                                  $data1 = array("status" =>"Varient Mismactched","commission_id"=>"");
-                                                }
+                                            else if($state_status == "0")
+                                            {
+                                                $data1 = array("status" =>"State Mismacthed","commission_id"=>"");
                                             }
+                                            else if($fuel_type_status == "0")
+                                            {
+                                                $data1 = array("status" =>"Fuel Type Mismacthed","commission_id"=>"");
+                                            }
+                                            else if($gvw_status == "0")
+                                            {
+                                                $data1 = array("status" =>"Classification Mismatched","commission_id"=>"");
+                                            }
+                                            else if($make_status == "0")
+                                            {
+                                                    $data1 = array("status" =>"Make Mismactched","commission_id"=>"");
+                                            }
+                                            else if($model_status == "0")
+                                            {
+                                                    $data1 = array("status" =>"Model Mismactched","commission_id"=>"");
+                                            }
+                                            else if($varient_status == "0")
+                                            {
+                                                    $data1 = array("status" =>"Varient Mismactched","commission_id"=>"");
+                                            }
+                                        }
                                             else
                                             {
                                                 $data1 = array("status" =>"State Mismacthed","commission_id"=>"");
                                             }
-                                         }
-                                        else
-                                        {
-                                           $data1 = array("status" =>"Insurace Company or Slab Mismacthed","commission_id"=>"");
+                                        }
+                                    else
+                                    {
+                                            $data1 = array("status" =>"Insurance company or Slab or Fuel Type Mismacthed","commission_id"=>"");
                                         }
                                     }
-                                }
-                               echo json_encode($data1);
-                       }
-                       else if($class_type->class == "2")
-                       {
-                               $bussiness_type = $class_type->business_type;
-                               $policy_class = $class_type->class;
-                               $policy_type =  $class_type->policy_type;
-                               $state = "All";
-                               
-                                $data1 = array("status" =>"Commission Slab Not Exits","commission_id"=>"");
-                               
-                               $check = $this->cm->check_health_commission($company,$policy_premium,$policy_class,$bussiness_type,$policy_type,$state,$from_date_1,$to_date_1);
-                               
-                                foreach($check as $da)
+                                else if($da->commission_type == "1")
                                 {
-                                    if($da->commission_type == "1")
+                                    $g_status = "0";
+                                    $fuel_status = "0";
+                                    
+                                    foreach($check as $da)
                                     {
-                                        foreach($check as $da)
-                                    	{
-                                            $temp_min = $da->no_policy_min;
-                                            $temp_max = $da->no_policy_max;
-                                            
-                                            if($temp_min <= 1 && $temp_max >= 1)
+                                        $temp_min = $da->no_policy_min;
+                                        $temp_max = $da->no_policy_max;
+                                        
+
+                                        if($temp_min <= 1 && $temp_max >= 1)
+                                        {
+                                                $g_status = "1";
+                                                $commission_id[] = $da->id;
+                                        }
+                                        
+                                        if($fuel_type == "1")
+                                        {
+                                            if($da->fuel_type == "4" || $da->fuel_type == "5" || $da->fuel_type == "1" || $da->fuel_type == "6")
                                             {
-                                                 $status = "1";
-                                                 $commission_id[] = $da->id;
+                                                $fuel_status = "1";
                                             }
-                                    	}
-                                    	
-                                    	if($status == "1")
-                                    	{
-                                    	     if($da->state != "All")
-                                    	     {
-                                    	         $res = $this->cm->check_health_state($commission_id);
-                                    	         $commission_id = [];
-                                    	         
-                                        	     foreach($res as $da)
-                                        	     {
-                                        	           $commission_id[] = $da->id;
-                                        	           $c_id = $da->id;
-                                        	     }
-                                    	     }
-                                    	     $data1 = array("status" =>"success","commission_id"=>$c_id);
-                                    	}
-                                    	else
-                                    	{
-                                    	     $data1 = array("status" =>"Slab Not Exits","commission_id"=>"");
-                                    	}
+                                        }
+                                        
+                                        if($fuel_type == "2")
+                                        {
+                                            if($da->fuel_type == "5" || $da->fuel_type == "2" || $da->fuel_type == "6")
+                                            {
+                                                $fuel_status = "1";
+                                            }
+                                        }
+                                        
+                                        if($fuel_type == "5")
+                                        {
+                                            if($da->fuel_type == "5" || $da->fuel_type == "1" || $da->fuel_type == "2" || $da->fuel_type == "6")
+                                            {
+                                                $fuel_status = "1";
+                                            }
+                                        }
+                                        
+                                        if($fuel_type == "6")
+                                        {
+                                            if($da->fuel_type == "1" || $da->fuel_type == "2" || $da->fuel_type == "3" || $da->fuel_type == "4" || $da->fuel_type == "5" || $da->fuel_type == "6")
+                                            {
+                                                $fuel_status = "1";
+                                            }
+                                        }
+                                        
+                                        if($fuel_type == "7")
+                                        {
+                                            if($da->fuel_type == "7" || $da->fuel_type == "6")
+                                            {
+                                                $fuel_status = "1";
+                                            }
+                                        }
+                                        
+                                        if($g_status == "1" && $fuel_status == "1")
+                                        {
+                                            $commission_id[] = $da->id;
+                                            $status = "1";
+                                            $fuel_type_status = "1";
+                                        }
                                     }
-                                    else if($da->commission_type == "3")
+                                    
+                                    if($status == "1")
                                     {
-                                        foreach($check as $da)
-                                    	{
-                                            $temp_min = $da->min_val;
-                                            $temp_max = $da->max_val;
-                                            
-                                            if($temp_min <= $total_premium && $temp_max >= $total_premium)
+                                        $check_state = $this->cm->check_state_by_commission_id(array_unique($commission_id));
+                                        
+                                        $commission_id = [];
+                                        
+                                        foreach($check_state as $da)
+                                        {
+                                            if($da->state == $state)
                                             {
-                                                 $status = "1";
-                                                 $commission_id[] = $da->id;
+                                                    $commission_id[] = $da->id;
+                                                    $state_status = "1";
                                             }
-                                    	}
-                                    	
-                                    	if($status == "1")
-                                    	{
-                                    	     if($da->state != "All")
-                                    	     {
-                                    	         $res = $this->cm->check_health_state($commission_id);
-                                    	         $commission_id = [];
-                                    	         
-                                        	     foreach($res as $da)
-                                        	     {
-                                        	           $commission_id[] = $da->id;
-                                        	           $c_id = $da->id;
-                                        	     }
-                                        	     $data1 = array("commission_id"=>$c_id,"status" => "success");
-                                    	     }
-                                    	     else
-                                    	     {
-                                    	         $data1 = array("commission_id"=>"","status" => "success");
-                                    	     }
-                                    	}
+                                            else if($da->state == "All")
+                                            {
+                                                $commission_id[] = $da->id;
+                                                $state_status = "1";
+                                            }
+                                        }
+                                        
+                                        if($state_status == "1")
+                                        {
+                                            $classification = $this->cm->check_classification_by_commission_id(array_unique($commission_id));
+                                            $temp_commission_id = [];
+                                            $temp_commission_id = $commission_id;
+                                            $commission_id = [];
+                                        
+                                            foreach($classification as $cl)
+                                            {
+                                                if($policy_type == "7" || $policy_type == "12" || $policy_type == "13" || $policy_type == "14" || $policy_type == "59" || $policy_type == "60" || $policy_type == "65" || $policy_type == "66" || $policy_type == "67" || $policy_type == "68" || $policy_type == "69" || $policy_type == "70")
+                                                {
+                                                    if($cl->classification != "")
+                                                    {
+                                                        $classification = $this->cm->check_seating($v_seating,$policy_type,$temp_commission_id);
+                                                        
+                                                        if(count($classification) > 0)
+                                                        {
+                                                            $gvw_status = "1";
+                                                            
+                                                            foreach($classification as $da)
+                                                            {
+                                                                $commission_id[] = $cl->id;
+                                                                $gvw_status = "1";
+                                                            }
+                                                        }
+                                                    }
+                                                    else
+                                                    {
+                                                        $commission_id = $temp_commission_id;
+                                                        $gvw_status = "1";
+                                                    }
+                                                }
+                                                else if($policy_type == "1" || $policy_type == "2" || $policy_type == "3" || $policy_type == "4" || $policy_type == "55")
+                                                {
+                                                    if($cl->classification != "")
+                                                    {
+                                                        $classification = $this->lm->get_classification($cl->classification,$policy_type);
+                                                        
+                                                        if($classification != null)
+                                                        {
+                                                                $temp_min = $classification->from_gvw_cc;
+                                                                $temp_max = $classification->to_gvw_cc;
+                                                                
+                                                                if(($cc >= $temp_min && $cc <= $temp_max))
+                                                                {
+                                                                    $commission_id[] = $cl->id;
+                                                                    $gvw_status = "1";
+                                                                }
+                                                        }
+                                                    }
+                                                    else
+                                                    {
+                                                        $gvw_status = "1";
+                                                        $commission_id = $temp_commission_id;
+                                                    }
+                                                }
+                                                else
+                                                {
+                                                    if($cl->classification != "")
+                                                    {
+                                                        $classification = $this->lm->get_classification($cl->classification,$policy_type);
+                                                        
+                                                        if($classification != null)
+                                                        {
+                                                            $temp_min = $classification->from_gvw_cc;
+                                                            $temp_max = $classification->to_gvw_cc;
+                                                            
+                                                            if($v_gvw >= $temp_min && $v_gvw <= $temp_max)
+                                                            {
+                                                                $gvw_status = "1";
+                                                                $commission_id[] = $cl->id;
+                                                            }
+                                                        }
+                                                    }
+                                                    else
+                                                    {
+                                                        $gvw_status = "1";
+                                                        $commission_id = $temp_commission_id;
+                                                    }
+                                                }
+                                            }
+                                        
+                                            $check_make_1 = $this->cm->check_make_already_exits(array_unique($commission_id),$policy_type,$make);
+                                            
+                                            if(count($check_make_1) > 0)
+                                            {
+                                                    if(count($check_make_1) > 0)
+                                                    {
+                                                        $commission_id = [];
+                                                        
+                                                        foreach($check_make_1 as $da)
+                                                        {
+                                                                $commission_id[] = $da->commission_id;
+                                                        }
+                                                        $status = "1";
+                                                        $make_status = "1";
+                                                    }
+                                                    else
+                                                    {
+                                                        $make_status = "0";
+                                                    }
+                                            }
+                                            else
+                                            {
+                                                $check_make = $this->lm->check_make_all_already_exits(array_unique($commission_id),$policy_type);
+                                                
+                                                if(count($check_make) > 0)
+                                                {
+                                                    $commission_id = [];
+                                                    
+                                                    foreach($check_make as $da)
+                                                    {
+                                                        $commission_id[] = $da->id;
+                                                    }
+                                                    
+                                                    $status = "1";
+                                                    $make_status = "1";
+                                                }
+                                            }
+
+                                            $check_model_1 = $this->lm->check_model_already_exits(array_unique($commission_id),$policy_type,$make,$model);
+                                                
+                                            if(count($check_model_1) > 0)
+                                            {
+                                                $commission_id = [];
+                                                
+                                                foreach($check_model_1 as $da)
+                                                {
+                                                    $commission_id[] = $da->commission_id;
+                                                }
+                                                
+                                                $status = "1";
+                                                $model_status = "1";
+                                            }
+                                            else
+                                            {
+                                                $check_model = $this->pm->check_model_all_already_exits(array_unique($commission_id),$policy_type);
+                                                if(count($check_model) > 0)
+                                                {
+                                                        $commission_id = [];
+                                                        foreach($check_model as $da)
+                                                        {
+                                                                $commission_id[] = $da->id;
+                                                        }
+                                                        $status = "1";
+                                                        $model_status = "1";
+                                                }
+                                            }
+                                            
+                                            if($make_status == "1" && $model_status == "1")
+                                            {
+                                                $check_varient_1 = $this->cm->check_varient_already_exits(array_unique($commission_id),$policy_type,$make,$model,$Varient);
+                                                
+                                                if(count($check_varient_1) > 0) 
+                                                {
+                                                    $commission_id = [];
+                                                    foreach($check_varient_1 as $da)
+                                                    {
+                                                        $commission_id[] = $da->commission_id;
+                                                    }
+                                                    $status = "1";
+                                                    $varient_status = "1";
+                                                }
+                                                else
+                                                {
+                                                    $check_varient = $this->pm->check_varient_all_already_exits(array_unique($commission_id),$policy_type);
+                                                    if(count($check_varient) > 0)
+                                                    {
+                                                        $commission_id = [];
+                                                        
+                                                        foreach($check_varient as $da)
+                                                        {
+                                                                $commission_id[] = $da->id;
+                                                        }
+                                                            $status = "1";
+                                                            $varient_status = "1";
+                                                    }
+                                                }
+                                            }
+                                
+                                            if($status == "1" && $state_status == "1" && $fuel_type_status == "1" && $gvw_status == "1" && $make_status == "1" && $model_status == "1" && $varient_status == "1")
+                                            {
+                                                    $check_rto = $this->cm->check_rto_already_exits_2(array_unique($commission_id),$rto);
+                                                    
+                                                    if(count($check_rto) > 0)
+                                                    {
+                                                        foreach($check_rto as $rt)
+                                                        {
+                                                            $com_id = $rt->commission_id;
+                                                        }
+                                                        if(!$this->cm->check_policy_already_exits($lead_id))
+                                                        {
+                                                            if(!$this->cm->check_policy_no_already_exits($policy_no))
+                                                            {
+                                                                    $data1 = array("status" =>"success" ,"commission_id"=>$com_id);
+                                                            }
+                                                        }
+                                                        else
+                                                        {
+                                                            $data1 = array("status" =>"Policy Already Exits","commission_id"=>"");
+                                                        }
+                                                    }
+                                                }
+                                            else if($fuel_type_status == "0")
+                                            {
+                                                $data1 = array("status" =>"Fuel Type Mismacthed","commission_id"=>"");
+                                            }
+                                            else if($gvw_status == "0")
+                                            {
+                                                $data1 = array("status" =>"Classification Mismatched","commission_id"=>"");
+                                            }
+                                            else if($make_status == "0")
+                                            {
+                                                $data1 = array("status" =>"Make Mismactched","commission_id"=>"");
+                                            }
+                                            else if($model_status == "0")
+                                            {
+                                                $data1 = array("status" =>"Model Mismactched","commission_id"=>"");
+                                            }
+                                            else if($varient_status == "0")
+                                            {
+                                                $data1 = array("status" =>"Varient Mismactched","commission_id"=>"");
+                                            }
+                                        }
+                                        else
+                                        {
+                                                $data1 = array("status" =>"State Mismacthed","commission_id"=>"");
+                                        }
+                                        }
+                                    else 
+                                    {
+                                        $data1 = array("status" =>"Insurance company or Slab Mismacthed","commission_id"=>"");
                                     }
                                 }
-                                 echo json_encode($data1);
-                          }
-                       else
-                       {
-                           $data1 = array("commission_id"=>"","status" => "SME Policy");
-                           echo json_encode($data1);
-                       }
-                 }
-        	
-       }
-       
-       
+                                else if($da->commission_type == "3")
+                                {
+                                    $g_status = "0";
+                                    $fuel_status = "0";
+                                    
+                                    foreach($check as $da)
+                                    {
+                                        $temp_min = $da->min_val;
+                                        $temp_max = $da->max_val;
+                                        
+                                        if($temp_min <= $total_premium && $temp_max >= $total_premium)
+                                        {
+                                                $g_status = "1";
+                                                $commission_id[] = $da->id;
+                                        }
+                                        
+                                        if($fuel_type == "1")
+                                        {
+                                            if($da->fuel_type == "4" || $da->fuel_type == "5" || $da->fuel_type == "1" || $da->fuel_type == "6")
+                                            {
+                                                $fuel_status = "1";
+                                            }
+                                        }
+                                        if($fuel_type == "2")
+                                        {
+                                            if($da->fuel_type == "5" || $da->fuel_type == "2" || $da->fuel_type == "6")
+                                            {
+                                                $fuel_status = "1";
+                                            }
+                                        }
+                                        if($fuel_type == "5")
+                                        {
+                                            if($da->fuel_type == "5" || $da->fuel_type == "1" || $da->fuel_type == "2" || $da->fuel_type == "6")
+                                            {
+                                                $fuel_status = "1";
+                                            }
+                                        }
+                                        if($fuel_type == "6")
+                                        {
+                                            if($da->fuel_type == "1" || $da->fuel_type == "2" || $da->fuel_type == "3" || $da->fuel_type == "4" || $da->fuel_type == "5" || $da->fuel_type == "6")
+                                            {
+                                                $fuel_status = "1";
+                                            }
+                                        }
+                                        if($fuel_type == "7")
+                                        {
+                                            if($da->fuel_type == "7" || $da->fuel_type == "6")
+                                            {
+                                                $fuel_status = "1";
+                                            }
+                                        }
+                                        
+                                        if($g_status == "1" && $fuel_status == "1")
+                                        {
+                                            $commission_id[] = $da->id;
+                                            $status = "1";
+                                            $fuel_type_status = "1";
+                                            
+                                        }
+                                    }
+                                    
+                                    if($status == "1")
+                                    {
+                                        $check_state = $this->cm->check_state_by_commission_id(array_unique($commission_id));
+                                        $commission_id = [];
+                                        
+                                        foreach($check_state as $da)
+                                        {
+                                            if($da->state == $state)
+                                            {
+                                                    $commission_id[] = $da->id;
+                                                    $state_status = "1";
+                                            }
+                                            else if($da->state == "All")
+                                            {
+                                                $commission_id[] = $da->id;
+                                                $state_status = "1";
+                                            }
+                                        }
+                                        
+                                        if($state_status == "1")
+                                        {
+                                            $classification = $this->cm->check_classification_by_commission_id(array_unique($commission_id));
+                                            $temp_commission_id = [];
+                                            $temp_commission_id = $commission_id;
+                                        
+                                                $commission_id = [];
+                                        
+                                            foreach($classification as $cl)
+                                            {
+                                                if($policy_type == "7" || $policy_type == "12" || $policy_type == "13" || $policy_type == "14" || $policy_type == "59" || $policy_type == "60" || $policy_type == "65" || $policy_type == "66" || $policy_type == "67" || $policy_type == "68" || $policy_type == "69" || $policy_type == "70")
+                                                {
+                                                    if($cl->classification != "")
+                                                    {
+                                                        $classification = $this->cm->check_seating($v_seating,$policy_type,$temp_commission_id);
+                                                        
+                                                        if(count($classification) > 0)
+                                                        {
+                                                            $gvw_status = "1";
+                                                            
+                                                            foreach($classification as $da)
+                                                            {
+                                                                $commission_id[] = $cl->id;
+                                                                $gvw_status = "1";
+                                                            }
+                                                        }
+                                                    }
+                                                    else
+                                                    {
+                                                        $commission_id = $temp_commission_id;
+                                                        $gvw_status = "1";
+                                                    }
+                                                }
+                                                else if($policy_type == "1" || $policy_type == "2" || $policy_type == "3" || $policy_type == "4" || $policy_type == "55")
+                                                {
+                                                    if($cl->classification != "")
+                                                    {
+                                                        $classification = $this->lm->get_classification($cl->classification,$policy_type);
+                                                        
+                                                        if($classification != null)
+                                                        {
+                                                                $temp_min = $classification->from_gvw_cc;
+                                                                $temp_max = $classification->to_gvw_cc;
+                                                                
+                                                                if(($cc >= $temp_min && $cc <= $temp_max))
+                                                                {
+                                                                    $commission_id[] = $cl->id;
+                                                                    $gvw_status = "1";
+                                                                }
+                                                        }
+                                                    }
+                                                    else
+                                                    {
+                                                        $gvw_status = "1";
+                                                        $commission_id = $temp_commission_id;
+                                                    }
+                                                }
+                                                else
+                                                {
+                                                    if($cl->classification != "")
+                                                    {
+                                                        $classification = $this->lm->get_classification($cl->classification,$policy_type);
+                                                        
+                                                        if($classification != null)
+                                                        {
+                                                            $temp_min = $classification->from_gvw_cc;
+                                                            $temp_max = $classification->to_gvw_cc;
+                                                            
+                                                            if($v_gvw >= $temp_min && $v_gvw <= $temp_max)
+                                                            {
+                                                                $gvw_status = "1";
+                                                                $commission_id[] = $cl->id;
+                                                            }
+                                                        }
+                                                    }
+                                                    else
+                                                    {
+                                                        $gvw_status = "1";
+                                                        $commission_id = $temp_commission_id;
+                                                    }
+                                                }
+                                            }
+                                        
+                                                $check_make_1 = $this->cm->check_make_already_exits(array_unique($commission_id),$policy_type,$make);
+                                            
+                                            if(count($check_make_1) > 0)
+                                            {
+                                                    if(count($check_make_1) > 0)
+                                                    {
+                                                        $commission_id = [];
+                                                        
+                                                        foreach($check_make_1 as $da)
+                                                        {
+                                                                $commission_id[] = $da->commission_id;
+                                                        }
+                                                        $status = "1";
+                                                        $make_status = "1";
+                                                    }
+                                                    else
+                                                    {
+                                                        $make_status = "0";
+                                                    }
+                                            }
+                                            else
+                                            {
+                                                $check_make = $this->lm->check_make_all_already_exits(array_unique($commission_id),$policy_type);
+                                                
+                                                if(count($check_make) > 0)
+                                                {
+                                                    $commission_id = [];
+                                                    
+                                                    foreach($check_make as $da)
+                                                    {
+                                                        $commission_id[] = $da->id;
+                                                    }
+                                                    
+                                                    $status = "1";
+                                                    $make_status = "1";
+                                                }
+                                            }
 
-     public function add_lead_files()
+                                            $check_model_1 = $this->lm->check_model_already_exits(array_unique($commission_id),$policy_type,$make,$model);
+                                                
+                                            if(count($check_model_1) > 0)
+                                            {
+                                                $commission_id = [];
+                                                
+                                                foreach($check_model_1 as $da)
+                                                {
+                                                    $commission_id[] = $da->commission_id;
+                                                }
+                                                
+                                                $status = "1";
+                                                $model_status = "1";
+                                            }
+                                            else
+                                            {
+                                                $check_model = $this->pm->check_model_all_already_exits(array_unique($commission_id),$policy_type);
+                                                if(count($check_model) > 0)
+                                                {
+                                                        $commission_id = [];
+                                                        foreach($check_model as $da)
+                                                        {
+                                                                $commission_id[] = $da->id;
+                                                        }
+                                                        $status = "1";
+                                                        $model_status = "1";
+                                                }
+                                            }
+                                            
+                                            if($make_status == "1" && $model_status == "1")
+                                            {
+                                                $check_varient_1 = $this->cm->check_varient_already_exits(array_unique($commission_id),$policy_type,$make,$model,$Varient);
+                                                
+                                                if(count($check_varient_1) > 0) 
+                                                {
+                                                    $commission_id = [];
+                                                    foreach($check_varient_1 as $da)
+                                                    {
+                                                        $commission_id[] = $da->commission_id;
+                                                    }
+                                                    $status = "1";
+                                                    $varient_status = "1";
+                                                }
+                                                else
+                                                {
+                                                    $check_varient = $this->pm->check_varient_all_already_exits(array_unique($commission_id),$policy_type);
+                                                    if(count($check_varient) > 0)
+                                                    {
+                                                        $commission_id = [];
+                                                        
+                                                        foreach($check_varient as $da)
+                                                        {
+                                                                $commission_id[] = $da->id;
+                                                        }
+                                                            $status = "1";
+                                                            $varient_status = "1";
+                                                    }
+                                                }
+                                            }
+                                            
+                                            if($status == "1" && $state_status == "1" && $fuel_type_status == "1" && $gvw_status == "1" && $make_status == "1" && $model_status == "1" && $varient_status == "1")
+                                            {
+                                                    $check_rto = $this->cm->check_rto_already_exits_2(array_unique($commission_id),$rto);
+                                                    
+                                                    if(count($check_rto) > 0)
+                                                    {
+                                                        foreach($check_rto as $rt)
+                                                        {
+                                                            $com_id = $rt->commission_id;
+                                                        }
+                                                        
+                                                        if(!$this->cm->check_policy_already_exits($lead_id))
+                                                        {
+                                                            if(!$this->cm->check_policy_no_already_exits($policy_no))
+                                                            {
+                                                                    $data1 = array("status" =>"success" ,"commission_id"=>$com_id);
+                                                            }
+                                                        }
+                                                        else
+                                                        {
+                                                            $data1 = array("status" =>"Policy Already Exits","commission_id"=>"");
+                                                        }
+                                                    }
+                                                }
+                                            else if($fuel_type_status == "0")
+                                            {
+                                                $data1 = array("status" =>"Fuel Type Mismacthed","commission_id"=>"");
+                                            }
+                                            else if($gvw_status == "0")
+                                            {
+                                                $data1 = array("status" =>"Classification Mismatched","commission_id"=>"");
+                                            }
+                                            else if($make_status == "0")
+                                            {
+                                                $data1 = array("status" =>"Make Mismactched","commission_id"=>"");
+                                            }
+                                            else if($model_status == "0")
+                                            {
+                                                $data1 = array("status" =>"Model Mismactched","commission_id"=>"");
+                                            }
+                                            else if($varient_status == "0")
+                                            {
+                                                $data1 = array("status" =>"Varient Mismactched","commission_id"=>"");
+                                            }
+                                        }
+                                        else
+                                        {
+                                            $data1 = array("status" =>"State Mismacthed","commission_id"=>"");
+                                        }
+                                        }
+                                    else
+                                    {
+                                        $data1 = array("status" =>"Insurace Company or Slab Mismacthed","commission_id"=>"");
+                                    }
+                                }
+                            }
+                            echo json_encode($data1);
+                    }
+                    else if($class_type->class == "2")
+                    {
+                            $bussiness_type = $class_type->business_type;
+                            $policy_class = $class_type->class;
+                            $policy_type =  $class_type->policy_type;
+                            $state = "All";
+                            
+                            $data1 = array("status" =>"Commission Slab Not Exits","commission_id"=>"");
+                            
+                            $check = $this->cm->check_health_commission($company,$policy_premium,$policy_class,$bussiness_type,$policy_type,$state,$from_date_1,$to_date_1);
+                            
+                            foreach($check as $da)
+                            {
+                                if($da->commission_type == "1")
+                                {
+                                    foreach($check as $da)
+                                    {
+                                        $temp_min = $da->no_policy_min;
+                                        $temp_max = $da->no_policy_max;
+                                        
+                                        if($temp_min <= 1 && $temp_max >= 1)
+                                        {
+                                                $status = "1";
+                                                $commission_id[] = $da->id;
+                                        }
+                                    }
+                                    
+                                    if($status == "1")
+                                    {
+                                            if($da->state != "All")
+                                            {
+                                                $res = $this->cm->check_health_state($commission_id);
+                                                $commission_id = [];
+                                                
+                                                foreach($res as $da)
+                                                {
+                                                    $commission_id[] = $da->id;
+                                                    $c_id = $da->id;
+                                                }
+                                            }
+                                            $data1 = array("status" =>"success","commission_id"=>$c_id);
+                                    }
+                                    else
+                                    {
+                                            $data1 = array("status" =>"Slab Not Exits","commission_id"=>"");
+                                    }
+                                }
+                                else if($da->commission_type == "3")
+                                {
+                                    foreach($check as $da)
+                                    {
+                                        $temp_min = $da->min_val;
+                                        $temp_max = $da->max_val;
+                                        
+                                        if($temp_min <= $total_premium && $temp_max >= $total_premium)
+                                        {
+                                                $status = "1";
+                                                $commission_id[] = $da->id;
+                                        }
+                                    }
+                                    
+                                    if($status == "1")
+                                    {
+                                            if($da->state != "All")
+                                            {
+                                                $res = $this->cm->check_health_state($commission_id);
+                                                $commission_id = [];
+                                                
+                                                foreach($res as $da)
+                                                {
+                                                    $commission_id[] = $da->id;
+                                                    $c_id = $da->id;
+                                                }
+                                                $data1 = array("commission_id"=>$c_id,"status" => "success");
+                                            }
+                                            else
+                                            {
+                                                $data1 = array("commission_id"=>"","status" => "success");
+                                            }
+                                    }
+                                }
+                            }
+                                echo json_encode($data1);
+                        }
+                    else
+                    {
+                        $data1 = array("commission_id"=>"","status" => "SME Policy");
+                        echo json_encode($data1);
+                    }
+                }
+        
+    }
+       
+       
+    public function add_lead_files()
+    {
+        if($this->session->has_userdata('logged_in'))
         {
-            if($this->session->has_userdata('logged_in'))
-            {
-                $id = $this->input->post("id");
-                $document_type = $this->input->post("document_type");
-                
-               
-                       if(isset($_FILES))
-                		{
-                			$config['upload_path'] = './datas/documents/';
-                			$config['allowed_types'] = '*';
-                			
-                			$this->load->library('upload',$config);
-                			$this->upload->initialize($config);
-                			if(!$this->upload->do_upload('file'))
-                			{
-                			   $date = date("Y-m-d H:i:s"); 
-                			   $data = array("lead_id" =>$id,
-                			             "document_type" =>$document_type,"updated_time" =>$date);
-                			}
-                			else
-                			{
-			                   
-                			   $file = $this->upload->data('file_name');
-                			   $date = date("Y-m-d H:i:s"); 
-                			   $data = array( 
-                			                 "lead_id" =>$id,
-                			                "document_type" =>$document_type,"document_file"=>$file,"updated_time" =>$date);
-                			}
-                			
-                		$res = $this->lm->add_lead_files($data);
-                			
-                		}
-                		 echo "success";
-            }
+            $id = $this->input->post("id");
+            $document_type = $this->input->post("document_type");
+            
+            
+                    if(isset($_FILES))
+                    {
+                        $config['upload_path'] = './datas/documents/';
+                        $config['allowed_types'] = '*';
+                        
+                        $this->load->library('upload',$config);
+                        $this->upload->initialize($config);
+                        if(!$this->upload->do_upload('file'))
+                        {
+                            $date = date("Y-m-d H:i:s"); 
+                            $data = array("lead_id" =>$id,
+                                        "document_type" =>$document_type,"updated_time" =>$date);
+                        }
+                        else
+                        {
+                            
+                            $file = $this->upload->data('file_name');
+                            $date = date("Y-m-d H:i:s"); 
+                            $data = array( 
+                                            "lead_id" =>$id,
+                                        "document_type" =>$document_type,"document_file"=>$file,"updated_time" =>$date);
+                        }
+                        
+                    $res = $this->lm->add_lead_files($data);
+                        
+                    }
+                        echo "success";
         }
+    }
         
     public function add_due_date() 
     {
@@ -11555,7 +11567,7 @@ class LeadCtrl extends CI_Controller {
       {
           redirect("login");
       }
-   }
+    }
    
    public function add_temp_leads()
    {
@@ -13354,7 +13366,8 @@ class LeadCtrl extends CI_Controller {
     	}
     }
 
-	function update_commission_by_policy($lead_id) {
+	function update_commission_by_policy($lead_id) 
+    {
         
         if( isset( $lead_id ) && !empty( $lead_id ) )
         {
@@ -13835,7 +13848,7 @@ class LeadCtrl extends CI_Controller {
                 	        }
                 	        
         				}
-/*        				
+                     /*        				
         				$update = $this->cm->update_commissions_by_lead_id($data,$lead_id);
         				if( $update ) {
             	            $this->audit->log('policy_info', 'UPDATE', null, $_policies, $data);
@@ -13909,7 +13922,7 @@ class LeadCtrl extends CI_Controller {
             	            $this->audit->log('acc_commission_ledger_orc', 'UPDATE', null, $ocom_credit_data, $com_credit);
             	        }
         				
-*/        				
+                      */        				
         				return;
         		}
         			

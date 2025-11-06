@@ -312,6 +312,304 @@ class PayoutMod extends CI_Model
   	    $insert_id = $this->db->insert_id();
         return  $insert_id;
   	}
+
+
+	 /**
+	 * Auto-apply a newly created payout commission to all eligible existing policies.
+	 * Safely normalizes input arrays, skips empty filters, and performs audit logging.
+	 *
+	 * @param array $commission_data  Data from company_payout_commission
+	 * @return int  Number of updated policies
+	 */
+    public function apply_new_commission_to_pending_policies($commission_data)
+	{
+		log_message('debug', '🧾 Entered apply_new_commission_to_pending_policies() for commission ID: ' . $commission_data['id']);
+
+		// ✅ 1️⃣ Normalize array-based fields before any in_array() checks
+		$keys_to_normalize = ['ins_rto', 'vehicle_classification', 'category'];
+		foreach ($keys_to_normalize as $key) {
+			if (!isset($commission_data[$key]) || empty($commission_data[$key])) {
+				$commission_data[$key] = [];
+			} elseif (!is_array($commission_data[$key])) {
+				$commission_data[$key] = explode(',', $commission_data[$key]);
+			}
+		}
+
+		// ✅ 2️⃣ Build your main query
+		$this->db->select('*')
+				->from('policy_info')
+				->where("(commission_id IS NULL OR commission_id = '')")
+				->where('company', $commission_data['company'])
+				->where('DATE(policy_issue_date) >=', $commission_data['from_date'])
+				->where('DATE(policy_issue_date) <=', $commission_data['to_date']);
+
+		// ✅ 3️⃣ Safe filter: Vehicle Classification
+		if (!empty($commission_data['vehicle_classification'])) {
+			$this->db->group_start();
+			foreach ($commission_data['vehicle_classification'] as $val) {
+				$this->db->or_where('vehicle_classification', trim($val));
+			}
+			$this->db->or_where('vehicle_classification', 0);
+			$this->db->or_where('vehicle_classification IS NULL', null, false);
+			$this->db->group_end();
+		}
+
+		// ✅ 4️⃣ Safe filter: Category
+		if (!empty($commission_data['category'])) {
+			$this->db->group_start();
+			foreach ($commission_data['category'] as $val) {
+				$this->db->or_where('category', trim($val));
+			}
+			$this->db->or_where('category', 0);
+			$this->db->or_where('category IS NULL', null, false);
+			$this->db->group_end();
+		}
+
+		// ✅ 5️⃣ Safe filter: Fuel Kit
+		if (isset($commission_data['fuel_kit']) && $commission_data['fuel_kit'] != '') {
+			$this->db->where('fuel_kit', $commission_data['fuel_kit']);
+		}
+
+		// ✅ 6️⃣ Safe filter: RTO check (no error now)
+		if (!empty($commission_data['ins_rto'])) {
+			$this->db->group_start();
+			foreach ($commission_data['ins_rto'] as $rtoVal) {
+				$this->db->or_where('policy_location', trim($rtoVal));
+			}
+			$this->db->or_where('policy_location', 0);
+			$this->db->or_where('policy_location IS NULL', null, false);
+			$this->db->group_end();
+		}
+
+		// ✅ 7️⃣ Execute query safely
+		$policies = $this->db->get()->result();
+		log_message('debug', '🧩 Found ' . count($policies) . ' eligible policies for commission ' . $commission_data['id']);
+
+		if (empty($policies)) {
+			log_message('info', '⚠️ No matching policies found for commission ' . $commission_data['id']);
+			return 0;
+		}
+
+		$updated_count = 0;
+
+		// ✅ 8️⃣ Update each policy with the new commission logic
+		foreach ($policies as $policy) {
+			$commission_calc = $this->pm->calculate_full_commission(
+				$policy->lead_id,
+				$commission_data['id'],
+				$policy
+			);
+
+			$update_data = [
+				'commission_id'             => $commission_data['id'],
+				'commission_type'           => $commission_calc['commission_type'],
+				'agent_commission_amt'      => $commission_calc['agent_commission_amt'],
+				'own_commission_amt'        => $commission_calc['own_commission_amt'],
+				'agent_commission'          => $commission_calc['agent_commission'],
+				'own_commission'            => $commission_calc['own_commission'],
+				'calc_com_status'           => 1,
+				'com_trigger_status'        => 1,
+				'com_trigger_date'          => date('Y-m-d'),
+				'updated_at'                => date('Y-m-d H:i:s'),
+			];
+
+			$this->db->where('id', $policy->id)->update('policy_info', $update_data);
+			if ($this->db->affected_rows() > 0) {
+				$updated_count++;
+				$this->audit->log(
+						'policy_info',
+						'UPDATE',
+						json_encode($policy, JSON_UNESCAPED_UNICODE),
+						json_encode($update_data, JSON_UNESCAPED_UNICODE),
+						json_encode($commission_data, JSON_UNESCAPED_UNICODE)
+					);
+			}
+		}
+
+		log_message('info', '✅ Auto-applied new payout (ID: ' . $commission_data['id'] . ') to ' . $updated_count . ' existing policies');
+
+		return $updated_count;
+	}
+
+
+
+	 /**
+	 * Calculate full commission breakdown for a given policy and commission ID.
+	 * Mirrors original logic in save_generated_policy().
+	 *
+	 * @param int $lead_id
+	 * @param int $commission_id
+	 * @param object $policy_data
+	 * @return array Ready-to-save commission calculation result
+	 */
+	public function calculate_full_commission($lead_id, $commission_id, $policy_data)
+	{
+		$class_type = $this->lm->get_class_type($lead_id);
+
+		// --- Basic policy data
+		$total_premium       = $policy_data->total_premium ?? 0;
+		$policy_premium      = $policy_data->policy_premium ?? 0;
+		$policy_agency_pos   = $policy_data->policy_agency_pos ?? '';
+		$company             = $policy_data->company ?? '';
+		$no_claim_bonus      = $policy_data->no_claim_bonus ?? '';
+		$own_damage          = $policy_data->total_own_damage ?? 0;
+		$tp                  = $policy_data->tot_liability_premium ?? 0;
+		$lead_id             = $policy_data->lead_id ?? $lead_id;
+
+		// --- Initialize
+		$agent_commission = 0;
+		$company_com = 0;
+		$jayantha_commission = 0;
+		$jayantha_agent_commission = 0;
+		$commission_type = '';
+		$status = '0';
+
+		// 🟡 Skip if commission ID empty
+		if (empty($commission_id)) {
+			return [
+				"commission_id" => null,
+				"commission_type" => "No Slab",
+				"agent_commission_amt" => 0,
+				"own_commission_amt" => 0,
+				"agent_commission" => 0,
+				"own_commission" => 0,
+				"com_trigger_status" => "1",
+				"com_trigger_date" => date("Y-m-d"),
+				"calc_com_status" => "1"
+			];
+		}
+
+		// Fetch commission master record
+		$res = $this->lm->fetch_policy_info($commission_id);
+		if (!$res) {
+			log_message('error', "❌ Commission slab not found for ID: $commission_id");
+			return [];
+		}
+
+		$agn_commission_type = $res->agn_com_type ?? '';
+
+		// --- Jayantha (IRDA) Commission Calculation
+		$ird_od_commission = ($res->ird_od_commission > 0) ? $res->ird_od_commission : 0;
+		$ird_tp_commission = ($res->ird_tp_commission > 0) ? $res->ird_tp_commission : 0;
+
+		if ($agn_commission_type != "TP") {
+			$jayantha_commission = ($own_damage * $ird_od_commission) / 100;
+			$jayantha_agent_commission = ($own_damage * $ird_od_commission) / 100;
+		}
+		if ($agn_commission_type != "OD") {
+			$jayantha_commission += ($tp * $ird_tp_commission) / 100;
+		}
+		if ($agn_commission_type == "OD_AND_TP") {
+			$jayantha_commission = (($own_damage * $ird_od_commission) / 100) + (($tp * $ird_tp_commission) / 100);
+		}
+
+		// --- Policy type-based Commission (Motor / Health)
+		if ($class_type->class == "1") {
+			// Motor commission
+			$commission_type = $res->commission_type;
+			if (in_array($res->commission_type, ["1", "2", "3"])) {
+				$spl_com = $this->lm->check_spl_commission_for_agent($commission_id, $policy_agency_pos);
+				$agent_status = $this->lm->fetch_agent_category($policy_agency_pos);
+
+				// NCB-based logic
+				if ($res->is_ncb == "Yes" && $no_claim_bonus == "Yes") {
+					$company_com = $total_premium * ($res->ncb_percentage) / 100;
+
+					if (!empty($spl_com)) {
+						$agent_commission = ($total_premium * $spl_com->special_com) / 100;
+					} else {
+						$agent_commission = ($total_premium * $res->{'a_' . strtolower($agent_status->commission_category) . '_ncb'}) / 100;
+					}
+				} else {
+					// Regular OD / TP / ON-NET logic
+					if (!empty($res->on_net) && $res->on_net != "0") {
+						$company_com = $total_premium * ($res->on_net) / 100;
+					} elseif (!empty($res->own_od) && !empty($res->own_tp)) {
+						$company_com = ($own_damage * ($res->own_od) / 100) + ($tp * ($res->own_tp) / 100);
+					} elseif (!empty($res->own_od)) {
+						$company_com = $own_damage * ($res->own_od) / 100;
+					} elseif (!empty($res->own_tp)) {
+						$company_com = $tp * ($res->own_tp) / 100;
+					}
+
+					if (!empty($spl_com)) {
+						$agent_commission = ($total_premium * $spl_com->special_com) / 100;
+					} else {
+						// ✅ Correct field mapping based on agent commission category (A/B/C/D)
+						$cat_prefix = strtolower($agent_status->commission_category); // 'a', 'b', 'c', or 'd'
+
+						switch ($res->agn_com_type) {
+							case "OD":
+								$agent_commission = ($own_damage * ($res->{$cat_prefix . '_od'} ?? 0)) / 100;
+								break;
+							case "TP":
+								$agent_commission = ($tp * ($res->{$cat_prefix . '_tp'} ?? 0)) / 100;
+								break;
+							case "ON-NET":
+								$agent_commission = ($total_premium * ($res->{$cat_prefix . '_net'} ?? 0)) / 100;
+								break;
+							case "OD_AND_TP":
+								$agent_od = ($own_damage * ($res->{$cat_prefix . '_od'} ?? 0)) / 100;
+								$agent_tp = ($tp * ($res->{$cat_prefix . '_tp'} ?? 0)) / 100;
+								$agent_commission = $agent_od + $agent_tp;
+								break;
+						}
+
+					}
+				}
+			}
+		} else {
+			// Health class commission
+			$commission_type = $res->commission_type;
+			if (in_array($res->commission_type, ["1", "3"])) {
+				$agent_status = $this->lm->fetch_agent_category($policy_agency_pos);
+				if ($res->is_ncb == "Yes" && $no_claim_bonus == "Yes") {
+					$company_com = $total_premium * ($res->ncb_percentage) / 100;
+					$agent_commission = ($total_premium * $res->{'a_' . strtolower($agent_status->commission_category) . '_ncb'}) / 100;
+				} else {
+					if (!empty($res->on_net) && $res->on_net != "0") {
+						$company_com = $total_premium * ($res->on_net) / 100;
+					}
+					$agent_commission = ($total_premium * $res->{'a_' . strtolower($agent_status->commission_category) . '_net'}) / 100;
+				}
+			}
+		}
+
+		// --- Adjust company vs Jayantha
+		if ($company_com <= $jayantha_commission) {
+			$jayantha_commission = $company_com;
+			$company_com = 0;
+		} else {
+			$company_com -= $jayantha_commission;
+		}
+
+		if ($agent_commission <= $jayantha_agent_commission) {
+			$jayantha_agent_commission = $agent_commission;
+			$agent_commission = 0;
+		} else {
+			$agent_commission -= $jayantha_agent_commission;
+		}
+
+		// Combine agent and unicorn commissions
+		$jayantha_agent_commission += $agent_commission;
+		$agent_commission = 0;
+
+		// ✅ Return the complete ready-to-update data
+		return [
+			"commission_id" => $commission_id,
+			"commission_type" => $commission_type,
+			"agent_commission_amt" => $jayantha_agent_commission,
+			"own_commission_amt" => $jayantha_commission,
+			"agent_commission" => $agent_commission,
+			"own_commission" => $company_com,
+			"com_trigger_status" => "1",
+			"com_trigger_date" => date("Y-m-d"),
+			"calc_com_status" => "1"
+		];
+	}
+
+
+
   	
   	public function add_make_list($make_arr)
   	{

@@ -366,6 +366,36 @@ class LeadMod extends CI_Model
   	    $this->db->where("id",$id);
   	    return $this->db->get("company_payout_commission")->row();
   	}
+
+	 /**
+	 * Fetch a single policy record by ID
+	 * Used for auditing before policy update (commission auto-apply, manual edits, etc.)
+	 *
+	 * @param int $policy_id
+	 * @return object|null  Returns full policy record as object or null if not found
+	 */
+	public function get_policy_by_id($policy_id)
+	{
+		if (empty($policy_id) || !is_numeric($policy_id)) {
+			log_message('error', "❌ get_policy_by_id() called with invalid ID: " . print_r($policy_id, true));
+			return null;
+		}
+
+		$this->db->select('*');
+		$this->db->from('policy_info');  // ✅ Correct table name (same as save_generated_policy)
+		$this->db->where('id', $policy_id);
+		$query = $this->db->get();
+
+		if ($query->num_rows() > 0) {
+			$row = $query->row();
+			log_message('debug', "🔍 get_policy_by_id() fetched policy ID {$policy_id} successfully");
+			return $row;
+		} else {
+			log_message('warning', "⚠️ No policy found for ID {$policy_id}");
+			return null;
+		}
+	}
+
   	
   	public function fetch_commission_product($id)
   	{

@@ -486,9 +486,21 @@ class PayoutCtrl extends CI_Controller {
                    }
 
                       $res = $this->pm->add_payout_commission($data);
-                      if($res){
-                          $this->audit->log('company_payout_commission', 'INSERT', null, null, $data);
-                      }
+
+                      if ($res) {
+                            $this->audit->log('company_payout_commission', 'INSERT', null, null, $data);
+
+                             // ✅ Auto apply payout to matching policies
+                            $commission_data = array_merge($data, [
+                                'id' => $res,
+                                'company' => $data['insurer_company'] ?? 0 // Ensure 'company' exists
+                            ]);
+
+                            $applied = $this->pm->apply_new_commission_to_pending_policies($commission_data);
+                            log_message('info', "✅ Auto-applied new payout (ID: $res) to $applied existing policies");
+                        }
+
+
                       $date = date("Y-m-d H:i:s");
                       
                       

@@ -658,11 +658,17 @@
 									<div class="input-group mb-1">
 										<div class="input-group-addon">+91</div>
 										<input
-											type="number"
+											type="text"
 											class="form-control"
 											name="mobile_no"
-											maxlength="10"
 											id="mobile_no"
+											inputmode="numeric"
+											pattern="[0-9]{10}"
+											maxlength="10"
+											oninput="this.value = this.value.replace(/[^0-9]/g, '').slice(0,10);"
+											onkeydown="return event.keyCode !== 69 && event.keyCode !== 187 && event.keyCode !== 189 && event.keyCode !== 190;"
+											placeholder="Enter 10-digit mobile number"
+											required
 										/>
 									</div>
 								</div>
@@ -2919,10 +2925,16 @@
 												<div class="col-md-4"><label>CC</label></div>
 												<div class="col-md-8">
 													<input
-														type="text"
+														type="number"
 														class="form-control"
 														name="vechi_cc"
 														id="vechi_cc"
+														inputmode="numeric"
+														min="0"
+														oninput="this.value = this.value.replace(/[^0-9]/g, '');"
+														onkeydown="return event.keyCode !== 69 && event.keyCode !== 187 && event.keyCode !== 189 && event.keyCode !== 190;"
+														placeholder="Enter CC (e.g. 100)"
+														required
 													/>
 												</div>
 											</div>
@@ -16565,6 +16577,12 @@ From: Anywhere in India To: Anywhere in India</textarea
 												class="form-control"
 												name="edit_vechi_cc"
 												id="edit_vechi_cc"
+												inputmode="numeric"
+												min="0"
+												oninput="this.value = this.value.replace(/[^0-9]/g, '');"
+												onkeydown="return event.keyCode !== 69 && event.keyCode !== 187 && event.keyCode !== 189 && event.keyCode !== 190;"
+												placeholder="Enter CC (e.g. 100)"
+												required
 											/>
 										</div>
 									</div>

@@ -3170,51 +3170,59 @@ label {
                         success:function(response)
                         {
                             var obj = jQuery.parseJSON(response);
-                              
-                              if(obj.status == "success")
-                              {
-                                 formdata.append('commission_id',obj.commission_id);
-                                 
-                                $.ajax({
-                                    type:"POST",
-                                    url:"save_generated_policy",
-                                    data:formdata,
-                                    processData:false,  
-                                    contentType:false,
-                                    cache:false,
-                                    dataType:'text',
-                                    beforeSend:function(){
-                                      $("#save_btn").attr("disabled",true);  
-                                    },
-                                    success:function(response)
-                                    {
-                                        if(response == "success")
+                                    
+                            if (obj.status == "success" || obj.status == "success_no_slab") {
+                                // 🔹 Create a fresh FormData for the final save call
+                                var saveData = new FormData();
+
+                                // Copy all fields from the original formdata
+                                for (var pair of formdata.entries()) {
+                                    saveData.append(pair[0], pair[1]);
+                                }
+
+                                // Add commission_id (even if blank)
+                                saveData.append('commission_id', obj.commission_id ? obj.commission_id : '');
+                                                        
+                                    $.ajax({
+                                        type:"POST",
+                                        url:"save_generated_policy",
+                                        data:saveData,
+                                        processData:false,  
+                                        contentType:false,
+                                        cache:false,
+                                        dataType:'text',
+                                        beforeSend:function(){
+                                        $("#save_btn").attr("disabled",true);  
+                                        },
+                                        success:function(response)
                                         {
-                                            $("#save_btn").attr("disabled",false);
-                                                Swal.fire({
-                                                position: 'top-end',
-                                                icon: 'success',
-                                                title: 'Policy Has Been Generated Successfully..',
-                                                showConfirmButton: false,
-                                                timer: 1500
-                                            })
-                                            window.location.href="generate_policy1";
-                                            notification_log(lead_id);
-                                        }
-                                        else
-                                        {
-                                              $("#save_btn").attr("disabled",false);
-                                              
-                                               Swal.fire({
-                                                  icon: 'error',
-                                                  title: 'Oops...',
-                                                  text: ""+response+"",
-                                                  footer: '<a href=""></a>'
+                                            if(response.trim() == "success")
+                                            {
+                                                $("#save_btn").attr("disabled",false);
+                                                    Swal.fire({
+                                                    position: 'top-end',
+                                                    icon: 'success',
+                                                    title: 'Policy Has Been Generated Successfully..',
+                                                    showConfirmButton: false,
+                                                    timer: 1500
                                                 })
-                                             $("#save_btn").attr("disabled",false);
-                                        }
-                                    }     
-                                });  
+                                                window.location.href="generate_policy1";
+                                                notification_log(lead_id);
+                                            }
+                                            else
+                                            {
+                                                $("#save_btn").attr("disabled",false);
+                                                
+                                                Swal.fire({
+                                                    icon: 'error',
+                                                    title: 'Oops...',
+                                                    text: ""+response+"",
+                                                    footer: '<a href=""></a>'
+                                                    })
+                                                $("#save_btn").attr("disabled",false);
+                                            }
+                                        }     
+                                    });  
                               }
                               else
                               {
