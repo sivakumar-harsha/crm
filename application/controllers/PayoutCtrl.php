@@ -83,7 +83,7 @@ class PayoutCtrl extends CI_Controller {
         }
         
         
-         public function fetch_make_arr()
+        public function fetch_make_arr()
         {
             if($this->session->has_userdata('logged_in'))
             {
@@ -124,8 +124,8 @@ class PayoutCtrl extends CI_Controller {
                     $res = $this->pm->fetch_make_ambulance();
                 }
                 echo json_encode($res);
+            }
         }
-    }
         
         public function fetch_model_arr()
         {
@@ -1169,7 +1169,7 @@ class PayoutCtrl extends CI_Controller {
                             {
                                $classification = $this->pm->get_classification($commission_id,$ins_classification,$policy_type);
                             
-                                if(count($classification > 0))
+                                if (count($classification) > 0)
                                 {
                                    $commission_id = [];
                                    
@@ -1530,7 +1530,7 @@ class PayoutCtrl extends CI_Controller {
                             {
                                $classification = $this->pm->get_classification($commission_id,$ins_classification,$policy_type);
                             
-                                if(count($classification > 0))
+                                if (count($classification) > 0)
                                 {
                                    $commission_id = [];
                                    
@@ -1839,13 +1839,13 @@ class PayoutCtrl extends CI_Controller {
                         }
                         else
                         {
-                            if(count($check > 0) && $status == "0")
+                            if (count($check) > 0 && $status == "0")
                             {
                                     if($ins_classification != "")
                                     {
                                        $classification = $this->pm->get_classification($commission_id,$ins_classification,$policy_type);
                                     
-                                        if(count($classification > 0))
+                                        if (count($classification) > 0)
                                         {
                                            $commission_id = [];
                                            
@@ -2429,7 +2429,7 @@ class PayoutCtrl extends CI_Controller {
                             {
                                $classification = $this->pm->get_classification($commission_id,$ins_classification,$policy_type);
                             
-                                if(count($classification > 0))
+                                if (count($classification) > 0)
                                 {
                                    $commission_id = [];
                                    
@@ -2744,13 +2744,13 @@ class PayoutCtrl extends CI_Controller {
                         }
                         else
                         {
-                            if(count($check > 0) && $status == "0")
+                            if (count($check) > 0 && $status == "0")
                             {
                                 if($ins_classification != "")
                                 {
                                    $classification = $this->pm->get_classification($commission_id,$ins_classification,$policy_type);
                                 
-                                    if(count($classification > 0))
+                                    if (count($classification) > 0)
                                     {
                                        $commission_id = [];
                                        
@@ -3413,7 +3413,7 @@ class PayoutCtrl extends CI_Controller {
     	          }
     	       }
     	   }
-	 }
+	    }
 	    
 	    public function fetch_classification()
 	    {
@@ -4497,7 +4497,7 @@ class PayoutCtrl extends CI_Controller {
                                 {
                                    $classification = $this->pm->get_classification($commission_id,$ins_classification,$policy_type);
                                 
-                                    if(count($classification > 0))
+                                    if (count($classification) > 0)
                                     {
                                        $commission_id = [];
                                        
@@ -5211,7 +5211,7 @@ class PayoutCtrl extends CI_Controller {
                                 {
                                    $classification = $this->pm->get_classification(array_unique($commission_id),$ins_classification,$policy_type);
                                 
-                                    if(count($classification > 0))
+                                    if (count($classification) > 0)
                                     {
                                        $commission_id = [];
                                        
@@ -5710,7 +5710,7 @@ class PayoutCtrl extends CI_Controller {
                         {
                            $classification = $this->pm->get_classification(array_unique($commission_id),$ins_classification,$policy_type);
                         
-                            if(count($classification > 0))
+                            if (count($classification) > 0)
                             {
                                $commission_id = [];
                                
@@ -6889,7 +6889,7 @@ class PayoutCtrl extends CI_Controller {
                 {
                     echo "<script>alert('Permission Denied');window.location.href='home';</script>";
                 }
-             }
+            }
 	    }
 	    
 	    public function add_payout_grid()
@@ -8285,8 +8285,8 @@ class PayoutCtrl extends CI_Controller {
            echo $content;
 	  }
 	  
-	   public function fetch_payout_commission_entry()
-	   {
+	    public function fetch_payout_commission_entry()
+	    {
 	        if($this->session->has_userdata('logged_in'))
     	    {
                 $draw = intval($this->input->post("draw"));
@@ -8653,8 +8653,8 @@ class PayoutCtrl extends CI_Controller {
         	   }
        }
        
-       public function _view_payout_commission_entry()
-       {
+        public function _view_payout_commission_entry()
+        {
            if($this->session->has_userdata('logged_in')) 
         	{
         	    $ins_company = $this->input->post("ins_company");
@@ -8803,7 +8803,7 @@ class PayoutCtrl extends CI_Controller {
     	               
     	                    $title = $da->company_name." / ".$da->p_type." / ".$da->premium_name." / ".$da->type;
     	                    
-/* 2023-06-20 by kgk time reduce   	               
+                        /* 2023-06-20 by kgk time reduce   	               
     	                   $rto_details = $this->pm->fech_rto_details($da->id);
     	                   
         	               if($da->policy_type == "1" || $da->policy_type == "3")
@@ -8854,7 +8854,7 @@ class PayoutCtrl extends CI_Controller {
                                  $model = $this->pm->fetch_ambulance_model_name($da->id,$da->policy_type);
                                  $varient = $this->pm->fetch_ambulance_varient_name($da->id,$da->policy_type);
                             }
-*/                            
+                             */                            
         	                $content .= "<tbody>
                             <tr>
                                 <td>".$a."</td>
@@ -9075,10 +9075,10 @@ class PayoutCtrl extends CI_Controller {
     	             
     	             echo json_encode(array("content" =>$content,"title" =>$title));
         	   }
-       }
+        }
        
-       public function edit_commission_entry_motor()
-       {
+        public function edit_commission_entry_motor()
+        {
             if($this->session->has_userdata('logged_in')) 
             { 
                 $id = $this->input->post("id");
@@ -9264,6 +9264,28 @@ class PayoutCtrl extends CI_Controller {
         
         public function test()
         {
+
+            $insurer_company = $this->input->post('insurer_company');
+            $premium_c_type  = $this->input->post('premium_c_type');
+            $insurer_class   = $this->input->post('insurer_class');
+            $business_type   = $this->input->post('business_type');
+            $policy_type     = $this->input->post('policy_type');
+            $ins_state       = $this->input->post('ins_state');
+            $f_date          = $this->input->post('f_date');
+            $to_date         = $this->input->post('to_date');
+            $add_type        = $this->input->post('add_type');
+            $rto_category    = $this->input->post('rto_category');
+            $ins_rto         = $this->input->post('ins_rto'); // if used below
+
+            // 🔧 Add these missing ones:
+            $make               = $this->input->post('make');
+            $model              = $this->input->post('model');
+            $varient            = $this->input->post('varient');
+            $ins_classification = $this->input->post('ins_classification');
+            $no_policy_min      = $this->input->post('no_policy_min');
+            $no_policy_max      = $this->input->post('no_policy_max');
+            $fuel_type          = $this->input->post('fuel_type');
+
                 $check =$this->pm->check_this_com_already_exits($insurer_company,$premium_c_type,$insurer_class,$business_type,$policy_type,$ins_state,$f_date,$to_date,$add_type);
                 
                 $ins_rto_1 = []; 
@@ -9288,7 +9310,7 @@ class PayoutCtrl extends CI_Controller {
                 
                    $check_rto = $this->pm->check_rto_already_exits($commission_id,$ins_rto_1);
                 
-                    if(count(count($check_rto) > 0))
+                    if (count($check_rto) > 0)
                     {
                         $rto_status = "1";
                         
@@ -9562,7 +9584,7 @@ class PayoutCtrl extends CI_Controller {
                     {
                        $classification = $this->pm->get_classification($commission_id,$ins_classification,$policy_type);
                     
-                        if(count($classification > 0))
+                        if (count($classification) > 0)
                         {
                            $commission_id = [];
                            
@@ -9684,7 +9706,7 @@ class PayoutCtrl extends CI_Controller {
                     echo json_encode(array("status"=>"success","no_of_policy_id"=>$com_policy_id));
                  }
                 }
-            }
+        }
             
         public function check_payout_entry()
         {
@@ -11204,7 +11226,7 @@ class PayoutCtrl extends CI_Controller {
 										}
                                  }
                             }
-                      }
+                    }
     	       }
     	       else
     	       {
@@ -11259,7 +11281,7 @@ class PayoutCtrl extends CI_Controller {
                         		  }
                     		  }
                     		  else
-                    		  {
+                    		   {
                         		    $last_policy_id = $this->pm->get_last_policy_id();
                                     
                                     if($last_policy_id == "")
@@ -11282,8 +11304,8 @@ class PayoutCtrl extends CI_Controller {
                                         }
                                     }
                                     echo json_encode(array("status"=>"success","no_of_policy_id"=>$com_policy_id));
-                    		  }
-                      }
+                    		    }
+                        }
                      else if($commission_type == "3")
                      {
                             $check =$this->pm->check_target_amount_already_exits($insurer_company,$premium_c_type,$insurer_class,$business_type,$policy_type,$ins_state,$f_date,$to_date,$add_type);
@@ -11361,9 +11383,9 @@ class PayoutCtrl extends CI_Controller {
                                 }
                             }
                        }
-                }
-    	}
-}  
+                    }
+    	        }
+        }  
     
         public function forward_to_next_month()
         {
@@ -11787,7 +11809,7 @@ class PayoutCtrl extends CI_Controller {
                                 {
                                    $classification = $this->pm->get_classification(array_unique($commission_id),$ins_classification,$policy_type);
                                 
-                                    if(count($classification > 0))
+                                    if (count($classification) > 0)
                                     {
                                        $commission_id = [];
                                        
@@ -12499,7 +12521,7 @@ class PayoutCtrl extends CI_Controller {
                                 {
                                    $classification = $this->pm->get_classification(array_unique($commission_id),$ins_classification,$policy_type);
                                 
-                                    if(count($classification > 0))
+                                    if (count($classification) > 0)
                                     {
                                        $commission_id = [];
                                        
@@ -12999,7 +13021,7 @@ class PayoutCtrl extends CI_Controller {
                                 {
                                    $classification = $this->pm->get_classification(array_unique($commission_id),$ins_classification,$policy_type);
                                 
-                                    if(count($classification > 0))
+                                    if (count($classification) > 0)
                                     {
                                        $commission_id = [];
                                        
@@ -13289,7 +13311,7 @@ class PayoutCtrl extends CI_Controller {
                                 }
                            }
                     }
-        }  
+            }  
         }
             
             
@@ -13552,62 +13574,63 @@ class PayoutCtrl extends CI_Controller {
              }
         }
         
-     public function fetch_agent_extra_com_details()
-     {
-         if($this->session->has_userdata('logged_in')) 
-         {
-                 $agent_id = $this->input->post("id");
-                 $month = "2022-10-01"; //$this->input->post("month");
-                 
-                 $res = $this->pm->fetch_agent_extra_com_details($agent_id,$month);
-                 
+        public function fetch_agent_extra_com_details()
+        {
+            if($this->session->has_userdata('logged_in')) 
+            {
+                    $agent_id = $this->input->post("id");
+                    $month = "2022-10-01"; //$this->input->post("month");
+                    
+                    $res = $this->pm->fetch_agent_extra_com_details($agent_id,$month);
+                    
 
-                 $content = "";
-                 $content .="<table class='table table-bordered'>
+                    $content = "";
+                    $content .="<table class='table table-bordered'>
                                 <thead>
-                                       <tr>
-                                           <th>S.no</th>
-                                           <th>Policy Type</th>
-                                           <th>Policy Covers</th>
-                                           <th>Target Type</th>
-                                           <th>Target Value</th>
-                                           <th>Extra Com(%)</th>
-                                           <th>Date</th>
-                                           <th>Action</th>
-                                       </tr>
+                                        <tr>
+                                            <th>S.no</th>
+                                            <th>Policy Type</th>
+                                            <th>Policy Covers</th>
+                                            <th>Target Type</th>
+                                            <th>Target Value</th>
+                                            <th>Extra Com(%)</th>
+                                            <th>Date</th>
+                                            <th>Action</th>
+                                        </tr>
                                 </thead><tbody>";
-                 
-                 
-                 $a = 0;
-                 
-                 foreach($res as $da)
-                 {
-                     $a++;
-                     
-                         
-                 $action = "<button class='btn btn-warning btn-xs' onclick=edit_data(".$da->id.")><i class='fa fa-pencil-square-o'></i></button> 
-                    	 <button class='btn btn-danger btn-xs' onclick=delete_data(".$da->id.")><i class='fa fa-trash-o'></i></button>";
-                     
-                     $res_1 = $this->pm->get_policy_cover_types($da->id);
-                     $content .="<tr>
-                                         <td>".$a."</td>
-                                         <td>".$da->p_type."</td>
-                                         <td>".$res_1->pc_name."</td>
-                                         <td>".$da->target."</td>
-                                         <td>".$da->target_val."</td>
-                                         <td>".$da->extra_com."(%)</td>
-                                         <td>".date_format(date_create($da->created_date),"d-m-Y h:i:s a")."</td>
-                                         <td>".$action."</td>
-                                 </tr>";
-                 }
-                  $content .="</tbody></table>";
-                  echo $content;
-         }
-     }
+                    
+                    
+                    $a = 0;
+                    
+                    foreach($res as $da)
+                    {
+                        $a++;
+                        
+                            
+                    $action = "<button class='btn btn-warning btn-xs' onclick=edit_data(".$da->id.")><i class='fa fa-pencil-square-o'></i></button> 
+                            <button class='btn btn-danger btn-xs' onclick=delete_data(".$da->id.")><i class='fa fa-trash-o'></i></button>";
+                        
+                        $res_1 = $this->pm->get_policy_cover_types($da->id);
+                        $content .="<tr>
+                                            <td>".$a."</td>
+                                            <td>".$da->p_type."</td>
+                                            <td>".$res_1->pc_name."</td>
+                                            <td>".$da->target."</td>
+                                            <td>".$da->target_val."</td>
+                                            <td>".$da->extra_com."(%)</td>
+                                            <td>".date_format(date_create($da->created_date),"d-m-Y h:i:s a")."</td>
+                                            <td>".$action."</td>
+                                    </tr>";
+                    }
+                    $content .="</tbody></table>";
+                    echo $content;
+            }
+        }
      
      
      
-    function update_commission_by_policy($lead_id) {
+    function update_commission_by_policy($lead_id) 
+    {
         
         if( isset( $lead_id ) && !empty( $lead_id ) )
         {
@@ -13994,80 +14017,80 @@ class PayoutCtrl extends CI_Controller {
                 	            $this->audit->log('acc_commission_ledger_orc', 'UPDATE', null, $ocom_credit_data, $com_credit);
                 	        }
         				}
-/*        				
-        				$update = $this->cm->update_commissions_by_lead_id($data,$lead_id);
-        				if( $update ) {
-            	            $this->audit->log('policy_info', 'UPDATE', null, $_policies, $data);
-            	        }
-        				$agc_credit = array(
-        					'credit'=>$jayantha_agent_commission,
-        				);
-        				$agc_debit = array(
-        					'debit'=>$jayantha_agent_commission,
-        				);
-        				$com_credit = array(
-        					'credit'=>$jayantha_commission,
-        				);
-        				
-        				
-        				$agc_credit_data = $this->cm->getAccountsByLead($lead_id, 'Agent commission Credit', 'acc_commission_ledger');
-        				
-        				$agc_credit_res = $this->cm->accouts_update($agc_credit,'jayantha',$lead_id,'Agent commission Credit');
-        				
-        				if( $agc_credit_res ) {
-            	            $this->audit->log('acc_commission_ledger', 'UPDATE', null, $agc_credit_data, $agc_credit);
-            	        }
-            	        
-            	        $agc_debit_data = $this->cm->getAccountsByLead($lead_id, 'Own commission Debit', 'acc_commission_ledger');
-            	        
-            	        $agc_credit_res = $this->cm->accouts_update($agc_debit,'jayantha',$lead_id,'Own commission Debit');
-            	        
-            	        if( $agc_credit_res ) {
-            	            $this->audit->log('acc_commission_ledger', 'UPDATE', null, $agc_debit_data, $agc_debit);
-            	        }
-            	        
-            	        $com_credit_data = $this->cm->getAccountsByLead($lead_id, 'Own commission Credit', 'acc_commission_ledger');
-            	        
-            	        $com_credit_res = $this->cm->accouts_update($com_credit,'jayantha',$lead_id,'Own commission Credit');
-            	        
-            	        if( $com_credit_res ) {
-            	            $this->audit->log('acc_commission_ledger', 'UPDATE', null, $com_credit_data, $com_credit);
-            	        }
-        				
-        				$agc_credit = array(
-        					'credit'=>$agent_commission,
-        				);
-        				$agc_debit = array(
-        					'debit'=>$agent_commission,
-        				);
-        				$com_credit = array(
-        					'credit'=>$company_com,
-        				);
-        				        			        				
-        				$oagc_credit_data = $this->cm->getAccountsByLead($lead_id, 'Agent commission Credit', 'acc_commission_ledger_orc');
-        				
-        				$oagc_credit_res = $this->cm->accouts_update($agc_credit,'unicorn',$lead_id,'Agent commission Credit');
-        				
-        				if( $agc_credit_res ) {
-            	            $this->audit->log('acc_commission_ledger_orc', 'UPDATE', null, $oagc_credit_data, $agc_credit);
-            	        }
-            	        
-            	        $oagc_debit_data = $this->cm->getAccountsByLead($lead_id, 'Own commission Debit', 'acc_commission_ledger_orc');
-            	        
-        				$oagc_debit_res = $this->cm->accouts_update($agc_debit,'unicorn',$lead_id,'Own commission Debit');
-        				
-        				if( $oagc_debit_res ) {
-            	            $this->audit->log('acc_commission_ledger_orc', 'UPDATE', null, $oagc_debit_data, $agc_debit);
-            	        }
-        				
-        				$ocom_credit_data = $this->cm->getAccountsByLead($lead_id, 'Own commission Credit', 'acc_commission_ledger_orc');
-        				
-        				$ocom_credit_res = $this->cm->accouts_update($com_credit,'unicorn',$lead_id,'Own commission Credit');
-        				
-        				if( $ocom_credit_res ) {
-            	            $this->audit->log('acc_commission_ledger_orc', 'UPDATE', null, $ocom_credit_data, $com_credit);
-            	        }
-*/        				
+                             /*        				
+                            $update = $this->cm->update_commissions_by_lead_id($data,$lead_id);
+                            if( $update ) {
+                                $this->audit->log('policy_info', 'UPDATE', null, $_policies, $data);
+                            }
+                            $agc_credit = array(
+                                'credit'=>$jayantha_agent_commission,
+                            );
+                            $agc_debit = array(
+                                'debit'=>$jayantha_agent_commission,
+                            );
+                            $com_credit = array(
+                                'credit'=>$jayantha_commission,
+                            );
+                            
+                            
+                            $agc_credit_data = $this->cm->getAccountsByLead($lead_id, 'Agent commission Credit', 'acc_commission_ledger');
+                            
+                            $agc_credit_res = $this->cm->accouts_update($agc_credit,'jayantha',$lead_id,'Agent commission Credit');
+                            
+                            if( $agc_credit_res ) {
+                                $this->audit->log('acc_commission_ledger', 'UPDATE', null, $agc_credit_data, $agc_credit);
+                            }
+                            
+                            $agc_debit_data = $this->cm->getAccountsByLead($lead_id, 'Own commission Debit', 'acc_commission_ledger');
+                            
+                            $agc_credit_res = $this->cm->accouts_update($agc_debit,'jayantha',$lead_id,'Own commission Debit');
+                            
+                            if( $agc_credit_res ) {
+                                $this->audit->log('acc_commission_ledger', 'UPDATE', null, $agc_debit_data, $agc_debit);
+                            }
+                            
+                            $com_credit_data = $this->cm->getAccountsByLead($lead_id, 'Own commission Credit', 'acc_commission_ledger');
+                            
+                            $com_credit_res = $this->cm->accouts_update($com_credit,'jayantha',$lead_id,'Own commission Credit');
+                            
+                            if( $com_credit_res ) {
+                                $this->audit->log('acc_commission_ledger', 'UPDATE', null, $com_credit_data, $com_credit);
+                            }
+                            
+                            $agc_credit = array(
+                                'credit'=>$agent_commission,
+                            );
+                            $agc_debit = array(
+                                'debit'=>$agent_commission,
+                            );
+                            $com_credit = array(
+                                'credit'=>$company_com,
+                            );
+                                                                        
+                            $oagc_credit_data = $this->cm->getAccountsByLead($lead_id, 'Agent commission Credit', 'acc_commission_ledger_orc');
+                            
+                            $oagc_credit_res = $this->cm->accouts_update($agc_credit,'unicorn',$lead_id,'Agent commission Credit');
+                            
+                            if( $agc_credit_res ) {
+                                $this->audit->log('acc_commission_ledger_orc', 'UPDATE', null, $oagc_credit_data, $agc_credit);
+                            }
+                            
+                            $oagc_debit_data = $this->cm->getAccountsByLead($lead_id, 'Own commission Debit', 'acc_commission_ledger_orc');
+                            
+                            $oagc_debit_res = $this->cm->accouts_update($agc_debit,'unicorn',$lead_id,'Own commission Debit');
+                            
+                            if( $oagc_debit_res ) {
+                                $this->audit->log('acc_commission_ledger_orc', 'UPDATE', null, $oagc_debit_data, $agc_debit);
+                            }
+                            
+                            $ocom_credit_data = $this->cm->getAccountsByLead($lead_id, 'Own commission Credit', 'acc_commission_ledger_orc');
+                            
+                            $ocom_credit_res = $this->cm->accouts_update($com_credit,'unicorn',$lead_id,'Own commission Credit');
+                            
+                            if( $ocom_credit_res ) {
+                                $this->audit->log('acc_commission_ledger_orc', 'UPDATE', null, $ocom_credit_data, $com_credit);
+                            }
+                             */        				
         				
         				return;
         		}

@@ -72,6 +72,8 @@ class CI_Loader {
 	protected $lang;
 	protected $load;
 	protected $db;
+	protected $invoiceorcModel;
+	protected $invoiceorcrevModel;
 	
 	protected $benchmark;
 	

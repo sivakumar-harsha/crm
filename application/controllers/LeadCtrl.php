@@ -1882,6 +1882,779 @@ class LeadCtrl extends CI_Controller {
     	    echo $html;
       }
   
+        // public function save_generated_policy()
+        // {
+        //     if($this->session->has_userdata('logged_in'))
+        //     {
+        //         //$renewal_by = $this->input->post("renewal_by");
+        //         $policy_no = $this->input->post("policy_no");
+        //         $policy_source = $this->input->post("policy_source");
+        //         $lead_created_by = $this->session->userdata('session_name');
+        //         $category = $this->session->userdata('category');
+        //         $ncb = $this->input->post("ncb"); 
+        //         $total_premium = $this->input->post("total_premium");
+        //         $lead_id = $this->input->post("lead_id");
+        //         $policy_premium= $this->input->post("policy_premium");
+        //         $commission_id = $this->input->post("commission_id");
+        //         $policy_agency_pos = $this->input->post("policy_agency_pos");
+        //         $company = $this->input->post("company");
+        //         $no_claim_bonus = $this->input->post("no_claim_bonus");
+        //         $class_type = $this->lm->get_class_type($lead_id);
+        //         $agent_commission = 0;
+        //         $company_com = 0;
+        //         $jayantha_commission = 0;
+        //         $jayantha_agent_commission = 0;
+        //         $add_ons_1  = $this->input->post("add_ons_1");
+        //         $add_ons_2  = $this->input->post("add_ons_2");
+        //         $add_ons_3  = $this->input->post("add_ons_3");
+        //         $add_ons_4  = $this->input->post("add_ons_4");
+        //         $add_ons_5  = $this->input->post("add_ons_5");
+        //         $add_ons_1_details  = $this->input->post("add_ons_1_details");
+        //         $add_ons_2_details  = $this->input->post("add_ons_2_details");
+        //         $add_ons_3_details  = $this->input->post("add_ons_3_details");
+        //         $add_ons_4_details  = $this->input->post("add_ons_4_details");
+        //         $add_ons_5_details  = $this->input->post("add_ons_5_details");
+        //         $own_damage = $this->input->post("total_own_damage");
+        //         $tp = $this->input->post("tot_liability_premium");
+        //         $cpa = $this->input->post("cpa");
+                
+        //         $commission_type = "";
+        //         $status = "0";
+
+        //     // ✅ Commission ID safe guard: if empty, skip all commission logic
+        //     if (empty($commission_id)) {
+        //         $company_com = 0;
+        //         $agent_commission = 0;
+        //         $jayantha_commission = 0;
+        //         $jayantha_agent_commission = 0;
+        //         $commission_type = "No Slab";
+        //         log_message('info', '🟡 Policy saved without commission slab for lead ID: ' . $lead_id);
+        //     } else {
+       
+        //             if($class_type->class == "1")
+        //             {
+        //                     $get_lead_info = $this->lm->get_lead_info($lead_id);
+        //                     $bussiness_type = $get_lead_info->business_type;
+        //                     $policy_class = $get_lead_info->class;
+        //                     $policy_type =  $get_lead_info->policy_type;
+        //                     $fuel_type = $get_lead_info->vechi_fuel_type;
+        //                     $cc  = $get_lead_info->vechi_cc;
+        //                     $v_gvw = $get_lead_info->vechi_gvw;
+        //                     $make = $get_lead_info->vechi_make;
+        //                     $model = $get_lead_info->vechi_model;
+        //                     $Varient = $get_lead_info->vechi_varient;
+        //             }
+        //             else if($class_type->class == "2")
+        //             {
+        //                 $bussiness_type = $class_type->business_type;
+        //                 $policy_class = $class_type->class;
+        //                 $policy_type =  $class_type->policy_type;
+        //                 $state = "";
+        //                 $age ="";
+        //                 $rto = "";
+                        
+        //                 $disease_husband= $this->input->post("disease_husband");
+        //                 $husband_file= $this->input->post("husband_file");
+        //                 $disease_wife= $this->input->post("disease_husband");
+        //                 $wife_file= $this->input->post("husband_file");
+        //                 $daughter_count = $this->input->post("daughter_count");
+        //                 $son_count = $this->input->post("son_count");
+        //                 $disease_daug_1= $this->input->post("disease_daug_1");
+        //                 $disease_daug_2= $this->input->post("disease_daug_2");
+        //                 $disease_daug_3= $this->input->post("disease_daug_3");
+        //                 $daug_1_file= $this->input->post("daug_1_file");
+        //                 $daug_2_file= $this->input->post("daug_2_file");
+        //                 $daug_2_file= $this->input->post("daug_2_file");
+        //                 $disease_son_1= $this->input->post("disease_son_1");
+        //                 $disease_son_2= $this->input->post("disease_son_2");
+        //                 $disease_son_3= $this->input->post("disease_son_3");
+        //                 $son_1_file= $this->input->post("son_1_file");
+        //                 $son_2_file= $this->input->post("son_2_file");
+        //                 $son_3_file= $this->input->post("son_3_file");
+        //                 $disease_father= $this->input->post("disease_father");
+        //                 $disease_mother= $this->input->post("disease_mother");
+        //                 $father_file= $this->input->post("father_file");
+        //                 $mother_file= $this->input->post("mother_file");
+        //             }
+        //             $res = $this->lm->fetch_policy_info($commission_id);
+        //             $agn_commission_type = $res->agn_com_type;
+                    
+        //             $ird_od_commission = (isset($res->ird_od_commission) && ($res->ird_od_commission) > 0) ? $res->ird_od_commission : 0;
+        //             $ird_tp_commission = (isset($res->ird_tp_commission) && ($res->ird_tp_commission) > 0) ? $res->ird_tp_commission : 0;
+                    
+        //             if($agn_commission_type != "TP")
+        //             {
+        //                 $jayantha_commission = ($own_damage * $ird_od_commission)/100;
+        //                 $jayantha_agent_commission = ($own_damage * $ird_od_commission)/100;
+        //             }
+        //             if($agn_commission_type != "OD")
+        //             {
+        //                 $jayantha_commission = (float)$jayantha_commission + (($tp * $ird_tp_commission)/100);   
+        //             }
+                    
+        //             if($agn_commission_type == "OD_AND_TP")
+        //             {
+        //                 $a = ($own_damage * $ird_od_commission)/100;
+        //                 $b = (float)$jayantha_commission + (($tp * $ird_tp_commission)/100);   
+        //                 $jayantha_commission=$a+$b;
+        //             }
+        		
+        //             if($class_type->class == "1")
+        //             {
+        //                 $res = $this->lm->fetch_policy_info($commission_id);
+        //                 $commission_type = $res->commission_type;
+                        
+        //                 if($res != null && $res->commission_type == "2" || $res->commission_type == "3" || $res->commission_type == "1")
+        //                 {
+        //                     $spl_com = $this->lm->check_spl_commission_for_agent($commission_id,$policy_agency_pos); 
+                                 
+        //                         if($res->is_ncb == "Yes" && $no_claim_bonus == "Yes")
+        //                         {
+        //                                   $status = "1";
+        //                                   $company_com = $total_premium * ($res->ncb_percentage)/100;
+        //                                   $agent_status = $this->lm->fetch_agent_category($policy_agency_pos);
+                                     
+        //                                    if($spl_com != null || $spl_com != "")
+        //                                    {
+                                               
+        //                                           if($res->agn_com_type == "OD")
+        //                                           {
+        //                                               $agent_commission = ($own_damage * $spl_com->special_com)/100;
+        //                                           }
+        //                                           else if($res->agn_com_type == "TP")
+        //                                           {
+        //                                                $agent_commission = ($tp * $spl_com->special_com)/100;
+        //                                           }
+        //                                           else if($res->agn_com_type == "ON-NET")
+        //                                           {
+        //                                               $agent_commission = ($total_premium * $spl_com->special_com)/100;
+        //                                           }
+        //                                           else if($res->agn_com_type == "OD_AND_TP")
+        //                                           {
+        //                                               $agent_commission = ($total_premium * $spl_com->special_com)/100;
+        //                                           }
+        //                                    }
+        //                                    else
+        //                                    {
+        //                                       if($agent_status->commission_category == "A")
+        //                                       {
+        //                                           $agent_commission = ($total_premium * $res->a_ncb)/100;
+        //                                       }
+        //                                       else if($agent_status->commission_category == "B")
+        //                                       {
+        //                                             $agent_commission = ($total_premium * $res->b_ncb)/100;
+        //                                       }
+        //                                       else if($agent_status->commission_category == "C")
+        //                                       {
+        //                                             $agent_commission = ($total_premium * $res->c_ncb)/100;
+        //                                       }
+        //                                       else if($agent_status->commission_category == "D")
+        //                                       {
+        //                                          $agent_commission = ($total_premium * $res->d_ncb)/100;
+        //                                       }
+        //                                    }
+        //                         }
+        //                         else
+        //                         {
+                                    
+        //                             if($res->on_net != "0")
+        //                             {
+        //                                 $own_od = "";
+        //                                 $own_tp = "";
+        //                                 $company_com = $total_premium * ($res->on_net)/100;
+        //                                 $on_net = $company_com;
+        //                             }
+        //                             else if($res->own_od != "0" && $res->own_tp != "0")
+        //                             {
+        //                                 $own_od = $own_damage * ($res->own_od)/100;
+        //                                 $own_tp = $tp * ($res->own_tp)/100;
+        //                                 $company_com = $own_od+$own_tp;
+        //                                 $on_net = "";
+        //                             }
+        //                             else if($res->own_od != "0")
+        //                             {
+        //                                 $on_net = ""; 
+        //                                 $own_tp = "";
+        //                                 $company_com = $own_damage * ($res->own_od)/100;
+        //                                 $own_od = $company_com;
+        //                             }
+        //                             else if($res->own_tp != "0")
+        //                             {
+        //                                 $own_od = ""; 
+        //                                 $on_net = "";
+        //                                 $company_com = $tp * ($res->own_tp)/100;
+        //                                 $own_tp = $company_com;
+        //                             }
+                                
+        //                             if($spl_com != null || $spl_com != "")
+        //                             {
+                                        
+        //                                       if($res->agn_com_type == "OD")
+        //                                       {
+        //                                           $agent_commission = ($own_damage * $spl_com->special_com)/100;
+        //                                       }
+        //                                       else if($res->agn_com_type == "TP")
+        //                                       {
+        //                                            $agent_commission = ($tp * $spl_com->special_com)/100;
+        //                                       }
+        //                                       else if($res->agn_com_type == "ON-NET")
+        //                                       {
+        //                                           $agent_commission = ($total_premium * $spl_com->special_com)/100;
+        //                                       }
+        //                                       else if($res->agn_com_type == "OD_AND_TP")
+        //                                       {
+        //                                           $agent_commission = ($total_premium * $spl_com->special_com)/100;
+        //                                       }
+        //                                }
+        //                             else
+        //                             {
+        //                                   $agent_status = $this->lm->fetch_agent_category($policy_agency_pos);
+                                          
+        //                                   if($res->agn_com_type == "OD")
+        //                                   {
+        //                                       if($agent_status->commission_category == "A")
+        //                                       {
+        //                                           $agent_commission = ($own_damage * $res->a_od)/100;
+        //                                       }
+        //                                       else if($agent_status->commission_category == "B")
+        //                                       {
+        //                                           $agent_commission = ($own_damage * $res->b_od)/100;
+        //                                       }
+        //                                       else if($agent_status->commission_category == "C")
+        //                                       {
+        //                                          echo $agent_commission = ($own_damage * $res->c_od)/100;
+        //                                       }
+        //                                       else if($agent_status->commission_category == "D")
+        //                                       {
+        //                                           $agent_commission = ($own_damage * $res->d_od)/100;
+        //                                       }
+        //                                   }
+        //                                   else if($res->agn_com_type == "TP")
+        //                                   {
+        //                                       if($agent_status->commission_category == "A")
+        //                                       {
+        //                                           $agent_commission = ($tp * $res->a_tp)/100;
+        //                                       }
+        //                                       else if($agent_status->commission_category == "B")
+        //                                       {
+        //                                           $agent_commission = ($tp * $res->b_tp)/100;
+        //                                       }
+        //                                       else if($agent_status->commission_category == "C")
+        //                                       {
+        //                                           $agent_commission = ($tp * $res->c_tp)/100;
+        //                                       }
+        //                                       else if($agent_status->commission_category == "D")
+        //                                       {
+        //                                           $agent_commission = ($tp * $res->d_tp)/100;
+        //                                       }
+        //                                   }
+        //                                   else if($res->agn_com_type == "ON-NET")
+        //                                   {
+        //                                       if($agent_status->commission_category == "A")
+        //                                       {
+        //                                           $agent_commission = ($total_premium * $res->a_net)/100;
+        //                                       }
+        //                                       else if($agent_status->commission_category == "B")
+        //                                       {
+        //                                           $agent_commission = ($total_premium * $res->b_net)/100;
+        //                                       }
+        //                                       else if($agent_status->commission_category == "C")
+        //                                       {
+        //                                           $agent_commission = ($total_premium * $res->c_net)/100;
+        //                                       }
+        //                                       else if($agent_status->commission_category == "D")
+        //                                       {
+        //                                           $agent_commission = ($total_premium * $res->d_net)/100;
+        //                                       }
+        //                                   }
+        //                                   else if($res->agn_com_type == "OD_AND_TP")
+        //                                   {
+        //                                       if($agent_status->commission_category == "A")
+        //                                       {
+        //                                           $agent_od = ($own_damage * $res->a_od)/100;
+        //                                           $agent_tp = ($tp * $res->a_tp)/100;
+        //                                           $agent_commission = $agent_od+$agent_tp;
+        //                                       }
+        //                                       else if($agent_status->commission_category == "B")
+        //                                       {
+        //                                           $agent_od = ($own_damage * $res->b_od)/100;
+        //                                           $agent_tp = ($tp * $res->b_tp)/100;
+        //                                           $agent_commission = $agent_od+$agent_tp;
+        //                                       }
+        //                                       else if($agent_status->commission_category == "C")
+        //                                       {
+        //                                           $agent_od = ($own_damage * $res->c_od)/100;
+        //                                           $agent_tp = ($tp * $res->c_tp)/100;
+        //                                           $agent_commission = $agent_od+$agent_tp;
+        //                                       }
+        //                                       else if($agent_status->commission_category == "D")
+        //                                       {
+        //                                           $agent_od = ($own_damage * $res->d_od)/100;
+        //                                           $agent_tp = ($tp * $res->d_tp)/100;
+        //                                           $agent_commission = $agent_od+$agent_tp;
+        //                                       }
+        //                                  }
+        //                                }
+        //                         }
+        //                 }
+        //             }
+        //             else
+        //             {
+        //                 $res = $this->lm->fetch_policy_info($commission_id);
+        //                 $commission_type = $res->commission_type;
+                    
+        //                 if($res != null && $res->commission_type == "3" || $res->commission_type == "1")
+        //                 {
+        //                         if($res->is_ncb == "Yes" && $no_claim_bonus == "Yes")
+        //                         {
+        //                                   $company_com = $total_premium * ($res->ncb_percentage)/100;
+        //                                   $agent_status = $this->lm->fetch_agent_category($policy_agency_pos);
+                                     
+        //                                   if($agent_status->commission_category == "A")
+        //                                   {
+        //                                       $agent_commission = ($total_premium * $res->a_ncb)/100;
+        //                                   }
+        //                                   else if($agent_status->commission_category == "B")
+        //                                   {
+        //                                         $agent_commission = ($total_premium * $res->b_ncb)/100;
+        //                                   }
+        //                                   else if($agent_status->commission_category == "C")
+        //                                   {
+        //                                         $agent_commission = ($total_premium * $res->c_ncb)/100;
+        //                                   }
+        //                                   else if($agent_status->commission_category == "D")
+        //                                   {
+        //                                         $agent_commission = ($total_premium * $res->d_ncb)/100;
+        //                                   }
+        //                         }
+        //                         else 
+        //                         {
+        //                             if($res->on_net != "0")
+        //                             {
+        //                                 $own_od = "";
+        //                                 $own_tp = "";
+        //                                 $company_com = $total_premium * ($res->on_net)/100;
+        //                                 $on_net = $company_com;
+        //                             }
+                                    
+        //                              $agent_status = $this->lm->fetch_agent_category($policy_agency_pos);
+                                     
+        //                                   if($agent_status->commission_category == "A")
+        //                                   {
+        //                                       $agent_commission = ($total_premium * $res->a_net)/100;
+        //                                   }
+        //                                   else if($agent_status->commission_category == "B")
+        //                                   {
+        //                                       $agent_commission = ($total_premium * $res->b_net)/100;
+        //                                   }
+        //                                   else if($agent_status->commission_category == "C")
+        //                                   {
+        //                                       $agent_commission = ($total_premium * $res->c_net)/100;
+        //                                   }
+        //                                   else if($agent_status->commission_category == "D")
+        //                                   {
+        //                                       $agent_commission = ($total_premium * $res->d_net)/100;
+        //                                   }
+        //                         }
+        //                 }
+        //             }
+        //     }
+
+        //             if($company_com <= $jayantha_commission)
+        //             {
+        //                 $jayantha_commission = $company_com;
+        //                 $company_com = 0;
+        //             }
+        //             else
+        //             {
+        //                  $company_com = $company_com - $jayantha_commission;
+        //             }
+                    
+        //              if($agent_commission <= $jayantha_agent_commission)
+        //             {
+        //                    $jayantha_agent_commission = $agent_commission;
+        //                    $agent_commission = 0;
+        //                    // $jayantha_agent_commission;
+        //             }
+        //             else
+        //             {
+        //                 $agent_commission = $agent_commission - $jayantha_agent_commission;
+        //             }
+                        
+        //                 // for jayantha and  unicorn commission combine - 19.05.2025
+        //                   $jayantha_agent_commission= $jayantha_agent_commission+$agent_commission;
+        //                   $agent_commission=0;
+                    
+                    
+                  
+        // 	        $data = array(
+        //                 "lead_id" =>$this->input->post("lead_id"),
+        //            //     "renewal_user" =>$this->input->post("renewal_user"),
+        //                 "policy_client_ref_no"=> $this->input->post("policy_client_ref_no"),
+        //                 "policy_cover_note_no"=> $this->input->post("policy_cover_note_no"),
+        //                 "policy_no"=> $this->input->post("policy_no"),
+        //                 "policy_s_date"=> $this->input->post("policy_s_date"),
+        //                 "policy_ex_date"=> $this->input->post("policy_ex_date"),
+        //                 "policy_premium"=> $this->input->post("policy_premium"),
+        //                 "policy_terms"=> $this->input->post("policy_terms"),
+        //                 "payment_frequency"=> $this->input->post("payment_frequency"),
+        //                 "next_due_date"=> $this->input->post("next_due_date"),
+        //                 "renewable_flag"=> $this->input->post("renewable_flag"),
+        //                 "add_ons_opted"=> $this->input->post("add_ons_opted"),
+        //                 "add_ons_not_opt" =>$this->input->post("add_ons_not_opt"),
+        //                 "lead_type" =>"2",
+        //                 "sum_insured"=> $this->input->post("sum_insured"),
+        //                 "discount_percent"=> $this->input->post("discount_percent"),
+        //                 "no_claim_bonus"=> $this->input->post("no_claim_bonus"),
+        //                 "no_claim_bonus_val"=> $this->input->post("no_claim_bonus_val"),
+        //                 "cpa"=> $this->input->post("cpa"),
+        //                 "total_own_damage"=> $this->input->post("total_own_damage"),
+        //                 "tot_add_on_premium"=> $this->input->post("tot_add_on_premium"),
+        //                 "commisson_base_premium"=> $this->input->post("commisson_base_premium"),
+        //                 "basic_tp"=> $this->input->post("basic_tp"),
+        //                 "owner_driver_pa"=> $this->input->post("owner_driver_pa"),
+        //                 "owner_diver_amt"=> $this->input->post("owner_diver_amt"),
+        //                 "no_of_year_own_drv"=> $this->input->post("no_of_year_own_drv"),
+        //                 "fuel_kit"=> $this->input->post("fuel_kit"),
+        //                 "fuel_kit_amt"=> $this->input->post("fuel_kit_amt"),
+        //                 "geograpical"=> $this->input->post("geograpical"),
+        //                 "geograpical_amt"=> $this->input->post("geograpical_amt"),
+        //                 "un_named_passenger_pa"=> $this->input->post("un_named_passenger_pa"),
+        //                 "un_named_passenger_amt"=> $this->input->post("un_named_passenger_amt"),
+        //                 "no_seats_per_person"=> $this->input->post("no_seats_per_person"),
+        //                 "no_seats_per_person_amt"=> $this->input->post("no_seats_per_person_amt"),
+        //                 "LL_paid "=> $this->input->post("llp"),
+        //                 "LL_paid_amt"=> $this->input->post("llp_amt"),
+        //                 "no_drv_emp"=> $this->input->post("no_drv_emp"),
+        //                 "pa_paid_drv"=> $this->input->post("pa_paid_drv"),
+        //                 "pa_paid_drv_amt"=> $this->input->post("pa_paid_drv_amt"),
+        //                 "no_seats_per_person1"=> $this->input->post("no_seats_per_person1"),
+        //                 "no_seats_per_person_amt1"=> $this->input->post("no_seats_per_person_amt1"),
+        //                 "tot_liability_premium"=> $this->input->post("tot_liability_premium"),
+        //                 "total_premium"=> $this->input->post("total_premium"),
+        //                 "gst"=> $this->input->post("gst"),
+        //                 "premium_gst"=> $this->input->post("premium_gst"),
+        //                 "policy_issue_date"=> $this->input->post("policy_issue_date"),
+        //                 "policy_agency_pos"=> $this->input->post("policy_agency_pos"),
+        //                 "policy_source"=> $this->input->post("policy_source"),
+        //                 "policy_user"=> $this->input->post("policy_user"),
+        //                 "policy_location"=> $this->input->post("policy_location"),
+        //                 "previous_policy_no"=> $this->input->post("previous_policy_no"),
+        //                 "previous_insurer"=> $this->input->post("previous_insurer"),
+        //                 "previous_insurance_type"=> $this->input->post("previous_insurance_type"),
+        //                 "previous_agency_pos"=> $this->input->post("previous_agency_pos"),
+        //                 "previous_source"=> $this->input->post("previous_source"),
+        //                 "dectable_details"=> $this->input->post("dectable_details"),
+        //                 "policy_additional_info"=> $this->input->post("policy_additional_info"),
+        //                 "reference_no"=> $this->input->post("reference_no"),
+        //                 "other_reference_no"=> $this->input->post("other_reference_no"),
+        //                 "policy_received"=> $this->input->post("policy_received"),
+        //                 "policy_verified"=> $this->input->post("policy_verified"),
+        //                 "policy_verified_info"=> $this->input->post("policy_verified_info"),
+        //                 "policy_cancelled"=> $this->input->post("policy_cancelled"),
+        //                 "policy_cancelled_info"=> $this->input->post("policy_cancelled_info"),
+        //                 "commisson_generation"=> $this->input->post("commisson_generation"),
+        //                 "payment_type"=> $this->input->post("payment_type"),
+        //                 "pay_ref_no"=> $this->input->post("pay_ref_no"),
+        //                 "bank_name"=> $this->input->post("bank_name"),
+        //                 "payment_receipt_no"=> $this->input->post("payment_receipt_no"),
+        //                 "payment_check_date"=> $this->input->post("payment_check_date"),
+        //                 "payment_and_check_no"=> $this->input->post("payment_and_check_no"),
+        //                 "remarks"=> $this->input->post("remarks"),
+        //                 //"payment_collected_date"=> $this->input->post("payment_collected_date"),
+        //                 "add_ons_1" =>$add_ons_1,
+        //                 "add_ons_2" =>$add_ons_2,
+        //                 "add_ons_3" =>$add_ons_3,
+        //                 "add_ons_4" =>$add_ons_4,
+        //                 "add_ons_5" =>$add_ons_5,
+        //                 "add_ons_1_details" =>$add_ons_1_details,
+        //                 "add_ons_2_details" =>$add_ons_2_details,
+        //                 "add_ons_3_details" =>$add_ons_3_details,
+        //                 "add_ons_4_details" =>$add_ons_4_details,
+        //                 "add_ons_5_details" =>$add_ons_5_details,
+        //                 "commission_id" => !empty($commission_id) ? $commission_id : NULL, // ✅ NULL safe
+        //                 "company"=> $this->input->post("company"),
+        //                 "commission_type"=> ((isset($commission_type) && !empty($commission_type)) ? $commission_type : 0),
+        //                 "agent_commission_amt"=> $jayantha_agent_commission,
+        //                 "own_commission_amt"=> $jayantha_commission,
+        //                 "agent_commission"=> $agent_commission,
+        //                 "own_commission"=> $company_com,
+        //                 //"remarks"=> $this->input->post("remarks"),
+        //                 "created_by"=> $this->session->userdata('session_id'),
+        //                 "created_at"=> date("Y-m-d H:i:s"),
+        //                 "com_trigger_status" => "1",
+        //                 "com_trigger_date" =>date("Y-m-d"),
+        //                 "calc_com_status" =>"1",
+        //                 );
+                        
+        //             // 2023-06-01 start
+        //             if($class_type->class == "1") {
+        //                 if(in_array($this->input->post('policy_premium'), ['1', '4'])) { 
+        //                     $data['od_start_date']  = $this->input->post('od_start_date');
+        //                     $data['od_end_date']    = $this->input->post('od_end_date');
+        //                     $data['tp_start_date']  = $this->input->post('tp_start_date');
+        //                     $data['tp_end_date']    = $this->input->post('tp_end_date');
+        //                 }
+        //             }
+        //             // 2023-06-01 end
+                        
+        //             if($class_type->class == "2")
+        //             {
+        //                     if(isset($_FILES))
+        //             		{
+        //             			$config['upload_path'] = './datas/Health_declaration/';
+        //             			$config['allowed_types'] = '*';
+                    			
+        //             			$this->load->library('upload',$config);
+        //             			$this->upload->initialize($config);
+        //             			if(!$this->upload->do_upload('husband_file'))
+        //             			{
+        //             				$husband_file = "";
+        //             			}
+        //             			else
+        //             			{
+        //             				$husband_file = $this->upload->data('file_name');
+        //             			}
+        //             		} 
+                    		
+        //             		if(isset($_FILES))
+        //             		{
+        //             			$config['upload_path'] = './datas/Health_declaration/';
+        //             			$config['allowed_types'] = '*';
+                    			
+        //             			$this->load->library('upload',$config);
+        //             			$this->upload->initialize($config);
+        //             			if(!$this->upload->do_upload('wife_file'))
+        //             			{
+        //             				$wife_file = "";
+        //             			}
+        //             			else
+        //             			{
+        //             				$wife_file = $this->upload->data('file_name');
+        //             			}
+        //             		} 
+                    		
+                    		
+        //                     if(isset($_FILES))
+        //                     {
+        //                         $config['upload_path'] = './datas/Health_declaration/';
+        //                         $config['allowed_types'] = '*';
+                                
+        //                         $this->load->library('upload',$config);
+        //                         $this->upload->initialize($config);
+        //                         if(!$this->upload->do_upload('father_file'))
+        //                         {
+        //                                 $father_file = "";
+        //                         }
+        //                         else
+        //                         {
+        //                                 $father_file = $this->upload->data('file_name');
+        //                         }
+        //                     } 
+                            
+        //                     if(isset($_FILES))
+        //                     {
+        //                         $config['upload_path'] = './datas/Health_declaration/';
+        //                         $config['allowed_types'] = '*';
+                                
+        //                         $this->load->library('upload',$config);
+        //                         $this->upload->initialize($config);
+                                
+        //                         if(!$this->upload->do_upload('mother_file'))
+        //                         {
+        //                             $mother_file = "";
+        //                         }
+        //                         else
+        //                         {
+        //                             $mother_file = $this->upload->data('file_name');
+        //                         }
+        //                     } 
+                            
+                           
+        //                     if(isset($_FILES))
+        //                     {
+        //                         $config['upload_path'] = './datas/Health_declaration/';
+        //                         $config['allowed_types'] = '*';
+                                
+        //                         $this->load->library('upload',$config);
+        //                         $this->upload->initialize($config);
+                                
+        //                         if(!$this->upload->do_upload('daug_1_file'))
+        //                         {
+        //                             $daug_1_file = "";
+        //                         }
+        //                         else
+        //                         {
+        //                             $daug_1_file = $this->upload->data('file_name');
+        //                         }
+        //                     }
+                            
+        //                     if(isset($_FILES))
+        //                     {
+        //                         $config['upload_path'] = './datas/Health_declaration/';
+        //                         $config['allowed_types'] = '*';
+                                
+        //                         $this->load->library('upload',$config);
+        //                         $this->upload->initialize($config);
+                                
+        //                         if(!$this->upload->do_upload('daug_2_file'))
+        //                         {
+        //                             $daug_2_file = "";
+        //                         }
+        //                         else
+        //                         {
+        //                             $daug_2_file = $this->upload->data('file_name');
+        //                         }
+        //                     }
+                            
+        //                     if(isset($_FILES))
+        //                     {
+        //                         $config['upload_path'] = './datas/Health_declaration/';
+        //                         $config['allowed_types'] = '*';
+                                
+        //                         $this->load->library('upload',$config);
+        //                         $this->upload->initialize($config);
+                                
+        //                         if(!$this->upload->do_upload('daug_3_file'))
+        //                         {
+        //                             $daug_3_file = "";
+        //                         }
+        //                         else
+        //                         {
+        //                             $daug_3_file = $this->upload->data('file_name');
+        //                         }
+        //                     }
+                            
+        //                     if(isset($_FILES))
+        //                     {
+        //                         $config['upload_path'] = './datas/Health_declaration/';
+        //                         $config['allowed_types'] = '*';
+                                
+        //                         $this->load->library('upload',$config);
+        //                         $this->upload->initialize($config);
+                                
+        //                         if(!$this->upload->do_upload('son_1_file'))
+        //                         {
+        //                             $son_1_file = "";
+        //                         }
+        //                         else
+        //                         {
+        //                             $son_1_file = $this->upload->data('file_name');
+        //                         }
+        //                     }
+                            
+        //                     if(isset($_FILES))
+        //                     {
+        //                         $config['upload_path'] = './datas/Health_declaration/';
+        //                         $config['allowed_types'] = '*';
+                                
+        //                         $this->load->library('upload',$config);
+        //                         $this->upload->initialize($config);
+                                
+        //                         if(!$this->upload->do_upload('son_2_file'))
+        //                         {
+        //                             $son_2_file = "";
+        //                         }
+        //                         else
+        //                         {
+        //                             $son_2_file = $this->upload->data('file_name');
+        //                         }
+        //                     }
+                            
+        //                     if(isset($_FILES))
+        //                     {
+        //                         $config['upload_path'] = './datas/Health_declaration/';
+        //                         $config['allowed_types'] = '*';
+                                
+        //                         $this->load->library('upload',$config);
+        //                         $this->upload->initialize($config);
+                                
+        //                         if(!$this->upload->do_upload('son_3_file'))
+        //                         {
+        //                             $son_3_file = "";
+        //                         }
+        //                         else
+        //                         {
+        //                             $son_3_file = $this->upload->data('file_name');
+        //                         }
+        //                     }
+        //                      $id = $this->input->post("lead_id");
+                        
+        //                $health_details = array(
+        //                     "disease_husband" => ($disease_husband == "undefined") ? ""  : $disease_husband,
+        //                     "husband_file" => ($husband_file == "undefined") ? ""  : $husband_file,
+        //                     "disease_wife" =>($disease_wife == "undefined") ? ""  : $disease_wife,
+        //                     "wife_file" =>($wife_file == "undefined") ? ""  : $wife_file,
+        //                     "disease_daug_1" =>($disease_daug_1 == "undefined") ? ""  : $disease_daug_1,
+        //                     "disease_daug_2" =>($disease_daug_2 == "undefined") ? ""  : $disease_daug_2 ,
+        //                     "disease_daug_3" =>($disease_daug_3 == "undefined") ? ""  : $disease_daug_3,
+        //                     "daug_1_file" =>($daug_1_file == "undefined") ? ""  : $daug_1_file,
+        //                     "daug_2_file" =>($daug_2_file == "undefined") ? ""  : $daug_2_file,
+        //                     "daug_3_file" =>($daug_3_file == "undefined") ? ""  : $daug_3_file,
+        //                     "disease_son_1" =>($disease_son_1 == "undefined") ? ""  : $disease_son_1,
+        //                     "disease_son_2" =>($disease_son_2 == "undefined") ? ""  : $disease_son_2,
+        //                     "disease_son_3" =>($disease_son_3 == "undefined") ? ""  : $disease_son_3,
+        //                     "son_1_file" =>($son_1_file == "undefined") ? ""  : $son_1_file,
+        //                     "son_2_file" =>($son_2_file == "undefined") ? ""  : $son_2_file,
+        //                     "son_3_file" =>($son_3_file == "undefined") ? ""  : $son_3_file ,
+        //                     "disease_father" =>($disease_father == "undefined") ? ""  : $disease_father,
+        //                     "disease_mother" =>($disease_mother == "undefined") ? ""  : $disease_mother,
+        //                     "father_file" =>($father_file == "undefined") ? ""  : $father_file,
+        //                     "mother_file" =>($mother_file == "undefined") ? ""  : $mother_file,
+        //                 );
+                        
+        //                 //$res = $this->lm->update_health_policy_details($health_details,$id);
+                        
+        //                 $_health = $this->lm->get_health_details($id);
+                            
+        //                 $res = $this->lm->update_health_policy_details($health_details,$id);
+                        
+        //                 if( $res ){
+        //     		        $this->audit->log('health_details', 'UPDATE', null, $_health, $health_details);
+        //     		    }
+        //             }
+                    
+        //             if(!$this->lm->check_policy_this_no_already_exits($policy_no))
+        //             {
+        //                 if(!$this->lm->check_lead_id_already_exits_in_policy($lead_id))
+        //                 {
+        //                     $res = $this->lm->save_generated_policy($data);
+        //                     if( $res ){
+        //     	                $this->audit->log('policy_info', 'INSERT', null, null, $data);
+        //     	            }
+        //                     if($res)
+        //                     {
+                                
+        //                         $id = $this->input->post("lead_id");
+        //                         $lead_data = $this->lm->get_receiver_email_id($id);
+        //                         $arr = array("lead_type" =>"2","lead_status"=>"completed");
+        //                         $data_1 = $this->lm->update_lead_type_status($arr,$id);
+        //                         if($data_1){
+        //         	                 $this->audit->log('list_of_leads', 'UPDATE', null, $lead_data, $arr);
+        //         	            }
+        //                         $this->acc_own_commission_ledg($id);
+        //                         $this->acc_agn_commission_ledg($id);
+                                
+        //                     }
+        //                     $activity_log = array("lead_id"=>$id,"action"=>"New Policy Generated","action_type"=>"generate_policy","created_by"=>$this->session->userdata('session_name'),"time"=>date("Y-m-d H:i:s"));
+        //                     $add_activity = $this->lm->add_activity_log($activity_log);
+        //                     if( $add_activity ){
+        //     	                 $this->audit->log('notification_log', 'INSERT', null, null, $activity_log);
+        //     	             }
+        //                     echo "success";
+        //                 }
+        //                 else
+        //                 {
+        //                      echo "Lead Id Already Exits";
+        //                 }
+        //             }
+        //             else
+        //             {
+        //                 echo "Policy No Already Exits";
+        //             }
+        //    }
+        // }
+
         public function save_generated_policy()
         {
             if($this->session->has_userdata('logged_in'))
@@ -1920,6 +2693,36 @@ class LeadCtrl extends CI_Controller {
                 
                 $commission_type = "";
                 $status = "0";
+
+                // ✅ Add this line
+                $policy_issue_date = $this->input->post('policy_issue_date');
+
+                // ✅ Auto-fetch commission using existing model logic if not provided
+                if (empty($commission_id) && !empty($company)) {
+                    $from_date = $policy_issue_date;
+                    $to_date   = $policy_issue_date; // Use issue date to check active slabs
+
+                    // Use the same logic as check_commission_status()
+                    $commission_list = $this->cm->check_commission(
+                        $company,               // insurer_company
+                        $policy_premium,        // premium_c_type
+                        $class_type->class,     // class
+                        $bussiness_type ?? '',  // business_type
+                        $policy_type ?? '',     // policy_type
+                        $state ?? 'All',        // state
+                        $from_date,             // from_date
+                        $to_date                // to_date
+                    );
+
+                    if (!empty($commission_list)) {
+                        $commission_id = $commission_list[0]->id;
+                        log_message('info', '🟢 Auto-linked commission ID '.$commission_id.' via check_commission() for insurer_company '.$company);
+                    } else {
+                        log_message('info', '⚪ No commission found for company '.$company.' — continuing without commission.');
+                    }
+                }
+
+
 
             // ✅ Commission ID safe guard: if empty, skip all commission logic
             if (empty($commission_id)) {
@@ -2270,7 +3073,7 @@ class LeadCtrl extends CI_Controller {
                          $company_com = $company_com - $jayantha_commission;
                     }
                     
-                     if($agent_commission <= $jayantha_agent_commission)
+                    if($agent_commission <= $jayantha_agent_commission)
                     {
                            $jayantha_agent_commission = $agent_commission;
                            $agent_commission = 0;
@@ -2652,8 +3455,10 @@ class LeadCtrl extends CI_Controller {
                     {
                         echo "Policy No Already Exits";
                     }
-           }
+            }
         }
+
+        
     
         public function update_generated_policy()
         {
@@ -3062,8 +3867,8 @@ class LeadCtrl extends CI_Controller {
                      $add_activity = $this->lm->add_activity_log($activity_log);
 					*/
                      echo "success";
+            }
         }
-    }
     
     public function add_health_details()
     {

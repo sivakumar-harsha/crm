@@ -12,6 +12,8 @@ class ReportCtrl extends CI_Controller {
     public $audit_model;
     public $audit;
     public $invoicerevModel;
+    public $invoiceorcModel;
+    public $invoiceorcrevModel;
 
 	public function __construct()
 	{

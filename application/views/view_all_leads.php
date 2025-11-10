@@ -236,7 +236,7 @@ label {
                                      </div>
                                 </div>
                            
-                            <div class="form-group">
+                            <!-- <div class="form-group">
                                 <div class="row">   
                                    <div class="col-md-4">
                                         <label>Landline no</label>
@@ -245,9 +245,9 @@ label {
                                        <p  name="landline_no" id="landline_no"></p>
                                    </div>
                                  </div>
-                            </div>
+                            </div> -->
                                 
-                                 <div class="form-group">
+                                 <!-- <div class="form-group">
                                         <div class="row">   
                                            <div class="col-md-4">
                                                  <label>Address</label>
@@ -256,7 +256,7 @@ label {
                                                <p name="address" id="address" rows="2"></p>
                                            </div>
                                          </div>
-                                 </div>
+                                 </div> -->
                             </div>
                             
                             <div class="col-md-6">
@@ -294,7 +294,7 @@ label {
                                     </div>
                                 </div>
                                 
-                                 <div class="form-group">
+                                 <!-- <div class="form-group">
                                      <div class="row">   
                                        <div class="col-md-4">
                                             <label>Area</label>
@@ -303,7 +303,7 @@ label {
                                             <p name="area" id="area"></p>
                                         </div>
                                     </div>
-                                </div>
+                                </div> -->
                               
                             </div>
                             
@@ -916,15 +916,15 @@ label {
                         $(".modal-title").html(obj["p_info"].client_name + " - Customer Details");
                         $("#client_name").html(obj["p_info"].client_name);
                         $("#v_mobile_no").html(obj["p_info"].mobile_no);
-                        $("#other_contact_details").html(obj["p_info"].other_contact_details);
-                        $("#landline_no").html(obj["p_info"].landline_no);
-                        $("#address").html(obj["p_info"].address);
+                        // $("#other_contact_details").html(obj["p_info"].other_contact_details);
+                        // $("#landline_no").html(obj["p_info"].landline_no);
+                        // $("#address").html(obj["p_info"].address);
                         $("#email_id").html(obj["p_info"].email);
                         $("#cont_person_name").html(obj["p_info"].contact_person_name);
                         $("#cont_person_des").html(obj["p_info"].contact_person_designation);
                         $("#dob").html(obj["p_info"].date_of_birth);
                         $("#age").html(obj["p_info"].age);
-                        $("#area").html(obj["p_info"].area);
+                        // $("#area").html(obj["p_info"].area);
                         $("#view_id").val(id);
                         
                         if(obj["v_info"] == "")

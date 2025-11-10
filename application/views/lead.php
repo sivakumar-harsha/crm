@@ -3404,14 +3404,17 @@
 											<div class="row">
 												<div class="col-md-4"><label>State</label></div>
 												<div class="col-md-8">
+													<!-- hidden state name -->
 													<input type="hidden" id="regn_state_name" name="regn_state_name" />
-													<input
-														type="text"
-														class="form-control"
-														name="regn_state"
-														id="regn_state"
-														placeholder="Enter State"
-													/>
+
+													<select class="form-control select2" name="regn_state" id="regn_state" style="width: 100%">
+														<option value="">--Select--</option>
+														<?php foreach ($state as $s) { ?>
+															<option value="<?php echo $s->id; ?>">
+																<?php echo $s->name; ?>
+															</option>
+														<?php } ?>
+													</select>
 												</div>
 											</div>
 										</div>
@@ -16084,10 +16087,12 @@ From: Anywhere in India To: Anywhere in India</textarea
 							// Set into registration inputs (new IDs)
 							$("#regn_address").val(addr);
 							$("#regn_city").val(district);
-							$("#regn_state").val(clientStateId);
-							$("#regn_state_name").val(clientStateName);
 							$("#regn_country").val(clientCountry);
 							$("#regn_pincode").val(clientPin);
+							$("#regn_state").val(clientStateId).trigger("change");
+							// Also store the text (state name) in hidden field
+							$("#regn_state_name").val(clientStateName);
+
 						}
 
 						// =============================
