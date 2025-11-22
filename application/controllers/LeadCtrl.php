@@ -1350,51 +1350,51 @@ class LeadCtrl extends CI_Controller {
     	     $arr = [];
     	     
     	     $a = $_POST['start'];
-/*    	     
-    	     $res1 = array();
-    	     $res2 = array();
-    	     $res3 = array();
-    	     $res4 = array();
-    	     
-    	     foreach($res as $da)
-    	     {
-    	         if($da->due_date >= date("Y-m-d"))
-    	         {
-    	             $res1[] = $da;
-    	         }
-    	         else if($da->due_date == "0000-00-00")
-    	         {
-    	             $res4[] = $da;
-    	         }
-    	         else
-    	         {
-    	             $res2[] = $da;
-    	         }
-    	     }
-    	     rsort($res2);
-    	     foreach($res1 as $da)
-    	     {
-    	         $res3[] = $da;
-    	     }
-    	     foreach($res2 as $da)
-    	     {
-    	         $res3[] = $da;
-    	     }
-    	     foreach($res4 as $da)
-    	     {
-    	         $res3[] = $da;
-    	     }
-    	     
-    	 function sortByduedate($a, $b){
-    	     $t1 = strtotime($a->due_date);
-    	     $t2 = strtotime($b->due_date);
-    	     return $t2 - $t1;
-    	 }
-    	 if($order_category != "upcoming") {
-    	     usort($res3, 'sortByduedate');
-    	 }
-    	 
-*/    	 
+            /*    	     
+                        $res1 = array();
+                        $res2 = array();
+                        $res3 = array();
+                        $res4 = array();
+                        
+                        foreach($res as $da)
+                        {
+                            if($da->due_date >= date("Y-m-d"))
+                            {
+                                $res1[] = $da;
+                            }
+                            else if($da->due_date == "0000-00-00")
+                            {
+                                $res4[] = $da;
+                            }
+                            else
+                            {
+                                $res2[] = $da;
+                            }
+                        }
+                        rsort($res2);
+                        foreach($res1 as $da)
+                        {
+                            $res3[] = $da;
+                        }
+                        foreach($res2 as $da)
+                        {
+                            $res3[] = $da;
+                        }
+                        foreach($res4 as $da)
+                        {
+                            $res3[] = $da;
+                        }
+                        
+                    function sortByduedate($a, $b){
+                        $t1 = strtotime($a->due_date);
+                        $t2 = strtotime($b->due_date);
+                        return $t2 - $t1;
+                    }
+                    if($order_category != "upcoming") {
+                        usort($res3, 'sortByduedate');
+                    }
+                    
+            */    	 
 
         $res1 = $res2 = $res3 = $res4 = [];
 
@@ -1693,7 +1693,7 @@ class LeadCtrl extends CI_Controller {
        }
   }
   
-   public function edit_follow_up_details()
+    public function edit_follow_up_details()
     {
         if ($this->session->has_userdata('logged_in')) {
             $id = $this->input->post("id");
@@ -2672,7 +2672,35 @@ class LeadCtrl extends CI_Controller {
                 $policy_agency_pos = $this->input->post("policy_agency_pos");
                 $company = $this->input->post("company");
                 $no_claim_bonus = $this->input->post("no_claim_bonus");
+
                 $class_type = $this->lm->get_class_type($lead_id);
+
+                // -------------------------------------------------------------
+                // FIX: ALWAYS INITIALIZE HEALTH VARIABLES HERE
+                // -------------------------------------------------------------
+                $disease_husband = "";
+                $husband_file = "";
+                $disease_wife = "";
+                $wife_file = "";
+                $daughter_count = 0;
+                $son_count = 0;
+                $disease_daug_1 = "";
+                $disease_daug_2 = "";
+                $disease_daug_3 = "";
+                $daug_1_file = "";
+                $daug_2_file = "";
+                $daug_3_file = "";
+                $disease_son_1 = "";
+                $disease_son_2 = "";
+                $disease_son_3 = "";
+                $son_1_file = "";
+                $son_2_file = "";
+                $son_3_file = "";
+                $disease_father = "";
+                $father_file = "";
+                $disease_mother = "";
+                $mother_file = "";
+
                 $agent_commission = 0;
                 $company_com = 0;
                 $jayantha_commission = 0;
@@ -2758,8 +2786,8 @@ class LeadCtrl extends CI_Controller {
                         
                         $disease_husband= $this->input->post("disease_husband");
                         $husband_file= $this->input->post("husband_file");
-                        $disease_wife= $this->input->post("disease_husband");
-                        $wife_file= $this->input->post("husband_file");
+                        $disease_wife= $this->input->post("disease_wife");
+                        $wife_file= $this->input->post("wife_file");
                         $daughter_count = $this->input->post("daughter_count");
                         $son_count = $this->input->post("son_count");
                         $disease_daug_1= $this->input->post("disease_daug_1");
@@ -10312,17 +10340,17 @@ class LeadCtrl extends CI_Controller {
     	           echo json_encode(array("p_info"=>$res,"v_info" =>$v_info,"docs"=>$html,"sme_quote" =>$content_1,"policy_info"=>$content,"policy_docs" =>$policy_docs));
     	}
 	}
+
 	
-	
-     	public function fetch_sme_policy_details()
-	    {
-	        if($this->session->has_userdata('logged_in'))
-    	    {
-    	        $sme_id = $this->input->post("sme_id");
-    	        $res = $this->lm->fetch_sme_policy_details($sme_id);
-    	        echo json_encode($res);
-    	    }
-	    }
+    public function fetch_sme_policy_details()
+    {
+        if($this->session->has_userdata('logged_in'))
+        {
+            $sme_id = $this->input->post("sme_id");
+            $res = $this->lm->fetch_sme_policy_details($sme_id);
+            echo json_encode($res);
+        }
+    }
 	    
 	    
 	public function save_sme_details()

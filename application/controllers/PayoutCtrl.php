@@ -226,23 +226,24 @@ class PayoutCtrl extends CI_Controller {
                  $business_type = $this->input->post("business_type");
                  $ird_od_commission = $this->input->post("ird_od_commission");
                  $ird_tp_commission = $this->input->post("ird_tp_commission");
-                 $premium_c_type = $this->input->post("premium_c_type");
+                 $premium_c_type = ($this->input->post("premium_c_type") == "undefined") ? "" : $this->input->post("premium_c_type");
                  $policy_type = $this->input->post("policy_type");
                  $commission_type = $this->input->post("commission_type");
                  $add_type = $this->input->post("add_type");
                  $v_type = "";
                  
-                 $make = explode(",",$this->input->post("make"));
-                 $model = explode(",",$this->input->post("model"));
-                 $varient = explode(",",$this->input->post("varient"));
+                 $make       = explode(",", $this->input->post("make") ?? "");
+                 $model      = explode(",", $this->input->post("model") ?? "");
+                 $varient    = explode(",", $this->input->post("varient") ?? "");
                  
                  $fuel_type = $this->input->post("fuel_type");
                  $ins_classification = $this->input->post("ins_classification");
                  $ins_state = $this->input->post("ins_state");
-                 $special_com = $this->input->post("special_com");
-                 $add_agency = explode(",",$this->input->post("add_agency"));
+                 $special_com = $this->input->post("special_com") ?? 0;
+                    if($special_com == "undefined" || $special_com == "" || $special_com == null) { $special_com = 0; }
+                 $add_agency = explode(",", $this->input->post("add_agency") ?? "");
                  
-                 $ins_rto = explode(",",$this->input->post("ins_rto"));
+                 $ins_rto    = explode(",", $this->input->post("ins_rto") ?? "");
                  $rto_category = $this->input->post("rto_category");
                  $vehicle_age_min = $this->input->post("vehicle_age_min");
                  $vehicle_age_max = $this->input->post("vehicle_age_max");
@@ -4378,13 +4379,17 @@ class PayoutCtrl extends CI_Controller {
                  $add_type = $this->input->post("add_type");
                  $v_type = "";
                  $id = $this->input->post("id");
-                 $make = explode(",",$this->input->post("make"));
-                 $model = explode(",",$this->input->post("model"));
-                 $varient = explode(",",$this->input->post("varient"));
+                 $make_post = $this->input->post("make");
+                    $make = ($make_post !== null && $make_post !== "") ? explode(",", $make_post) : [];
+                 $model_post = $this->input->post("model");
+                    $model = ($model_post !== null && $model_post !== "") ? explode(",", $model_post) : [];
+                 $varient_post = $this->input->post("varient");
+                    $varient = ($varient_post !== null && $varient_post !== "") ? explode(",", $varient_post) : [];
                  $fuel_type = $this->input->post("fuel_type");
                  $ins_classification = $this->input->post("ins_classification");
                  $ins_state = $this->input->post("ins_state");
-                 $ins_rto = explode(",",$this->input->post("ins_rto"));
+                 $ins_rto_post = $this->input->post("ins_rto");
+                    $ins_rto = ($ins_rto_post !== null && $ins_rto_post !== "") ? explode(",", $ins_rto_post) : [];
                  $vehicle_age_min = $this->input->post("vehicle_age_min");
                  $vehicle_age_max = $this->input->post("vehicle_age_max");
 
@@ -13793,7 +13798,7 @@ class PayoutCtrl extends CI_Controller {
         					   {
                                     if( isset( $cpacategories[$agent_status->commission_category] ) && !empty( $cpacategories[$agent_status->commission_category] ) )
                                     {
-                                        $agent_commission = ($total_premium * $cpacategories[$agent_status->commission_category])/100;
+                                        $agent_commission = ($total_premium * $capcategories[$agent_status->commission_category])/100;
                                     }
         					   }
         				}

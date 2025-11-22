@@ -891,11 +891,11 @@ class LeadMod extends CI_Model
   	        $this->db->where("list_of_leads.id in (select lead_id from vechile_details where lower(vechi_register_no) like '%".strtolower($search_vechicle)."%')", NULL, false);
   	    }
   	    
-  	 /*   if($this->session->userdata('session_role') == "user")
-  	    {
-  	        $this->db->where("list_of_leads.assigned_user",$this->session->userdata('session_id'));
-  	    }
-  	    */
+		/*   if($this->session->userdata('session_role') == "user")
+			{
+				$this->db->where("list_of_leads.assigned_user",$this->session->userdata('session_id'));
+			}
+			*/
   	   if($this->session->userdata('session_role') == "user")
   	    {
   	        $this->db->where("list_of_leads.lead_created_id",$this->session->userdata('session_id'));

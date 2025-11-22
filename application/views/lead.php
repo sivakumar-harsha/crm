@@ -489,7 +489,6 @@
 
 	<!-- Main content -->
 	<section class="content">
-		</script>
 
 		<!-- Client Details Start -->
 
@@ -975,6 +974,8 @@
 
 		<!-- Client Details End -->
 
+		<!-- --------------------------------------------------------------------------------------- -->
+
 		<!-- Requirement Details Start -->
 
 		<div class="box">
@@ -1319,6 +1320,8 @@
 
 		<!-- Requirement Details End -->
 
+		<!-- --------------------------------------------------------------------------------------- -->
+
 		<!-- Add Follow up Details Start -->
 
 		<div class="box hidden" id="follow_up_hidden">
@@ -1450,7 +1453,10 @@
 				</div>
 			</div>
 		</div>
+
 		<!-- Add Follow up Details End -->
+
+		<!-- --------------------------------------------------------------------------------------- -->
 
 		<!-- Nominee Details Start-->
 
@@ -1569,6 +1575,8 @@
 		</div>
 
 		<!-- Nominee Details End-->
+
+		<!-- --------------------------------------------------------------------------------------- -->
 
 		<!-- Vechicle Details start-->
 
@@ -1692,6 +1700,8 @@
 
 		<!-- Vechicle Details end -->
 
+		<!-- --------------------------------------------------------------------------------------- -->
+		
 		<!-- Sme Details start -->
 
 		<div class="box hidden sme_hidden">
@@ -1732,9 +1742,59 @@
 
 		<!-- Sme Details end -->
 
+		<!-- --------------------------------------------------------------------------------------- -->
+
 		<!-- Upload Quatation start -->
 
 		<div class="box hidden sme_hidden">
+			<div class="box-header with-border" style="background:#f4f4f48c;">
+				<h3 class="box-title" _msthash="26273" _msttexthash="60619" style="text-align: left;font-size:14px;"><i class="fa fa-upload" aria-hidden="true"></i> &nbsp;&nbsp; Upload Quotations </h3>
+				<div class="box-tools pull-right">
+					<button type="button" class="btn btn-box-tool" data-widget="collapse" data-toggle="tooltip" title="" data-original-title="Collapse">
+					<i class="fa fa-minus"></i></button>
+				</div>
+			</div>
+			<div class="box-body" _msthash="1196936" _msttexthash="1190501" style="text-align: left;">
+				
+				<div class = "row">
+					<div class = "col-md-10"></div>
+					<div class = "col-md-2">
+						<button class = "btn btn-info btn-xs pull-right" id="sme_file_add"><i class="fa fa-plus" aria-hidden="true"></i></button>&nbsp;&nbsp;
+						<button class = "btn btn-danger btn-xs pull-right" id="sme_file_remove"><i class="fa fa-minus" aria-hidden="true"></i></button>&nbsp;&nbsp;
+					</div>
+				</div>
+			
+			<form action="upload_sme_files" method="post" enctype="multipart/form-data">
+				<input type = "hidden" name = "lead_id" value = "<?php echo $id ?>">
+				<div class = "row">
+					<div class = "col-md-6">
+						<div class = "form-group">
+							<label>File</label>
+							<input type = "file" class="form-control sme_file" name="files[]" id="files" required>
+						</div>
+					</div>
+					
+					<div class = "col-md-6">
+						<div class = "form-group">
+							<label>File Name</label>
+							<input type = "text" class="form-control sme_file_type" name="file_name[]" id="file_name" required>
+						</div>
+					</div>
+				</div>   
+				<div id = "view_files"></div>
+				<div id = "view_quotes"></div>
+				<button type="submit" class = "btn btn-success btn-sm pull-right"><i class="fa fa-save"></i> Upload</button>
+				</div>
+			</form>
+		</div>
+
+		<!-- Upload Quatation End -->
+
+		<!-- --------------------------------------------------------------------------------------- -->
+
+		<!-- Health Details Start -->
+
+		<div class="box hidden" id="health_hidden">
 			<div class="box-header with-border" style="background: #f4f4f48c">
 				<h3
 					class="box-title"
@@ -1742,8 +1802,8 @@
 					_msttexthash="60619"
 					style="text-align: left; font-size: 14px"
 				>
-					<i class="fa fa-upload" aria-hidden="true"></i> &nbsp;&nbsp; Upload
-					Quotations
+					<i class="fa fa-medkit" aria-hidden="true"></i> &nbsp;&nbsp;Health
+					Details &nbsp;&nbsp;&nbsp;
 				</h3>
 				<div class="box-tools pull-right">
 					<button
@@ -1764,913 +1824,860 @@
 				_msttexthash="1190501"
 				style="text-align: left"
 			>
-				<div class="row">
-					<div class="col-md-10"></div>
-					<div class="col-md-2">
-						<button class="btn btn-info btn-xs pull-right" id="sme_file_add">
-							<i class="fa fa-plus" aria-hidden="true"></i></button
-						>&nbsp;&nbsp;
-						<button
-							class="btn btn-danger btn-xs pull-right"
-							id="sme_file_remove"
-						>
-							<i class="fa fa-minus" aria-hidden="true"></i></button
-						>&nbsp;&nbsp;
+				<div class="row hidden" id="view_health_div">
+					<div class="col-md-6">
+						<div class="form-group">
+							<div class="row">
+								<div class="col-md-4">
+									<label>Insurer Name</label>
+								</div>
+								<div class="col-md-8">
+									<input
+										type="text"
+										class="form-control"
+										id="health_insurer_name"
+									/>
+								</div>
+							</div>
+						</div>
+						<div class="form-group">
+							<div class="row">
+								<div class="col-md-4">
+									<label>Insurer DOB</label>
+								</div>
+								<div class="col-md-8">
+									<input
+										type="date"
+										class="form-control"
+										id="health_insurer_dob"
+									/>
+								</div>
+							</div>
+						</div>
+					</div>
+
+					<div class="col-md-6">
+						<div class="form-group">
+							<div class="row">
+								<div class="col-md-4">
+									<label>Age</label>
+								</div>
+								<div class="col-md-8">
+									<input
+										type="text"
+										class="form-control"
+										id="health_insurer_age"
+									/>
+								</div>
+							</div>
+						</div>
+
+						<div class="form-group">
+							<div class="row">
+								<div class="col-md-4">
+									<label>Gender</label>
+								</div>
+								<div class="col-md-8">
+									<input
+										type="text"
+										class="form-control"
+										id="health_insurer_gender"
+									/>
+								</div>
+							</div>
+						</div>
 					</div>
 				</div>
 
-				<form
-					action="upload_sme_files"
-					method="post"
-					enctype="multipart/form-data"
+				<button
+					class="btn btn-xs btn-info pull-right"
+					data-toggle="modal"
+					id="add_health_mod_btn"
+					data-target="#add_health_model"
 				>
-					<input type="hidden" name="lead_id" value="<?php echo $id ?>" />
-					<div class="row">
-						<div class="col-md-6">
-							<div class="form-group">
-								<label>File</label>
-								<input
-									type="file"
-									class="form-control sme_file"
-									name="files[]"
-									id="files"
-									required
-								/>
-							</div>
-						</div>
-
-						<div class="col-md-6">
-							<div class="form-group">
-								<label>File Name</label>
-								<input
-									type="text"
-									class="form-control sme_file_type"
-									name="file_name[]"
-									id="file_name"
-									required
-								/>
-							</div>
-						</div>
-					</div>
-					<div id="view_files"></div>
-					<div id="view_quotes"></div>
-					<button type="submit" class="btn btn-success btn-sm pull-right">
-						<i class="fa fa-save"></i> Upload
-					</button>
-				</form>
+					<i class="fa fa-plus" aria-hidden="true"></i> Add Health Details
+				</button>
+				<button
+					class="btn btn-xs btn-info pull-right hidden"
+					id="edit_health_details"
+				>
+					<i class="fa fa-pencil" aria-hidden="true"></i> Edit Health Details
+				</button>
 			</div>
+		</div>
 
-			<div class="box hidden" id="health_hidden">
-				<div class="box-header with-border" style="background: #f4f4f48c">
-					<h3
-						class="box-title"
-						_msthash="26273"
-						_msttexthash="60619"
-						style="text-align: left; font-size: 14px"
-					>
-						<i class="fa fa-medkit" aria-hidden="true"></i> &nbsp;&nbsp;Health
-						Details &nbsp;&nbsp;&nbsp;
-					</h3>
-					<div class="box-tools pull-right">
-						<button
-							type="button"
-							class="btn btn-box-tool"
-							data-widget="collapse"
-							data-toggle="tooltip"
-							title=""
-							data-original-title="Collapse"
-						>
-							<i class="fa fa-minus"></i>
-						</button>
-					</div>
-				</div>
-				<div
-					class="box-body"
-					_msthash="1196936"
-					_msttexthash="1190501"
-					style="text-align: left"
+		<!-- Health Details end -->
+
+		<!-- --------------------------------------------------------------------------------------- -->
+
+		<!-- Pet Details start -->
+
+		<div class="box hidden" id="pet_hidden">
+			<div class="box-header with-border" style="background: #f4f4f48c">
+				<h3
+					class="box-title"
+					_msthash="26273"
+					_msttexthash="60619"
+					style="text-align: left; font-size: 14px"
 				>
-					<div class="row hidden" id="view_health_div">
-						<div class="col-md-6">
-							<div class="form-group">
-								<div class="row">
-									<div class="col-md-4">
-										<label>Insurer Name</label>
-									</div>
-									<div class="col-md-8">
-										<input
-											type="text"
-											class="form-control"
-											id="health_insurer_name"
-										/>
-									</div>
-								</div>
-							</div>
-							<div class="form-group">
-								<div class="row">
-									<div class="col-md-4">
-										<label>Insurer DOB</label>
-									</div>
-									<div class="col-md-8">
-										<input
-											type="date"
-											class="form-control"
-											id="health_insurer_dob"
-										/>
-									</div>
-								</div>
-							</div>
-						</div>
-
-						<div class="col-md-6">
-							<div class="form-group">
-								<div class="row">
-									<div class="col-md-4">
-										<label>Age</label>
-									</div>
-									<div class="col-md-8">
-										<input
-											type="text"
-											class="form-control"
-											id="health_insurer_age"
-										/>
-									</div>
-								</div>
-							</div>
-
-							<div class="form-group">
-								<div class="row">
-									<div class="col-md-4">
-										<label>Gender</label>
-									</div>
-									<div class="col-md-8">
-										<input
-											type="text"
-											class="form-control"
-											id="health_insurer_gender"
-										/>
-									</div>
-								</div>
-							</div>
-						</div>
-					</div>
-
+					<i class="fa fa-paw" aria-hidden="true"></i> &nbsp;&nbsp;Pet Details
+					&nbsp;&nbsp;&nbsp;
+				</h3>
+				<div class="box-tools pull-right">
 					<button
-						class="btn btn-xs btn-info pull-right"
-						data-toggle="modal"
-						id="add_health_mod_btn"
-						data-target="#add_health_model"
+						type="button"
+						class="btn btn-box-tool"
+						data-widget="collapse"
+						data-toggle="tooltip"
+						title=""
+						data-original-title="Collapse"
 					>
-						<i class="fa fa-plus" aria-hidden="true"></i> Add Health Details
-					</button>
-					<button
-						class="btn btn-xs btn-info pull-right hidden"
-						id="edit_health_details"
-					>
-						<i class="fa fa-pencil" aria-hidden="true"></i> Edit Health Details
+						<i class="fa fa-minus"></i>
 					</button>
 				</div>
 			</div>
 
-			<div class="box hidden" id="pet_hidden">
-				<div class="box-header with-border" style="background: #f4f4f48c">
-					<h3
-						class="box-title"
-						_msthash="26273"
-						_msttexthash="60619"
-						style="text-align: left; font-size: 14px"
-					>
-						<i class="fa fa-paw" aria-hidden="true"></i> &nbsp;&nbsp;Pet Details
-						&nbsp;&nbsp;&nbsp;
-					</h3>
-					<div class="box-tools pull-right">
-						<button
-							type="button"
-							class="btn btn-box-tool"
-							data-widget="collapse"
-							data-toggle="tooltip"
-							title=""
-							data-original-title="Collapse"
-						>
-							<i class="fa fa-minus"></i>
-						</button>
-					</div>
-				</div>
-
-				<div
-					class="box-body"
-					_msthash="1196936"
-					_msttexthash="1190501"
-					style="text-align: left"
-				>
-					<div class="row hidden" id="pet_div">
-						<div class="col-md-6">
-							<div class="form-group">
-								<div class="row">
-									<div class="col-md-4">
-										<label>PET Name</label>
-									</div>
-									<div class="col-md-8">
+			<div
+				class="box-body"
+				_msthash="1196936"
+				_msttexthash="1190501"
+				style="text-align: left"
+			>
+				<div class="row hidden" id="pet_div">
+					<div class="col-md-6">
+						<div class="form-group">
+							<div class="row">
+								<div class="col-md-4">
+									<label>PET Name</label>
+								</div>
+								<div class="col-md-8">
+									<input
+										type="text"
+										class="form-control"
+										name="edit_pet_name"
+										id="edit_pet_name"
+										readonly
+									/>
+								</div>
+							</div>
+						</div>
+						<div class="form-group">
+							<div class="row">
+								<div class="col-md-4">
+									<label>PET Gender</label>
+								</div>
+								<div class="col-md-8">
+									<select
+										class="form-control"
+										name="edit_pet_gender"
+										id="edit_pet_gender"
+									>
+										<option value="male">Male</option>
+										<option value="female">Female</option>
+									</select>
+								</div>
+							</div>
+						</div>
+						<div class="form-group">
+							<div class="row">
+								<div class="col-md-4">
+									<label>PET Age In Months</label>
+								</div>
+								<div class="col-md-8">
+									<div class="input-group">
 										<input
 											type="text"
 											class="form-control"
-											name="edit_pet_name"
-											id="edit_pet_name"
+											style="text-align: right"
+											id="edit_pet_age"
 											readonly
 										/>
-									</div>
-								</div>
-							</div>
-							<div class="form-group">
-								<div class="row">
-									<div class="col-md-4">
-										<label>PET Gender</label>
-									</div>
-									<div class="col-md-8">
-										<select
-											class="form-control"
-											name="edit_pet_gender"
-											id="edit_pet_gender"
-										>
-											<option value="male">Male</option>
-											<option value="female">Female</option>
-										</select>
-									</div>
-								</div>
-							</div>
-							<div class="form-group">
-								<div class="row">
-									<div class="col-md-4">
-										<label>PET Age In Months</label>
-									</div>
-									<div class="col-md-8">
-										<div class="input-group">
-											<input
-												type="text"
-												class="form-control"
-												style="text-align: right"
-												id="edit_pet_age"
-												readonly
-											/>
-											<span class="input-group-addon">Months</span>
-										</div>
-									</div>
-								</div>
-							</div>
-						</div>
-						<div class="col-md-6">
-							<div class="form-group">
-								<div class="row">
-									<div class="col-md-4">
-										<label>PET Height</label>
-									</div>
-									<div class="col-md-8">
-										<div class="input-group">
-											<input
-												type="text"
-												class="form-control"
-												style="text-align: right"
-												id="edit_pet_height"
-												readonly
-											/>
-											<span class="input-group-addon">FT</span>
-										</div>
-									</div>
-								</div>
-							</div>
-							<div class="form-group">
-								<div class="row">
-									<div class="col-md-4">
-										<label>PET Weight</label>
-									</div>
-									<div class="col-md-8">
-										<div class="input-group">
-											<input
-												type="text"
-												class="form-control"
-												style="text-align: right"
-												id="edit_pet_weight"
-												readonly
-											/>
-											<span class="input-group-addon">KG</span>
-										</div>
+										<span class="input-group-addon">Months</span>
 									</div>
 								</div>
 							</div>
 						</div>
 					</div>
+					<div class="col-md-6">
+						<div class="form-group">
+							<div class="row">
+								<div class="col-md-4">
+									<label>PET Height</label>
+								</div>
+								<div class="col-md-8">
+									<div class="input-group">
+										<input
+											type="text"
+											class="form-control"
+											style="text-align: right"
+											id="edit_pet_height"
+											readonly
+										/>
+										<span class="input-group-addon">FT</span>
+									</div>
+								</div>
+							</div>
+						</div>
+						<div class="form-group">
+							<div class="row">
+								<div class="col-md-4">
+									<label>PET Weight</label>
+								</div>
+								<div class="col-md-8">
+									<div class="input-group">
+										<input
+											type="text"
+											class="form-control"
+											style="text-align: right"
+											id="edit_pet_weight"
+											readonly
+										/>
+										<span class="input-group-addon">KG</span>
+									</div>
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
 
+				<button
+					class="btn btn-xs btn-info pull-right"
+					id="add_pet_btn"
+					data-toggle="modal"
+					data-target="#add_pet_modal"
+				>
+					<i class="fa fa-plus" aria-hidden="true"></i> Add Pet Details
+				</button>
+				<button
+					class="btn btn-xs btn-danger pull-right hidden"
+					id="edit_pet_btn"
+					data-toggle="modal"
+					data-target="#edit_pet_modal"
+				>
+					<i class="fa fa-pencil-square-o" aria-hidden="true"></i> Edit Pet
+					Details
+				</button>
+			</div>
+		</div>
+
+		<!-- Pet Details end -->
+
+		<!-- --------------------------------------------------------------------------------------- -->
+
+		<!-- Property Details start -->
+
+		<div class="box hidden" id="property_hidden">
+			<div class="box-header with-border" style="background: #f4f4f48c">
+				<h3
+					class="box-title"
+					_msthash="26273"
+					_msttexthash="60619"
+					style="text-align: left; font-size: 14px"
+				>
+					<i class="fa fa-home" aria-hidden="true"></i> &nbsp;&nbsp;Property
+					Insurace Details &nbsp;&nbsp;&nbsp;
+				</h3>
+				<div class="box-tools pull-right">
 					<button
-						class="btn btn-xs btn-info pull-right"
-						id="add_pet_btn"
-						data-toggle="modal"
-						data-target="#add_pet_modal"
+						type="button"
+						class="btn btn-box-tool"
+						data-widget="collapse"
+						data-toggle="tooltip"
+						title=""
+						data-original-title="Collapse"
 					>
-						<i class="fa fa-plus" aria-hidden="true"></i> Add Pet Details
-					</button>
-					<button
-						class="btn btn-xs btn-danger pull-right hidden"
-						id="edit_pet_btn"
-						data-toggle="modal"
-						data-target="#edit_pet_modal"
-					>
-						<i class="fa fa-pencil-square-o" aria-hidden="true"></i> Edit Pet
-						Details
+						<i class="fa fa-minus"></i>
 					</button>
 				</div>
 			</div>
 
-			<div class="box hidden" id="property_hidden">
-				<div class="box-header with-border" style="background: #f4f4f48c">
-					<h3
-						class="box-title"
-						_msthash="26273"
-						_msttexthash="60619"
-						style="text-align: left; font-size: 14px"
-					>
-						<i class="fa fa-home" aria-hidden="true"></i> &nbsp;&nbsp;Property
-						Insurace Details &nbsp;&nbsp;&nbsp;
-					</h3>
-					<div class="box-tools pull-right">
-						<button
-							type="button"
-							class="btn btn-box-tool"
-							data-widget="collapse"
-							data-toggle="tooltip"
-							title=""
-							data-original-title="Collapse"
-						>
-							<i class="fa fa-minus"></i>
-						</button>
-					</div>
-				</div>
-
-				<div
-					class="box-body"
-					_msthash="1196936"
-					_msttexthash="1190501"
-					style="text-align: left"
-				>
-					<div class="row hidden" id="home_pro_div">
-						<div class="col-md-6">
-							<div class="form-group">
-								<div class="row">
-									<div class="col-md-4">
-										<label>house type</label>
-									</div>
-									<div class="col-md-8">
-										<select
-											class="form-control"
-											name="housing_type"
-											id="housing_type"
-										>
-											<option value="Home">Home</option>
-											<option value="Housing Society">Housing Society</option>
-										</select>
-									</div>
+			<div
+				class="box-body"
+				_msthash="1196936"
+				_msttexthash="1190501"
+				style="text-align: left"
+			>
+				<div class="row hidden" id="home_pro_div">
+					<div class="col-md-6">
+						<div class="form-group">
+							<div class="row">
+								<div class="col-md-4">
+									<label>house type</label>
 								</div>
-							</div>
-							<div class="form-group">
-								<div class="row">
-									<div class="col-md-4">
-										<label>Policy Tenure</label>
-									</div>
-									<div class="col-md-8">
-										<select
-											class="form-control"
-											name="policy_tensure"
-											id="policy_tensure"
-										>
-											<?php for ($i = 1;$i <= 10;$i++) {?>
-											<option value="<?php echo $i ?> Year">
-												<?php echo $i ?>
-												Year
-											</option>
-											<?php } ?>
-										</select>
-									</div>
-								</div>
-							</div>
-							<div class="form-group">
-								<div class="row">
-									<div class="col-md-4">
-										<label>Property Value</label>
-									</div>
-									<div class="col-md-8">
-										<input
-											type="text"
-											class="form-control"
-											name="property_value"
-											id="property_value"
-										/>
-									</div>
-								</div>
-							</div>
-							<div class="form-group">
-								<div class="row">
-									<div class="col-md-4">
-										<label>Interior, Furniture & Lighting</label>
-									</div>
-									<div class="col-md-8">
-										<input
-											type="text"
-											class="form-control"
-											name="interior_furniture"
-											id="interior_furniture"
-										/>
-									</div>
-								</div>
-							</div>
-						</div>
-
-						<div class="col-md-6">
-							<div class="form-group">
-								<div class="row">
-									<div class="col-md-4">
-										<label>Tenant or Owner ?</label>
-									</div>
-									<div class="col-md-8">
-										<select
-											class="form-control"
-											name="tenant_or_owner"
-											id="tenant_or_owner"
-										>
-											<option value="Owner">Owner</option>
-											<option value="Tenant">Tenant</option>
-										</select>
-									</div>
-								</div>
-							</div>
-							<div class="form-group">
-								<div class="row">
-									<div class="col-md-4">
-										<label>Age of Premises</label>
-									</div>
-									<div class="col-md-8">
-										<select
-											class="form-control"
-											name="age_of_premises"
-											id="age_of_premises"
-										>
-											<?php for ($i = 1;$i <= 29;$i++) {?>
-											<option value="<?php echo $i ?> Year">
-												<?php echo $i ?>
-												Year
-											</option>
-											<?php } ?>
-										</select>
-									</div>
-								</div>
-							</div>
-							<div class="form-group">
-								<div class="row">
-									<div class="col-md-4">
-										<label>Built Up Area</label>
-									</div>
-									<div class="col-md-8">
-										<input
-											type="text"
-											class="form-control"
-											name="built_up_area"
-											id="built_up_area"
-										/>
-									</div>
-								</div>
-							</div>
-							<div class="form-group">
-								<div class="row">
-									<div class="col-md-4">
-										<label>DG set, Air Conditioner & Machinery</label>
-									</div>
-									<div class="col-md-8">
-										<input
-											type="text"
-											class="form-control"
-											name="air_conditionor_amt"
-											id="air_conditionor_amt"
-										/>
-									</div>
-								</div>
-							</div>
-						</div>
-					</div>
-
-					<div class="row hidden" id="business_pro_div">
-						<div class="col-md-6">
-							<div class="form-group">
-								<div class="row">
-									<div class="col-md-4">
-										<label>Tenant or Owner</label>
-									</div>
-									<div class="col-md-8">
-										<select
-											class="form-control"
-											name="b_tenant_or_owner"
-											id="b_tenant_or_owner"
-										>
-											<option value="Owner">Owner</option>
-											<option value="Tenant">Tenant</option>
-										</select>
-									</div>
-								</div>
-							</div>
-
-							<div class="form-group">
-								<div class="row">
-									<div class="col-md-4">
-										<label>Your Proffession</label>
-									</div>
-									<div class="col-md-8">
-										<input
-											type="text"
-											class="form-control"
-											name="b_proffession"
-											id="b_proffession"
-										/>
-									</div>
-								</div>
-							</div>
-
-							<div class="form-group">
-								<div class="row">
-									<div class="col-md-4">
-										<label>Property Value</label>
-									</div>
-									<div class="col-md-8">
-										<input
-											type="text"
-											class="form-control"
-											name="b_property_value"
-											id="b_property_value"
-										/>
-									</div>
-								</div>
-							</div>
-
-							<div class="form-group">
-								<div class="row">
-									<div class="col-md-4">
-										<label>Interior, Furniture & Lighting</label>
-									</div>
-									<div class="col-md-8">
-										<input
-											type="text"
-											class="form-control"
-											name="b_interior_furniture"
-											id="b_interior_furniture"
-										/>
-									</div>
-								</div>
-							</div>
-						</div>
-
-						<div class="col-md-6">
-							<div class="form-group">
-								<div class="row">
-									<div class="col-md-4">
-										<label>Age of Premises</label>
-									</div>
-									<div class="col-md-8">
-										<select
-											class="form-control"
-											name="b_age_of_premise"
-											id="b_age_of_premise"
-										>
-											<?php for ($i = 1;$i <= 29;$i++) {?>
-											<option value="<?php echo $i ?> Year">
-												<?php echo $i ?>
-												Year
-											</option>
-											<?php } ?>
-										</select>
-									</div>
-								</div>
-							</div>
-							<div class="form-group">
-								<div class="row">
-									<div class="col-md-4">
-										<label>Built Up Area (sqt)</label>
-									</div>
-									<div class="col-md-8">
-										<input
-											type="text"
-											class="form-control"
-											name="b_built_up_area"
-											id="b_built_up_area"
-										/>
-									</div>
-								</div>
-							</div>
-							<div class="form-group">
-								<div class="row">
-									<div class="col-md-4">
-										<label>DG set, Air Conditioner & Machinery</label>
-									</div>
-									<div class="col-md-8">
-										<input
-											type="text"
-											class="form-control"
-											name="b_air_conditionor_amt"
-											id="b_air_conditionor_amt"
-										/>
-									</div>
-								</div>
-							</div>
-						</div>
-					</div>
-
-					<button
-						class="btn btn-xs btn-info pull-right"
-						id="add_prop_btn"
-						data-toggle="modal"
-						data-target="#homeModal"
-					>
-						<i class="fa fa-plus" aria-hidden="true"></i> Add Home Insurance
-						Details
-					</button>
-					<button
-						class="btn btn-xs btn-info pull-right"
-						id="business_prop_btn"
-						data-toggle="modal"
-						data-target="#businessmodal"
-					>
-						<i class="fa fa-plus" aria-hidden="true"></i> Add Business Insurance
-						Details
-					</button>
-					<button
-						class="btn btn-xs btn-danger pull-right hidden"
-						id="edit_home_prop_btn"
-					>
-						<i class="fa fa-pencil-square-o" aria-hidden="true"></i> Edit Home
-						Details
-					</button>
-					<button
-						class="btn btn-xs btn-danger pull-right hidden"
-						id="edit_business_prop_btn"
-					>
-						<i class="fa fa-pencil-square-o" aria-hidden="true"></i> Edit
-						Business Details
-					</button>
-				</div>
-			</div>
-
-			<div class="box hidden" id="maraine_box">
-				<div class="box-header with-border" style="background: #f4f4f48c">
-					<h3
-						class="box-title"
-						_msthash="26273"
-						_msttexthash="60619"
-						style="text-align: left; font-size: 14px"
-					>
-						<i class="fa fa-ship" aria-hidden="true"></i> &nbsp;&nbsp;Maraine
-						Insurance Details &nbsp;&nbsp;&nbsp;
-					</h3>
-					<div class="box-tools pull-right">
-						<button
-							type="button"
-							class="btn btn-box-tool"
-							data-widget="collapse"
-							data-toggle="tooltip"
-							title=""
-							data-original-title="Collapse"
-						>
-							<i class="fa fa-minus"></i>
-						</button>
-					</div>
-				</div>
-				<div
-					class="box-body"
-					_msthash="1196936"
-					_msttexthash="1190501"
-					style="text-align: left"
-				>
-					<div class="row hidden" id="maraine_div">
-						<div class="col-md-6">
-							<div class="form-group">
-								<label>Type of Single Transit Policy</label>
-								<select
-									class="form-control"
-									name="m_transit_policy"
-									id="m_transit_policy"
-								>
-									<option value="">--select--</option>
-									<option value="Inland">Inland</option>
-									<option value="Import">Import</option>
-									<option value="Export">Export</option>
-								</select>
-							</div>
-
-							<div class="form-group">
-								<label>Mode of Transport</label>
-								<select class="form-control" id="m_marine_transport">
-									<option>Air</option>
-									<option>Road</option>
-									<option>Rail</option>
-									<option>Courier</option>
-								</select>
-							</div>
-
-							<div class="form-group">
-								<label>Commodity</label>
-								<select class="form-control" id="m_marine_cummodity">
-									<option value="">Select Commodity</option>
-									<option value="1">Auto and spares</option>
-									<option value="2">Chemicals</option>
-								</select>
-							</div>
-
-							<div class="form-group">
-								<label>Invoice Value (In Rupees)</label>
-								<div class="input-group">
-									<span class="input-group-addon">₹</span>
-									<input
-										type="number"
-										onclick="marine_calculate()"
+								<div class="col-md-8">
+									<select
 										class="form-control"
-										id="m_marine_invoice_val"
+										name="housing_type"
+										id="housing_type"
+									>
+										<option value="Home">Home</option>
+										<option value="Housing Society">Housing Society</option>
+									</select>
+								</div>
+							</div>
+						</div>
+						<div class="form-group">
+							<div class="row">
+								<div class="col-md-4">
+									<label>Policy Tenure</label>
+								</div>
+								<div class="col-md-8">
+									<select
+										class="form-control"
+										name="policy_tensure"
+										id="policy_tensure"
+									>
+										<?php for ($i = 1;$i <= 10;$i++) {?>
+										<option value="<?php echo $i ?> Year">
+											<?php echo $i ?>
+											Year
+										</option>
+										<?php } ?>
+									</select>
+								</div>
+							</div>
+						</div>
+						<div class="form-group">
+							<div class="row">
+								<div class="col-md-4">
+									<label>Property Value</label>
+								</div>
+								<div class="col-md-8">
+									<input
+										type="text"
+										class="form-control"
+										name="property_value"
+										id="property_value"
 									/>
 								</div>
 							</div>
 						</div>
-
-						<div class="col-md-6">
-							<div class="form-group">
-								<label>Company Name</label>
-								<input
-									type="text"
-									class="form-control"
-									id="m_marine_company_name"
-								/>
-							</div>
-
-							<div class="form-group">
-								<label>City</label>
-								<input
-									type="text"
-									class="form-control"
-									id="m_marine_city_name"
-								/>
-							</div>
-
-							<div class="form-group">
-								<label>Sub Commodity</label>
-								<select
-									class="form-control"
-									id="m_marine_sub_cummodity"
-								></select>
-							</div>
-
-							<div class="form-group">
-								<label
-									>Sum Insured (in rupees)
-									<span style="color: red"> * Invoice amount +10% </span></label
-								>
-								<div class="input-group" bis_skin_checked="1">
-									<span class="input-group-addon">₹</span>
+						<div class="form-group">
+							<div class="row">
+								<div class="col-md-4">
+									<label>Interior, Furniture & Lighting</label>
+								</div>
+								<div class="col-md-8">
 									<input
-										type="number"
+										type="text"
 										class="form-control"
-										id="m_marine_invoice_10per_val"
+										name="interior_furniture"
+										id="interior_furniture"
 									/>
 								</div>
 							</div>
 						</div>
 					</div>
 
+					<div class="col-md-6">
+						<div class="form-group">
+							<div class="row">
+								<div class="col-md-4">
+									<label>Tenant or Owner ?</label>
+								</div>
+								<div class="col-md-8">
+									<select
+										class="form-control"
+										name="tenant_or_owner"
+										id="tenant_or_owner"
+									>
+										<option value="Owner">Owner</option>
+										<option value="Tenant">Tenant</option>
+									</select>
+								</div>
+							</div>
+						</div>
+						<div class="form-group">
+							<div class="row">
+								<div class="col-md-4">
+									<label>Age of Premises</label>
+								</div>
+								<div class="col-md-8">
+									<select
+										class="form-control"
+										name="age_of_premises"
+										id="age_of_premises"
+									>
+										<?php for ($i = 1;$i <= 29;$i++) {?>
+										<option value="<?php echo $i ?> Year">
+											<?php echo $i ?>
+											Year
+										</option>
+										<?php } ?>
+									</select>
+								</div>
+							</div>
+						</div>
+						<div class="form-group">
+							<div class="row">
+								<div class="col-md-4">
+									<label>Built Up Area</label>
+								</div>
+								<div class="col-md-8">
+									<input
+										type="text"
+										class="form-control"
+										name="built_up_area"
+										id="built_up_area"
+									/>
+								</div>
+							</div>
+						</div>
+						<div class="form-group">
+							<div class="row">
+								<div class="col-md-4">
+									<label>DG set, Air Conditioner & Machinery</label>
+								</div>
+								<div class="col-md-8">
+									<input
+										type="text"
+										class="form-control"
+										name="air_conditionor_amt"
+										id="air_conditionor_amt"
+									/>
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+
+				<div class="row hidden" id="business_pro_div">
+					<div class="col-md-6">
+						<div class="form-group">
+							<div class="row">
+								<div class="col-md-4">
+									<label>Tenant or Owner</label>
+								</div>
+								<div class="col-md-8">
+									<select
+										class="form-control"
+										name="b_tenant_or_owner"
+										id="b_tenant_or_owner"
+									>
+										<option value="Owner">Owner</option>
+										<option value="Tenant">Tenant</option>
+									</select>
+								</div>
+							</div>
+						</div>
+
+						<div class="form-group">
+							<div class="row">
+								<div class="col-md-4">
+									<label>Your Proffession</label>
+								</div>
+								<div class="col-md-8">
+									<input
+										type="text"
+										class="form-control"
+										name="b_proffession"
+										id="b_proffession"
+									/>
+								</div>
+							</div>
+						</div>
+
+						<div class="form-group">
+							<div class="row">
+								<div class="col-md-4">
+									<label>Property Value</label>
+								</div>
+								<div class="col-md-8">
+									<input
+										type="text"
+										class="form-control"
+										name="b_property_value"
+										id="b_property_value"
+									/>
+								</div>
+							</div>
+						</div>
+
+						<div class="form-group">
+							<div class="row">
+								<div class="col-md-4">
+									<label>Interior, Furniture & Lighting</label>
+								</div>
+								<div class="col-md-8">
+									<input
+										type="text"
+										class="form-control"
+										name="b_interior_furniture"
+										id="b_interior_furniture"
+									/>
+								</div>
+							</div>
+						</div>
+					</div>
+
+					<div class="col-md-6">
+						<div class="form-group">
+							<div class="row">
+								<div class="col-md-4">
+									<label>Age of Premises</label>
+								</div>
+								<div class="col-md-8">
+									<select
+										class="form-control"
+										name="b_age_of_premise"
+										id="b_age_of_premise"
+									>
+										<?php for ($i = 1;$i <= 29;$i++) {?>
+										<option value="<?php echo $i ?> Year">
+											<?php echo $i ?>
+											Year
+										</option>
+										<?php } ?>
+									</select>
+								</div>
+							</div>
+						</div>
+						<div class="form-group">
+							<div class="row">
+								<div class="col-md-4">
+									<label>Built Up Area (sqt)</label>
+								</div>
+								<div class="col-md-8">
+									<input
+										type="text"
+										class="form-control"
+										name="b_built_up_area"
+										id="b_built_up_area"
+									/>
+								</div>
+							</div>
+						</div>
+						<div class="form-group">
+							<div class="row">
+								<div class="col-md-4">
+									<label>DG set, Air Conditioner & Machinery</label>
+								</div>
+								<div class="col-md-8">
+									<input
+										type="text"
+										class="form-control"
+										name="b_air_conditionor_amt"
+										id="b_air_conditionor_amt"
+									/>
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+
+				<button
+					class="btn btn-xs btn-info pull-right"
+					id="add_prop_btn"
+					data-toggle="modal"
+					data-target="#homeModal"
+				>
+					<i class="fa fa-plus" aria-hidden="true"></i> Add Home Insurance
+					Details
+				</button>
+				<button
+					class="btn btn-xs btn-info pull-right"
+					id="business_prop_btn"
+					data-toggle="modal"
+					data-target="#businessmodal"
+				>
+					<i class="fa fa-plus" aria-hidden="true"></i> Add Business Insurance
+					Details
+				</button>
+				<button
+					class="btn btn-xs btn-danger pull-right hidden"
+					id="edit_home_prop_btn"
+				>
+					<i class="fa fa-pencil-square-o" aria-hidden="true"></i> Edit Home
+					Details
+				</button>
+				<button
+					class="btn btn-xs btn-danger pull-right hidden"
+					id="edit_business_prop_btn"
+				>
+					<i class="fa fa-pencil-square-o" aria-hidden="true"></i> Edit
+					Business Details
+				</button>
+			</div>
+		</div>
+
+		<!-- Property Details end -->
+
+		<!-- --------------------------------------------------------------------------------------- -->
+
+		<!-- Maraine Details start -->
+
+		<div class="box hidden" id="maraine_box">
+			<div class="box-header with-border" style="background: #f4f4f48c">
+				<h3
+					class="box-title"
+					_msthash="26273"
+					_msttexthash="60619"
+					style="text-align: left; font-size: 14px"
+				>
+					<i class="fa fa-ship" aria-hidden="true"></i> &nbsp;&nbsp;Maraine
+					Insurance Details &nbsp;&nbsp;&nbsp;
+				</h3>
+				<div class="box-tools pull-right">
 					<button
-						class="btn btn-xs btn-info pull-right"
-						id="add_maraine_btn"
-						data-toggle="modal"
-						data-target="#marainemodal"
+						type="button"
+						class="btn btn-box-tool"
+						data-widget="collapse"
+						data-toggle="tooltip"
+						title=""
+						data-original-title="Collapse"
 					>
-						<i class="fa fa-plus" aria-hidden="true"></i> Add Maraine Details
-					</button>
-					<button
-						class="btn btn-xs btn-danger pull-right hidden"
-						id="edit_maraine_btn"
-					>
-						<i class="fa fa-pencil-square-o" aria-hidden="true"></i> Edit
-						Maraine Details
+						<i class="fa fa-minus"></i>
 					</button>
 				</div>
 			</div>
+			<div
+				class="box-body"
+				_msthash="1196936"
+				_msttexthash="1190501"
+				style="text-align: left"
+			>
+				<div class="row hidden" id="maraine_div">
+					<div class="col-md-6">
+						<div class="form-group">
+							<label>Type of Single Transit Policy</label>
+							<select
+								class="form-control"
+								name="m_transit_policy"
+								id="m_transit_policy"
+							>
+								<option value="">--select--</option>
+								<option value="Inland">Inland</option>
+								<option value="Import">Import</option>
+								<option value="Export">Export</option>
+							</select>
+						</div>
 
-			<div class="box hidden" id="quotation_box_hidden">
-				<div class="box-header with-border" style="background: #f4f4f48c">
-					<h3
-						class="box-title"
-						_msthash="26273"
-						_msttexthash="60619"
-						style="text-align: left; font-size: 14px"
-					>
-						<i class="fa fa-file" aria-hidden="true"></i> &nbsp;&nbsp; Quotation
-						Details
-					</h3>
-					<div class="box-tools pull-right">
-						<button
-							type="button"
-							class="btn btn-box-tool"
-							data-widget="collapse"
-							data-toggle="tooltip"
-							title=""
-							data-original-title="Collapse"
-						>
-							<i class="fa fa-minus"></i>
-						</button>
+						<div class="form-group">
+							<label>Mode of Transport</label>
+							<select class="form-control" id="m_marine_transport">
+								<option>Air</option>
+								<option>Road</option>
+								<option>Rail</option>
+								<option>Courier</option>
+							</select>
+						</div>
+
+						<div class="form-group">
+							<label>Commodity</label>
+							<select class="form-control" id="m_marine_cummodity">
+								<option value="">Select Commodity</option>
+								<option value="1">Auto and spares</option>
+								<option value="2">Chemicals</option>
+							</select>
+						</div>
+
+						<div class="form-group">
+							<label>Invoice Value (In Rupees)</label>
+							<div class="input-group">
+								<span class="input-group-addon">₹</span>
+								<input
+									type="number"
+									onclick="marine_calculate()"
+									class="form-control"
+									id="m_marine_invoice_val"
+								/>
+							</div>
+						</div>
+					</div>
+
+					<div class="col-md-6">
+						<div class="form-group">
+							<label>Company Name</label>
+							<input
+								type="text"
+								class="form-control"
+								id="m_marine_company_name"
+							/>
+						</div>
+
+						<div class="form-group">
+							<label>City</label>
+							<input
+								type="text"
+								class="form-control"
+								id="m_marine_city_name"
+							/>
+						</div>
+
+						<div class="form-group">
+							<label>Sub Commodity</label>
+							<select
+								class="form-control"
+								id="m_marine_sub_cummodity"
+							></select>
+						</div>
+
+						<div class="form-group">
+							<label
+								>Sum Insured (in rupees)
+								<span style="color: red"> * Invoice amount +10% </span></label
+							>
+							<div class="input-group" bis_skin_checked="1">
+								<span class="input-group-addon">₹</span>
+								<input
+									type="number"
+									class="form-control"
+									id="m_marine_invoice_10per_val"
+								/>
+							</div>
+						</div>
 					</div>
 				</div>
-				<div
-					class="box-body"
-					_msthash="1196936"
-					_msttexthash="1190501"
-					style="text-align: left"
+
+				<button
+					class="btn btn-xs btn-info pull-right"
+					id="add_maraine_btn"
+					data-toggle="modal"
+					data-target="#marainemodal"
 				>
+					<i class="fa fa-plus" aria-hidden="true"></i> Add Maraine Details
+				</button>
+				<button
+					class="btn btn-xs btn-danger pull-right hidden"
+					id="edit_maraine_btn"
+				>
+					<i class="fa fa-pencil-square-o" aria-hidden="true"></i> Edit
+					Maraine Details
+				</button>
+			</div>
+		</div>
+
+		<!-- Maraine Details end -->
+
+		<!-- --------------------------------------------------------------------------------------- -->
+
+		<!-- quotation Details start -->
+
+		<div class="box hidden" id="quotation_box_hidden">
+			<div class="box-header with-border" style="background: #f4f4f48c">
+				<h3
+					class="box-title"
+					_msthash="26273"
+					_msttexthash="60619"
+					style="text-align: left; font-size: 14px"
+				>
+					<i class="fa fa-file" aria-hidden="true"></i> &nbsp;&nbsp; Quotation
+					Details
+				</h3>
+				<div class="box-tools pull-right">
+					<button
+						type="button"
+						class="btn btn-box-tool"
+						data-widget="collapse"
+						data-toggle="tooltip"
+						title=""
+						data-original-title="Collapse"
+					>
+						<i class="fa fa-minus"></i>
+					</button>
+				</div>
+			</div>
+			<div
+				class="box-body"
+				_msthash="1196936"
+				_msttexthash="1190501"
+				style="text-align: left"
+			>
+				<div class="table table-responsive">
+					<table class="table table-bordered" width="100%">
+						<thead>
+							<tr>
+								<th>
+									<input
+										type="checkbox"
+										class="form-check-input"
+										id="select_all_quote"
+									/>
+								</th>
+								<th>Insurer</th>
+								<th>Total Premium</th>
+								<th>Issued Date</th>
+								<th>Issued User</th>
+								<th>Generate Quote</th>
+								<th>Email Quote</th>
+								<th>Sms Quote</th>
+							</tr>
+						</thead>
+						<tbody id="quotes_view"></tbody>
+					</table>
+				</div>
+
+				<div class="form-group">
+					<button
+						class="btn btn-info btn-xs pull-right hidden"
+						id="edit_vechicle_btn"
+						data-dismiss="modal"
+						data-toggle="modal"
+						href="#lost"
+					>
+						<i class="fa fa-pencil" aria-hidden="true"></i> View / Edit
+						Vechicle
+					</button>
+					<button class="btn btn-info btn-xs pull-right" id="add_quote_btn">
+						<i class="fa fa-plus" aria-hidden="true"></i>&nbsp;&nbsp;Add
+					</button>
+				</div>
+			</div>
+		</div>
+
+		<!-- quotation Details end -->
+
+		<!-- --------------------------------------------------------------------------------------- -->
+
+		<!-- Recent Details end -->
+
+		<div class="box">
+			<div class="box-header with-border" style="background: #f4f4f48c">
+				<h3
+					class="box-title"
+					_msthash="26273"
+					_msttexthash="60619"
+					style="text-align: left; font-size: 14px"
+				>
+					<i class="fa fa-bars" aria-hidden="true"></i> &nbsp;&nbsp; Recent
+					Activities
+				</h3>
+				<div class="box-tools pull-right">
+					<button
+						type="button"
+						class="btn btn-box-tool"
+						data-widget="collapse"
+						data-toggle="tooltip"
+						title=""
+						data-original-title="Collapse"
+					>
+						<i class="fa fa-minus"></i>
+					</button>
+				</div>
+			</div>
+			<div
+				class="box-body"
+				_msthash="1196936"
+				_msttexthash="1190501"
+				style="text-align: left"
+			>
+				<div>
 					<div class="table table-responsive">
-						<table class="table table-bordered" width="100%">
-							<thead>
-								<tr>
-									<th>
-										<input
-											type="checkbox"
-											class="form-check-input"
-											id="select_all_quote"
-										/>
-									</th>
-									<th>Insurer</th>
-									<th>Total Premium</th>
-									<th>Issued Date</th>
-									<th>Issued User</th>
-									<th>Generate Quote</th>
-									<th>Email Quote</th>
-									<th>Sms Quote</th>
-								</tr>
-							</thead>
-							<tbody id="quotes_view"></tbody>
+						<table class="table table-striped">
+							<tbody>
+								<div id="recent_activity_div"></div>
+							</tbody>
 						</table>
-					</div>
-
-					<div class="form-group">
-						<button
-							class="btn btn-info btn-xs pull-right hidden"
-							id="edit_vechicle_btn"
-							data-dismiss="modal"
-							data-toggle="modal"
-							href="#lost"
-						>
-							<i class="fa fa-pencil" aria-hidden="true"></i> View / Edit
-							Vechicle
-						</button>
-						<button class="btn btn-info btn-xs pull-right" id="add_quote_btn">
-							<i class="fa fa-plus" aria-hidden="true"></i>&nbsp;&nbsp;Add
-						</button>
-					</div>
-				</div>
-			</div>
-
-			<div class="box">
-				<div class="box-header with-border" style="background: #f4f4f48c">
-					<h3
-						class="box-title"
-						_msthash="26273"
-						_msttexthash="60619"
-						style="text-align: left; font-size: 14px"
-					>
-						<i class="fa fa-bars" aria-hidden="true"></i> &nbsp;&nbsp; Recent
-						Activities
-					</h3>
-					<div class="box-tools pull-right">
-						<button
-							type="button"
-							class="btn btn-box-tool"
-							data-widget="collapse"
-							data-toggle="tooltip"
-							title=""
-							data-original-title="Collapse"
-						>
-							<i class="fa fa-minus"></i>
-						</button>
-					</div>
-				</div>
-				<div
-					class="box-body"
-					_msthash="1196936"
-					_msttexthash="1190501"
-					style="text-align: left"
-				>
-					<div>
-						<div class="table table-responsive">
-							<table class="table table-striped">
-								<tbody>
-									<div id="recent_activity_div"></div>
-								</tbody>
-							</table>
-						</div>
 					</div>
 				</div>
 			</div>
 		</div>
 
-		<!-- Upload Quatation end -->
+		<!-- Recent Details end -->
+
+		<!-- --------------------------------------------------------------------------------------- -->
+    </section><!-- /.content -->
+</div><!-- Content Wrapper end -->
 
 		<!-- Add Follow Up start-->
 
@@ -2777,6 +2784,1446 @@
 		</div>
 
 		<!-- Add Follow Up end -->
+
+        <!-- --------------------------------------------------------------------------------------- -->
+
+		<!-- Add Health Details Start-->
+
+		<div class="modal fade in" id="add_health_model">
+			<div class="modal-dialog">
+				<div class="modal-content modal-lg-content">
+					<div class="modal-header bg-primary">
+						<button
+							type="button"
+							class="close"
+							data-dismiss="modal"
+							aria-label="Close"
+						>
+							<span aria-hidden="true" style="color: white">×</span>
+						</button>
+						<h4 class="modal-title text-center" style="color: white">
+							Add Health Details
+						</h4>
+					</div>
+					<div class="modal-body">
+						<input
+							type="text"
+							class="hidden"
+							id="created_id"
+							value="<?php echo $this->session->userdata('session_id'); ?>"
+						/>
+
+						<div class="form-group">
+							<label>Gender</label
+							><span id="add_name_error" style="color: red">*</span>
+							<select class="form-control" name="h_gender" id="h_gender">
+								<option value="Male">Male</option>
+								<option value="Female">Female</option>
+							</select>
+						</div>
+
+						<div class="form-group">
+							<label>Select members you want to insure </label
+							><span id="add_name_error" style="color: red">*</span>
+							<select
+								placeholder="--Select--"
+								class="form-control select2"
+								multiple="multiple"
+								name="h_family_members"
+								id="h_family_members"
+								style="width: 100%"
+							>
+								<option value="You">You</option>
+								<option value="Spouse">Spouse</option>
+								<option value="Daughter">Daughter</option>
+								<option value="Son">Son</option>
+								<option value="Father">Father</option>
+								<option value="Mother">Mother</option>
+							</select>
+						</div>
+
+						<div class="form-group">
+							<div class="row" id="row_id">
+								<!--<div class="col-md-6">-->
+								<!--   <label>No of Daughter's</label>   -->
+								<!--   <div class="input-group">-->
+								<!--       <input type="text" class="form-control" name="num_daughters" id="num_daughters">-->
+								<!--       <span class="input-group-addon"><i class="fa fa-plus"></i></span>-->
+								<!--   </div>-->
+								<!--</div>-->
+
+								<!--<div class="col-md-6">-->
+								<!--   <label>No of Sons's</label> -->
+								<!--   <div class="input-group">-->
+								<!--       <input type="text" class="form-control" name="num_sons" id="num_sons">-->
+								<!--       <span class="input-group-addon"><i class="fa fa-plus"></i></span>-->
+								<!--   </div>-->
+								<!--</div>-->
+							</div>
+						</div>
+
+						<div id="you_div" class="hidden">
+							<div class="row">
+								<div class="col-md-3">
+									<div id="ins_div">
+										<img src="<?= base_url('datas/icons/male1.png'); ?>" style="height:50px;width:50px;">
+									</div>
+									<label>You (Insurer)</label>
+								</div>
+
+								<div class="col-md-3">
+									<label>Insurer Name</label>
+									<input
+										type="text"
+										class="form-control"
+										name="add_you_name"
+										id="add_you_name"
+									/>
+								</div>
+
+								<div class="col-md-3">
+									<label>DOB</label>
+									<input
+										type="date"
+										class="form-control"
+										name="add_dob"
+										id="add_dob"
+									/>
+								</div>
+
+								<div class="col-md-3">
+									<label>Age</label>
+									<select
+										class="form-control"
+										name="you_age"
+										id="you_age"
+									>
+										<option value="">Age</option>
+										<?php for ($i = 18; $i <= 100; $i++) { ?>
+										<option value="<?php echo $i; ?>">
+											<?php echo $i; ?>
+											Years
+										</option>
+										<?php } ?>
+									</select>
+								</div>
+							</div>
+						</div>
+
+						<p></p>
+
+						<div id="husband_wife_div" class="hidden">
+							<div class="row">
+								<div class="col-md-3">
+									<div id="hus_wife_div">
+										<img src="<?= base_url('datas/icons/wife.png'); ?>" style="height:50px;width:50px;">
+									</div>
+									<label>Spouse</label>
+								</div>
+
+								<div class="col-md-3">
+									<label>Name</label>
+									<input
+										type="text"
+										class="form-control"
+										name="hus_wife_name"
+										id="hus_wife_name"
+									/>
+								</div>
+
+								<div class="col-md-3">
+									<label>DOB</label>
+									<input
+										type="date"
+										class="form-control"
+										name="add_hus_wife_dob"
+										id="add_hus_wife_dob"
+									/>
+								</div>
+
+								<div class="col-md-3">
+									<label>Age</label>
+									<select
+										class="form-control"
+										name="hus_wife_age"
+										id="hus_wife_age"
+									>
+										<option value="">Age</option>
+										<?php for ($i = 18; $i <= 100; $i++) { ?>
+										<option value="<?php echo $i; ?>">
+											<?php echo $i; ?>
+											Years
+										</option>
+										<?php } ?>
+									</select>
+								</div>
+							</div>
+						</div>
+						<p></p>
+
+						<div id="daughter_div1" class="hidden">
+							<div class="row">
+								<div class="col-md-3">
+									<div>
+										<img src="<?= base_url('datas/icons/daughter.png'); ?>" style="height:50px;width:50px;">
+									</div>
+									<label>Daughter 1</label>
+								</div>
+
+								<div class="col-md-3">
+									<label>Name</label>
+									<input
+										type="text"
+										class="form-control"
+										name="add_daughter_name_1"
+										id="add_daughter_name_1"
+									/>
+								</div>
+
+								<div class="col-md-3">
+									<label>DOB</label>
+									<input
+										type="date"
+										class="form-control"
+										name="add_daughter_dob_1"
+										id="add_daughter_dob_1"
+									/>
+								</div>
+
+								<div class="col-md-3">
+									<label>Age</label>
+									<select
+										class="form-control"
+										name="daughter_age_1"
+										id="daughter_age_1"
+									>
+										<option value="">Age</option>
+										<?php for ($i = 1; $i <= 11; $i++) { ?>
+										<option value="<?php echo $i; ?>">
+											<?php echo $i; ?>
+											Months
+										</option>
+										<?php } ?>
+										<?php for ($i = 1; $i <= 30; $i++) { ?>
+										<option value="<?php echo $i * 12; ?>">
+											<?php echo $i; ?>
+											Years
+										</option>
+										<?php } ?>
+									</select>
+								</div>
+							</div>
+						</div>
+						<p></p>
+
+						<div id="daughter_div2" class="hidden">
+							<div class="row">
+								<div class="col-md-3">
+									<div>
+										<img src="<?= base_url('datas/icons/daughter.png'); ?>" style="height:50px;width:50px;">
+									</div>
+									<label>Daughter 2</label>
+								</div>
+
+								<div class="col-md-3">
+									<label>Name</label>
+									<input
+										type="text"
+										class="form-control"
+										name="add_daughter_name_2"
+										id="add_daughter_name_2"
+									/>
+								</div>
+
+								<div class="col-md-3">
+									<label>DOB</label>
+									<input
+										type="date"
+										class="form-control"
+										name="add_daughter_dob_2"
+										id="add_daughter_dob_2"
+									/>
+								</div>
+								<div class="col-md-3">
+									<label>Age</label>
+									<select
+										class="form-control"
+										name="daughter_age_2"
+										id="daughter_age_2"
+									>
+										<option value="">Age</option>
+										<?php for ($i = 1; $i <= 11; $i++) { ?>
+										<option value="<?php echo $i; ?>">
+											<?php echo $i; ?>
+											Months
+										</option>
+										<?php } ?>
+										<?php for ($i = 1; $i <= 30; $i++) { ?>
+										<option value="<?php echo $i * 12; ?>">
+											<?php echo $i; ?>
+											Years
+										</option>
+										<?php } ?>
+									</select>
+								</div>
+							</div>
+						</div>
+						<p></p>
+						<div id="daughter_div3" class="hidden">
+							<div class="row">
+								<div class="col-md-3">
+									<div>
+										<img src="<?= base_url('datas/icons/daughter.png'); ?>" style="height:50px;width:50px;">
+									</div>
+									<label>Daughter 3</label>
+								</div>
+
+								<div class="col-md-3">
+									<label>Name</label>
+									<input
+										type="text"
+										class="form-control"
+										name="add_daughter_dob_3"
+										id="add_daughter_dob_3"
+									/>
+								</div>
+
+								<div class="col-md-3">
+									<label>DOB</label>
+									<input
+										type="date"
+										class="form-control"
+										name="add_daughter_name_3"
+										id="add_daughter_name_3"
+									/>
+								</div>
+
+								<div class="col-md-3">
+									<label>Age</label>
+									<select
+										class="form-control"
+										name="daughter_age_3"
+										id="daughter_age_3"
+									>
+										<option value="">Age</option>
+										<?php for ($i = 1; $i <= 11; $i++) { ?>
+										<option value="<?php echo $i; ?>">
+											<?php echo $i; ?>
+											Months
+										</option>
+										<?php } ?>
+										<?php for ($i = 1; $i <= 30; $i++) { ?>
+										<option value="<?php echo $i * 12; ?>">
+											<?php echo $i; ?>
+											Years
+										</option>
+										<?php } ?>
+									</select>
+								</div>
+							</div>
+						</div>
+						<p></p>
+						<div id="daughter_div4" class="hidden">
+							<div class="row">
+								<div class="col-md-3">
+									<div>
+										<img src="<?= base_url('datas/icons/daughter.png'); ?>" style="height:50px;width:50px;">
+									</div>
+									<label>Daughter 4</label>
+								</div>
+
+								<div class="col-md-3">
+									<label>Name</label>
+									<input
+										type="text"
+										class="form-control"
+										name="add_daughter_dob_4"
+										id="add_daughter_dob_4"
+									/>
+								</div>
+
+								<div class="col-md-3">
+									<label>DOB</label>
+									<input
+										type="date"
+										class="form-control"
+										name="add_daughter_name_4"
+										id="add_daughter_name_4"
+									/>
+								</div>
+								<div class="col-md-6">
+									<label>Age</label>
+									<select
+										class="form-control"
+										name="daughter_age_4"
+										id="daughter_age_4"
+									>
+										<option value="">Age</option>
+										<?php for ($i = 1; $i <= 11; $i++) { ?>
+										<option value="<?php echo $i; ?>">
+											<?php echo $i; ?>
+											Months
+										</option>
+										<?php } ?>
+										<?php for ($i = 1; $i <= 30; $i++) { ?>
+										<option value="<?php echo $i * 12; ?>">
+											<?php echo $i; ?>
+											Years
+										</option>
+										<?php } ?>
+									</select>
+								</div>
+							</div>
+						</div>
+						<p></p>
+						<div id="son_div1" class="hidden">
+							<div class="row">
+								<div class="col-md-3">
+									<div>
+										<img src="<?= base_url('datas/icons/son.png'); ?>" style="height:50px;width:50px;">
+									</div>
+									<label>Son 1</label>
+								</div>
+
+								<div class="col-md-3">
+									<label>Name</label>
+									<input
+										type="text"
+										class="form-control"
+										name="add_son_name_1"
+										id="add_son_name_1"
+									/>
+								</div>
+
+								<div class="col-md-3">
+									<label>DOB</label>
+									<input
+										type="date"
+										class="form-control"
+										name="add_son_dob_1"
+										id="add_son_dob_1"
+									/>
+								</div>
+
+								<div class="col-md-3">
+									<label>Age</label>
+									<select
+										class="form-control"
+										name="son_age_1"
+										id="son_age_1"
+									>
+										<option value="">Age</option>
+										<?php for ($i = 1; $i <= 11; $i++) { ?>
+										<option value="<?php echo $i; ?>">
+											<?php echo $i; ?>
+											Months
+										</option>
+										<?php } ?>
+										<?php for ($i = 1; $i <= 30; $i++) { ?>
+										<option value="<?php echo $i * 12; ?>">
+											<?php echo $i; ?>
+											Years
+										</option>
+										<?php } ?>
+									</select>
+								</div>
+							</div>
+						</div>
+						<p></p>
+						<div id="son_div2" class="hidden">
+							<div class="row">
+								<div class="col-md-3">
+									<div>
+										<img src="<?= base_url('datas/icons/son.png'); ?>" style="height:50px;width:50px;">
+									</div>
+									<label>Son 2</label>
+								</div>
+
+								<div class="col-md-3">
+									<label>Name</label>
+									<input
+										type="text"
+										class="form-control"
+										name="add_son_name_2"
+										id="add_son_name_2"
+									/>
+								</div>
+
+								<div class="col-md-3">
+									<label>DOB</label>
+									<input
+										type="date"
+										class="form-control"
+										name="add_son_dob_2"
+										id="add_son_dob_2"
+									/>
+								</div>
+								<div class="col-md-3">
+									<label>Age</label>
+									<select
+										class="form-control"
+										name="son_age_2"
+										id="son_age_2"
+									>
+										<option value="">Age</option>
+										<?php for ($i = 1; $i <= 11; $i++) { ?>
+										<option value="<?php echo $i; ?>">
+											<?php echo $i; ?>
+											Months
+										</option>
+										<?php } ?>
+										<?php for ($i = 1; $i <= 30; $i++) { ?>
+										<option value="<?php echo $i * 12; ?>">
+											<?php echo $i; ?>
+											Years
+										</option>
+										<?php } ?>
+									</select>
+								</div>
+							</div>
+						</div>
+						<p></p>
+						<div id="son_div3" class="hidden">
+							<div class="row">
+								<div class="col-md-3">
+									<div>
+										<img src="<?= base_url('datas/icons/son.png'); ?>" style="height:50px;width:50px;">
+									</div>
+									<label>Son 3</label>
+								</div>
+
+								<div class="col-md-3">
+									<label>Name</label>
+									<input
+										type="text"
+										class="form-control"
+										name="add_son_name_3"
+										id="add_son_name_3"
+									/>
+								</div>
+
+								<div class="col-md-3">
+									<label>DOB</label>
+									<input
+										type="date"
+										class="form-control"
+										name="add_son_dob_3"
+										id="add_son_dob_3"
+									/>
+								</div>
+								<div class="col-md-3">
+									<label>Age</label>
+									<select
+										class="form-control"
+										name="son_age_3"
+										id="son_age_3"
+									>
+										<option value="">Age</option>
+										<?php for ($i = 1; $i <= 11; $i++) { ?>
+										<option value="<?php echo $i; ?>">
+											<?php echo $i; ?>
+											Months
+										</option>
+										<?php } ?>
+										<?php for ($i = 1; $i <= 30; $i++) { ?>
+										<option value="<?php echo $i * 12; ?>">
+											<?php echo $i; ?>
+											Years
+										</option>
+										<?php } ?>
+									</select>
+								</div>
+							</div>
+						</div>
+						<p></p>
+						<div id="son_div4" class="hidden">
+							<div class="row">
+								<div class="col-md-3">
+									<div>
+										<img src="<?= base_url('datas/icons/son.png'); ?>" style="height:50px;width:50px;">
+									</div>
+									<label>Son 4</label>
+								</div>
+
+								<div class="col-md-3">
+									<label>Name</label>
+									<input
+										type="text"
+										class="form-control"
+										name="add_son_name_4"
+										id="add_son_name_4"
+									/>
+								</div>
+
+								<div class="col-md-3">
+									<label>DOB</label>
+									<input
+										type="date"
+										class="form-control"
+										name="add_son_dob_4"
+										id="add_son_dob_4"
+									/>
+								</div>
+
+								<div class="col-md-3">
+									<label>Age</label>
+									<select
+										class="form-control"
+										name="son_age_4"
+										id="son_age_4"
+									>
+										<option value="">Age</option>
+										<?php for ($i = 1; $i <= 11; $i++) { ?>
+										<option value="<?php echo $i; ?>">
+											<?php echo $i; ?>
+											Months
+										</option>
+										<?php } ?>
+										<?php for ($i = 1; $i <= 30; $i++) { ?>
+										<option value="<?php echo $i * 12; ?>">
+											<?php echo $i; ?>
+											Years
+										</option>
+										<?php } ?>
+									</select>
+								</div>
+							</div>
+						</div>
+						<p></p>
+
+						<div class="row hidden" id="father_div">
+							<div class="col-md-3">
+								<div>
+									<img src="<?= base_url('datas/icons/grandpa.png'); ?>" style="height:50px;width:50px;">
+								</div>
+								<label>Father</label>
+							</div>
+
+							<div class="col-md-3">
+								<label>Name</label>
+								<input
+									type="text"
+									class="form-control"
+									name="add_father_name"
+									id="add_father_name"
+								/>
+							</div>
+
+							<div class="col-md-3">
+								<label>DOB</label>
+								<input
+									type="date"
+									class="form-control"
+									name="add_father_dob"
+									id="add_father_dob"
+								/>
+							</div>
+
+							<div class="col-md-3">
+								<label>Age</label>
+								<select
+									class="form-control"
+									name="father_age"
+									id="father_age"
+								>
+									<option value="">Age</option>
+									<?php for ($i = 18; $i <= 100; $i++) { ?>
+									<option value="<?php echo $i; ?>">
+										<?php echo $i; ?>
+										Years
+									</option>
+									<?php } ?>
+								</select>
+							</div>
+						</div>
+
+						<p></p>
+
+						<div class="row hidden" id="mother_div">
+							<div class="col-md-3">
+								<div>
+									<img src="<?= base_url('datas/icons/grandma.png'); ?>" style="height:50px;width:50px;">
+								</div>
+								<label>Mother</label>
+							</div>
+
+							<div class="col-md-3">
+								<label>Name</label>
+								<input
+									type="text"
+									class="form-control"
+									name="add_mother_name"
+									id="add_mother_name"
+								/>
+							</div>
+
+							<div class="col-md-3">
+								<label>DOB</label>
+								<input
+									type="date"
+									class="form-control"
+									name="add_dob_mother"
+									id="add_dob_mother"
+								/>
+							</div>
+
+							<div class="col-md-3">
+								<label>Age</label>
+								<select
+									class="form-control"
+									name="mother_age"
+									id="mother_age"
+								>
+									<option value="">Age</option>
+									<?php for ($i = 18; $i <= 100; $i++) { ?>
+									<option value="<?php echo $i; ?>">
+										<?php echo $i; ?>
+										Years
+									</option>
+									<?php } ?>
+								</select>
+							</div>
+						</div>
+
+						<div class="modal-footer">
+							<button
+								type="button"
+								class="btn btn-sm btn-primary"
+								id="add_health_btn"
+							>
+								Submit
+							</button>
+							<button
+								type="button"
+								class="btn btn-sm btn-default"
+								data-dismiss="modal"
+							>
+								Close
+							</button>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+
+		<!-- Add Health Details end-->
+
+		<!-- --------------------------------------------------------------------------------------- -->
+		
+		<!-- Edit Health Details start-->
+
+		<div class="modal fade in" id="edit_health_model">
+			<div class="modal-dialog">
+				<div class="modal-content modal-lg-content">
+					<div class="modal-header bg-primary">
+						<button
+							type="button"
+							class="close"
+							data-dismiss="modal"
+							aria-label="Close"
+						>
+							<span aria-hidden="true" style="color: white">×</span>
+						</button>
+						<h4 class="modal-title text-center" style="color: white">
+							Edit Health Details
+						</h4>
+					</div>
+					<div class="modal-body">
+						<input
+							type="text"
+							class="hidden"
+							id="edit_created_id"
+							value="<?php echo $this->session->userdata('session_id'); ?>"
+						/>
+
+						<div class="form-group">
+							<label>Gender</label
+							><span id="edit_add_name_error" style="color: red">*</span>
+							<select
+								class="form-control"
+								name="edit_h_gender"
+								id="edit_h_gender"
+							>
+								<option value="Male">Male</option>
+								<option value="Female">Female</option>
+							</select>
+						</div>
+
+						<div class="form-group">
+							<label>Select members you want to insure </label
+							><span id="edit_add_name_error" style="color: red">*</span>
+							<select
+								placeholder="--Select--"
+								class="form-control select2"
+								multiple="multiple"
+								name="edit_h_family_members"
+								id="edit_h_family_members"
+								style="width: 100%"
+							>
+								<option value="You">You</option>
+								<option value="Spouse">Wife</option>
+								<option value="Daughter">Daughter</option>
+								<option value="Son">Son</option>
+								<option value="Father">Father</option>
+								<option value="Mother">Mother</option>
+							</select>
+						</div>
+
+						<div class="form-group">
+							<div class="row" id="edit_row_id"></div>
+						</div>
+
+						<div id="edit_you_div" class="hidden">
+							<div class="row">
+								<div class="col-md-3">
+									<div id="ins_div">
+										<img src="<?= base_url('datas/icons/male1.png'); ?>" style="height:50px;width:50px;">
+									</div>
+									<label>You (Insurer)</label>
+								</div>
+
+								<div class="col-md-3">
+									<label>Insurer Name</label>
+									<input
+										type="text"
+										class="form-control"
+										name="edit_you_name"
+										id="edit_you_name"
+									/>
+								</div>
+
+								<div class="col-md-3">
+									<label>DOB</label>
+									<input
+										type="date"
+										class="form-control"
+										name="edit_dob"
+										id="edit_dob"
+									/>
+								</div>
+
+								<div class="col-md-3">
+									<label>Age</label>
+									<select
+										class="form-control"
+										name="edit_you_age"
+										id="edit_you_age"
+									>
+										<option value="">Age</option>
+										<?php for ($i = 18; $i <= 100; $i++) { ?>
+										<option value="<?php echo $i; ?>">
+											<?php echo $i; ?>
+											Years
+										</option>
+										<?php } ?>
+									</select>
+								</div>
+							</div>
+						</div>
+
+						<p></p>
+
+						<div id="edit_husband_wife_div" class="hidden">
+							<div class="row">
+								<div class="col-md-3">
+									<div id="hus_wife_div">
+										<img src="<?= base_url('datas/icons/wife.png'); ?>" style="height:50px;width:50px;">
+									</div>
+									<label>Spouse</label>
+								</div>
+
+								<div class="col-md-3">
+									<label>Name</label>
+									<input
+										type="text"
+										class="form-control"
+										name="edit_hus_wife_name"
+										id="edit_hus_wife_name"
+									/>
+								</div>
+
+								<div class="col-md-3">
+									<label>DOB</label>
+									<input
+										type="date"
+										class="form-control"
+										name="edit_hus_wife_dob"
+										id="edit_hus_wife_dob"
+									/>
+								</div>
+
+								<div class="col-md-3">
+									<label>Age</label>
+									<select
+										class="form-control"
+										name="edit_hus_wife_age"
+										id="edit_hus_wife_age"
+									>
+										<option value="">Age</option>
+										<?php for ($i = 18; $i <= 100; $i++) { ?>
+										<option value="<?php echo $i; ?>">
+											<?php echo $i; ?>
+											Years
+										</option>
+										<?php } ?>
+									</select>
+								</div>
+							</div>
+						</div>
+						<p></p>
+
+						<div id="edit_daughter_div1" class="hidden">
+							<div class="row">
+								<div class="col-md-3">
+									<div>
+										<img src="<?= base_url('datas/icons/daughter.png'); ?>" style="height:50px;width:50px;">
+									</div>
+									<label>Daughter 1</label>
+								</div>
+
+								<div class="col-md-3">
+									<label>Name</label>
+									<input
+										type="text"
+										class="form-control"
+										name="edit_daughter_name_1"
+										id="edit_daughter_name_1"
+									/>
+								</div>
+
+								<div class="col-md-3">
+									<label>DOB</label>
+									<input
+										type="date"
+										class="form-control"
+										name="edit_daughter_dob_1"
+										id="edit_daughter_dob_1"
+									/>
+								</div>
+
+								<div class="col-md-3">
+									<label>Age</label>
+									<select
+										class="form-control"
+										name="edit_daughter_age_1"
+										id="edit_daughter_age_1"
+									>
+										<option value="">Age</option>
+										<?php for ($i = 1; $i <= 11; $i++) { ?>
+										<option value="<?php echo $i; ?>">
+											<?php echo $i; ?>
+											Months
+										</option>
+										<?php } ?>
+										<?php for ($i = 1; $i <= 30; $i++) { ?>
+										<option value="<?php echo $i * 12; ?>">
+											<?php echo $i; ?>
+											Years
+										</option>
+										<?php } ?>
+									</select>
+								</div>
+							</div>
+						</div>
+						<p></p>
+						<div id="edit_daughter_div2" class="hidden">
+							<div class="row">
+								<div class="col-md-3">
+									<div>
+										<img src="<?= base_url('datas/icons/daughter.png'); ?>" style="height:50px;width:50px;">
+									</div>
+									<label>Daughter 2</label>
+								</div>
+
+								<div class="col-md-3">
+									<label>Name</label>
+									<input
+										type="text"
+										class="form-control"
+										name="edit_daughter_name_2"
+										id="edit_daughter_name_2"
+									/>
+								</div>
+
+								<div class="col-md-3">
+									<label>DOB</label>
+									<input
+										type="date"
+										class="form-control"
+										name="edit_daughter_dob_2"
+										id="edit_daughter_dob_2"
+									/>
+								</div>
+
+								<div class="col-md-3">
+									<label>Age</label>
+									<select
+										class="form-control"
+										name="edit_daughter_age_2"
+										id="edit_daughter_age_2"
+									>
+										<option value="">Age</option>
+										<?php for ($i = 1; $i <= 11; $i++) { ?>
+										<option value="<?php echo $i; ?>">
+											<?php echo $i; ?>
+											Months
+										</option>
+										<?php } ?>
+										<?php for ($i = 1; $i <= 30; $i++) { ?>
+										<option value="<?php echo $i * 12; ?>">
+											<?php echo $i; ?>
+											Years
+										</option>
+										<?php } ?>
+									</select>
+								</div>
+							</div>
+						</div>
+						<p></p>
+						<div id="edit_daughter_div3" class="hidden">
+							<div class="row">
+								<div class="col-md-3">
+									<div>
+										<img src="<?= base_url('datas/icons/daughter.png'); ?>" style="height:50px;width:50px;">
+									</div>
+									<label>Daughter 3</label>
+								</div>
+
+								<div class="col-md-3">
+									<label>Name</label>
+									<input
+										type="text"
+										class="form-control"
+										name="edit_daughter_dob_3"
+										id="edit_daughter_dob_3"
+									/>
+								</div>
+
+								<div class="col-md-3">
+									<label>DOB</label>
+									<input
+										type="date"
+										class="form-control"
+										name="edit_daughter_name_3"
+										id="edit_daughter_name_3"
+									/>
+								</div>
+
+								<div class="col-md-3">
+									<label>Age</label>
+									<select
+										class="form-control"
+										name="edit_daughter_age_3"
+										id="edit_daughter_age_3"
+									>
+										<option value="">Age</option>
+										<?php for ($i = 1; $i <= 11; $i++) { ?>
+										<option value="<?php echo $i; ?>">
+											<?php echo $i; ?>
+											Months
+										</option>
+										<?php } ?>
+										<?php for ($i = 1; $i <= 30; $i++) { ?>
+										<option value="<?php echo $i * 12; ?>">
+											<?php echo $i; ?>
+											Years
+										</option>
+										<?php } ?>
+									</select>
+								</div>
+							</div>
+						</div>
+						<p></p>
+
+						<div id="edit_daughter_div4" class="hidden">
+							<div class="row">
+								<div class="col-md-3">
+									<div>
+										<img src="<?= base_url('datas/icons/daughter.png'); ?>" style="height:50px;width:50px;">
+									</div>
+									<label>Daughter 4</label>
+								</div>
+
+								<div class="col-md-3">
+									<label>Name</label>
+									<input
+										type="text"
+										class="form-control"
+										name="edit_daughter_name_4"
+										id="edit_daughter_name_4"
+									/>
+								</div>
+
+								<div class="col-md-3">
+									<label>DOB</label>
+									<input
+										type="date"
+										class="form-control"
+										name="edit_daughter_dob_4"
+										id="edit_daughter_dob_4"
+									/>
+								</div>
+
+								<div class="col-md-6">
+									<label>Age</label>
+									<select
+										class="form-control"
+										name="edit_daughter_age_4"
+										id="edit_daughter_age_4"
+									>
+										<option value="">Age</option>
+										<?php for ($i = 1; $i <= 11; $i++) { ?>
+										<option value="<?php echo $i; ?>">
+											<?php echo $i; ?>
+											Months
+										</option>
+										<?php } ?>
+										<?php for ($i = 1; $i <= 30; $i++) { ?>
+										<option value="<?php echo $i * 12; ?>">
+											<?php echo $i; ?>
+											Years
+										</option>
+										<?php } ?>
+									</select>
+								</div>
+							</div>
+						</div>
+						<p></p>
+
+						<div id="edit_son_div1" class="hidden">
+							<div class="row">
+								<div class="col-md-3">
+									<div>
+										<img src="<?= base_url('datas/icons/son.png'); ?>" style="height:50px;width:50px;">
+									</div>
+									<label>Son 1</label>
+								</div>
+
+								<div class="col-md-3">
+									<label>Name</label>
+									<input
+										type="text"
+										class="form-control"
+										name="edit_son_name_1"
+										id="edit_son_name_1"
+									/>
+								</div>
+
+								<div class="col-md-3">
+									<label>DOB</label>
+									<input
+										type="date"
+										class="form-control"
+										name="edit_son_dob_1"
+										id="edit_son_dob_1"
+									/>
+								</div>
+
+								<div class="col-md-3">
+									<label>Age</label>
+									<select
+										class="form-control"
+										name="edit_son_age_1"
+										id="edit_son_age_1"
+									>
+										<option value="">Age</option>
+										<?php for ($i = 1; $i <= 11; $i++) { ?>
+										<option value="<?php echo $i; ?>">
+											<?php echo $i; ?>
+											Months
+										</option>
+										<?php } ?>
+										<?php for ($i = 1; $i <= 30; $i++) { ?>
+										<option value="<?php echo $i * 12; ?>">
+											<?php echo $i; ?>
+											Years
+										</option>
+										<?php } ?>
+									</select>
+								</div>
+							</div>
+						</div>
+
+						<p></p>
+
+						<div id="edit_son_div2" class="hidden">
+							<div class="row">
+								<div class="col-md-3">
+									<div>
+										<img src="<?= base_url('datas/icons/son.png'); ?>" style="height:50px;width:50px;">
+									</div>
+									<label>Son 2</label>
+								</div>
+
+								<div class="col-md-3">
+									<label>Name</label>
+									<input
+										type="text"
+										class="form-control"
+										name="edit_son_name_2"
+										id="edit_son_name_2"
+									/>
+								</div>
+
+								<div class="col-md-3">
+									<label>DOB</label>
+									<input
+										type="date"
+										class="form-control"
+										name="edit_son_dob_2"
+										id="edit_son_dob_2"
+									/>
+								</div>
+								<div class="col-md-3">
+									<label>Age</label>
+									<select
+										class="form-control"
+										name="edit_son_age_2"
+										id="edit_son_age_2"
+									>
+										<option value="">Age</option>
+										<?php for ($i = 1; $i <= 11; $i++) { ?>
+										<option value="<?php echo $i; ?>">
+											<?php echo $i; ?>
+											Months
+										</option>
+										<?php } ?>
+										<?php for ($i = 1; $i <= 30; $i++) { ?>
+										<option value="<?php echo $i * 12; ?>">
+											<?php echo $i; ?>
+											Years
+										</option>
+										<?php } ?>
+									</select>
+								</div>
+							</div>
+						</div>
+						<p></p>
+						<div id="edit_son_div3" class="hidden">
+							<div class="row">
+								<div class="col-md-3">
+									<div>
+										<img src="<?= base_url('datas/icons/son.png'); ?>" style="height:50px;width:50px;">
+									</div>
+									<label>Son 3</label>
+								</div>
+
+								<div class="col-md-3">
+									<label>Name</label>
+									<input
+										type="text"
+										class="form-control"
+										name="edit_son_name_3"
+										id="edit_son_name_3"
+									/>
+								</div>
+
+								<div class="col-md-3">
+									<label>DOB</label>
+									<input
+										type="date"
+										class="form-control"
+										name="edit_son_dob_3"
+										id="edit_son_dob_3"
+									/>
+								</div>
+
+								<div class="col-md-3">
+									<label>Age</label>
+									<select
+										class="form-control"
+										name="edit_son_age_3"
+										id="edit_son_age_3"
+									>
+										<option value="">Age</option>
+										<?php for ($i = 1; $i <= 11; $i++) { ?>
+										<option value="<?php echo $i; ?>">
+											<?php echo $i; ?>
+											Months
+										</option>
+										<?php } ?>
+										<?php for ($i = 1; $i <= 30; $i++) { ?>
+										<option value="<?php echo $i * 12; ?>">
+											<?php echo $i; ?>
+											Years
+										</option>
+										<?php } ?>
+									</select>
+								</div>
+							</div>
+						</div>
+						<p></p>
+						<div id="edit_son_div4" class="hidden">
+							<div class="row">
+								<div class="col-md-3">
+									<div>
+										<img src="<?= base_url('datas/icons/son.png'); ?>" style="height:50px;width:50px;">
+									</div>
+									<label>Son 4</label>
+								</div>
+
+								<div class="col-md-3">
+									<label>Name</label>
+									<input
+										type="text"
+										class="form-control"
+										name="edit_son_name_4"
+										id="edit_son_name_4"
+									/>
+								</div>
+
+								<div class="col-md-3">
+									<label>DOB</label>
+									<input
+										type="date"
+										class="form-control"
+										name="edit_son_dob_4"
+										id="edit_son_dob_4"
+									/>
+								</div>
+
+								<div class="col-md-3">
+									<label>Age</label>
+									<select
+										class="form-control"
+										name="edit_son_age_4"
+										id="edit_son_age_4"
+									>
+										<option value="">Age</option>
+										<?php for ($i = 1; $i <= 11; $i++) { ?>
+										<option value="<?php echo $i; ?>">
+											<?php echo $i; ?>
+											Months
+										</option>
+										<?php } ?>
+										<?php for ($i = 1; $i <= 30; $i++) { ?>
+										<option value="<?php echo $i * 12; ?>">
+											<?php echo $i; ?>
+											Years
+										</option>
+										<?php } ?>
+									</select>
+								</div>
+							</div>
+						</div>
+						<p></p>
+
+						<div class="row hidden" id="edit_father_div">
+							<div class="col-md-3">
+								<div>
+									<img src="<?= base_url('datas/icons/grandpa.png'); ?>" style="height:50px;width:50px;">
+								</div>
+								<label>Father</label>
+							</div>
+
+							<div class="col-md-3">
+								<label>Name</label>
+								<input
+									type="text"
+									class="form-control"
+									name="edit_father_name"
+									id="edit_father_name"
+								/>
+							</div>
+
+							<div class="col-md-3">
+								<label>DOB</label>
+								<input
+									type="date"
+									class="form-control"
+									name="edit_father_dob"
+									id="edit_father_dob"
+								/>
+							</div>
+
+							<div class="col-md-3">
+								<label>Age</label>
+								<select
+									class="form-control"
+									name="edit_father_age"
+									id="edit_father_age"
+								>
+									<option value="">Age</option>
+									<?php for ($i = 18; $i <= 100; $i++) { ?>
+									<option value="<?php echo $i; ?>">
+										<?php echo $i; ?>
+										Years
+									</option>
+									<?php } ?>
+								</select>
+							</div>
+						</div>
+						<p></p>
+						<div class="row hidden" id="edit_mother_div">
+							<div class="col-md-3">
+								<div>
+									<img src="<?= base_url('datas/icons/grandma.png'); ?>" style="height:50px;width:50px;">
+								</div>
+								<label>Mother</label>
+							</div>
+
+							<div class="col-md-3">
+								<label>Name</label>
+								<input
+									type="text"
+									class="form-control"
+									name="edit_mother_name"
+									id="edit_mother_name"
+								/>
+							</div>
+
+							<div class="col-md-3">
+								<label>DOB</label>
+								<input
+									type="date"
+									class="form-control"
+									name="edit_dob_mother"
+									id="edit_dob_mother"
+								/>
+							</div>
+
+							<div class="col-md-3">
+								<label>Age</label>
+								<select
+									class="form-control"
+									name="edit_mother_age"
+									id="edit_mother_age"
+								>
+									<option value="">Age</option>
+									<?php for ($i = 18; $i <= 100; $i++) { ?>
+									<option value="<?php echo $i; ?>">
+										<?php echo $i; ?>
+										Years
+									</option>
+									<?php } ?>
+								</select>
+							</div>
+						</div>
+
+						<div class="modal-footer">
+							<button
+								type="button"
+								class="btn btn-sm btn-primary"
+								id="edit_health_btn"
+							>
+								Submit
+							</button>
+							<button
+								type="button"
+								class="btn btn-sm btn-default"
+								data-dismiss="modal"
+							>
+								Close
+							</button>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+
+		<!-- Edit Health Details end-->
+
+		<!-- --------------------------------------------------------------------------------------- -->
 
 		<div id="add_vechile_model" class="modal fade" role="dialog">
 			<div class="modal-dialog modal-lg">
@@ -3578,1512 +5025,6 @@
 					</div>
 
 					<!-- Create New Vechile End -->
-
-					<!-- Add Health Details Start-->
-
-					<div class="modal fade in" id="add_health_model">
-						<div class="modal-dialog">
-							<div class="modal-content modal-lg-content">
-								<div class="modal-header bg-primary">
-									<button
-										type="button"
-										class="close"
-										data-dismiss="modal"
-										aria-label="Close"
-									>
-										<span aria-hidden="true" style="color: white">×</span>
-									</button>
-									<h4 class="modal-title text-center" style="color: white">
-										Add Health Details
-									</h4>
-								</div>
-								<div class="modal-body">
-									<input
-										type="text"
-										class="hidden"
-										id="created_id"
-										value="<?php echo $this->session->userdata('session_id'); ?>"
-									/>
-
-									<div class="form-group">
-										<label>Gender</label
-										><span id="add_name_error" style="color: red">*</span>
-										<select class="form-control" name="h_gender" id="h_gender">
-											<option value="Male">Male</option>
-											<option value="Female">Female</option>
-										</select>
-									</div>
-
-									<div class="form-group">
-										<label>Select members you want to insure </label
-										><span id="add_name_error" style="color: red">*</span>
-										<select
-											placeholder="--Select--"
-											class="form-control select2"
-											multiple="multiple"
-											name="h_family_members"
-											id="h_family_members"
-											style="width: 100%"
-										>
-											<option value="You">You</option>
-											<option value="Spouse">Spouse</option>
-											<option value="Daughter">Daughter</option>
-											<option value="Son">Son</option>
-											<option value="Father">Father</option>
-											<option value="Mother">Mother</option>
-										</select>
-									</div>
-
-									<div class="form-group">
-										<div class="row" id="row_id">
-											<!--<div class="col-md-6">-->
-											<!--   <label>No of Daughter's</label>   -->
-											<!--   <div class="input-group">-->
-											<!--       <input type="text" class="form-control" name="num_daughters" id="num_daughters">-->
-											<!--       <span class="input-group-addon"><i class="fa fa-plus"></i></span>-->
-											<!--   </div>-->
-											<!--</div>-->
-
-											<!--<div class="col-md-6">-->
-											<!--   <label>No of Sons's</label> -->
-											<!--   <div class="input-group">-->
-											<!--       <input type="text" class="form-control" name="num_sons" id="num_sons">-->
-											<!--       <span class="input-group-addon"><i class="fa fa-plus"></i></span>-->
-											<!--   </div>-->
-											<!--</div>-->
-										</div>
-									</div>
-
-									<div id="you_div" class="hidden">
-										<div class="row">
-											<div class="col-md-3">
-												<div id="ins_div">
-													<img
-														src="../datas/icons/male1.png"
-														style="height: 50px; width: 50px"
-													/>
-												</div>
-												<label>You (Insurer)</label>
-											</div>
-
-											<div class="col-md-3">
-												<label>Insurer Name</label>
-												<input
-													type="text"
-													class="form-control"
-													name="add_you_name"
-													id="add_you_name"
-												/>
-											</div>
-
-											<div class="col-md-3">
-												<label>DOB</label>
-												<input
-													type="date"
-													class="form-control"
-													name="add_dob"
-													id="add_dob"
-												/>
-											</div>
-
-											<div class="col-md-3">
-												<label>Age</label>
-												<select
-													class="form-control"
-													name="you_age"
-													id="you_age"
-												>
-													<option value="">Age</option>
-													<?php for ($i = 18; $i <= 100; $i++) { ?>
-													<option value="<?php echo $i; ?>">
-														<?php echo $i; ?>
-														Years
-													</option>
-													<?php } ?>
-												</select>
-											</div>
-										</div>
-									</div>
-
-									<p></p>
-
-									<div id="husband_wife_div" class="hidden">
-										<div class="row">
-											<div class="col-md-3">
-												<div id="hus_wife_div">
-													<img
-														src="../datas/icons/wife.png"
-														style="height: 50px; width: 50px"
-													/>
-												</div>
-												<label>Spouse</label>
-											</div>
-
-											<div class="col-md-3">
-												<label>Name</label>
-												<input
-													type="text"
-													class="form-control"
-													name="hus_wife_name"
-													id="hus_wife_name"
-												/>
-											</div>
-
-											<div class="col-md-3">
-												<label>DOB</label>
-												<input
-													type="date"
-													class="form-control"
-													name="add_hus_wife_dob"
-													id="add_hus_wife_dob"
-												/>
-											</div>
-
-											<div class="col-md-3">
-												<label>Age</label>
-												<select
-													class="form-control"
-													name="hus_wife_age"
-													id="hus_wife_age"
-												>
-													<option value="">Age</option>
-													<?php for ($i = 18; $i <= 100; $i++) { ?>
-													<option value="<?php echo $i; ?>">
-														<?php echo $i; ?>
-														Years
-													</option>
-													<?php } ?>
-												</select>
-											</div>
-										</div>
-									</div>
-									<p></p>
-
-									<div id="daughter_div1" class="hidden">
-										<div class="row">
-											<div class="col-md-3">
-												<div>
-													<img
-														src="../datas/icons/daughter.png"
-														style="height: 50px; width: 50px"
-													/>
-												</div>
-												<label>Daughter 1</label>
-											</div>
-
-											<div class="col-md-3">
-												<label>Name</label>
-												<input
-													type="text"
-													class="form-control"
-													name="add_daughter_name_1"
-													id="add_daughter_name_1"
-												/>
-											</div>
-
-											<div class="col-md-3">
-												<label>DOB</label>
-												<input
-													type="date"
-													class="form-control"
-													name="add_daughter_dob_1"
-													id="add_daughter_dob_1"
-												/>
-											</div>
-
-											<div class="col-md-3">
-												<label>Age</label>
-												<select
-													class="form-control"
-													name="daughter_age_1"
-													id="daughter_age_1"
-												>
-													<option value="">Age</option>
-													<?php for ($i = 1; $i <= 11; $i++) { ?>
-													<option value="<?php echo $i; ?>">
-														<?php echo $i; ?>
-														Months
-													</option>
-													<?php } ?>
-													<?php for ($i = 1; $i <= 30; $i++) { ?>
-													<option value="<?php echo $i * 12; ?>">
-														<?php echo $i; ?>
-														Years
-													</option>
-													<?php } ?>
-												</select>
-											</div>
-										</div>
-									</div>
-									<p></p>
-
-									<div id="daughter_div2" class="hidden">
-										<div class="row">
-											<div class="col-md-3">
-												<div>
-													<img
-														src="../datas/icons/daughter.png"
-														style="height: 50px; width: 50px"
-													/>
-												</div>
-												<label>Daughter 2</label>
-											</div>
-
-											<div class="col-md-3">
-												<label>Name</label>
-												<input
-													type="text"
-													class="form-control"
-													name="add_daughter_name_2"
-													id="add_daughter_name_2"
-												/>
-											</div>
-
-											<div class="col-md-3">
-												<label>DOB</label>
-												<input
-													type="date"
-													class="form-control"
-													name="add_daughter_dob_2"
-													id="add_daughter_dob_2"
-												/>
-											</div>
-											<div class="col-md-3">
-												<label>Age</label>
-												<select
-													class="form-control"
-													name="daughter_age_2"
-													id="daughter_age_2"
-												>
-													<option value="">Age</option>
-													<?php for ($i = 1; $i <= 11; $i++) { ?>
-													<option value="<?php echo $i; ?>">
-														<?php echo $i; ?>
-														Months
-													</option>
-													<?php } ?>
-													<?php for ($i = 1; $i <= 30; $i++) { ?>
-													<option value="<?php echo $i * 12; ?>">
-														<?php echo $i; ?>
-														Years
-													</option>
-													<?php } ?>
-												</select>
-											</div>
-										</div>
-									</div>
-									<p></p>
-									<div id="daughter_div3" class="hidden">
-										<div class="row">
-											<div class="col-md-3">
-												<div>
-													<img
-														src="../datas/icons/daughter.png"
-														style="height: 50px; width: 50px"
-													/>
-												</div>
-												<label>Daughter 3</label>
-											</div>
-
-											<div class="col-md-3">
-												<label>Name</label>
-												<input
-													type="text"
-													class="form-control"
-													name="add_daughter_dob_3"
-													id="add_daughter_dob_3"
-												/>
-											</div>
-
-											<div class="col-md-3">
-												<label>DOB</label>
-												<input
-													type="date"
-													class="form-control"
-													name="add_daughter_name_3"
-													id="add_daughter_name_3"
-												/>
-											</div>
-
-											<div class="col-md-3">
-												<label>Age</label>
-												<select
-													class="form-control"
-													name="daughter_age_3"
-													id="daughter_age_3"
-												>
-													<option value="">Age</option>
-													<?php for ($i = 1; $i <= 11; $i++) { ?>
-													<option value="<?php echo $i; ?>">
-														<?php echo $i; ?>
-														Months
-													</option>
-													<?php } ?>
-													<?php for ($i = 1; $i <= 30; $i++) { ?>
-													<option value="<?php echo $i * 12; ?>">
-														<?php echo $i; ?>
-														Years
-													</option>
-													<?php } ?>
-												</select>
-											</div>
-										</div>
-									</div>
-									<p></p>
-									<div id="daughter_div4" class="hidden">
-										<div class="row">
-											<div class="col-md-3">
-												<div>
-													<img
-														src="../datas/icons/daughter.png"
-														style="height: 50px; width: 50px"
-													/>
-												</div>
-												<label>Daughter 4</label>
-											</div>
-
-											<div class="col-md-3">
-												<label>Name</label>
-												<input
-													type="text"
-													class="form-control"
-													name="add_daughter_dob_4"
-													id="add_daughter_dob_4"
-												/>
-											</div>
-
-											<div class="col-md-3">
-												<label>DOB</label>
-												<input
-													type="date"
-													class="form-control"
-													name="add_daughter_name_4"
-													id="add_daughter_name_4"
-												/>
-											</div>
-											<div class="col-md-6">
-												<label>Age</label>
-												<select
-													class="form-control"
-													name="daughter_age_4"
-													id="daughter_age_4"
-												>
-													<option value="">Age</option>
-													<?php for ($i = 1; $i <= 11; $i++) { ?>
-													<option value="<?php echo $i; ?>">
-														<?php echo $i; ?>
-														Months
-													</option>
-													<?php } ?>
-													<?php for ($i = 1; $i <= 30; $i++) { ?>
-													<option value="<?php echo $i * 12; ?>">
-														<?php echo $i; ?>
-														Years
-													</option>
-													<?php } ?>
-												</select>
-											</div>
-										</div>
-									</div>
-									<p></p>
-									<div id="son_div1" class="hidden">
-										<div class="row">
-											<div class="col-md-3">
-												<div>
-													<img
-														src="../datas/icons/son.png"
-														style="height: 50px; width: 50px"
-													/>
-												</div>
-												<label>Son 1</label>
-											</div>
-
-											<div class="col-md-3">
-												<label>Name</label>
-												<input
-													type="text"
-													class="form-control"
-													name="add_son_name_1"
-													id="add_son_name_1"
-												/>
-											</div>
-
-											<div class="col-md-3">
-												<label>DOB</label>
-												<input
-													type="date"
-													class="form-control"
-													name="add_son_dob_1"
-													id="add_son_dob_1"
-												/>
-											</div>
-
-											<div class="col-md-3">
-												<label>Age</label>
-												<select
-													class="form-control"
-													name="son_age_1"
-													id="son_age_1"
-												>
-													<option value="">Age</option>
-													<?php for ($i = 1; $i <= 11; $i++) { ?>
-													<option value="<?php echo $i; ?>">
-														<?php echo $i; ?>
-														Months
-													</option>
-													<?php } ?>
-													<?php for ($i = 1; $i <= 30; $i++) { ?>
-													<option value="<?php echo $i * 12; ?>">
-														<?php echo $i; ?>
-														Years
-													</option>
-													<?php } ?>
-												</select>
-											</div>
-										</div>
-									</div>
-									<p></p>
-									<div id="son_div2" class="hidden">
-										<div class="row">
-											<div class="col-md-3">
-												<div>
-													<img
-														src="../datas/icons/son.png"
-														style="height: 50px; width: 50px"
-													/>
-												</div>
-												<label>Son 2</label>
-											</div>
-
-											<div class="col-md-3">
-												<label>Name</label>
-												<input
-													type="text"
-													class="form-control"
-													name="add_son_name_2"
-													id="add_son_name_2"
-												/>
-											</div>
-
-											<div class="col-md-3">
-												<label>DOB</label>
-												<input
-													type="date"
-													class="form-control"
-													name="add_son_dob_2"
-													id="add_son_dob_2"
-												/>
-											</div>
-											<div class="col-md-3">
-												<label>Age</label>
-												<select
-													class="form-control"
-													name="son_age_2"
-													id="son_age_2"
-												>
-													<option value="">Age</option>
-													<?php for ($i = 1; $i <= 11; $i++) { ?>
-													<option value="<?php echo $i; ?>">
-														<?php echo $i; ?>
-														Months
-													</option>
-													<?php } ?>
-													<?php for ($i = 1; $i <= 30; $i++) { ?>
-													<option value="<?php echo $i * 12; ?>">
-														<?php echo $i; ?>
-														Years
-													</option>
-													<?php } ?>
-												</select>
-											</div>
-										</div>
-									</div>
-									<p></p>
-									<div id="son_div3" class="hidden">
-										<div class="row">
-											<div class="col-md-3">
-												<div>
-													<img
-														src="../datas/icons/son.png"
-														style="height: 50px; width: 50px"
-													/>
-												</div>
-												<label>Son 3</label>
-											</div>
-
-											<div class="col-md-3">
-												<label>Name</label>
-												<input
-													type="text"
-													class="form-control"
-													name="add_son_name_3"
-													id="add_son_name_3"
-												/>
-											</div>
-
-											<div class="col-md-3">
-												<label>DOB</label>
-												<input
-													type="date"
-													class="form-control"
-													name="add_son_dob_3"
-													id="add_son_dob_3"
-												/>
-											</div>
-											<div class="col-md-3">
-												<label>Age</label>
-												<select
-													class="form-control"
-													name="son_age_3"
-													id="son_age_3"
-												>
-													<option value="">Age</option>
-													<?php for ($i = 1; $i <= 11; $i++) { ?>
-													<option value="<?php echo $i; ?>">
-														<?php echo $i; ?>
-														Months
-													</option>
-													<?php } ?>
-													<?php for ($i = 1; $i <= 30; $i++) { ?>
-													<option value="<?php echo $i * 12; ?>">
-														<?php echo $i; ?>
-														Years
-													</option>
-													<?php } ?>
-												</select>
-											</div>
-										</div>
-									</div>
-									<p></p>
-									<div id="son_div4" class="hidden">
-										<div class="row">
-											<div class="col-md-3">
-												<div>
-													<img
-														src="../datas/icons/son.png"
-														style="height: 50px; width: 50px"
-													/>
-												</div>
-												<label>Son 4</label>
-											</div>
-
-											<div class="col-md-3">
-												<label>Name</label>
-												<input
-													type="text"
-													class="form-control"
-													name="add_son_name_4"
-													id="add_son_name_4"
-												/>
-											</div>
-
-											<div class="col-md-3">
-												<label>DOB</label>
-												<input
-													type="date"
-													class="form-control"
-													name="add_son_dob_4"
-													id="add_son_dob_4"
-												/>
-											</div>
-
-											<div class="col-md-3">
-												<label>Age</label>
-												<select
-													class="form-control"
-													name="son_age_4"
-													id="son_age_4"
-												>
-													<option value="">Age</option>
-													<?php for ($i = 1; $i <= 11; $i++) { ?>
-													<option value="<?php echo $i; ?>">
-														<?php echo $i; ?>
-														Months
-													</option>
-													<?php } ?>
-													<?php for ($i = 1; $i <= 30; $i++) { ?>
-													<option value="<?php echo $i * 12; ?>">
-														<?php echo $i; ?>
-														Years
-													</option>
-													<?php } ?>
-												</select>
-											</div>
-										</div>
-									</div>
-									<p></p>
-
-									<div class="row hidden" id="father_div">
-										<div class="col-md-3">
-											<div>
-												<img
-													src="../datas/icons/grandpa.png"
-													style="height: 50px; width: 50px"
-												/>
-											</div>
-											<label>Father</label>
-										</div>
-
-										<div class="col-md-3">
-											<label>Name</label>
-											<input
-												type="text"
-												class="form-control"
-												name="add_father_name"
-												id="add_father_name"
-											/>
-										</div>
-
-										<div class="col-md-3">
-											<label>DOB</label>
-											<input
-												type="date"
-												class="form-control"
-												name="add_father_dob"
-												id="add_father_dob"
-											/>
-										</div>
-
-										<div class="col-md-3">
-											<label>Age</label>
-											<select
-												class="form-control"
-												name="father_age"
-												id="father_age"
-											>
-												<option value="">Age</option>
-												<?php for ($i = 18; $i <= 100; $i++) { ?>
-												<option value="<?php echo $i; ?>">
-													<?php echo $i; ?>
-													Years
-												</option>
-												<?php } ?>
-											</select>
-										</div>
-									</div>
-
-									<p></p>
-
-									<div class="row hidden" id="mother_div">
-										<div class="col-md-3">
-											<div>
-												<img
-													src="../datas/icons/grandma.png"
-													style="height: 50px; width: 50px"
-												/>
-											</div>
-											<label>Mother</label>
-										</div>
-
-										<div class="col-md-3">
-											<label>Name</label>
-											<input
-												type="text"
-												class="form-control"
-												name="add_mother_name"
-												id="add_mother_name"
-											/>
-										</div>
-
-										<div class="col-md-3">
-											<label>DOB</label>
-											<input
-												type="date"
-												class="form-control"
-												name="add_dob_mother"
-												id="add_dob_mother"
-											/>
-										</div>
-
-										<div class="col-md-3">
-											<label>Age</label>
-											<select
-												class="form-control"
-												name="mother_age"
-												id="mother_age"
-											>
-												<option value="">Age</option>
-												<?php for ($i = 18; $i <= 100; $i++) { ?>
-												<option value="<?php echo $i; ?>">
-													<?php echo $i; ?>
-													Years
-												</option>
-												<?php } ?>
-											</select>
-										</div>
-									</div>
-
-									<div class="modal-footer">
-										<button
-											type="button"
-											class="btn btn-sm btn-primary"
-											id="add_health_btn"
-										>
-											Submit
-										</button>
-										<button
-											type="button"
-											class="btn btn-sm btn-default"
-											data-dismiss="modal"
-										>
-											Close
-										</button>
-									</div>
-								</div>
-							</div>
-						</div>
-					</div>
-
-					<!-- Add Health Details end-->
-
-					<!-- Edit Health Details start-->
-
-					<div class="modal fade in" id="edit_health_model">
-						<div class="modal-dialog">
-							<div class="modal-content modal-lg-content">
-								<div class="modal-header bg-primary">
-									<button
-										type="button"
-										class="close"
-										data-dismiss="modal"
-										aria-label="Close"
-									>
-										<span aria-hidden="true" style="color: white">×</span>
-									</button>
-									<h4 class="modal-title text-center" style="color: white">
-										Edit Health Details
-									</h4>
-								</div>
-								<div class="modal-body">
-									<input
-										type="text"
-										class="hidden"
-										id="edit_created_id"
-										value="<?php echo $this->session->userdata('session_id'); ?>"
-									/>
-
-									<div class="form-group">
-										<label>Gender</label
-										><span id="edit_add_name_error" style="color: red">*</span>
-										<select
-											class="form-control"
-											name="edit_h_gender"
-											id="edit_h_gender"
-										>
-											<option value="Male">Male</option>
-											<option value="Female">Female</option>
-										</select>
-									</div>
-
-									<div class="form-group">
-										<label>Select members you want to insure </label
-										><span id="edit_add_name_error" style="color: red">*</span>
-										<select
-											placeholder="--Select--"
-											class="form-control select2"
-											multiple="multiple"
-											name="edit_h_family_members"
-											id="edit_h_family_members"
-											style="width: 100%"
-										>
-											<option value="You">You</option>
-											<option value="Spouse">Wife</option>
-											<option value="Daughter">Daughter</option>
-											<option value="Son">Son</option>
-											<option value="Father">Father</option>
-											<option value="Mother">Mother</option>
-										</select>
-									</div>
-
-									<div class="form-group">
-										<div class="row" id="edit_row_id"></div>
-									</div>
-
-									<div id="edit_you_div" class="hidden">
-										<div class="row">
-											<div class="col-md-3">
-												<div id="ins_div">
-													<img
-														src="../datas/icons/male1.png"
-														style="height: 50px; width: 50px"
-													/>
-												</div>
-												<label>You (Insurer)</label>
-											</div>
-
-											<div class="col-md-3">
-												<label>Insurer Name</label>
-												<input
-													type="text"
-													class="form-control"
-													name="edit_you_name"
-													id="edit_you_name"
-												/>
-											</div>
-
-											<div class="col-md-3">
-												<label>DOB</label>
-												<input
-													type="date"
-													class="form-control"
-													name="edit_dob"
-													id="edit_dob"
-												/>
-											</div>
-
-											<div class="col-md-3">
-												<label>Age</label>
-												<select
-													class="form-control"
-													name="edit_you_age"
-													id="edit_you_age"
-												>
-													<option value="">Age</option>
-													<?php for ($i = 18; $i <= 100; $i++) { ?>
-													<option value="<?php echo $i; ?>">
-														<?php echo $i; ?>
-														Years
-													</option>
-													<?php } ?>
-												</select>
-											</div>
-										</div>
-									</div>
-
-									<p></p>
-
-									<div id="edit_husband_wife_div" class="hidden">
-										<div class="row">
-											<div class="col-md-3">
-												<div id="hus_wife_div">
-													<img
-														src="../datas/icons/wife.png"
-														style="height: 50px; width: 50px"
-													/>
-												</div>
-												<label>Spouse</label>
-											</div>
-
-											<div class="col-md-3">
-												<label>Name</label>
-												<input
-													type="text"
-													class="form-control"
-													name="edit_hus_wife_name"
-													id="edit_hus_wife_name"
-												/>
-											</div>
-
-											<div class="col-md-3">
-												<label>DOB</label>
-												<input
-													type="date"
-													class="form-control"
-													name="edit_hus_wife_dob"
-													id="edit_hus_wife_dob"
-												/>
-											</div>
-
-											<div class="col-md-3">
-												<label>Age</label>
-												<select
-													class="form-control"
-													name="edit_hus_wife_age"
-													id="edit_hus_wife_age"
-												>
-													<option value="">Age</option>
-													<?php for ($i = 18; $i <= 100; $i++) { ?>
-													<option value="<?php echo $i; ?>">
-														<?php echo $i; ?>
-														Years
-													</option>
-													<?php } ?>
-												</select>
-											</div>
-										</div>
-									</div>
-									<p></p>
-
-									<div id="edit_daughter_div1" class="hidden">
-										<div class="row">
-											<div class="col-md-3">
-												<div>
-													<img
-														src="../datas/icons/daughter.png"
-														style="height: 50px; width: 50px"
-													/>
-												</div>
-												<label>Daughter 1</label>
-											</div>
-
-											<div class="col-md-3">
-												<label>Name</label>
-												<input
-													type="text"
-													class="form-control"
-													name="edit_daughter_name_1"
-													id="edit_daughter_name_1"
-												/>
-											</div>
-
-											<div class="col-md-3">
-												<label>DOB</label>
-												<input
-													type="date"
-													class="form-control"
-													name="edit_daughter_dob_1"
-													id="edit_daughter_dob_1"
-												/>
-											</div>
-
-											<div class="col-md-3">
-												<label>Age</label>
-												<select
-													class="form-control"
-													name="edit_daughter_age_1"
-													id="edit_daughter_age_1"
-												>
-													<option value="">Age</option>
-													<?php for ($i = 1; $i <= 11; $i++) { ?>
-													<option value="<?php echo $i; ?>">
-														<?php echo $i; ?>
-														Months
-													</option>
-													<?php } ?>
-													<?php for ($i = 1; $i <= 30; $i++) { ?>
-													<option value="<?php echo $i * 12; ?>">
-														<?php echo $i; ?>
-														Years
-													</option>
-													<?php } ?>
-												</select>
-											</div>
-										</div>
-									</div>
-									<p></p>
-									<div id="edit_daughter_div2" class="hidden">
-										<div class="row">
-											<div class="col-md-3">
-												<div>
-													<img
-														src="../datas/icons/daughter.png"
-														style="height: 50px; width: 50px"
-													/>
-												</div>
-												<label>Daughter 2</label>
-											</div>
-
-											<div class="col-md-3">
-												<label>Name</label>
-												<input
-													type="text"
-													class="form-control"
-													name="edit_daughter_name_2"
-													id="edit_daughter_name_2"
-												/>
-											</div>
-
-											<div class="col-md-3">
-												<label>DOB</label>
-												<input
-													type="date"
-													class="form-control"
-													name="edit_daughter_dob_2"
-													id="edit_daughter_dob_2"
-												/>
-											</div>
-
-											<div class="col-md-3">
-												<label>Age</label>
-												<select
-													class="form-control"
-													name="edit_daughter_age_2"
-													id="edit_daughter_age_2"
-												>
-													<option value="">Age</option>
-													<?php for ($i = 1; $i <= 11; $i++) { ?>
-													<option value="<?php echo $i; ?>">
-														<?php echo $i; ?>
-														Months
-													</option>
-													<?php } ?>
-													<?php for ($i = 1; $i <= 30; $i++) { ?>
-													<option value="<?php echo $i * 12; ?>">
-														<?php echo $i; ?>
-														Years
-													</option>
-													<?php } ?>
-												</select>
-											</div>
-										</div>
-									</div>
-									<p></p>
-									<div id="edit_daughter_div3" class="hidden">
-										<div class="row">
-											<div class="col-md-3">
-												<div>
-													<img
-														src="../datas/icons/daughter.png"
-														style="height: 50px; width: 50px"
-													/>
-												</div>
-												<label>Daughter 3</label>
-											</div>
-
-											<div class="col-md-3">
-												<label>Name</label>
-												<input
-													type="text"
-													class="form-control"
-													name="edit_daughter_dob_3"
-													id="edit_daughter_dob_3"
-												/>
-											</div>
-
-											<div class="col-md-3">
-												<label>DOB</label>
-												<input
-													type="date"
-													class="form-control"
-													name="edit_daughter_name_3"
-													id="edit_daughter_name_3"
-												/>
-											</div>
-
-											<div class="col-md-3">
-												<label>Age</label>
-												<select
-													class="form-control"
-													name="edit_daughter_age_3"
-													id="edit_daughter_age_3"
-												>
-													<option value="">Age</option>
-													<?php for ($i = 1; $i <= 11; $i++) { ?>
-													<option value="<?php echo $i; ?>">
-														<?php echo $i; ?>
-														Months
-													</option>
-													<?php } ?>
-													<?php for ($i = 1; $i <= 30; $i++) { ?>
-													<option value="<?php echo $i * 12; ?>">
-														<?php echo $i; ?>
-														Years
-													</option>
-													<?php } ?>
-												</select>
-											</div>
-										</div>
-									</div>
-									<p></p>
-
-									<div id="edit_daughter_div4" class="hidden">
-										<div class="row">
-											<div class="col-md-3">
-												<div>
-													<img
-														src="../datas/icons/daughter.png"
-														style="height: 50px; width: 50px"
-													/>
-												</div>
-												<label>Daughter 4</label>
-											</div>
-
-											<div class="col-md-3">
-												<label>Name</label>
-												<input
-													type="text"
-													class="form-control"
-													name="edit_daughter_name_4"
-													id="edit_daughter_name_4"
-												/>
-											</div>
-
-											<div class="col-md-3">
-												<label>DOB</label>
-												<input
-													type="date"
-													class="form-control"
-													name="edit_daughter_dob_4"
-													id="edit_daughter_dob_4"
-												/>
-											</div>
-
-											<div class="col-md-6">
-												<label>Age</label>
-												<select
-													class="form-control"
-													name="edit_daughter_age_4"
-													id="edit_daughter_age_4"
-												>
-													<option value="">Age</option>
-													<?php for ($i = 1; $i <= 11; $i++) { ?>
-													<option value="<?php echo $i; ?>">
-														<?php echo $i; ?>
-														Months
-													</option>
-													<?php } ?>
-													<?php for ($i = 1; $i <= 30; $i++) { ?>
-													<option value="<?php echo $i * 12; ?>">
-														<?php echo $i; ?>
-														Years
-													</option>
-													<?php } ?>
-												</select>
-											</div>
-										</div>
-									</div>
-									<p></p>
-
-									<div id="edit_son_div1" class="hidden">
-										<div class="row">
-											<div class="col-md-3">
-												<div>
-													<img
-														src="../datas/icons/son.png"
-														style="height: 50px; width: 50px"
-													/>
-												</div>
-												<label>Son 1</label>
-											</div>
-
-											<div class="col-md-3">
-												<label>Name</label>
-												<input
-													type="text"
-													class="form-control"
-													name="edit_son_name_1"
-													id="edit_son_name_1"
-												/>
-											</div>
-
-											<div class="col-md-3">
-												<label>DOB</label>
-												<input
-													type="date"
-													class="form-control"
-													name="edit_son_dob_1"
-													id="edit_son_dob_1"
-												/>
-											</div>
-
-											<div class="col-md-3">
-												<label>Age</label>
-												<select
-													class="form-control"
-													name="edit_son_age_1"
-													id="edit_son_age_1"
-												>
-													<option value="">Age</option>
-													<?php for ($i = 1; $i <= 11; $i++) { ?>
-													<option value="<?php echo $i; ?>">
-														<?php echo $i; ?>
-														Months
-													</option>
-													<?php } ?>
-													<?php for ($i = 1; $i <= 30; $i++) { ?>
-													<option value="<?php echo $i * 12; ?>">
-														<?php echo $i; ?>
-														Years
-													</option>
-													<?php } ?>
-												</select>
-											</div>
-										</div>
-									</div>
-
-									<p></p>
-
-									<div id="edit_son_div2" class="hidden">
-										<div class="row">
-											<div class="col-md-3">
-												<div>
-													<img
-														src="../datas/icons/son.png"
-														style="height: 50px; width: 50px"
-													/>
-												</div>
-												<label>Son 2</label>
-											</div>
-
-											<div class="col-md-3">
-												<label>Name</label>
-												<input
-													type="text"
-													class="form-control"
-													name="edit_son_name_2"
-													id="edit_son_name_2"
-												/>
-											</div>
-
-											<div class="col-md-3">
-												<label>DOB</label>
-												<input
-													type="date"
-													class="form-control"
-													name="edit_son_dob_2"
-													id="edit_son_dob_2"
-												/>
-											</div>
-											<div class="col-md-3">
-												<label>Age</label>
-												<select
-													class="form-control"
-													name="edit_son_age_2"
-													id="edit_son_age_2"
-												>
-													<option value="">Age</option>
-													<?php for ($i = 1; $i <= 11; $i++) { ?>
-													<option value="<?php echo $i; ?>">
-														<?php echo $i; ?>
-														Months
-													</option>
-													<?php } ?>
-													<?php for ($i = 1; $i <= 30; $i++) { ?>
-													<option value="<?php echo $i * 12; ?>">
-														<?php echo $i; ?>
-														Years
-													</option>
-													<?php } ?>
-												</select>
-											</div>
-										</div>
-									</div>
-									<p></p>
-									<div id="edit_son_div3" class="hidden">
-										<div class="row">
-											<div class="col-md-3">
-												<div>
-													<img
-														src="../datas/icons/son.png"
-														style="height: 50px; width: 50px"
-													/>
-												</div>
-												<label>Son 3</label>
-											</div>
-
-											<div class="col-md-3">
-												<label>Name</label>
-												<input
-													type="text"
-													class="form-control"
-													name="edit_son_name_3"
-													id="edit_son_name_3"
-												/>
-											</div>
-
-											<div class="col-md-3">
-												<label>DOB</label>
-												<input
-													type="date"
-													class="form-control"
-													name="edit_son_dob_3"
-													id="edit_son_dob_3"
-												/>
-											</div>
-
-											<div class="col-md-3">
-												<label>Age</label>
-												<select
-													class="form-control"
-													name="edit_son_age_3"
-													id="edit_son_age_3"
-												>
-													<option value="">Age</option>
-													<?php for ($i = 1; $i <= 11; $i++) { ?>
-													<option value="<?php echo $i; ?>">
-														<?php echo $i; ?>
-														Months
-													</option>
-													<?php } ?>
-													<?php for ($i = 1; $i <= 30; $i++) { ?>
-													<option value="<?php echo $i * 12; ?>">
-														<?php echo $i; ?>
-														Years
-													</option>
-													<?php } ?>
-												</select>
-											</div>
-										</div>
-									</div>
-									<p></p>
-									<div id="edit_son_div4" class="hidden">
-										<div class="row">
-											<div class="col-md-3">
-												<div>
-													<img
-														src="../datas/icons/son.png"
-														style="height: 50px; width: 50px"
-													/>
-												</div>
-												<label>Son 4</label>
-											</div>
-
-											<div class="col-md-3">
-												<label>Name</label>
-												<input
-													type="text"
-													class="form-control"
-													name="edit_son_name_4"
-													id="edit_son_name_4"
-												/>
-											</div>
-
-											<div class="col-md-3">
-												<label>DOB</label>
-												<input
-													type="date"
-													class="form-control"
-													name="edit_son_dob_4"
-													id="edit_son_dob_4"
-												/>
-											</div>
-
-											<div class="col-md-3">
-												<label>Age</label>
-												<select
-													class="form-control"
-													name="edit_son_age_4"
-													id="edit_son_age_4"
-												>
-													<option value="">Age</option>
-													<?php for ($i = 1; $i <= 11; $i++) { ?>
-													<option value="<?php echo $i; ?>">
-														<?php echo $i; ?>
-														Months
-													</option>
-													<?php } ?>
-													<?php for ($i = 1; $i <= 30; $i++) { ?>
-													<option value="<?php echo $i * 12; ?>">
-														<?php echo $i; ?>
-														Years
-													</option>
-													<?php } ?>
-												</select>
-											</div>
-										</div>
-									</div>
-									<p></p>
-
-									<div class="row hidden" id="edit_father_div">
-										<div class="col-md-3">
-											<div>
-												<img
-													src="../datas/icons/grandpa.png"
-													style="height: 50px; width: 50px"
-												/>
-											</div>
-											<label>Father</label>
-										</div>
-
-										<div class="col-md-3">
-											<label>Name</label>
-											<input
-												type="text"
-												class="form-control"
-												name="edit_father_name"
-												id="edit_father_name"
-											/>
-										</div>
-
-										<div class="col-md-3">
-											<label>DOB</label>
-											<input
-												type="date"
-												class="form-control"
-												name="edit_father_dob"
-												id="edit_father_dob"
-											/>
-										</div>
-
-										<div class="col-md-3">
-											<label>Age</label>
-											<select
-												class="form-control"
-												name="edit_father_age"
-												id="edit_father_age"
-											>
-												<option value="">Age</option>
-												<?php for ($i = 18; $i <= 100; $i++) { ?>
-												<option value="<?php echo $i; ?>">
-													<?php echo $i; ?>
-													Years
-												</option>
-												<?php } ?>
-											</select>
-										</div>
-									</div>
-									<p></p>
-									<div class="row hidden" id="edit_mother_div">
-										<div class="col-md-3">
-											<div>
-												<img
-													src="../datas/icons/grandma.png"
-													style="height: 50px; width: 50px"
-												/>
-											</div>
-											<label>Mother</label>
-										</div>
-
-										<div class="col-md-3">
-											<label>Name</label>
-											<input
-												type="text"
-												class="form-control"
-												name="edit_mother_name"
-												id="edit_mother_name"
-											/>
-										</div>
-
-										<div class="col-md-3">
-											<label>DOB</label>
-											<input
-												type="date"
-												class="form-control"
-												name="edit_dob_mother"
-												id="edit_dob_mother"
-											/>
-										</div>
-
-										<div class="col-md-3">
-											<label>Age</label>
-											<select
-												class="form-control"
-												name="edit_mother_age"
-												id="edit_mother_age"
-											>
-												<option value="">Age</option>
-												<?php for ($i = 18; $i <= 100; $i++) { ?>
-												<option value="<?php echo $i; ?>">
-													<?php echo $i; ?>
-													Years
-												</option>
-												<?php } ?>
-											</select>
-										</div>
-									</div>
-
-									<div class="modal-footer">
-										<button
-											type="button"
-											class="btn btn-sm btn-primary"
-											id="edit_health_btn"
-										>
-											Submit
-										</button>
-										<button
-											type="button"
-											class="btn btn-sm btn-default"
-											data-dismiss="modal"
-										>
-											Close
-										</button>
-									</div>
-								</div>
-							</div>
-						</div>
-					</div>
-
-					<!-- Edit Health Details end-->
 
 					<!-- Add pet Details start-->
 
@@ -9856,6 +9797,7 @@ From: Anywhere in India To: Anywhere in India</textarea
 										}
 									},
 								});
+								
 								$("#follow_up_hidden").removeClass("hidden");
 								//$("#vechicle_hidden").removeClass("hidden");
 								$("#save_btn").addClass("hidden");
@@ -10077,43 +10019,51 @@ From: Anywhere in India To: Anywhere in India</textarea
 												},
 											});
 
-											if (obj.class == "1") {
+											if(obj.class == "1")
+											{
 												$("#vechicle_hidden").removeClass("hidden");
 												$("#nominee_div").removeClass("hidden");
-											} else if (obj.class == "2") {
+											}
+											else if(obj.class == "2")
+											{
 												$("#health_hidden").removeClass("hidden");
 												$("#nominee_div").removeClass("hidden");
-
+												
 												var lead_id = $("#last_inserted_id").val();
-
-												$.ajax({
-													url: "fetch_edit_health_details",
-													method: "POST",
-													data: { lead_id: lead_id },
-													success: function (response) {
-														var obj = jQuery.parseJSON(response);
-
-														if (obj != null) {
-															$("#view_health_div").removeClass("hidden");
-															$("#edit_health_details").removeClass("hidden");
-															$("#add_health_mod_btn").addClass("hidden");
-
-															if (obj.gender == "Male") {
-																$("#health_insurer_name").val(obj.husband_name);
-																$("#health_insurer_age").val(obj.husband_age);
-																$("#health_insurer_dob").val(obj.husband_dob);
-																$("#health_insurer_gender").val("Male");
-															} else {
-																$("#health_insurer_name").val(obj.wife_name);
-																$("#health_insurer_age").val(obj.wife_age);
-																$("#health_insurer_dob").val(obj.wife_dob);
-																$("#health_insurer_gender").val("Female");
+												
+												    $.ajax({
+															url : "fetch_edit_health_details",
+															method : "POST",
+															data : {lead_id : lead_id},
+															success:function(response)
+															{
+																var obj = jQuery.parseJSON(response);
+																
+																if(obj != null)
+																{
+																	$("#view_health_div").removeClass("hidden");
+																	$("#edit_health_details").removeClass("hidden");
+																	$("#add_health_mod_btn").addClass("hidden");
+																	
+																	if(obj.gender == "Male")
+																	{
+																		$("#health_insurer_name").val(obj.husband_name);
+																		$("#health_insurer_age").val(obj.husband_age);
+																		$("#health_insurer_dob").val(obj.husband_dob);
+																		$("#health_insurer_gender").val("Male");
+																	}
+																	else
+																	{
+																		$("#health_insurer_name").val(obj.wife_name);
+																		$("#health_insurer_age").val(obj.wife_age);
+																		$("#health_insurer_dob").val(obj.wife_dob);
+																		$("#health_insurer_gender").val("Female");
+																	}
+																	gen_policy_status = "1";
+																}
 															}
-															gen_policy_status = "1";
-														}
-													},
-												});
-											} else if (obj.class == "4") {
+													});
+											}else if (obj.class == "4") {
 												$("#property_hidden").removeClass("hidden");
 												$("#nominee_div").removeClass("hidden");
 
@@ -11911,88 +11861,6 @@ From: Anywhere in India To: Anywhere in India</textarea
 								$("#edit_client_btn").addClass("hidden");
 								$("#update_client_btn").removeClass("hidden");
 							});
-
-							//   $("#update_client_btn").click(function(){
-
-							//      var lead_id = $("#last_inserted_id").val();
-							//      var client_type = $("#client_type").val();
-							//      var client_name = $("#client_name").val();
-							//      var salutation = $("#salutation").val();
-							//      var initial = $("#initial").val();
-							//      var add_custom_field = $("#add_custom_field").val();
-							//      var doc_aadhar = $("#doc_aadhar").val();
-							//      var doc_pan = $("#doc_pan").val();
-							//      var doc_voter = $("#doc_voter").val();
-							//      var doc_dl = $("#doc_dl").val();
-							//      var doc_govt = $("#doc_govt").val();
-							//      var communication_address = $("#communication_address").val();
-							//      var permanent_address = $("#permanent_address").val();
-							//      var district = $("#district").val();
-							//      var state = $("#state").val();
-							//      var country = $("#country").val();
-							//      var mobile_no = $("#mobile_no").val();
-							//     //  var other_contact_details = $("#other_contact_details").val();
-							//     //  var landline_no= $("#landline_no").val();
-							//     //  var address = $("#address").val();
-							//      var email_id = $("#email_id").val();
-							//     //  var contact_person_name =$("#cont_person_name").val();
-							//     //  var contact_person_des = $("#cont_person_des").val();
-							//      var dob = $("#dob").val();
-							//      var age = $("#age").val();
-							//      var area = $("#area").val();
-							//      var pin_code = $("#pin_code").val();
-
-							//      $.ajax({
-							//             url : "update_client_details",
-							//             method : "POST",
-							//             data:{
-							//                    lead_id : lead_id,
-							//                    client_type:client_type,
-							//                    client_name:client_name,
-							//                    salutation:salutation,
-							//                    initial:initial,
-							//                    add_custom_field:add_custom_field,
-							//                    doc_aadhar:doc_aadhar,
-							//                    doc_pan:doc_pan,
-							//                    doc_voter:doc_voter,
-							//                    doc_dl:doc_dl,
-							//                    doc_govt:doc_govt,
-							//                    communication_address:communication_address,
-							//                    permanent_address:permanent_address,
-							//                    district:district,
-							//                    state:state,
-							//                    country:country,
-							//                    mobile_no:mobile_no,
-							//                 //    other_contact_details:other_contact_details,
-							//                 //    landline_no:landline_no,
-							//                 //    address:address,
-							//                    email_id:email_id,
-							//                 //    contact_person_name:contact_person_name,
-							//                 //    contact_person_des:contact_person_des,
-							//                    dob:dob,
-							//                    age:age,
-							//                    area:area,
-							//                    pin_code:pin_code
-							//             },
-							//             beforeSend:function(){
-							//                 $("#update_client_btn").attr("disabled",true);
-							//             },
-							//             success:function(response)
-							//             {
-							//                     Swal.fire({
-							//                     position: 'top-end',
-							//                     icon: 'success',
-							//                     title: 'Client Details updated Successfully',
-							//                     showConfirmButton: false,
-							//                     timer: 1500
-							//                     })
-							//                 $("#update_client_btn").attr("disabled",false);
-							//                 window.location.href="create_lead?id="+lead_id;
-							//                 notification_log(lead_id)
-							//             }
-							//      });
-
-							//   });
 
 							$("#update_client_btn").click(function (e) {
 								e.preventDefault();
@@ -14271,11 +14139,15 @@ From: Anywhere in India To: Anywhere in India</textarea
 											if (obj.father == "1") {
 												members.push("Father");
 												$("#edit_father_div").removeClass("hidden");
+												$("#edit_father_name").val(obj.father_name);
+												$("#edit_father_dob").val(obj.father_dob);
 												$("#edit_father_age").val(obj.father_age);
 											}
 											if (obj.mother == "1") {
 												members.push("Mother");
 												$("#edit_mother_div").removeClass("hidden");
+												$("#edit_mother_name").val(obj.mother_name);
+    											$("#edit_dob_mother").val(obj.mother_dob);
 												$("#edit_mother_age").val(obj.mother_age);
 											}
 
@@ -14684,6 +14556,24 @@ From: Anywhere in India To: Anywhere in India</textarea
 								$("#son_age_3").val(age);
 							});
 
+							$("#add_father_dob").change(function(){
+								var dob = $(this).val();
+								dob = new Date(dob);
+								var today = new Date();
+								
+								var age = Math.floor((today - dob) / (365.25 * 24 * 60 * 60 * 1000));
+								$('#father_age').val(age);
+							});
+							
+							$("#add_dob_mother").change(function(){
+								var dob = $(this).val();
+								dob = new Date(dob);
+								var today = new Date();
+								
+								var age = Math.floor((today - dob) / (365.25 * 24 * 60 * 60 * 1000));
+								$('#mother_age').val(age);
+							});
+
 							// edit_dob
 
 							$("#edit_dob").change(function () {
@@ -14878,6 +14768,24 @@ From: Anywhere in India To: Anywhere in India</textarea
 									var age = Math.floor(currentMonth - dob_month);
 								}
 								$("#edit_son_age_3").val(age);
+							});
+
+							$("#edit_father_dob").change(function () {
+								var dob = $("#edit_father_dob").val();
+								dob = new Date(dob);
+								var today = new Date();
+
+								var age = Math.floor((today - dob) / (365.25 * 24 * 60 * 60 * 1000));
+								$('#edit_father_age').val(age);
+							});
+
+							$("#edit_dob_mother").change(function () {
+								var dob = $("#edit_dob_mother").val();
+								dob = new Date(dob);
+								var today = new Date();
+
+								var age = Math.floor((today - dob) / (365.25 * 24 * 60 * 60 * 1000));
+								$('#edit_mother_age').val(age);
 							});
 
 							$("#sme_id").change(function () {
@@ -16378,7 +16286,7 @@ From: Anywhere in India To: Anywhere in India</textarea
 
 					    });
 
-                </script>
+                    </script>
 
 
 
@@ -16427,10 +16335,6 @@ From: Anywhere in India To: Anywhere in India</textarea
 				});
 			});
 		</script>
-
-
-	</section>
-</div>
 
 <!-- ========================= Vehicle Edit Modal ========================= -->
 

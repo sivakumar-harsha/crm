@@ -394,12 +394,12 @@ label {
   
   var bulk_status = "";
   
-  $(document).ready(function(){
+    $(document).ready(function(){
               <?php 
                    if(isset($_GET["status"]) && $_GET["status"]='customer')
                    {
               ?>       
-                            fetch_all_leads(2,1,1);
+                        fetch_all_leads(2,1,1);
                         $("#propect_tab").removeClass("active");
                         $("#hot_tab").removeClass("active");
                         $("#warm_tab").removeClass("active");
@@ -509,27 +509,27 @@ label {
             
             
             $.ajax({
-            url:"add_due_date",
-            method:"POST",
-            data:{duedate:duedate,id:id},
-             beforeSend:function(){
-                $("#due_btn").attr("disabled",true);
-            },
-             success:function(response){
-                // alert(response);
-                fetch_all_leads();
-                $("#due_date").val("");
-               $("#due_btn").attr("disabled",false);
-                $("#due_date_modal").modal("hide");
+                url:"add_due_date",
+                method:"POST",
+                data:{duedate:duedate,id:id},
+                beforeSend:function(){
+                    $("#due_btn").attr("disabled",true);
+                },
+                success:function(response){
+                    // alert(response);
+                    fetch_all_leads();
+                    $("#due_date").val("");
+                $("#due_btn").attr("disabled",false);
+                    $("#due_date_modal").modal("hide");
 
-            }
+                }
             
- });
+             });
             
         });
       
       
-         $("#upload_btn").click(function(){
+        $("#upload_btn").click(function(){
           var document_type = $("#file_type").val();
           var id = $("#view_id").val();
           
@@ -581,7 +581,7 @@ label {
             },
           });
             }
-      });
+        });
       
       
       
@@ -595,14 +595,15 @@ label {
           search_vechicle = $("#search_vechicle").val();
           fetch_all_leads(lead_type,classification,filter_category,bulk_status,search,search_vechicle)
       });
+
       
-      
-       $('#remove_upload_btn').click(function(){
+
+        $('#remove_upload_btn').click(function(){
               $('#multi_images').children().last().remove();
         });
         
         
-         $('#add_upload_btn').click(function(){
+        $('#add_upload_btn').click(function(){
                 var content = "<div class ='row'>";
                 content += '<div class="form-group col-md-6">';
                 content += ' <label>Upload File</label>';
@@ -615,9 +616,9 @@ label {
                 content += ' </div>';
                  content += ' </div>';
                  $("#multi_images").append(content);
-            });
+        });
       
-  });
+    });
   
    
   

@@ -2614,7 +2614,7 @@ label {
                 
                 if(typeof(son_2_file) != "undefined" && son_2_file !== null)
                 {
-                    var son_2_file = $("#son_1_file").prop('files')[0]; 
+                    var son_2_file = $("#son_2_file").prop('files')[0]; 
                 }
                 else
                 {
@@ -2639,7 +2639,7 @@ label {
                 
                 if(typeof(father_file) != "undefined" && father_file !== null)
                 {
-                    var father_file = $("#son_3_file").prop('files')[0]; 
+                    var father_file = $("#father_file").prop('files')[0]; 
                 }
                 else
                 {
@@ -2648,7 +2648,7 @@ label {
                 
                 if(typeof(mother_file) != "undefined" && mother_file !== null)
                 {
-                    var mother_file = $("#son_3_file").prop('files')[0]; 
+                    var mother_file = $("#mother_file").prop('files')[0]; 
                 }
                 else
                 {
@@ -3116,8 +3116,8 @@ label {
                     {
                             formdata.append('disease_husband',disease_husband);
                             formdata.append('husband_file',husband_file);
-                            formdata.append('disease_wife',disease_husband);
-                            formdata.append('wife_file',husband_file);
+                            formdata.append('disease_wife',disease_wife);
+                            formdata.append('wife_file',wife_file);
                             formdata.append('disease_daug_1',disease_daug_1);
                             formdata.append('disease_daug_2',disease_daug_2);
                             formdata.append('disease_daug_3',disease_daug_3);
@@ -4405,7 +4405,7 @@ label {
                 
                 if(typeof(son_2_file) != "undefined" && son_2_file !== null)
                 {
-                    var son_2_file = $("#son_1_file").prop('files')[0]; 
+                    var son_2_file = $("#son_2_file").prop('files')[0]; 
                 }
                 else
                 {
@@ -4430,7 +4430,7 @@ label {
                 
                 if(typeof(father_file) != "undefined" && father_file !== null)
                 {
-                    var father_file = $("#son_3_file").prop('files')[0]; 
+                    var father_file = $("#father_file").prop('files')[0]; 
                 }
                 else
                 {
@@ -4439,7 +4439,7 @@ label {
                 
                 if(typeof(mother_file) != "undefined" && mother_file !== null)
                 {
-                    var mother_file = $("#son_3_file").prop('files')[0]; 
+                    var mother_file = $("#mother_file").prop('files')[0]; 
                 }
                 else
                 {
@@ -4842,7 +4842,7 @@ label {
                     formdata.append('sum_insured',sum_insured);
                     formdata.append('discount_percent',discount_percent);
                     formdata.append('no_claim_bonus',no_claim_bonus);
-                     formdata.append('no_claim_bonus_val',no_claim_bonus_val);
+                    formdata.append('no_claim_bonus_val',no_claim_bonus_val);
                     formdata.append('total_own_damage',total_own_damage);
                     formdata.append('tot_add_on_premium',tot_add_on_premium);
                     formdata.append('commisson_base_premium',commisson_base_premium);
