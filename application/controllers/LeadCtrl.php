@@ -5341,6 +5341,41 @@ class LeadCtrl extends CI_Controller {
     				);
             echo json_encode($result);
     }
+
+    public function fetch_no_commission_policy()
+    {
+        $draw = intval($this->input->post("draw"));
+        $policy_type = $this->input->post("policy_type");
+
+        $res = $this->lm->get_no_commission_policy($policy_type);
+
+        $arr = [];
+        $count = $_POST['start'];
+
+        foreach($res as $r)
+        {
+            $count++;
+
+            $arr[] = [
+                $count,
+                $r->client_name,
+                $r->mobile_no,
+                $r->policy_no,
+                $r->insurer,
+                $r->total_premium,
+                $r->gst,
+                $r->policy_s_date,
+                $r->policy_ex_date
+            ];
+        }
+
+        echo json_encode([
+            "draw" => $draw,
+            "recordsTotal" => count($res),
+            "recordsFiltered" => count($res),
+            "data" => $arr
+        ]);
+    }
     
     
     public function fetch_generate_policy_sme()

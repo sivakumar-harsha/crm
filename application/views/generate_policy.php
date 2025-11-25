@@ -13,15 +13,15 @@
     
     <style>
         table.dataTable thead th, table.dataTable thead td {
-    padding: 10px 10px 4px !important;
-    border-bottom: 1px solid #111 !important;
-    font-weight: unset !important;
-}
-.modal-body {
-    position: relative;
-    padding: 4px;
-    padding-left: 14px;
-}
+            padding: 10px 10px 4px !important;
+            border-bottom: 1px solid #111 !important;
+            font-weight: unset !important;
+        }
+        .modal-body {
+            position: relative;
+            padding: 4px;
+            padding-left: 14px;
+        }
     </style>
     
     <section class="content">
@@ -31,11 +31,22 @@
             <li class="active" id="motor_li"><a href="#tab_1" data-toggle="tab" aria-expanded="true" onclick="fetch_generate_policy_motor()">Motor</a></li>
             <li class="" id="health_li"><a href="#tab_2" data-toggle="tab" aria-expanded="false" onclick="fetch_generate_policy_health()">Health</a></li>
              <li class="" id="sme_li"><a href="#tab_3" data-toggle="tab" aria-expanded="false" onclick="fetch_generate_policy_sme()">SME</a></li>
+             <li class="" id="no_com_li"><a href="#tab_4" data-toggle="tab" aria-expanded="false" onclick="fetch_no_commission_policy()">No Commission</a></li>
             </ul>
         </div>
     
         <div class="box-body">
           <div id="table_view"></div>
+
+          <div id="no_commission_filters" style="display:none; margin-bottom:10px;">
+              <select id="filter_policy_type" class="form-control" style="width:150px; display:inline-block;">
+                  <option value="">All</option>
+                  <option value="0">Motor</option>
+                  <option value="1">Health</option>
+                  <option value="2">SME</option>
+              </select>
+          </div>
+
         </div><!-- /.box-body -->        
       </div><!-- /.box -->
 
@@ -277,6 +288,48 @@
             'url':'fetch_generate_policy_sme',
           }
       });
+    }
+
+    function fetch_no_commission_policy()
+    {
+        // Show filter div
+        $("#no_commission_filters").show();
+
+        var content = "";
+        content += "<div class='table-responsive'>";
+        content += "<table id='table_id' class='table table-hover table-bordered'>";
+        content += "<thead><th>S.No</th><th>Customer</th><th>Mobile</th><th>Policy No</th><th>Insurer</th><th>Net</th><th>GST</th><th>S Date</th><th>E Date</th></thead>";
+        content += "<tbody></tbody>";
+        content += "</table>";
+        content += "</div>";
+
+        $("#table_view").html(content);
+
+        load_no_commission_table();
+    }
+
+    // Reload table when dropdown changes
+    $("#filter_policy_type").change(function() {
+        load_no_commission_table();
+    });
+
+    function load_no_commission_table()
+    {
+        var policy_type = $("#filter_policy_type").val();
+
+        $("#table_id").DataTable({
+            "processing": true,
+            "serverSide": true,
+            "ordering": false,
+            "destroy": true,
+            "ajax":{
+                'type': 'POST',
+                'url': 'fetch_no_commission_policy',
+                'data': {
+                    policy_type: policy_type
+                }
+            }
+        });
     }
     
     function view_data(id)

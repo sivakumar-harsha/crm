@@ -356,8 +356,8 @@ label {
 </div>
 
 
-    <div class="modal fade in" id="due_date_modal">
-    <div class="modal-dialog modal-sm">
+  <div class="modal fade in" id="due_date_modal">
+     <div class="modal-dialog modal-sm">
         <div class="modal-content">
             <div class="modal-header bg-primary">
                 <button type="button" class="close" data-dismiss="modal" aria-label="Close">
@@ -378,247 +378,241 @@ label {
                 <button type="button" class="btn btn-sm btn-primary" id="due_btn">Confirm</button>
             </div>
         </div>
-    </div>
+      </div>
    </div>
 
 
   
   <script>
-  var filter_category = "all";
-  var lead_type=0;
-  var classification=1;
-  var new_classification = 1;
+
+        var filter_category = "all";
+        var lead_type=0;
+        var classification=1;
+        var new_classification = 1;
+        
+        var search = "";
+        var search_vechicle ="";
+        
+        var bulk_status = "";
   
-  var search = "";
-  var search_vechicle ="";
-  
-  var bulk_status = "";
-  
-    $(document).ready(function(){
-              <?php 
-                   if(isset($_GET["status"]) && $_GET["status"]='customer')
-                   {
-              ?>       
-                        fetch_all_leads(2,1,1);
-                        $("#propect_tab").removeClass("active");
-                        $("#hot_tab").removeClass("active");
-                        $("#warm_tab").removeClass("active");
-                        $("#cool_tab").removeClass("active");
-                        $("#bulk_tab").removeClass("active");
-                        
-             <?php 
-               }
-             else
-             {
-             ?>
-                    <?php if($tab == "prospect"){ ?>   
-                        fetch_all_leads('1','1','1','0',search,search_vechicle)
-                        <?php }else if($tab == "warm"){ ?>
-                        fetch_all_leads('0','2','1','0',search,search_vechicle); 
-                        <?php }else if($tab == "cold"){ ?>
-                        fetch_all_leads('0','3','1','0',search,search_vechicle);
-                    <?php }else{ ?>
-                        fetch_all_leads(0,1,filter_category,'0',search,search_vechicle);
-                     <?php } ?>
-            <?php 
-             }
-             ?>
-      
-      $("#order_category").change(function(){
-          
-          filter_category = $("#filter_category").val();
-          
-          if($('#hot_tab').hasClass('active'))
-          {
-               fetch_all_leads(lead_type,1,filter_category,0,search,search_vechicle);
-          }
-          else if($('#warm_tab').hasClass('active'))
-          {
-              fetch_all_leads(lead_type,2,filter_category,0,search,search_vechicle);
-          }
-          else if($('#cool_tab').hasClass('active'))
-          {
-              fetch_all_leads(lead_type,3,filter_category,0,search,search_vechicle);
-          }
-          else if($("#propect_tab").hasClass('active'))
-          {
-              fetch_all_leads(1,1,filter_category,0,search,search_vechicle);
-          }
-          else if($("#bulk_tab").hasClass('active'))
-          {
-              fetch_all_leads(0,2,filter_category,1,search,search_vechicle);
-          }
-      });
-      
-      $("#filter_category").change(function(){
-          
-          filter_category = $("#filter_category").val();
-          
-          if($('#hot_tab').hasClass('active'))
-          {
-               fetch_all_leads(lead_type,1,filter_category,0,search,search_vechicle);
-          }
-          else if($('#warm_tab').hasClass('active'))
-          {
-              fetch_all_leads(lead_type,2,filter_category,0,search,search_vechicle);
-          }
-          else if($('#cool_tab').hasClass('active'))
-          {
-              fetch_all_leads(lead_type,3,filter_category,0,search,search_vechicle);
-          }
-          else if($("#propect_tab").hasClass('active'))
-          {
-              fetch_all_leads(1,1,filter_category,0,search,search_vechicle);
-          }
-          else if($("#bulk_tab").hasClass('active'))
-          {
-              fetch_all_leads(0,2,filter_category,1,search,search_vechicle);
-          }
-       
-      });
-      
-      
-      $("#confirm_btn").click(function(){
-         var content = $("#content").val();
-         var mobile_no = $("#mobile_no").val();
-         var lead_id = $("#lead_id").val();
-         
-         $.ajax({
-                    url : "update_quote_status",
-                    method : "POST",
-                    data : {lead_id:lead_id},
-                    beforeSend:function()
+        $(document).ready(function(){
+                <?php 
+                    if(isset($_GET["status"]) && $_GET["status"]='customer')
                     {
-                       $("#confirm_btn").attr("disabled",true); 
+                ?>       
+                            fetch_all_leads(2,1,1);
+                            $("#propect_tab").removeClass("active");
+                            $("#hot_tab").removeClass("active");
+                            $("#warm_tab").removeClass("active");
+                            $("#cool_tab").removeClass("active");
+                            $("#bulk_tab").removeClass("active");
+                            
+                <?php 
+                }
+                else
+                {
+                ?>
+                        <?php if($tab == "prospect"){ ?>   
+                            fetch_all_leads('1','1','1','0',search,search_vechicle)
+                            <?php }else if($tab == "warm"){ ?>
+                            fetch_all_leads('0','2','1','0',search,search_vechicle); 
+                            <?php }else if($tab == "cold"){ ?>
+                            fetch_all_leads('0','3','1','0',search,search_vechicle);
+                        <?php }else{ ?>
+                            fetch_all_leads(0,1,filter_category,'0',search,search_vechicle);
+                        <?php } ?>
+                <?php 
+                }
+                ?>
+        
+            $("#order_category").change(function(){
+                
+                filter_category = $("#filter_category").val();
+                
+                if($('#hot_tab').hasClass('active'))
+                {
+                    fetch_all_leads(lead_type,1,filter_category,0,search,search_vechicle);
+                }
+                else if($('#warm_tab').hasClass('active'))
+                {
+                    fetch_all_leads(lead_type,2,filter_category,0,search,search_vechicle);
+                }
+                else if($('#cool_tab').hasClass('active'))
+                {
+                    fetch_all_leads(lead_type,3,filter_category,0,search,search_vechicle);
+                }
+                else if($("#propect_tab").hasClass('active'))
+                {
+                    fetch_all_leads(1,1,filter_category,0,search,search_vechicle);
+                }
+                else if($("#bulk_tab").hasClass('active'))
+                {
+                    fetch_all_leads(0,2,filter_category,1,search,search_vechicle);
+                }
+            });
+        
+            $("#filter_category").change(function(){
+                
+                filter_category = $("#filter_category").val();
+                
+                if($('#hot_tab').hasClass('active'))
+                {
+                    fetch_all_leads(lead_type,1,filter_category,0,search,search_vechicle);
+                }
+                else if($('#warm_tab').hasClass('active'))
+                {
+                    fetch_all_leads(lead_type,2,filter_category,0,search,search_vechicle);
+                }
+                else if($('#cool_tab').hasClass('active'))
+                {
+                    fetch_all_leads(lead_type,3,filter_category,0,search,search_vechicle);
+                }
+                else if($("#propect_tab").hasClass('active'))
+                {
+                    fetch_all_leads(1,1,filter_category,0,search,search_vechicle);
+                }
+                else if($("#bulk_tab").hasClass('active'))
+                {
+                    fetch_all_leads(0,2,filter_category,1,search,search_vechicle);
+                }
+            
+            });
+        
+            $("#confirm_btn").click(function(){
+                var content = $("#content").val();
+                var mobile_no = $("#mobile_no").val();
+                var lead_id = $("#lead_id").val();
+                
+                $.ajax({
+                            url : "update_quote_status",
+                            method : "POST",
+                            data : {lead_id:lead_id},
+                            beforeSend:function()
+                            {
+                            $("#confirm_btn").attr("disabled",true); 
+                            },
+                            success:function(response)
+                            {
+                                $("#confirm_btn").attr("disabled",false); 
+                                $("#template_modal").modal("toggle");
+                                $("#filter_category").trigger("change");
+                                window.open("https://api.whatsapp.com/send?phone="+mobile_no+"&text="+content+"", "_blank");
+                            }
+                });
+            });
+        
+            $("#due_btn").click(function(){
+                
+                
+            var duedate = $("#due_date").val();
+            var id = $("#due_id").val();
+                
+                
+                $.ajax({
+                    url:"add_due_date",
+                    method:"POST",
+                    data:{duedate:duedate,id:id},
+                    beforeSend:function(){
+                        $("#due_btn").attr("disabled",true);
                     },
-                    success:function(response)
-                    {
-                        $("#confirm_btn").attr("disabled",false); 
-                        $("#template_modal").modal("toggle");
-                        $("#filter_category").trigger("change");
-                        window.open("https://api.whatsapp.com/send?phone="+mobile_no+"&text="+content+"", "_blank");
+                    success:function(response){
+                        // alert(response);
+                        fetch_all_leads();
+                        $("#due_date").val("");
+                    $("#due_btn").attr("disabled",false);
+                        $("#due_date_modal").modal("hide");
+
                     }
-         });
-      });
-      
-        $("#due_btn").click(function(){
+                
+                });
+                
+            });
+        
+            $("#upload_btn").click(function(){
+            var document_type = $("#file_type").val();
+            var id = $("#view_id").val();
             
+            var files = $("#gallery_image").prop('files')[0];
+            var formdata = new FormData();
             
-          var duedate = $("#due_date").val();
-          var id = $("#due_id").val();
+                
+                var check = 0 ;
+                
+                if(document_type === "")
+                {
+                    check = 1;
+                        Swal.fire(
+                        'Select Document Type ?',
+                        'That thing is still around?',
+                        'question'
+                        )
+                }
+                else if(check != 1)
+                {
+                
+                    formdata.append('id',id);
+                    formdata.append('document_type',document_type);
+                    formdata.append('file',files);
             
             
             $.ajax({
-                url:"add_due_date",
+                url:"add_lead_files",
+                dmethod:"POST",
+                data:formdata,
                 method:"POST",
-                data:{duedate:duedate,id:id},
+                processData:false,  
+                contentType:false,
+                cache:false,
+                dataType:'text',
                 beforeSend:function(){
-                    $("#due_btn").attr("disabled",true);
+                    $("#upload_btn").attr("disabled",true);
                 },
                 success:function(response){
                     // alert(response);
                     fetch_all_leads();
-                    $("#due_date").val("");
-                $("#due_btn").attr("disabled",false);
-                    $("#due_date_modal").modal("hide");
-
+                    $("#file_type").val("");
+                    $("#gallery_image").val("");
+                    $("#upload_btn").attr("disabled",false);
+                    $("#view_modal").modal("hide");
+                },
+                error: function(code) {   
+                    alert(code.statusText);
+                },
+            });
                 }
-            
-             });
-            
-        });
-      
-      
-        $("#upload_btn").click(function(){
-          var document_type = $("#file_type").val();
-          var id = $("#view_id").val();
-          
-          var files = $("#gallery_image").prop('files')[0];
-          var formdata = new FormData();
-          
-            
-               var check = 0 ;
-            
-            if(document_type === "")
-            {
-                check = 1;
-                    Swal.fire(
-                    'Select Document Type ?',
-                    'That thing is still around?',
-                    'question'
-                    )
-            }
-            else if(check != 1)
-            {
-            
-                formdata.append('id',id);
-                formdata.append('document_type',document_type);
-                formdata.append('file',files);
-         
-         
-           $.ajax({
-            url:"add_lead_files",
-            dmethod:"POST",
-            data:formdata,
-             method:"POST",
-             processData:false,  
-             contentType:false,
-             cache:false,
-             dataType:'text',
-            beforeSend:function(){
-                $("#upload_btn").attr("disabled",true);
-            },
-             success:function(response){
-                // alert(response);
-                fetch_all_leads();
-                $("#file_type").val("");
-                $("#gallery_image").val("");
-                $("#upload_btn").attr("disabled",false);
-                $("#view_modal").modal("hide");
-            },
-            error: function(code) {   
-                alert(code.statusText);
-            },
-          });
-            }
-        });
-      
-      
-      
-      $("#search_text").keyup(function(){ 
-          
-          search = $("#search_text").val();
-          fetch_all_leads(lead_type,classification,filter_category,bulk_status,search,search_vechicle)
-      });
-      
-      $("#search_vechicle").keyup(function(){
-          search_vechicle = $("#search_vechicle").val();
-          fetch_all_leads(lead_type,classification,filter_category,bulk_status,search,search_vechicle)
-      });
-
-      
-
-        $('#remove_upload_btn').click(function(){
-              $('#multi_images').children().last().remove();
-        });
+            });  
         
+            $("#search_text").keyup(function(){ 
+                
+                search = $("#search_text").val();
+                fetch_all_leads(lead_type,classification,filter_category,bulk_status,search,search_vechicle)
+            });
+            
+            $("#search_vechicle").keyup(function(){
+                search_vechicle = $("#search_vechicle").val();
+                fetch_all_leads(lead_type,classification,filter_category,bulk_status,search,search_vechicle)
+            });
         
-        $('#add_upload_btn').click(function(){
-                var content = "<div class ='row'>";
-                content += '<div class="form-group col-md-6">';
-                content += ' <label>Upload File</label>';
-                content += '<input type="file" name ="gallery_image[]" class="form-control" required>'; 
-                content += ' </div>';
-          
-                content  +='<div class="form-group col-md-6">';
-                content  +='<label>File type </label>';
-                content  +='<input name="file_type[]" type="text" class="form-control" required >';
-                content += ' </div>';
-                 content += ' </div>';
-                 $("#multi_images").append(content);
+            $('#remove_upload_btn').click(function(){
+                $('#multi_images').children().last().remove();
+            });
+            
+            $('#add_upload_btn').click(function(){
+                    var content = "<div class ='row'>";
+                    content += '<div class="form-group col-md-6">';
+                    content += ' <label>Upload File</label>';
+                    content += '<input type="file" name ="gallery_image[]" class="form-control" required>'; 
+                    content += ' </div>';
+            
+                    content  +='<div class="form-group col-md-6">';
+                    content  +='<label>File type </label>';
+                    content  +='<input name="file_type[]" type="text" class="form-control" required >';
+                    content += ' </div>';
+                    content += ' </div>';
+                    $("#multi_images").append(content);
+            });
+        
         });
-      
-    });
   
    
   
@@ -657,10 +651,8 @@ label {
     	                },
     		        }
 	       });
-        }
-        
-        
-        
+        }        
+                
         function fetch_temp_lead()
         {
            new_classification = classification;
@@ -899,118 +891,118 @@ label {
         }
         
         
-    function view_data(id)
-    {
-        $.ajax({
-                   url : "view_business_complete_details",
-                   method : "POST",
-                   data : {id:id},
-                   success:function(response)
-                   {
-                       var obj = jQuery.parseJSON(response);
-                       
-                       $("#v_info").html("");
-                       $("#v_docs").html("");
-                       $("#policy_info").html("");  
-                       $("#policy_docs").html("");  
-                       
-                        $(".modal-title").html(obj["p_info"].client_name + " - Customer Details");
-                        $("#client_name").html(obj["p_info"].client_name);
-                        $("#v_mobile_no").html(obj["p_info"].mobile_no);
-                        // $("#other_contact_details").html(obj["p_info"].other_contact_details);
-                        // $("#landline_no").html(obj["p_info"].landline_no);
-                        // $("#address").html(obj["p_info"].address);
-                        $("#email_id").html(obj["p_info"].email);
-                        $("#cont_person_name").html(obj["p_info"].contact_person_name);
-                        $("#cont_person_des").html(obj["p_info"].contact_person_designation);
-                        $("#dob").html(obj["p_info"].date_of_birth);
-                        $("#age").html(obj["p_info"].age);
-                        // $("#area").html(obj["p_info"].area);
-                        $("#view_id").val(id);
-                        
-                        if(obj["v_info"] == "")
+        function view_data(id)
+        {
+            $.ajax({
+                        url : "view_business_complete_details",
+                        method : "POST",
+                        data : {id:id},
+                        success:function(response)
                         {
-                            var html = "";
-                            html +='<div class="row">';
-                            html +='<div class="col-md-6">';
-                            html +='<div class="form-group">';
-                            html +='<div class="row">';
-                            html +='<div class="col-md-4">';
-                            html +='<label>Make/Model/Varient</label>';
-                            html +='</div>';
-                            html +='<div class="col-md-8">';
-                            html +='<p name="view_make_model" id="view_make_model" >'+obj["v_info"].brand_name+" /"+obj["v_info"].model_name+"/ "+obj["v_info"].varient_name+'</p>';
-                            html +='</div>';
-                            html +='</div>';
-                            html +='</div>';
-                            html +='<div class="form-group">';
-                            html +='<div class="row">';
-                            html +='<div class="col-md-4">';
-                            html +='<label>Engine no</label>';
-                            html +='</div>';
-                            html +='<div class="col-md-8">';
-                            html +='<p name="view_engine_no" id="view_engine_no" >'+obj["v_info"].vechi_engine_num+'</p>';
-                            html +='</div>';
-                            html +='</div>';
-                            html +='</div>';
-                            html +='</div>';
+                            var obj = jQuery.parseJSON(response);
                             
-                            html +='<div class="col-md-6">';
-                            html +='<div class="form-group">';
-                            html +='<div class="row">';
-                            html +='<div class="col-md-4">';
-                            html +='<label>Registration no</label>';
-                            html +='</div>';
-                            html +='<div class="col-md-8">';
-                            html +='<p name="view_regn_no" id="view_regn_no" >'+obj["v_info"].vechi_register_no+'</p>';
-                            html +='</div>';
-                            html +='</div>';
-                            html +='</div>';
+                            $("#v_info").html("");
+                            $("#v_docs").html("");
+                            $("#policy_info").html("");  
+                            $("#policy_docs").html("");  
                             
-                            html +='<div class="form-group">';
-                            html +='<div class="row">';
-                            html +='<div class="col-md-4">';
-                            html +='<label>Chassis No</label>';
-                            html +='</div>';
-                            html +='<div class="col-md-8">';
-                            html +='<p name="view_chassis" id="view_chassis" >'+obj["v_info"].vechi_chassis_num+'</p>';
-                            html +='</div>';
-                            html +='</div>';
-                            html +='</div>';
-                            html +='</div>';
-                            html +='</div>';
+                            $(".modal-title").html(obj["p_info"].client_name + " - Customer Details");
+                            $("#client_name").html(obj["p_info"].client_name);
+                            $("#v_mobile_no").html(obj["p_info"].mobile_no);
+                            // $("#other_contact_details").html(obj["p_info"].other_contact_details);
+                            // $("#landline_no").html(obj["p_info"].landline_no);
+                            // $("#address").html(obj["p_info"].address);
+                            $("#email_id").html(obj["p_info"].email);
+                            $("#cont_person_name").html(obj["p_info"].contact_person_name);
+                            $("#cont_person_des").html(obj["p_info"].contact_person_designation);
+                            $("#dob").html(obj["p_info"].date_of_birth);
+                            $("#age").html(obj["p_info"].age);
+                            // $("#area").html(obj["p_info"].area);
+                            $("#view_id").val(id);
                             
-                            $("#v_info").html(html);
-                            $("#v_docs").html(obj["docs"]);
+                            if(obj["v_info"] == "")
+                            {
+                                var html = "";
+                                html +='<div class="row">';
+                                html +='<div class="col-md-6">';
+                                html +='<div class="form-group">';
+                                html +='<div class="row">';
+                                html +='<div class="col-md-4">';
+                                html +='<label>Make/Model/Varient</label>';
+                                html +='</div>';
+                                html +='<div class="col-md-8">';
+                                html +='<p name="view_make_model" id="view_make_model" >'+obj["v_info"].brand_name+" /"+obj["v_info"].model_name+"/ "+obj["v_info"].varient_name+'</p>';
+                                html +='</div>';
+                                html +='</div>';
+                                html +='</div>';
+                                html +='<div class="form-group">';
+                                html +='<div class="row">';
+                                html +='<div class="col-md-4">';
+                                html +='<label>Engine no</label>';
+                                html +='</div>';
+                                html +='<div class="col-md-8">';
+                                html +='<p name="view_engine_no" id="view_engine_no" >'+obj["v_info"].vechi_engine_num+'</p>';
+                                html +='</div>';
+                                html +='</div>';
+                                html +='</div>';
+                                html +='</div>';
+                                
+                                html +='<div class="col-md-6">';
+                                html +='<div class="form-group">';
+                                html +='<div class="row">';
+                                html +='<div class="col-md-4">';
+                                html +='<label>Registration no</label>';
+                                html +='</div>';
+                                html +='<div class="col-md-8">';
+                                html +='<p name="view_regn_no" id="view_regn_no" >'+obj["v_info"].vechi_register_no+'</p>';
+                                html +='</div>';
+                                html +='</div>';
+                                html +='</div>';
+                                
+                                html +='<div class="form-group">';
+                                html +='<div class="row">';
+                                html +='<div class="col-md-4">';
+                                html +='<label>Chassis No</label>';
+                                html +='</div>';
+                                html +='<div class="col-md-8">';
+                                html +='<p name="view_chassis" id="view_chassis" >'+obj["v_info"].vechi_chassis_num+'</p>';
+                                html +='</div>';
+                                html +='</div>';
+                                html +='</div>';
+                                html +='</div>';
+                                html +='</div>';
+                                
+                                $("#v_info").html(html);
+                                $("#v_docs").html(obj["docs"]);
+                            }
+                            
+                            if(obj["policy_info"] != "")
+                            {
+                                $("#policy_info").html(obj["policy_info"]);
+                            }
+                            
+                            if(obj["policy_docs"] != "")
+                            {
+                                $("#policy_docs").html(obj["policy_docs"]);  
+                            }
+                            
+                            if(obj["sme_quote"] != "")
+                            {
+                                    $("#second_tab").html("");
+                                    $("#second_tab").html("Policy Quotes");
+                                    $("#v_info").html(obj["sme_quote"]);
+                            }
+                            
+                            $("#view_modal").modal("toggle");
+                            
                         }
-                        
-                        if(obj["policy_info"] != "")
-                        {
-                            $("#policy_info").html(obj["policy_info"]);
-                        }
-                        
-                        if(obj["policy_docs"] != "")
-                        {
-                          $("#policy_docs").html(obj["policy_docs"]);  
-                        }
-                        
-                        if(obj["sme_quote"] != "")
-                        {
-                             $("#second_tab").html("");
-                             $("#second_tab").html("Policy Quotes");
-                             $("#v_info").html(obj["sme_quote"]);
-                        }
-                       
-                       $("#view_modal").modal("toggle");
-                      
-                   }
-        });
-    }
-    
-function due_date_extern(id)
-   {
-          $("#due_date_modal").modal("show");
-          $("#due_id").val(id);
-    }
+            });
+        }
+
+        function due_date_extern(id)
+        {
+                $("#due_date_modal").modal("show");
+                $("#due_id").val(id);
+        }
     
   </script>

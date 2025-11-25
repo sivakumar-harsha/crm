@@ -1718,6 +1718,25 @@ class LeadMod extends CI_Model
   	    $this->db->where("list_of_leads.id",$lead_id);
   	    return $this->db->get()->row();
   	}
+
+	public function get_no_commission_policy($policy_type="")
+	{
+		$this->db->select("policy_info.*, list_of_clients.client_name, list_of_clients.mobile_no");
+		$this->db->from("policy_info");
+		$this->db->join("list_of_clients","policy_info.lead_id = list_of_clients.id","left");
+
+		// Only policies with commission NOT generated
+		$this->db->where("policy_info.commission_id IS NULL");
+
+		// Filter by Policy Type (Motor / Health / SME)
+		if($policy_type !== "" && $policy_type !== null){
+			$this->db->where("policy_info.lead_type", $policy_type);
+		}
+
+		$this->db->order_by("policy_info.id","DESC");
+
+		return $this->db->get()->result();
+	}
   	
   	public function get_vechicle_details($lead_id)
   	{

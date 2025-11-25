@@ -4224,6 +4224,2293 @@
 		<!-- Edit Health Details end-->
 
 		<!-- --------------------------------------------------------------------------------------- -->
+		
+		<!--Add Property property Start -->
+
+		<div id="homeModal" class="modal fade" role="dialog">
+			<div class="modal-dialog">
+				<div class="modal-content">
+					<div class="modal-header mob_pad_top_bot_5px">
+						<center>
+							<h4 class="modal-title">Best Home Insurance</h4>
+						</center>
+						<button
+							type="button"
+							class="close"
+							style="background-color: #fff; margin-top: -25px"
+							data-dismiss="modal"
+						>
+							&times;
+						</button>
+					</div>
+
+					<div class="modal-body">
+						<div class="row">
+							<div class="col-md-6">
+								<label>What is your house type?</label><br />
+								<input
+									type="button"
+									class="btn btn-light change_house_type"
+									id="home_btn"
+									style="border: none"
+									value="Home"
+								/>
+								&nbsp;<input
+									type="button"
+									id="housing_society_btn"
+									class="btn btn-light"
+									style="border: none"
+									value="Housing Society"
+								/>
+							</div>
+
+							<div class="col-md-6">
+								<label>Are you a tenant or Owner?</label><br />
+								<input
+									type="button"
+									class="btn btn-light change_owner"
+									id="owner_btn"
+									style="border: none"
+									value="Owner"
+								/>
+								&nbsp;<input
+									type="button"
+									id="tenant_btn"
+									class="btn btn-light"
+									style="border: none"
+									value="Tenant"
+								/>
+							</div>
+						</div>
+
+						<div class="row">
+							<div class="col-md-6">
+								<div class="form-group">
+									<label>Select Policy Tenure</label>
+									<select class="form-control" id="home_policy_tenure">
+										<option>1 Year</option>
+										<option>2 Year</option>
+										<option>3 Year</option>
+										<option>4 Year</option>
+										<option>5 Year</option>
+										<option>6 Year</option>
+										<option>7 Year</option>
+										<option>8 Year</option>
+										<option>9 Year</option>
+										<option>10 Year</option>
+									</select>
+								</div>
+
+								<div class="form-group">
+									<label>Property Value</label>
+									<div class="input-group">
+										<div class="input-group-addon">₹</div>
+										<input
+											type="number"
+											class="form-control"
+											id="home_property_value"
+										/>
+									</div>
+								</div>
+
+								<div class="form-group">
+									<label>Interior, Furniture & Lighting</label>
+									<div class="input-group">
+										<div class="input-group-addon">₹</div>
+										<input
+											type="number"
+											class="form-control"
+											id="home_infuli"
+										/>
+									</div>
+								</div>
+							</div>
+
+							<div class="col-md-6">
+								<div class="form-group">
+									<label>Age of Premises</label>
+									<select class="form-control" id="home_age_premises">
+										<option>1 Year</option>
+										<option>2 Year</option>
+										<option>3 Year</option>
+										<option>4 Year</option>
+										<option>5 Year</option>
+										<option>6 Year</option>
+										<option>7 Year</option>
+										<option>8 Year</option>
+										<option>9 Year</option>
+										<option>10 Year</option>
+										<option>11 Year</option>
+										<option>12 Year</option>
+										<option>13 Year</option>
+										<option>14 Year</option>
+										<option>15 Year</option>
+										<option>16 Year</option>
+										<option>17 Year</option>
+										<option>18 Year</option>
+										<option>19 Year</option>
+										<option>20 Year</option>
+										<option>21 Year</option>
+										<option>22 Year</option>
+										<option>23 Year</option>
+										<option>24 Year</option>
+										<option>25 Year</option>
+										<option>26 Year</option>
+										<option>27 Year</option>
+										<option>28 Year</option>
+										<option>29 Year</option>
+									</select>
+								</div>
+
+								<div class="form-group">
+									<label>Built Up Area</label>
+									<div class="input-group">
+										<input
+											type="number"
+											class="form-control"
+											id="home_sqft"
+										/>
+										<div class="input-group-addon">Sq Ft</div>
+									</div>
+								</div>
+
+								<div class="form-group">
+									<label>DG set, Air Conditioner & Machinery</label>
+									<div class="input-group">
+										<div class="input-group-addon">₹</div>
+										<input
+											type="number"
+											class="form-control"
+											id="home_dgairmac"
+										/>
+									</div>
+								</div>
+							</div>
+						</div>
+					</div>
+
+					<div class="modal-footer">
+						<button
+							type="button"
+							class="btn btn-primary"
+							id="add_pro_btn"
+						>
+							Submit
+						</button>
+						<button
+							type="button"
+							class="btn btn-default"
+							data-dismiss="modal"
+						>
+							Close
+						</button>
+					</div>
+				</div>
+			</div>
+		</div>
+
+		<!--Add Property property End -->
+
+		<!-- --------------------------------------------------------------------------------------- -->
+
+		<!--Add Business Start -->
+
+		<div id="businessmodal" class="modal fade" role="dialog">
+			<div class="modal-dialog">
+				<div class="modal-content">
+					<div class="modal-header mob_pad_top_bot_5px">
+						<center>
+							<h4 class="modal-title">Best Business Insurance</h4>
+						</center>
+						<button
+							type="button"
+							class="close"
+							style="background-color: #fff; margin-top: -25px"
+							data-dismiss="modal"
+						>
+							&times;
+						</button>
+					</div>
+
+					<div class="modal-body">
+						<div class="row">
+							<div class="col-md-6">
+								<label>Are you a tenant or Owner?</label><br />
+								<input
+									type="button"
+									class="btn btn-light business_change_owner"
+									id="business_owner_btn"
+									style="border: none"
+									value="Owner"
+								/>
+								&nbsp;<input
+									type="button"
+									id="business_tenant_btn"
+									class="btn btn-light"
+									style="border: none"
+									value="Tenant"
+								/>
+							</div>
+						</div>
+
+						<div class="row">
+							<div class="col-md-6">
+								<div class="form-group">
+									<label>Your Proffession</label>
+									<input
+										type="text"
+										class="form-control"
+										id="business_profession"
+									/>
+								</div>
+
+								<div class="form-group">
+									<label>Property Value</label>
+									<div class="input-group">
+										<div class="input-group-addon">₹</div>
+										<input
+											type="number"
+											class="form-control"
+											id="business_property_value"
+										/>
+									</div>
+								</div>
+
+								<div class="form-group">
+									<label>Interior, Furniture & Lighting</label>
+									<div class="input-group">
+										<div class="input-group-addon">₹</div>
+										<input
+											type="number"
+											class="form-control"
+											id="business_infuli"
+										/>
+									</div>
+								</div>
+							</div>
+
+							<div class="col-md-6">
+								<div class="form-group">
+									<label>Age of Premises</label>
+									<select class="form-control" id="business_age_premises">
+										<option>1 Year</option>
+										<option>2 Year</option>
+										<option>3 Year</option>
+										<option>4 Year</option>
+										<option>5 Year</option>
+										<option>6 Year</option>
+										<option>7 Year</option>
+										<option>8 Year</option>
+										<option>9 Year</option>
+										<option>10 Year</option>
+										<option>11 Year</option>
+										<option>12 Year</option>
+										<option>13 Year</option>
+										<option>14 Year</option>
+										<option>15 Year</option>
+										<option>16 Year</option>
+										<option>17 Year</option>
+										<option>18 Year</option>
+										<option>19 Year</option>
+										<option>20 Year</option>
+										<option>21 Year</option>
+										<option>22 Year</option>
+										<option>23 Year</option>
+										<option>24 Year</option>
+										<option>25 Year</option>
+										<option>26 Year</option>
+										<option>27 Year</option>
+										<option>28 Year</option>
+										<option>29 Year</option>
+									</select>
+								</div>
+
+								<div class="form-group">
+									<label>Built Up Area</label>
+									<div class="input-group">
+										<input
+											type="number"
+											class="form-control"
+											id="business_sqft"
+										/>
+										<div class="input-group-addon">Sq Ft</div>
+									</div>
+								</div>
+
+								<div class="form-group">
+									<label>DG set, Air Conditioner & Machinery</label>
+									<div class="input-group">
+										<div class="input-group-addon">₹</div>
+										<input
+											type="number"
+											class="form-control"
+											id="business_dgairmac"
+										/>
+									</div>
+								</div>
+							</div>
+						</div>
+					</div>
+
+					<div class="modal-footer">
+						<button
+							type="button"
+							class="btn btn-primary"
+							id="add_business_btn"
+						>
+							Submit
+						</button>
+						<button
+							type="button"
+							class="btn btn-default"
+							data-dismiss="modal"
+						>
+							Close
+						</button>
+					</div>
+				</div>
+			</div>
+		</div>
+
+		<!--Add Business End -->
+
+		<!-- --------------------------------------------------------------------------------------- -->
+
+		<!--Add SME Modal Start -->
+
+		<div id="sme_modal" class="modal fade" role="dialog">
+			<div class="modal-dialog modal-lg">
+				<div class="modal-content modal-lg-content">
+					<div class="modal-header" style="background: #778d9d">
+						<button type="button" class="close" data-dismiss="modal">
+							&times;
+						</button>
+						<h4 class="modal-title" style="color: #fff">SME Details</h4>
+						<button
+							class="btn btn-success btn-sm pull-right"
+							id="add_sme_info"
+							style="margin-top: -31px; margin-right: 27px"
+						>
+							<i class="fa fa-save"></i> Save
+						</button>
+					</div>
+					<div class="modal-body">
+						<section class="content">
+							<div class="box">
+								<div
+									class="box-header with-border"
+									style="background: #f4f4f48c"
+								>
+									<h3
+										class="box-title"
+										_msthash="26273"
+										_msttexthash="60619"
+										style="text-align: left; font-size: 14px"
+									>
+										<i class="fa fa-user" aria-hidden="true"></i>
+										&nbsp;&nbsp;SME Details
+									</h3>
+
+									<div class="box-tools pull-right">
+										<button
+											type="button"
+											class="btn btn-box-tool"
+											data-widget="collapse"
+											data-toggle="tooltip"
+											title=""
+											data-original-title="Collapse"
+										>
+											<i class="fa fa-minus"></i>
+										</button>
+									</div>
+								</div>
+
+								<div
+									class="box-body"
+									_msthash="1196936"
+									_msttexthash="1190501"
+									style="text-align: left"
+								>
+									<div class="row">
+										<div class="col-md-6">
+											<div class="form-group">
+												<div class="row">
+													<div class="col-md-4">
+														<label>SME Policy</label>
+													</div>
+													<div class="col-md-8">
+														<select
+															class="form-control"
+															name="sme_id"
+															id="sme_id"
+														>
+															<option value="">--select--</option>
+														</select>
+													</div>
+												</div>
+											</div>
+											<div class="hidden" id="marine">
+												<div class="form-group">
+													<div class="row">
+														<div class="col-md-4">
+															<label>Period of Insurance</label>
+														</div>
+														<div class="col-md-4">
+															<input
+																type="date"
+																class="form-control"
+																name="from_date"
+																id="from_date"
+															/>
+														</div>
+
+														<div class="col-md-4">
+															<input
+																type="date"
+																class="form-control"
+																name="to_date"
+																id="to_date"
+															/>
+														</div>
+													</div>
+												</div>
+
+												<div class="form-group">
+													<div class="row">
+														<div class="col-md-4">
+															<label>Commodity/ Interest</label>
+														</div>
+														<div class="col-md-8">
+															<input
+																type="text"
+																class="form-control"
+																name="commodity_interest"
+																id="commodity_interest"
+																value="Industrial Oil, Furnace Oil, Fuel oil , low and High density oil,industrial mixed solvent , Base Oil , Low aromatic white spirit"
+															/>
+														</div>
+													</div>
+												</div>
+
+												<div class="form-group">
+													<div class="row">
+														<div class="col-md-4">
+															<label>Basis of Valuation</label>
+														</div>
+													</div>
+													<div class="row">
+														<div class="col-md-4">
+															<label>Import</label>
+															<textarea
+																class="form-control"
+																name="b_valuation_import"
+																id="b_valuation_import"
+																rows="3"
+															>
+C&F / FOB / Exworks / CIF) + 10% + Duty at Actuals</textarea
+															>
+														</div>
+
+														<div class="col-md-4">
+															<label>Export</label>
+															<textarea
+																class="form-control"
+																name="b_valuation_export"
+																id="b_valuation_export"
+																rows="3"
+															>
+CIF + 10%, FOB + 20%</textarea
+															>
+														</div>
+
+														<div class="col-md-3">
+															<label>Inland</label>
+															<textarea
+																class="form-control"
+																name="b_valuation_inland"
+																id="b_valuation_inland"
+																rows="3"
+															>
+Invoice + 10% Interdepot /Interunit Transfers (Stock Transfer Note Value / InvoiceValue / Consignment Note Value) + Freight at Actuals</textarea
+															>
+														</div>
+													</div>
+												</div>
+
+												<div class="form-group">
+													<div class="row">
+														<div class="col-md-4">
+															<label>Annual Sales Turnover</label>
+														</div>
+														<div class="col-md-8">
+															<input
+																type="text"
+																class="form-control"
+																name="add_turnover"
+																id="add_turnover"
+															/>
+														</div>
+													</div>
+												</div>
+
+												<div class="row">
+													<div class="col-md-4">
+														<label style="color: #2e86c1">Sales:</label>
+													</div>
+												</div>
+
+												<div class="form-group">
+													<div class="row">
+														<div class="col-md-4">
+															<label>Domestic</label>
+														</div>
+														<div class="col-md-8">
+															<input
+																type="text"
+																class="form-control"
+																name="add_domestic"
+																id="add_domestic"
+															/>
+														</div>
+													</div>
+												</div>
+
+												<div class="row">
+													<div class="col-md-4">
+														<label style="color: #2e86c1"
+															>Purchase:</label
+														>
+													</div>
+												</div>
+
+												<div class="form-group">
+													<div class="row">
+														<div class="col-md-4">
+															<label>Import</label>
+														</div>
+														<div class="col-md-8">
+															<input
+																type="text"
+																class="form-control"
+																name="add_import"
+																id="add_import"
+															/>
+														</div>
+													</div>
+												</div>
+
+												<div class="form-group">
+													<div class="row">
+														<div class="col-md-4">
+															<label>Per Bottom Limit (Inland)</label>
+														</div>
+														<div class="col-md-8">
+															<input
+																type="text"
+																class="form-control"
+																name="bottom_inland_limit"
+																id="bottom_inland_limit"
+															/>
+														</div>
+													</div>
+												</div>
+
+												<div class="form-group">
+													<div class="row">
+														<div class="col-md-4">
+															<label>Per Location Limit (Inland)</label>
+														</div>
+														<div class="col-md-8">
+															<input
+																type="text"
+																class="form-control"
+																name="location_inland"
+																id="location_inland"
+															/>
+														</div>
+													</div>
+												</div>
+
+												<div class="form-group">
+													<div class="row">
+														<div class="col-md-4">
+															<label>Covering Clauses</label>
+														</div>
+														<div class="col-md-8">
+															<div class="row">
+																<div class="col-md-8">
+																	<input
+																		type="text"
+																		style="margin: 5px; width: 97%"
+																		id="covering_clauses"
+																		class="form-control coveringclauses"
+																	/>
+																	<div id="add_covering_clauses"></div>
+																</div>
+																<div class="col-md-4">
+																	<button
+																		id="sub_covering_btn"
+																		class="btn btn-info btn-sm pull-right"
+																	>
+																		-
+																	</button>
+																	<button
+																		id="add_covering_btn"
+																		class="btn btn-info btn-sm pull-right"
+																		style="margin-right: 5px"
+																	>
+																		+
+																	</button>
+																</div>
+															</div>
+														</div>
+													</div>
+												</div>
+
+												<div class="form-group">
+													<div class="row">
+														<div class="col-md-4">
+															<label>Date</label>
+														</div>
+														<div class="col-md-8">
+															<input
+																type="date"
+																class="form-control"
+																name="date"
+																id="date"
+															/>
+														</div>
+													</div>
+												</div>
+											</div>
+										</div>
+										<div class="col-md-6">
+											<div class="hidden" id="marine_remove">
+												<div class="form-group">
+													<div class="row">
+														<div class="col-md-4">
+															<label>Packing</label>
+														</div>
+														<div class="col-md-8">
+															<input
+																type="text"
+																class="form-control"
+																name="packing"
+																id="packing"
+															/>
+														</div>
+													</div>
+												</div>
+
+												<div class="form-group">
+													<div class="row">
+														<div class="col-md-4">
+															<label>Occupancy</label>
+														</div>
+														<div class="col-md-8">
+															<input
+																type="text"
+																class="form-control"
+																name="occupancy"
+																id="occupancy"
+															/>
+														</div>
+													</div>
+												</div>
+
+												<div class="form-group">
+													<div class="row">
+														<div class="col-md-4">
+															<label>Mode of Transport</label>
+														</div>
+														<div class="col-md-8">
+															<select
+																class="form-control"
+																name="transport"
+																id="transport"
+															>
+																<option value="">--Select--</option>
+																<option value="Rail">Rail</option>
+																<option value="Road">Road</option>
+																<option value="Air">Air</option>
+																<option value="Sea">Sea</option>
+															</select>
+														</div>
+													</div>
+												</div>
+
+												<div class="form-group">
+													<div class="row">
+														<div class="col-md-4">
+															<label>Voyage</label>
+														</div>
+													</div>
+
+													<div class="row">
+														<div class="col-md-4">
+															<label>Import</label>
+															<textarea
+																class="form-control"
+																name="voyage_import"
+																id="voyage_import"
+																rows="3"
+															>
+From: Anywhere in India To: Anywhere in the World</textarea
+															>
+														</div>
+
+														<div class="col-md-4">
+															<label>Export</label>
+															<textarea
+																class="form-control"
+																name="voyage_export"
+																id="voyage_export"
+																rows="3"
+															>
+From: Anywhere in the World To: Anywhere in India</textarea
+															>
+														</div>
+
+														<div class="col-md-4">
+															<label>Inland</label>
+															<textarea
+																class="form-control"
+																name="voyage_inland"
+																id="voyage_inland"
+																rows="3"
+															>
+From: Anywhere in India To: Anywhere in India</textarea
+															>
+														</div>
+													</div>
+												</div>
+
+												<div class="form-group">
+													<div class="row">
+														<div class="col-md-4">
+															<label>Initial Sum Insured Required</label>
+														</div>
+														<div class="col-md-8">
+															<input
+																type="text"
+																class="form-control"
+																name="initial_sum_insured"
+																id="initial_sum_insured"
+															/>
+														</div>
+													</div>
+												</div>
+
+												<div class="row">
+													<div class="col-md-4">
+														<label style="color: #2e86c1">Insurer:</label>
+													</div>
+												</div>
+
+												<div class="form-group">
+													<div class="row">
+														<div class="col-md-4">
+															<label>Current Insurer</label>
+														</div>
+														<div class="col-md-8">
+															<input
+																type="text"
+																class="form-control"
+																name="current_insurer"
+																id="current_insurer"
+															/>
+														</div>
+													</div>
+												</div>
+
+												<div class="row">
+													<div class="col-md-4">
+														<label style="color: #2e86c1"></label>
+													</div>
+												</div>
+
+												<div class="form-group">
+													<div class="row">
+														<div class="col-md-4">
+															<label>Domestic</label>
+														</div>
+														<div class="col-md-8">
+															<input
+																type="text"
+																class="form-control"
+																name="purchase_domestic"
+																id="purchase_domestic"
+															/>
+														</div>
+													</div>
+												</div>
+
+												<div class="form-group">
+													<div class="row">
+														<div class="col-md-4">
+															<label>Per Bottom Limit (Import)</label>
+														</div>
+														<div class="col-md-8">
+															<input
+																type="text"
+																class="form-control"
+																name="bottom_import_limit"
+																id="bottom_import_limit"
+															/>
+														</div>
+													</div>
+												</div>
+
+												<div class="form-group">
+													<div class="row">
+														<div class="col-md-4">
+															<label>Per Location Limit (Import)</label>
+														</div>
+														<div class="col-md-8">
+															<input
+																type="text"
+																class="form-control"
+																name="location_import_limit"
+																id="location_import_limit"
+															/>
+														</div>
+													</div>
+												</div>
+
+												<div class="form-group">
+													<div class="row">
+														<div class="col-md-4">
+															<label>Claim History</label>
+														</div>
+														<div class="col-md-8">
+															<textarea
+																class="form-control"
+																name="claim_history"
+																id="claim_history"
+																rows="3"
+															></textarea>
+														</div>
+													</div>
+												</div>
+											</div>
+										</div>
+									</div>
+
+									<div class="row hidden fire_div">
+										<div class="col-md-6">
+											<div class="hidden fire_div">
+												<div class="form-group">
+													<div class="row">
+														<div class="col-md-4">
+															<label>Period of Insurance</label>
+														</div>
+														<div class="col-md-4">
+															<input
+																type="date"
+																class="form-control"
+																name="fire_from_date"
+																id="fire_from_date"
+															/>
+														</div>
+
+														<div class="col-md-4">
+															<input
+																type="date"
+																class="form-control"
+																name="fire_to_date"
+																id="fire_to_date"
+															/>
+														</div>
+													</div>
+												</div>
+												<div class="form-group">
+													<div class="row">
+														<div class="col-md-4">
+															<label>Financial Institution</label>
+														</div>
+														<div class="col-md-8">
+															<input
+																type="text"
+																class="form-control"
+																name="financial_institution"
+																id="financial_institution"
+															/>
+														</div>
+													</div>
+												</div>
+											</div>
+										</div>
+
+										<div class="col-md-6 hidden fire_div">
+											<div class="form-group">
+												<div class="row">
+													<div class="col-md-4">
+														<label>Occupancy</label>
+													</div>
+													<div class="col-md-8">
+														<input
+															type="text"
+															class="form-control"
+															name="fire_occupancy"
+															id="fire_occupancy"
+														/>
+													</div>
+												</div>
+											</div>
+										</div>
+									</div>
+
+									<div class="row hidden fire_div">
+										<div class="col-md-12">
+											<table
+												class="table table-bordered"
+												style="width: 100%"
+											>
+												<tr>
+													<td rowspan="4">Sum Insured</td>
+													<td>
+														<div class="form-group">
+															<label>Particulars</label>
+															<textarea
+																class="form-control"
+																name="fire_particulars_1"
+																id="fire_particulars_1"
+															></textarea>
+														</div>
+													</td>
+													<td>
+														<div class="form-group">
+															<label>Fire Sum Insured (In Lacs)</label>
+															<input
+																type="text"
+																class="form-control"
+																name="fire_sum_ins_1"
+																id="fire_sum_ins_1"
+															/>
+														</div>
+													</td>
+													<td>
+														<div class="form-group">
+															<label>Fire Sum Insured (In Lacs)</label>
+															<input
+																type="text"
+																class="form-control"
+																name="burglary_sum_ins_1"
+																id="burglary_sum_ins_1"
+															/>
+														</div>
+													</td>
+												</tr>
+
+												<tr>
+													<td>
+														<div class="form-group">
+															<label>Particulars</label>
+															<textarea
+																class="form-control"
+																name="fire_particulars_2"
+																id="fire_particulars_2"
+															></textarea>
+														</div>
+													</td>
+													<td>
+														<div class="form-group">
+															<label>Fire Sum Insured (In Lacs)</label>
+															<input
+																type="text"
+																class="form-control"
+																name="fire_sum_ins_2"
+																id="fire_sum_ins_2"
+															/>
+														</div>
+													</td>
+													<td>
+														<div class="form-group">
+															<label>Fire Sum Insured (In Lacs)</label>
+															<input
+																type="text"
+																class="form-control"
+																name="burglary_sum_ins_2"
+																id="burglary_sum_ins_2"
+															/>
+														</div>
+													</td>
+												</tr>
+
+												<tr>
+													<td>
+														<div class="form-group">
+															<label>Particulars</label>
+															<textarea
+																class="form-control"
+																name="fire_particulars_3"
+																id="fire_particulars_3"
+															></textarea>
+														</div>
+													</td>
+													<td>
+														<div class="form-group">
+															<label>Fire Sum Insured (In Lacs)</label>
+															<input
+																type="text"
+																class="form-control"
+																name="fire_sum_ins_3"
+																id="fire_sum_ins_3"
+															/>
+														</div>
+													</td>
+													<td>
+														<div class="form-group">
+															<label>Fire Sum Insured (In Lacs)</label>
+															<input
+																type="text"
+																class="form-control"
+																name="burglary_sum_ins_3"
+																id="burglary_sum_ins_3"
+															/>
+														</div>
+													</td>
+												</tr>
+
+												<tr>
+													<td>
+														<div class="form-group">
+															<label>Particulars</label>
+															<textarea
+																class="form-control"
+																name="fire_particulars_4"
+																id="fire_particulars_4"
+															></textarea>
+														</div>
+													</td>
+													<td>
+														<div class="form-group">
+															<label>Fire Sum Insured (In Lacs)</label>
+															<input
+																type="text"
+																class="form-control"
+																name="fire_sum_ins_4"
+																id="fire_sum_ins_4"
+															/>
+														</div>
+													</td>
+													<td>
+														<div class="form-group">
+															<label>Fire Sum Insured (In Lacs)</label>
+															<input
+																type="text"
+																class="form-control"
+																name="burglary_sum_ins_4"
+																id="burglary_sum_ins_4"
+															/>
+														</div>
+													</td>
+												</tr>
+											</table>
+										</div>
+
+										<div class="col-md-6">
+											<div class="form-group">
+												<div class="row">
+													<div class="col-md-4">
+														<label
+															>Extension or Clause's Required under
+															Burglary</label
+														>
+													</div>
+													<div class="col-md-8">
+														<select
+															class="form-control"
+															name="clause_under_burglary"
+															id="clause_under_burglary"
+														>
+															<option value="RSMD">RSMD</option>
+															<option value="Theft Extension">
+																Theft Extension
+															</option>
+															<option value="Goods Held in Trust">
+																Goods Held in Trust
+															</option>
+														</select>
+													</div>
+												</div>
+											</div>
+											<div class="form-group">
+												<div class="row">
+													<div class="col-md-4">
+														<label>Expiring Insurer</label>
+													</div>
+													<div class="col-md-8">
+														<input
+															type="text"
+															class="form-control"
+															name="fire_expiry_insurer"
+															id="fire_expiry_insurer"
+														/>
+													</div>
+												</div>
+											</div>
+											<div class="form-group">
+												<div class="row">
+													<div class="col-md-4">
+														<label>Date</label>
+													</div>
+													<div class="col-md-8">
+														<input
+															type="date"
+															class="form-control"
+															name="fire_date"
+															id="fire_date"
+														/>
+													</div>
+												</div>
+											</div>
+										</div>
+
+										<div class="col-md-6">
+											<div class="form-group">
+												<div class="row">
+													<div class="col-md-4">
+														<label> Claims Experience</label>
+													</div>
+													<div class="col-md-8">
+														<input
+															type="text"
+															class="form-control"
+															name="claim_exprience"
+															id="claim_exprience"
+														/>
+													</div>
+												</div>
+											</div>
+											<div class="form-group">
+												<div class="row">
+													<div class="col-md-4">
+														<label>Information</label>
+													</div>
+													<div class="col-md-8">
+														<input
+															type="text"
+															class="form-control"
+															name="fire_information"
+															id="fire_information"
+														/>
+													</div>
+												</div>
+											</div>
+										</div>
+									</div>
+
+									<div class="hidden wc_div">
+										<div class="row">
+											<table
+												class="table table-bordered"
+												style="width: 100%"
+											>
+												<tr>
+													<th colspan="4" class="text-center bg-primary">
+														Employee Details
+													</th>
+												</tr>
+												<tr>
+													<th colspan="2">Details</th>
+													<th>Previous Year</th>
+													<th>Current Year</th>
+												</tr>
+												<tr>
+													<th colspan="2">Number of Employee</th>
+													<th>
+														<input
+															type="text"
+															class="form-control"
+															name="pre_no_of_emp"
+															id="pre_no_of_emp"
+														/>
+													</th>
+													<th>
+														<input
+															type="text"
+															class="form-control"
+															name="cur_no_of_emp"
+															id="cur_no_of_emp"
+														/>
+													</th>
+												</tr>
+											</table>
+											<div class="col-md-6">
+												<h4 class="text-center bg-primary">
+													Claim Details
+												</h4>
+												<div class="form-group">
+													<div class="row">
+														<div class="col-md-4">
+															<label>Claim Paid</label>
+														</div>
+														<div class="col-md-8">
+															<input
+																type="text"
+																class="form-control"
+																name="wc_claim_paid"
+																id="wc_claim_paid"
+															/>
+														</div>
+													</div>
+												</div>
+												<div class="form-group">
+													<div class="row">
+														<div class="col-md-4">
+															<label>Total Claim</label>
+														</div>
+														<div class="col-md-8">
+															<input
+																type="text"
+																class="form-control"
+																name="wc_tot_claim"
+																id="wc_tot_claim"
+															/>
+														</div>
+													</div>
+												</div>
+												<div class="form-group">
+													<div class="row">
+														<div class="col-md-4">
+															<label>Premium Paid</label>
+														</div>
+														<div class="col-md-8">
+															<input
+																type="text"
+																class="form-control"
+																name="wc_premium_paid"
+																id="wc_premium_paid"
+															/>
+														</div>
+													</div>
+												</div>
+											</div>
+											<div class="col-md-6">
+												<h4 class="text-center bg-primary">&nbsp;</h4>
+												<div class="form-group">
+													<div class="row">
+														<div class="col-md-4">
+															<label>Outstanding Claim</label>
+														</div>
+														<div class="col-md-8">
+															<input
+																type="text"
+																class="form-control"
+																name="wc_out_claim"
+																id="wc_out_claim"
+															/>
+														</div>
+													</div>
+												</div>
+												<div class="form-group">
+													<div class="row">
+														<div class="col-md-4">
+															<label>Last Three Years Claims</label>
+														</div>
+														<div class="col-md-8">
+															<input
+																type="text"
+																class="form-control"
+																name="wc_last_claim"
+																id="wc_last_claim"
+															/>
+														</div>
+													</div>
+												</div>
+											</div>
+										</div>
+
+										<div class="row">
+											<div class="col-md-6">
+												<h4 class="text-center bg-primary">
+													Policy Details
+												</h4>
+												<div class="form-group">
+													<div class="row">
+														<div class="col-md-4">
+															<label>Wages Per Employee Per Month</label>
+														</div>
+														<div class="col-md-8">
+															<input
+																type="text"
+																class="form-control"
+																name="wc_wages_per_mon"
+																id="wc_wages_per_mon"
+															/>
+														</div>
+													</div>
+												</div>
+
+												<div class="form-group">
+													<div class="row">
+														<div class="col-md-4">
+															<label>No of supervisor</label>
+														</div>
+														<div class="col-md-8">
+															<input
+																type="text"
+																class="form-control"
+																name="wc_no_supervisor"
+																id="wc_no_supervisor"
+															/>
+														</div>
+													</div>
+												</div>
+
+												<div class="form-group">
+													<div class="row">
+														<div class="col-md-4">
+															<label>No of site Engineer</label>
+														</div>
+														<div class="col-md-8">
+															<input
+																type="text"
+																class="form-control"
+																name="wc_no_site_engineer"
+																id="wc_no_site_engineer"
+															/>
+														</div>
+													</div>
+												</div>
+											</div>
+
+											<div class="col-md-6">
+												<h4 class="text-center bg-primary">&nbsp;</h4>
+
+												<div class="form-group">
+													<div class="row">
+														<div class="col-md-4">
+															<label
+																>Salary Per supervisor Per Month</label
+															>
+														</div>
+														<div class="col-md-8">
+															<input
+																type="text"
+																class="form-control"
+																name="wc_salary_per_supervisor"
+																id="wc_salary_per_supervisor"
+															/>
+														</div>
+													</div>
+												</div>
+
+												<div class="form-group">
+													<div class="row">
+														<div class="col-md-4">
+															<label
+																>Salary site Engineer Per Month</label
+															>
+														</div>
+														<div class="col-md-8">
+															<input
+																type="text"
+																class="form-control"
+																name="wc_salary_engineer"
+																id="wc_salary_engineer"
+															/>
+														</div>
+													</div>
+												</div>
+											</div>
+										</div>
+									</div>
+
+									<div class="gmc_div hidden">
+										<div class="row">
+											<div class="col-md-6">
+												<h4 class="text-center bg-primary">
+													Existing Policy Details
+												</h4>
+
+												<div class="form-group">
+													<div class="row">
+														<div class="col-md-4">
+															<label
+																>Current Status(Fresh /Renewal )</label
+															>
+														</div>
+														<div class="col-md-8">
+															<input
+																type="text"
+																class="form-control"
+																name="gmc_current_status"
+																id="gmc_current_status"
+															/>
+														</div>
+													</div>
+												</div>
+
+												<div class="form-group">
+													<div class="row">
+														<div class="col-md-4">
+															<label>Current Insurer & TPA</label>
+														</div>
+														<div class="col-md-8">
+															<input
+																type="text"
+																class="form-control"
+																name="gmc_cur_ins"
+																id="gmc_cur_ins"
+															/>
+														</div>
+													</div>
+												</div>
+
+												<div class="form-group">
+													<div class="row">
+														<div class="col-md-4">
+															<label
+																>Premium as on date ( Including
+																Addition/Deletions )</label
+															>
+														</div>
+														<div class="col-md-8">
+															<input
+																type="text"
+																class="form-control"
+																name="gmc_premium_date"
+																id="gmc_premium_date"
+															/>
+														</div>
+													</div>
+												</div>
+
+												<div class="form-group">
+													<div class="row">
+														<div class="col-md-4">
+															<label
+																>Total Lives for Policy Renewal</label
+															>
+														</div>
+														<div class="col-md-8">
+															<input
+																type="text"
+																class="form-control"
+																name="gmc_renewal_tot"
+																id="gmc_renewal_tot"
+															/>
+														</div>
+													</div>
+												</div>
+											</div>
+
+											<div class="col-md-6">
+												<h4 class="text-center bg-primary">&nbsp;</h4>
+
+												<div class="form-group">
+													<div class="row">
+														<div class="col-md-4">
+															<label>Period Of Insurance</label>
+														</div>
+														<div class="col-md-8">
+															<input
+																type="text"
+																class="form-control"
+																name="gmc_period_of_ins"
+																id="gmc_period_of_ins"
+															/>
+														</div>
+													</div>
+												</div>
+
+												<div class="form-group">
+													<div class="row">
+														<div class="col-md-4">
+															<label
+																>Premium At inception of Policy
+															</label>
+														</div>
+														<div class="col-md-8">
+															<input
+																type="text"
+																class="form-control"
+																name="gmc_premium_inscep"
+																id="gmc_premium_inscep"
+															/>
+														</div>
+													</div>
+												</div>
+
+												<div class="form-group">
+													<div class="row">
+														<div class="col-md-4">
+															<label
+																>Total Lives at Inception of Policy</label
+															>
+														</div>
+														<div class="col-md-8">
+															<input
+																type="text"
+																class="form-control"
+																name="gmc_total_lives"
+																id="gmc_total_lives"
+															/>
+														</div>
+													</div>
+												</div>
+
+												<div class="form-group">
+													<div class="row">
+														<div class="col-md-4">
+															<label>Incurred Claims(Settled+ O/s)</label>
+														</div>
+														<div class="col-md-8">
+															<input
+																type="text"
+																class="form-control"
+																name="gmc_incurred_claims"
+																id="gmc_incurred_claims"
+															/>
+														</div>
+													</div>
+												</div>
+											</div>
+										</div>
+
+										<div class="row">
+											<div class="col-md-6">
+												<h4 class="text-center bg-primary">Benefits</h4>
+
+												<div class="form-group">
+													<div class="row">
+														<div class="col-md-4">
+															<label
+																>Sum Insured Approach
+																(Uniform/Various)</label
+															>
+														</div>
+														<div class="col-md-8">
+															<input
+																type="text"
+																class="form-control"
+																name="gmc_sum_ins_app"
+																id="gmc_sum_ins_app"
+															/>
+														</div>
+													</div>
+												</div>
+
+												<div class="form-group">
+													<div class="row">
+														<div class="col-md-4">
+															<label> Family Definition</label>
+														</div>
+														<div class="col-md-8">
+															<input
+																type="text"
+																class="form-control"
+																name="gmc_family_def"
+																id="gmc_family_def"
+															/>
+														</div>
+													</div>
+												</div>
+
+												<div class="form-group">
+													<div class="row">
+														<div class="col-md-4">
+															<label>
+																Pre-existing Diseases covered</label
+															>
+														</div>
+														<div class="col-md-8">
+															<input
+																type="text"
+																class="form-control"
+																name="gmc_pre_disease_covered"
+																id="gmc_pre_disease_covered"
+															/>
+														</div>
+													</div>
+												</div>
+
+												<div class="form-group">
+													<div class="row">
+														<div class="col-md-4">
+															<label
+																>1st ,2nd & 4th Year Exclusion
+																Waiver</label
+															>
+														</div>
+														<div class="col-md-8">
+															<input
+																type="text"
+																class="form-control"
+																name="gmc_exclusion_waiver_year"
+																id="gmc_exclusion_waiver_year"
+															/>
+														</div>
+													</div>
+												</div>
+
+												<div class="form-group">
+													<div class="row">
+														<div class="col-md-4">
+															<label>Maternity Benefit coverage</label>
+														</div>
+														<div class="col-md-8">
+															<input
+																type="text"
+																class="form-control"
+																name="gmc_maternity_coverage"
+																id="gmc_maternity_coverage"
+															/>
+														</div>
+													</div>
+												</div>
+
+												<div class="form-group">
+													<div class="row">
+														<div class="col-md-4">
+															<label
+																>Pre and Post Hospitalization coverage
+																limits</label
+															>
+														</div>
+														<div class="col-md-8">
+															<input
+																type="text"
+																class="form-control"
+																name="gmc_hospital_coverage"
+																id="gmc_hospital_coverage"
+															/>
+														</div>
+													</div>
+												</div>
+
+												<div class="form-group">
+													<div class="row">
+														<div class="col-md-4">
+															<label>ICU/ ITU Limits</label>
+														</div>
+														<div class="col-md-8">
+															<input
+																type="text"
+																class="form-control"
+																name="gmc_icu_limits"
+																id="gmc_icu_limits"
+															/>
+														</div>
+													</div>
+												</div>
+
+												<div class="form-group">
+													<div class="row">
+														<div class="col-md-4">
+															<label
+																>Coverage for Congenital Internal
+																Disease</label
+															>
+														</div>
+														<div class="col-md-8">
+															<input
+																type="text"
+																class="form-control"
+																name="gmc_int_desease_cover"
+																id="gmc_int_desease_cover"
+															/>
+														</div>
+													</div>
+												</div>
+
+												<div class="form-group">
+													<div class="row">
+														<div class="col-md-4">
+															<label>PPN Clause</label>
+														</div>
+														<div class="col-md-8">
+															<input
+																type="text"
+																class="form-control"
+																name="gmc_ppn_cause"
+																id="gmc_ppn_cause"
+															/>
+														</div>
+													</div>
+												</div>
+
+												<div class="form-group">
+													<div class="row">
+														<div class="col-md-4">
+															<label>Claim Submission</label>
+														</div>
+														<div class="col-md-8">
+															<input
+																type="text"
+																class="form-control"
+																name="gmc_claim_sub_mission"
+																id="gmc_claim_sub_mission"
+															/>
+														</div>
+													</div>
+												</div>
+
+												<div class="form-group">
+													<div class="row">
+														<div class="col-md-4">
+															<label>Lasik Surgery</label>
+														</div>
+														<div class="col-md-8">
+															<input
+																type="text"
+																class="form-control"
+																name="gmc_lasik_surgery"
+																id="gmc_lasik_surgery"
+															/>
+														</div>
+													</div>
+												</div>
+
+												<div class="form-group">
+													<div class="row">
+														<div class="col-md-4">
+															<label>Corporate buffer </label>
+														</div>
+														<div class="col-md-8">
+															<input
+																type="text"
+																class="form-control"
+																name="gmc_corporate_buffer"
+																id="gmc_corporate_buffer"
+															/>
+														</div>
+													</div>
+												</div>
+
+												<div class="form-group">
+													<div class="row">
+														<div class="col-md-4">
+															<label>Cataract Surgery</label>
+														</div>
+														<div class="col-md-8">
+															<input
+																type="text"
+																class="form-control"
+																name="gmc_cataract_surgery"
+																id="gmc_cataract_surgery"
+															/>
+														</div>
+													</div>
+												</div>
+
+												<div class="form-group">
+													<div class="row">
+														<div class="col-md-4">
+															<label
+																>Comorbidities treatment under covid
+																admission</label
+															>
+														</div>
+														<div class="col-md-8">
+															<input
+																type="text"
+																class="form-control"
+																name="gmc_comorbities"
+																id="gmc_comorbities"
+															/>
+														</div>
+													</div>
+												</div>
+
+												<div class="form-group">
+													<div class="row">
+														<div class="col-md-4">
+															<label
+																>Psychiatric Ailment /Mental
+																Illness</label
+															>
+														</div>
+														<div class="col-md-8">
+															<input
+																type="text"
+																class="form-control"
+																name="gmc_metail_illness"
+																id="gmc_metail_illness"
+															/>
+														</div>
+													</div>
+												</div>
+
+												<div class="form-group">
+													<div class="row">
+														<div class="col-md-4">
+															<label>Addition/Deletion</label>
+														</div>
+														<div class="col-md-8">
+															<input
+																type="text"
+																class="form-control"
+																name="gmc_addition"
+																id="gmc_addition"
+															/>
+														</div>
+													</div>
+												</div>
+
+												<div class="form-group">
+													<div class="row">
+														<div class="col-md-4">
+															<label
+																>Covid hospitlization coverage ( Covid
+																Hospitlizaiton expneses to be covered as
+																per policy norms )</label
+															>
+														</div>
+														<div class="col-md-8">
+															<input
+																type="text"
+																class="form-control"
+																name="gmc_covid_hospitlization"
+																id="gmc_covid_hospitlization"
+															/>
+														</div>
+													</div>
+												</div>
+
+												<div class="form-group">
+													<div class="row">
+														<div class="col-md-4">
+															<label>Day Care Procedures</label>
+														</div>
+														<div class="col-md-8">
+															<input
+																type="text"
+																class="form-control"
+																name="gmc_day_care"
+																id="gmc_day_care"
+															/>
+														</div>
+													</div>
+												</div>
+											</div>
+
+											<div class="col-md-6">
+												<h4 class="text-center bg-primary">&nbsp;</h4>
+
+												<div class="form-group">
+													<div class="row">
+														<div class="col-md-4">
+															<label>Sum Insured</label>
+														</div>
+														<div class="col-md-8">
+															<input
+																type="text"
+																class="form-control"
+																name="gmc_sum_ins"
+																id="gmc_sum_ins"
+															/>
+														</div>
+													</div>
+												</div>
+
+												<div class="form-group">
+													<div class="row">
+														<div class="col-md-4">
+															<label
+																>Policy Type ( Family Floater / Individual
+																Sum Insured )
+															</label>
+														</div>
+														<div class="col-md-8">
+															<input
+																type="text"
+																class="form-control"
+																name="gmc_policy_type"
+																id="gmc_policy_type"
+															/>
+														</div>
+													</div>
+												</div>
+
+												<div class="form-group">
+													<div class="row">
+														<div class="col-md-4">
+															<label>30 Days Exclusion Waiver</label>
+														</div>
+														<div class="col-md-8">
+															<input
+																type="text"
+																class="form-control"
+																name="gmc_exclusion_wavier"
+																id="gmc_exclusion_wavier"
+															/>
+														</div>
+													</div>
+												</div>
+
+												<div class="form-group">
+													<div class="row">
+														<div class="col-md-4">
+															<label
+																>9 months waiting period for
+																Maternity</label
+															>
+														</div>
+														<div class="col-md-8">
+															<input
+																type="text"
+																class="form-control"
+																name="gmc_waiting_period"
+																id="gmc_waiting_period"
+															/>
+														</div>
+													</div>
+												</div>
+
+												<div class="form-group">
+													<div class="row">
+														<div class="col-md-4">
+															<label
+																>Child Day 1 cover within Family Floater
+																Sum Insured</label
+															>
+														</div>
+														<div class="col-md-8">
+															<input
+																type="text"
+																class="form-control"
+																name="gmc_child_day_cover"
+																id="gmc_child_day_cover"
+															/>
+														</div>
+													</div>
+												</div>
+
+												<div class="form-group">
+													<div class="row">
+														<div class="col-md-4">
+															<label>Room rent restriction</label>
+														</div>
+														<div class="col-md-8">
+															<input
+																type="text"
+																class="form-control"
+																name="gmc_room_rent"
+																id="gmc_room_rent"
+															/>
+														</div>
+													</div>
+												</div>
+
+												<div class="form-group">
+													<div class="row">
+														<div class="col-md-4">
+															<label
+																>Any Submlimits On Doctor Fees/Surgeon
+																Charges /Medicines, consumables etc</label
+															>
+														</div>
+														<div class="col-md-8">
+															<input
+																type="text"
+																class="form-control"
+																name="gmc_sub_limits"
+																id="gmc_sub_limits"
+															/>
+														</div>
+													</div>
+												</div>
+
+												<div class="form-group">
+													<div class="row">
+														<div class="col-md-4">
+															<label
+																>Coverage for Congenital External
+																Disease</label
+															>
+														</div>
+														<div class="col-md-8">
+															<input
+																type="text"
+																class="form-control"
+																name="gmc_ext_desease_cover"
+																id="gmc_ext_desease_cover"
+															/>
+														</div>
+													</div>
+												</div>
+
+												<div class="form-group">
+													<div class="row">
+														<div class="col-md-4">
+															<label>Claim Intimation</label>
+														</div>
+														<div class="col-md-8">
+															<input
+																type="text"
+																class="form-control"
+																name="gmc_claim_int"
+																id="gmc_claim_int"
+															/>
+														</div>
+													</div>
+												</div>
+
+												<div class="form-group">
+													<div class="row">
+														<div class="col-md-4">
+															<label
+																>Internal Capping / Co Payment / Any Sub
+																Limits</label
+															>
+														</div>
+														<div class="col-md-8">
+															<input
+																type="text"
+																class="form-control"
+																name="gmc_int_capping"
+																id="gmc_int_capping"
+															/>
+														</div>
+													</div>
+												</div>
+
+												<div class="form-group">
+													<div class="row">
+														<div class="col-md-4">
+															<label>Ayush treatment</label>
+														</div>
+														<div class="col-md-8">
+															<input
+																type="text"
+																class="form-control"
+																name="gmc_ayush_treatment"
+																id="gmc_ayush_treatment"
+															/>
+														</div>
+													</div>
+												</div>
+
+												<div class="form-group">
+													<div class="row">
+														<div class="col-md-4">
+															<label>Robotic Surgery</label>
+														</div>
+														<div class="col-md-8">
+															<input
+																type="text"
+																class="form-control"
+																name="gmc_robotic"
+																id="gmc_robotic"
+															/>
+														</div>
+													</div>
+												</div>
+
+												<div class="form-group">
+													<div class="row">
+														<div class="col-md-4">
+															<label>Ambulance Charges</label>
+														</div>
+														<div class="col-md-8">
+															<input
+																type="text"
+																class="form-control"
+																name="gmc_ambulance"
+																id="gmc_ambulance"
+															/>
+														</div>
+													</div>
+												</div>
+
+												<div class="form-group">
+													<div class="row">
+														<div class="col-md-4">
+															<label>Sinus Surgery</label>
+														</div>
+														<div class="col-md-8">
+															<input
+																type="text"
+																class="form-control"
+																name="gmc_sinus_surgery"
+																id="gmc_sinus_surgery"
+															/>
+														</div>
+													</div>
+												</div>
+
+												<div class="form-group">
+													<div class="row">
+														<div class="col-md-4">
+															<label
+																>Age Related Macular Degeneration</label
+															>
+														</div>
+														<div class="col-md-8">
+															<input
+																type="text"
+																class="form-control"
+																name="gmc_age_macular"
+																id="gmc_age_macular"
+															/>
+														</div>
+													</div>
+												</div>
+
+												<div class="form-group">
+													<div class="row">
+														<div class="col-md-4">
+															<label
+																>Hospitalization due to terrorism and
+																epidemic diseases
+															</label>
+														</div>
+														<div class="col-md-8">
+															<input
+																type="text"
+																class="form-control"
+																name="gmc_terroism_deases"
+																id="gmc_terroism_deases"
+															/>
+														</div>
+													</div>
+												</div>
+
+												<div class="form-group">
+													<div class="row">
+														<div class="col-md-4">
+															<label
+																>Any Other Special Condition or
+																Coverages</label
+															>
+														</div>
+														<div class="col-md-8">
+															<input
+																type="text"
+																class="form-control"
+																name="gmc_special_coverage"
+																id="gmc_special_coverage"
+															/>
+														</div>
+													</div>
+												</div>
+											</div>
+										</div>
+									</div>
+								</div>
+							</div>
+						</section>
+					</div>
+					<div class="modal-footer">
+						<button
+							type="button"
+							class="btn btn-default"
+							data-dismiss="modal"
+						>
+							Close
+						</button>
+					</div>
+				</div>
+			</div>
+		</div>
+
+		<!--Add SME Modal End -->
+
+		<!-- --------------------------------------------------------------------------------------- -->
+
+		
+		<!-- Add pet Details start-->
+
+		<div id="add_pet_modal" class="modal fade" role="dialog">
+			<div class="modal-dialog">
+				<!-- Modal content-->
+				<div class="modal-content">
+					<div class="modal-header">
+						<button type="button" class="close" data-dismiss="modal">
+							&times;
+						</button>
+						<h4 class="modal-title">Pet Details</h4>
+					</div>
+					<div class="modal-body">
+						<center style="margin-bottom: 10px">
+							<input
+								type="button"
+								class="btn btn-light change_pet_gender"
+								id="pet_male_btn"
+								style="border: none"
+								value="Male"
+							/>
+							<input
+								type="button"
+								id="pet_female_btn"
+								class="btn btn-light"
+								style="border: none"
+								value="Female"
+							/>
+						</center>
+
+						<div class="row">
+							<div class="col-md-6">
+								<div class="form-group">
+									<label>PET Name</label>
+									<input type="text" class="form-control" id="pet_name" />
+								</div>
+
+								<div class="form-group">
+									<label>PET Weight In KG</label><span>*</span>
+									<div class="input-group">
+										<input
+											type="text"
+											class="form-control"
+											style="text-align: right"
+											id="pet_weight"
+										/>
+										<span class="input-group-addon">KG</span>
+									</div>
+								</div>
+							</div>
+
+							<div class="col-md-6">
+								<div class="form-group">
+									<label>PET Age In Months</label><span>*</span>
+									<div class="input-group">
+										<input
+											type="text"
+											class="form-control"
+											style="text-align: right"
+											id="pet_age"
+										/>
+										<span class="input-group-addon">Months</span>
+									</div>
+								</div>
+
+								<div class="form-group">
+									<label>PET Height</label><span>*</span>
+									<div class="input-group">
+										<input
+											type="text"
+											class="form-control"
+											style="text-align: right"
+											id="pet_height"
+										/>
+										<span class="input-group-addon">FT</span>
+									</div>
+								</div>
+							</div>
+						</div>
+					</div>
+					<div class="modal-footer">
+						<button type="button" class="btn btn-primary" id="pet_submit">
+							Submit
+						</button>
+						<button
+							type="button"
+							class="btn btn-default"
+							data-dismiss="modal"
+						>
+							Close
+						</button>
+					</div>
+				</div>
+			</div>
+		</div>
+
+		<!-- Add pet Details End-->
+
+		<!-- --------------------------------------------------------------------------------------- -->
 
 		<div id="add_vechile_model" class="modal fade" role="dialog">
 			<div class="modal-dialog modal-lg">
@@ -5026,446 +7313,9 @@
 
 					<!-- Create New Vechile End -->
 
-					<!-- Add pet Details start-->
 
-					<div id="add_pet_modal" class="modal fade" role="dialog">
-						<div class="modal-dialog">
-							<!-- Modal content-->
-							<div class="modal-content">
-								<div class="modal-header">
-									<button type="button" class="close" data-dismiss="modal">
-										&times;
-									</button>
-									<h4 class="modal-title">Pet Details</h4>
-								</div>
-								<div class="modal-body">
-									<center style="margin-bottom: 10px">
-										<input
-											type="button"
-											class="btn btn-light change_pet_gender"
-											id="pet_male_btn"
-											style="border: none"
-											value="Male"
-										/>
-										<input
-											type="button"
-											id="pet_female_btn"
-											class="btn btn-light"
-											style="border: none"
-											value="Female"
-										/>
-									</center>
+					<!--Add Maraine Start -->
 
-									<div class="row">
-										<div class="col-md-6">
-											<div class="form-group">
-												<label>PET Name</label>
-												<input type="text" class="form-control" id="pet_name" />
-											</div>
-
-											<div class="form-group">
-												<label>PET Weight In KG</label><span>*</span>
-												<div class="input-group">
-													<input
-														type="text"
-														class="form-control"
-														style="text-align: right"
-														id="pet_weight"
-													/>
-													<span class="input-group-addon">KG</span>
-												</div>
-											</div>
-										</div>
-
-										<div class="col-md-6">
-											<div class="form-group">
-												<label>PET Age In Months</label><span>*</span>
-												<div class="input-group">
-													<input
-														type="text"
-														class="form-control"
-														style="text-align: right"
-														id="pet_age"
-													/>
-													<span class="input-group-addon">Months</span>
-												</div>
-											</div>
-
-											<div class="form-group">
-												<label>PET Height</label><span>*</span>
-												<div class="input-group">
-													<input
-														type="text"
-														class="form-control"
-														style="text-align: right"
-														id="pet_height"
-													/>
-													<span class="input-group-addon">FT</span>
-												</div>
-											</div>
-										</div>
-									</div>
-								</div>
-								<div class="modal-footer">
-									<button type="button" class="btn btn-primary" id="pet_submit">
-										Submit
-									</button>
-									<button
-										type="button"
-										class="btn btn-default"
-										data-dismiss="modal"
-									>
-										Close
-									</button>
-								</div>
-							</div>
-						</div>
-					</div>
-
-					<!-- Add pet Details End-->
-
-					<!--property -->
-
-					<div id="homeModal" class="modal fade" role="dialog">
-						<div class="modal-dialog">
-							<div class="modal-content">
-								<div class="modal-header mob_pad_top_bot_5px">
-									<center>
-										<h4 class="modal-title">Best Home Insurance</h4>
-									</center>
-									<button
-										type="button"
-										class="close"
-										style="background-color: #fff; margin-top: -25px"
-										data-dismiss="modal"
-									>
-										&times;
-									</button>
-								</div>
-
-								<div class="modal-body">
-									<div class="row">
-										<div class="col-md-6">
-											<label>What is your house type?</label><br />
-											<input
-												type="button"
-												class="btn btn-light change_house_type"
-												id="home_btn"
-												style="border: none"
-												value="Home"
-											/>
-											&nbsp;<input
-												type="button"
-												id="housing_society_btn"
-												class="btn btn-light"
-												style="border: none"
-												value="Housing Society"
-											/>
-										</div>
-
-										<div class="col-md-6">
-											<label>Are you a tenant or Owner?</label><br />
-											<input
-												type="button"
-												class="btn btn-light change_owner"
-												id="owner_btn"
-												style="border: none"
-												value="Owner"
-											/>
-											&nbsp;<input
-												type="button"
-												id="tenant_btn"
-												class="btn btn-light"
-												style="border: none"
-												value="Tenant"
-											/>
-										</div>
-									</div>
-
-									<div class="row">
-										<div class="col-md-6">
-											<div class="form-group">
-												<label>Select Policy Tenure</label>
-												<select class="form-control" id="home_policy_tenure">
-													<option>1 Year</option>
-													<option>2 Year</option>
-													<option>3 Year</option>
-													<option>4 Year</option>
-													<option>5 Year</option>
-													<option>6 Year</option>
-													<option>7 Year</option>
-													<option>8 Year</option>
-													<option>9 Year</option>
-													<option>10 Year</option>
-												</select>
-											</div>
-
-											<div class="form-group">
-												<label>Property Value</label>
-												<div class="input-group">
-													<div class="input-group-addon">₹</div>
-													<input
-														type="number"
-														class="form-control"
-														id="home_property_value"
-													/>
-												</div>
-											</div>
-
-											<div class="form-group">
-												<label>Interior, Furniture & Lighting</label>
-												<div class="input-group">
-													<div class="input-group-addon">₹</div>
-													<input
-														type="number"
-														class="form-control"
-														id="home_infuli"
-													/>
-												</div>
-											</div>
-										</div>
-
-										<div class="col-md-6">
-											<div class="form-group">
-												<label>Age of Premises</label>
-												<select class="form-control" id="home_age_premises">
-													<option>1 Year</option>
-													<option>2 Year</option>
-													<option>3 Year</option>
-													<option>4 Year</option>
-													<option>5 Year</option>
-													<option>6 Year</option>
-													<option>7 Year</option>
-													<option>8 Year</option>
-													<option>9 Year</option>
-													<option>10 Year</option>
-													<option>11 Year</option>
-													<option>12 Year</option>
-													<option>13 Year</option>
-													<option>14 Year</option>
-													<option>15 Year</option>
-													<option>16 Year</option>
-													<option>17 Year</option>
-													<option>18 Year</option>
-													<option>19 Year</option>
-													<option>20 Year</option>
-													<option>21 Year</option>
-													<option>22 Year</option>
-													<option>23 Year</option>
-													<option>24 Year</option>
-													<option>25 Year</option>
-													<option>26 Year</option>
-													<option>27 Year</option>
-													<option>28 Year</option>
-													<option>29 Year</option>
-												</select>
-											</div>
-
-											<div class="form-group">
-												<label>Built Up Area</label>
-												<div class="input-group">
-													<input
-														type="number"
-														class="form-control"
-														id="home_sqft"
-													/>
-													<div class="input-group-addon">Sq Ft</div>
-												</div>
-											</div>
-
-											<div class="form-group">
-												<label>DG set, Air Conditioner & Machinery</label>
-												<div class="input-group">
-													<div class="input-group-addon">₹</div>
-													<input
-														type="number"
-														class="form-control"
-														id="home_dgairmac"
-													/>
-												</div>
-											</div>
-										</div>
-									</div>
-								</div>
-
-								<div class="modal-footer">
-									<button
-										type="button"
-										class="btn btn-primary"
-										id="add_pro_btn"
-									>
-										Submit
-									</button>
-									<button
-										type="button"
-										class="btn btn-default"
-										data-dismiss="modal"
-									>
-										Close
-									</button>
-								</div>
-							</div>
-						</div>
-					</div>
-
-					<div id="businessmodal" class="modal fade" role="dialog">
-						<div class="modal-dialog">
-							<div class="modal-content">
-								<div class="modal-header mob_pad_top_bot_5px">
-									<center>
-										<h4 class="modal-title">Best Business Insurance</h4>
-									</center>
-									<button
-										type="button"
-										class="close"
-										style="background-color: #fff; margin-top: -25px"
-										data-dismiss="modal"
-									>
-										&times;
-									</button>
-								</div>
-
-								<div class="modal-body">
-									<div class="row">
-										<div class="col-md-6">
-											<label>Are you a tenant or Owner?</label><br />
-											<input
-												type="button"
-												class="btn btn-light business_change_owner"
-												id="business_owner_btn"
-												style="border: none"
-												value="Owner"
-											/>
-											&nbsp;<input
-												type="button"
-												id="business_tenant_btn"
-												class="btn btn-light"
-												style="border: none"
-												value="Tenant"
-											/>
-										</div>
-									</div>
-
-									<div class="row">
-										<div class="col-md-6">
-											<div class="form-group">
-												<label>Your Proffession</label>
-												<input
-													type="text"
-													class="form-control"
-													id="business_profession"
-												/>
-											</div>
-
-											<div class="form-group">
-												<label>Property Value</label>
-												<div class="input-group">
-													<div class="input-group-addon">₹</div>
-													<input
-														type="number"
-														class="form-control"
-														id="business_property_value"
-													/>
-												</div>
-											</div>
-
-											<div class="form-group">
-												<label>Interior, Furniture & Lighting</label>
-												<div class="input-group">
-													<div class="input-group-addon">₹</div>
-													<input
-														type="number"
-														class="form-control"
-														id="business_infuli"
-													/>
-												</div>
-											</div>
-										</div>
-
-										<div class="col-md-6">
-											<div class="form-group">
-												<label>Age of Premises</label>
-												<select class="form-control" id="business_age_premises">
-													<option>1 Year</option>
-													<option>2 Year</option>
-													<option>3 Year</option>
-													<option>4 Year</option>
-													<option>5 Year</option>
-													<option>6 Year</option>
-													<option>7 Year</option>
-													<option>8 Year</option>
-													<option>9 Year</option>
-													<option>10 Year</option>
-													<option>11 Year</option>
-													<option>12 Year</option>
-													<option>13 Year</option>
-													<option>14 Year</option>
-													<option>15 Year</option>
-													<option>16 Year</option>
-													<option>17 Year</option>
-													<option>18 Year</option>
-													<option>19 Year</option>
-													<option>20 Year</option>
-													<option>21 Year</option>
-													<option>22 Year</option>
-													<option>23 Year</option>
-													<option>24 Year</option>
-													<option>25 Year</option>
-													<option>26 Year</option>
-													<option>27 Year</option>
-													<option>28 Year</option>
-													<option>29 Year</option>
-												</select>
-											</div>
-
-											<div class="form-group">
-												<label>Built Up Area</label>
-												<div class="input-group">
-													<input
-														type="number"
-														class="form-control"
-														id="business_sqft"
-													/>
-													<div class="input-group-addon">Sq Ft</div>
-												</div>
-											</div>
-
-											<div class="form-group">
-												<label>DG set, Air Conditioner & Machinery</label>
-												<div class="input-group">
-													<div class="input-group-addon">₹</div>
-													<input
-														type="number"
-														class="form-control"
-														id="business_dgairmac"
-													/>
-												</div>
-											</div>
-										</div>
-									</div>
-								</div>
-
-								<div class="modal-footer">
-									<button
-										type="button"
-										class="btn btn-primary"
-										id="add_business_btn"
-									>
-										Submit
-									</button>
-									<button
-										type="button"
-										class="btn btn-default"
-										data-dismiss="modal"
-									>
-										Close
-									</button>
-								</div>
-							</div>
-						</div>
-					</div>
-
-					<!-- Modal -->
 					<div id="marainemodal" class="modal fade" role="dialog">
 						<div class="modal-dialog">
 							<!-- Modal content-->
@@ -5594,9 +7444,10 @@
 						</div>
 					</div>
 
-					<!--property -->
+					<!--Add Maraine End -->
 
-					<!-- Modal -->
+					<!--Add Quotation Modal Start -->
+
 					<div id="add_quotation_model" class="modal fade" role="dialog">
 						<div class="modal-dialog modal-lg">
 							<!-- Modal content-->
@@ -7865,1834 +9716,8 @@
 						</div>
 					</div>
 
-					<div id="sme_modal" class="modal fade" role="dialog">
-						<div class="modal-dialog modal-lg">
-							<div class="modal-content modal-lg-content">
-								<div class="modal-header" style="background: #778d9d">
-									<button type="button" class="close" data-dismiss="modal">
-										&times;
-									</button>
-									<h4 class="modal-title" style="color: #fff">SME Details</h4>
-									<button
-										class="btn btn-success btn-sm pull-right"
-										id="add_sme_info"
-										style="margin-top: -31px; margin-right: 27px"
-									>
-										<i class="fa fa-save"></i> Save
-									</button>
-								</div>
-								<div class="modal-body">
-									<section class="content">
-										<div class="box">
-											<div
-												class="box-header with-border"
-												style="background: #f4f4f48c"
-											>
-												<h3
-													class="box-title"
-													_msthash="26273"
-													_msttexthash="60619"
-													style="text-align: left; font-size: 14px"
-												>
-													<i class="fa fa-user" aria-hidden="true"></i>
-													&nbsp;&nbsp;SME Details
-												</h3>
+					<!--Add Quotation Modal End -->
 
-												<div class="box-tools pull-right">
-													<button
-														type="button"
-														class="btn btn-box-tool"
-														data-widget="collapse"
-														data-toggle="tooltip"
-														title=""
-														data-original-title="Collapse"
-													>
-														<i class="fa fa-minus"></i>
-													</button>
-												</div>
-											</div>
-
-											<div
-												class="box-body"
-												_msthash="1196936"
-												_msttexthash="1190501"
-												style="text-align: left"
-											>
-												<div class="row">
-													<div class="col-md-6">
-														<div class="form-group">
-															<div class="row">
-																<div class="col-md-4">
-																	<label>SME Policy</label>
-																</div>
-																<div class="col-md-8">
-																	<select
-																		class="form-control"
-																		name="sme_id"
-																		id="sme_id"
-																	>
-																		<option value="">--select--</option>
-																	</select>
-																</div>
-															</div>
-														</div>
-														<div class="hidden" id="marine">
-															<div class="form-group">
-																<div class="row">
-																	<div class="col-md-4">
-																		<label>Period of Insurance</label>
-																	</div>
-																	<div class="col-md-4">
-																		<input
-																			type="date"
-																			class="form-control"
-																			name="from_date"
-																			id="from_date"
-																		/>
-																	</div>
-
-																	<div class="col-md-4">
-																		<input
-																			type="date"
-																			class="form-control"
-																			name="to_date"
-																			id="to_date"
-																		/>
-																	</div>
-																</div>
-															</div>
-
-															<div class="form-group">
-																<div class="row">
-																	<div class="col-md-4">
-																		<label>Commodity/ Interest</label>
-																	</div>
-																	<div class="col-md-8">
-																		<input
-																			type="text"
-																			class="form-control"
-																			name="commodity_interest"
-																			id="commodity_interest"
-																			value="Industrial Oil, Furnace Oil, Fuel oil , low and High density oil,industrial mixed solvent , Base Oil , Low aromatic white spirit"
-																		/>
-																	</div>
-																</div>
-															</div>
-
-															<div class="form-group">
-																<div class="row">
-																	<div class="col-md-4">
-																		<label>Basis of Valuation</label>
-																	</div>
-																</div>
-																<div class="row">
-																	<div class="col-md-4">
-																		<label>Import</label>
-																		<textarea
-																			class="form-control"
-																			name="b_valuation_import"
-																			id="b_valuation_import"
-																			rows="3"
-																		>
-C&F / FOB / Exworks / CIF) + 10% + Duty at Actuals</textarea
-																		>
-																	</div>
-
-																	<div class="col-md-4">
-																		<label>Export</label>
-																		<textarea
-																			class="form-control"
-																			name="b_valuation_export"
-																			id="b_valuation_export"
-																			rows="3"
-																		>
-CIF + 10%, FOB + 20%</textarea
-																		>
-																	</div>
-
-																	<div class="col-md-3">
-																		<label>Inland</label>
-																		<textarea
-																			class="form-control"
-																			name="b_valuation_inland"
-																			id="b_valuation_inland"
-																			rows="3"
-																		>
-Invoice + 10% Interdepot /Interunit Transfers (Stock Transfer Note Value / InvoiceValue / Consignment Note Value) + Freight at Actuals</textarea
-																		>
-																	</div>
-																</div>
-															</div>
-
-															<div class="form-group">
-																<div class="row">
-																	<div class="col-md-4">
-																		<label>Annual Sales Turnover</label>
-																	</div>
-																	<div class="col-md-8">
-																		<input
-																			type="text"
-																			class="form-control"
-																			name="add_turnover"
-																			id="add_turnover"
-																		/>
-																	</div>
-																</div>
-															</div>
-
-															<div class="row">
-																<div class="col-md-4">
-																	<label style="color: #2e86c1">Sales:</label>
-																</div>
-															</div>
-
-															<div class="form-group">
-																<div class="row">
-																	<div class="col-md-4">
-																		<label>Domestic</label>
-																	</div>
-																	<div class="col-md-8">
-																		<input
-																			type="text"
-																			class="form-control"
-																			name="add_domestic"
-																			id="add_domestic"
-																		/>
-																	</div>
-																</div>
-															</div>
-
-															<div class="row">
-																<div class="col-md-4">
-																	<label style="color: #2e86c1"
-																		>Purchase:</label
-																	>
-																</div>
-															</div>
-
-															<div class="form-group">
-																<div class="row">
-																	<div class="col-md-4">
-																		<label>Import</label>
-																	</div>
-																	<div class="col-md-8">
-																		<input
-																			type="text"
-																			class="form-control"
-																			name="add_import"
-																			id="add_import"
-																		/>
-																	</div>
-																</div>
-															</div>
-
-															<div class="form-group">
-																<div class="row">
-																	<div class="col-md-4">
-																		<label>Per Bottom Limit (Inland)</label>
-																	</div>
-																	<div class="col-md-8">
-																		<input
-																			type="text"
-																			class="form-control"
-																			name="bottom_inland_limit"
-																			id="bottom_inland_limit"
-																		/>
-																	</div>
-																</div>
-															</div>
-
-															<div class="form-group">
-																<div class="row">
-																	<div class="col-md-4">
-																		<label>Per Location Limit (Inland)</label>
-																	</div>
-																	<div class="col-md-8">
-																		<input
-																			type="text"
-																			class="form-control"
-																			name="location_inland"
-																			id="location_inland"
-																		/>
-																	</div>
-																</div>
-															</div>
-
-															<div class="form-group">
-																<div class="row">
-																	<div class="col-md-4">
-																		<label>Covering Clauses</label>
-																	</div>
-																	<div class="col-md-8">
-																		<div class="row">
-																			<div class="col-md-8">
-																				<input
-																					type="text"
-																					style="margin: 5px; width: 97%"
-																					id="covering_clauses"
-																					class="form-control coveringclauses"
-																				/>
-																				<div id="add_covering_clauses"></div>
-																			</div>
-																			<div class="col-md-4">
-																				<button
-																					id="sub_covering_btn"
-																					class="btn btn-info btn-sm pull-right"
-																				>
-																					-
-																				</button>
-																				<button
-																					id="add_covering_btn"
-																					class="btn btn-info btn-sm pull-right"
-																					style="margin-right: 5px"
-																				>
-																					+
-																				</button>
-																			</div>
-																		</div>
-																	</div>
-																</div>
-															</div>
-
-															<div class="form-group">
-																<div class="row">
-																	<div class="col-md-4">
-																		<label>Date</label>
-																	</div>
-																	<div class="col-md-8">
-																		<input
-																			type="date"
-																			class="form-control"
-																			name="date"
-																			id="date"
-																		/>
-																	</div>
-																</div>
-															</div>
-														</div>
-													</div>
-													<div class="col-md-6">
-														<div class="hidden" id="marine_remove">
-															<div class="form-group">
-																<div class="row">
-																	<div class="col-md-4">
-																		<label>Packing</label>
-																	</div>
-																	<div class="col-md-8">
-																		<input
-																			type="text"
-																			class="form-control"
-																			name="packing"
-																			id="packing"
-																		/>
-																	</div>
-																</div>
-															</div>
-
-															<div class="form-group">
-																<div class="row">
-																	<div class="col-md-4">
-																		<label>Occupancy</label>
-																	</div>
-																	<div class="col-md-8">
-																		<input
-																			type="text"
-																			class="form-control"
-																			name="occupancy"
-																			id="occupancy"
-																		/>
-																	</div>
-																</div>
-															</div>
-
-															<div class="form-group">
-																<div class="row">
-																	<div class="col-md-4">
-																		<label>Mode of Transport</label>
-																	</div>
-																	<div class="col-md-8">
-																		<select
-																			class="form-control"
-																			name="transport"
-																			id="transport"
-																		>
-																			<option value="">--Select--</option>
-																			<option value="Rail">Rail</option>
-																			<option value="Road">Road</option>
-																			<option value="Air">Air</option>
-																			<option value="Sea">Sea</option>
-																		</select>
-																	</div>
-																</div>
-															</div>
-
-															<div class="form-group">
-																<div class="row">
-																	<div class="col-md-4">
-																		<label>Voyage</label>
-																	</div>
-																</div>
-
-																<div class="row">
-																	<div class="col-md-4">
-																		<label>Import</label>
-																		<textarea
-																			class="form-control"
-																			name="voyage_import"
-																			id="voyage_import"
-																			rows="3"
-																		>
-From: Anywhere in India To: Anywhere in the World</textarea
-																		>
-																	</div>
-
-																	<div class="col-md-4">
-																		<label>Export</label>
-																		<textarea
-																			class="form-control"
-																			name="voyage_export"
-																			id="voyage_export"
-																			rows="3"
-																		>
-From: Anywhere in the World To: Anywhere in India</textarea
-																		>
-																	</div>
-
-																	<div class="col-md-4">
-																		<label>Inland</label>
-																		<textarea
-																			class="form-control"
-																			name="voyage_inland"
-																			id="voyage_inland"
-																			rows="3"
-																		>
-From: Anywhere in India To: Anywhere in India</textarea
-																		>
-																	</div>
-																</div>
-															</div>
-
-															<div class="form-group">
-																<div class="row">
-																	<div class="col-md-4">
-																		<label>Initial Sum Insured Required</label>
-																	</div>
-																	<div class="col-md-8">
-																		<input
-																			type="text"
-																			class="form-control"
-																			name="initial_sum_insured"
-																			id="initial_sum_insured"
-																		/>
-																	</div>
-																</div>
-															</div>
-
-															<div class="row">
-																<div class="col-md-4">
-																	<label style="color: #2e86c1">Insurer:</label>
-																</div>
-															</div>
-
-															<div class="form-group">
-																<div class="row">
-																	<div class="col-md-4">
-																		<label>Current Insurer</label>
-																	</div>
-																	<div class="col-md-8">
-																		<input
-																			type="text"
-																			class="form-control"
-																			name="current_insurer"
-																			id="current_insurer"
-																		/>
-																	</div>
-																</div>
-															</div>
-
-															<div class="row">
-																<div class="col-md-4">
-																	<label style="color: #2e86c1"></label>
-																</div>
-															</div>
-
-															<div class="form-group">
-																<div class="row">
-																	<div class="col-md-4">
-																		<label>Domestic</label>
-																	</div>
-																	<div class="col-md-8">
-																		<input
-																			type="text"
-																			class="form-control"
-																			name="purchase_domestic"
-																			id="purchase_domestic"
-																		/>
-																	</div>
-																</div>
-															</div>
-
-															<div class="form-group">
-																<div class="row">
-																	<div class="col-md-4">
-																		<label>Per Bottom Limit (Import)</label>
-																	</div>
-																	<div class="col-md-8">
-																		<input
-																			type="text"
-																			class="form-control"
-																			name="bottom_import_limit"
-																			id="bottom_import_limit"
-																		/>
-																	</div>
-																</div>
-															</div>
-
-															<div class="form-group">
-																<div class="row">
-																	<div class="col-md-4">
-																		<label>Per Location Limit (Import)</label>
-																	</div>
-																	<div class="col-md-8">
-																		<input
-																			type="text"
-																			class="form-control"
-																			name="location_import_limit"
-																			id="location_import_limit"
-																		/>
-																	</div>
-																</div>
-															</div>
-
-															<div class="form-group">
-																<div class="row">
-																	<div class="col-md-4">
-																		<label>Claim History</label>
-																	</div>
-																	<div class="col-md-8">
-																		<textarea
-																			class="form-control"
-																			name="claim_history"
-																			id="claim_history"
-																			rows="3"
-																		></textarea>
-																	</div>
-																</div>
-															</div>
-														</div>
-													</div>
-												</div>
-
-												<div class="row hidden fire_div">
-													<div class="col-md-6">
-														<div class="hidden fire_div">
-															<div class="form-group">
-																<div class="row">
-																	<div class="col-md-4">
-																		<label>Period of Insurance</label>
-																	</div>
-																	<div class="col-md-4">
-																		<input
-																			type="date"
-																			class="form-control"
-																			name="fire_from_date"
-																			id="fire_from_date"
-																		/>
-																	</div>
-
-																	<div class="col-md-4">
-																		<input
-																			type="date"
-																			class="form-control"
-																			name="fire_to_date"
-																			id="fire_to_date"
-																		/>
-																	</div>
-																</div>
-															</div>
-															<div class="form-group">
-																<div class="row">
-																	<div class="col-md-4">
-																		<label>Financial Institution</label>
-																	</div>
-																	<div class="col-md-8">
-																		<input
-																			type="text"
-																			class="form-control"
-																			name="financial_institution"
-																			id="financial_institution"
-																		/>
-																	</div>
-																</div>
-															</div>
-														</div>
-													</div>
-
-													<div class="col-md-6 hidden fire_div">
-														<div class="form-group">
-															<div class="row">
-																<div class="col-md-4">
-																	<label>Occupancy</label>
-																</div>
-																<div class="col-md-8">
-																	<input
-																		type="text"
-																		class="form-control"
-																		name="fire_occupancy"
-																		id="fire_occupancy"
-																	/>
-																</div>
-															</div>
-														</div>
-													</div>
-												</div>
-
-												<div class="row hidden fire_div">
-													<div class="col-md-12">
-														<table
-															class="table table-bordered"
-															style="width: 100%"
-														>
-															<tr>
-																<td rowspan="4">Sum Insured</td>
-																<td>
-																	<div class="form-group">
-																		<label>Particulars</label>
-																		<textarea
-																			class="form-control"
-																			name="fire_particulars_1"
-																			id="fire_particulars_1"
-																		></textarea>
-																	</div>
-																</td>
-																<td>
-																	<div class="form-group">
-																		<label>Fire Sum Insured (In Lacs)</label>
-																		<input
-																			type="text"
-																			class="form-control"
-																			name="fire_sum_ins_1"
-																			id="fire_sum_ins_1"
-																		/>
-																	</div>
-																</td>
-																<td>
-																	<div class="form-group">
-																		<label>Fire Sum Insured (In Lacs)</label>
-																		<input
-																			type="text"
-																			class="form-control"
-																			name="burglary_sum_ins_1"
-																			id="burglary_sum_ins_1"
-																		/>
-																	</div>
-																</td>
-															</tr>
-
-															<tr>
-																<td>
-																	<div class="form-group">
-																		<label>Particulars</label>
-																		<textarea
-																			class="form-control"
-																			name="fire_particulars_2"
-																			id="fire_particulars_2"
-																		></textarea>
-																	</div>
-																</td>
-																<td>
-																	<div class="form-group">
-																		<label>Fire Sum Insured (In Lacs)</label>
-																		<input
-																			type="text"
-																			class="form-control"
-																			name="fire_sum_ins_2"
-																			id="fire_sum_ins_2"
-																		/>
-																	</div>
-																</td>
-																<td>
-																	<div class="form-group">
-																		<label>Fire Sum Insured (In Lacs)</label>
-																		<input
-																			type="text"
-																			class="form-control"
-																			name="burglary_sum_ins_2"
-																			id="burglary_sum_ins_2"
-																		/>
-																	</div>
-																</td>
-															</tr>
-
-															<tr>
-																<td>
-																	<div class="form-group">
-																		<label>Particulars</label>
-																		<textarea
-																			class="form-control"
-																			name="fire_particulars_3"
-																			id="fire_particulars_3"
-																		></textarea>
-																	</div>
-																</td>
-																<td>
-																	<div class="form-group">
-																		<label>Fire Sum Insured (In Lacs)</label>
-																		<input
-																			type="text"
-																			class="form-control"
-																			name="fire_sum_ins_3"
-																			id="fire_sum_ins_3"
-																		/>
-																	</div>
-																</td>
-																<td>
-																	<div class="form-group">
-																		<label>Fire Sum Insured (In Lacs)</label>
-																		<input
-																			type="text"
-																			class="form-control"
-																			name="burglary_sum_ins_3"
-																			id="burglary_sum_ins_3"
-																		/>
-																	</div>
-																</td>
-															</tr>
-
-															<tr>
-																<td>
-																	<div class="form-group">
-																		<label>Particulars</label>
-																		<textarea
-																			class="form-control"
-																			name="fire_particulars_4"
-																			id="fire_particulars_4"
-																		></textarea>
-																	</div>
-																</td>
-																<td>
-																	<div class="form-group">
-																		<label>Fire Sum Insured (In Lacs)</label>
-																		<input
-																			type="text"
-																			class="form-control"
-																			name="fire_sum_ins_4"
-																			id="fire_sum_ins_4"
-																		/>
-																	</div>
-																</td>
-																<td>
-																	<div class="form-group">
-																		<label>Fire Sum Insured (In Lacs)</label>
-																		<input
-																			type="text"
-																			class="form-control"
-																			name="burglary_sum_ins_4"
-																			id="burglary_sum_ins_4"
-																		/>
-																	</div>
-																</td>
-															</tr>
-														</table>
-													</div>
-
-													<div class="col-md-6">
-														<div class="form-group">
-															<div class="row">
-																<div class="col-md-4">
-																	<label
-																		>Extension or Clause's Required under
-																		Burglary</label
-																	>
-																</div>
-																<div class="col-md-8">
-																	<select
-																		class="form-control"
-																		name="clause_under_burglary"
-																		id="clause_under_burglary"
-																	>
-																		<option value="RSMD">RSMD</option>
-																		<option value="Theft Extension">
-																			Theft Extension
-																		</option>
-																		<option value="Goods Held in Trust">
-																			Goods Held in Trust
-																		</option>
-																	</select>
-																</div>
-															</div>
-														</div>
-														<div class="form-group">
-															<div class="row">
-																<div class="col-md-4">
-																	<label>Expiring Insurer</label>
-																</div>
-																<div class="col-md-8">
-																	<input
-																		type="text"
-																		class="form-control"
-																		name="fire_expiry_insurer"
-																		id="fire_expiry_insurer"
-																	/>
-																</div>
-															</div>
-														</div>
-														<div class="form-group">
-															<div class="row">
-																<div class="col-md-4">
-																	<label>Date</label>
-																</div>
-																<div class="col-md-8">
-																	<input
-																		type="date"
-																		class="form-control"
-																		name="fire_date"
-																		id="fire_date"
-																	/>
-																</div>
-															</div>
-														</div>
-													</div>
-
-													<div class="col-md-6">
-														<div class="form-group">
-															<div class="row">
-																<div class="col-md-4">
-																	<label> Claims Experience</label>
-																</div>
-																<div class="col-md-8">
-																	<input
-																		type="text"
-																		class="form-control"
-																		name="claim_exprience"
-																		id="claim_exprience"
-																	/>
-																</div>
-															</div>
-														</div>
-														<div class="form-group">
-															<div class="row">
-																<div class="col-md-4">
-																	<label>Information</label>
-																</div>
-																<div class="col-md-8">
-																	<input
-																		type="text"
-																		class="form-control"
-																		name="fire_information"
-																		id="fire_information"
-																	/>
-																</div>
-															</div>
-														</div>
-													</div>
-												</div>
-
-												<div class="hidden wc_div">
-													<div class="row">
-														<table
-															class="table table-bordered"
-															style="width: 100%"
-														>
-															<tr>
-																<th colspan="4" class="text-center bg-primary">
-																	Employee Details
-																</th>
-															</tr>
-															<tr>
-																<th colspan="2">Details</th>
-																<th>Previous Year</th>
-																<th>Current Year</th>
-															</tr>
-															<tr>
-																<th colspan="2">Number of Employee</th>
-																<th>
-																	<input
-																		type="text"
-																		class="form-control"
-																		name="pre_no_of_emp"
-																		id="pre_no_of_emp"
-																	/>
-																</th>
-																<th>
-																	<input
-																		type="text"
-																		class="form-control"
-																		name="cur_no_of_emp"
-																		id="cur_no_of_emp"
-																	/>
-																</th>
-															</tr>
-														</table>
-														<div class="col-md-6">
-															<h4 class="text-center bg-primary">
-																Claim Details
-															</h4>
-															<div class="form-group">
-																<div class="row">
-																	<div class="col-md-4">
-																		<label>Claim Paid</label>
-																	</div>
-																	<div class="col-md-8">
-																		<input
-																			type="text"
-																			class="form-control"
-																			name="wc_claim_paid"
-																			id="wc_claim_paid"
-																		/>
-																	</div>
-																</div>
-															</div>
-															<div class="form-group">
-																<div class="row">
-																	<div class="col-md-4">
-																		<label>Total Claim</label>
-																	</div>
-																	<div class="col-md-8">
-																		<input
-																			type="text"
-																			class="form-control"
-																			name="wc_tot_claim"
-																			id="wc_tot_claim"
-																		/>
-																	</div>
-																</div>
-															</div>
-															<div class="form-group">
-																<div class="row">
-																	<div class="col-md-4">
-																		<label>Premium Paid</label>
-																	</div>
-																	<div class="col-md-8">
-																		<input
-																			type="text"
-																			class="form-control"
-																			name="wc_premium_paid"
-																			id="wc_premium_paid"
-																		/>
-																	</div>
-																</div>
-															</div>
-														</div>
-														<div class="col-md-6">
-															<h4 class="text-center bg-primary">&nbsp;</h4>
-															<div class="form-group">
-																<div class="row">
-																	<div class="col-md-4">
-																		<label>Outstanding Claim</label>
-																	</div>
-																	<div class="col-md-8">
-																		<input
-																			type="text"
-																			class="form-control"
-																			name="wc_out_claim"
-																			id="wc_out_claim"
-																		/>
-																	</div>
-																</div>
-															</div>
-															<div class="form-group">
-																<div class="row">
-																	<div class="col-md-4">
-																		<label>Last Three Years Claims</label>
-																	</div>
-																	<div class="col-md-8">
-																		<input
-																			type="text"
-																			class="form-control"
-																			name="wc_last_claim"
-																			id="wc_last_claim"
-																		/>
-																	</div>
-																</div>
-															</div>
-														</div>
-													</div>
-
-													<div class="row">
-														<div class="col-md-6">
-															<h4 class="text-center bg-primary">
-																Policy Details
-															</h4>
-															<div class="form-group">
-																<div class="row">
-																	<div class="col-md-4">
-																		<label>Wages Per Employee Per Month</label>
-																	</div>
-																	<div class="col-md-8">
-																		<input
-																			type="text"
-																			class="form-control"
-																			name="wc_wages_per_mon"
-																			id="wc_wages_per_mon"
-																		/>
-																	</div>
-																</div>
-															</div>
-
-															<div class="form-group">
-																<div class="row">
-																	<div class="col-md-4">
-																		<label>No of supervisor</label>
-																	</div>
-																	<div class="col-md-8">
-																		<input
-																			type="text"
-																			class="form-control"
-																			name="wc_no_supervisor"
-																			id="wc_no_supervisor"
-																		/>
-																	</div>
-																</div>
-															</div>
-
-															<div class="form-group">
-																<div class="row">
-																	<div class="col-md-4">
-																		<label>No of site Engineer</label>
-																	</div>
-																	<div class="col-md-8">
-																		<input
-																			type="text"
-																			class="form-control"
-																			name="wc_no_site_engineer"
-																			id="wc_no_site_engineer"
-																		/>
-																	</div>
-																</div>
-															</div>
-														</div>
-
-														<div class="col-md-6">
-															<h4 class="text-center bg-primary">&nbsp;</h4>
-
-															<div class="form-group">
-																<div class="row">
-																	<div class="col-md-4">
-																		<label
-																			>Salary Per supervisor Per Month</label
-																		>
-																	</div>
-																	<div class="col-md-8">
-																		<input
-																			type="text"
-																			class="form-control"
-																			name="wc_salary_per_supervisor"
-																			id="wc_salary_per_supervisor"
-																		/>
-																	</div>
-																</div>
-															</div>
-
-															<div class="form-group">
-																<div class="row">
-																	<div class="col-md-4">
-																		<label
-																			>Salary site Engineer Per Month</label
-																		>
-																	</div>
-																	<div class="col-md-8">
-																		<input
-																			type="text"
-																			class="form-control"
-																			name="wc_salary_engineer"
-																			id="wc_salary_engineer"
-																		/>
-																	</div>
-																</div>
-															</div>
-														</div>
-													</div>
-												</div>
-
-												<div class="gmc_div hidden">
-													<div class="row">
-														<div class="col-md-6">
-															<h4 class="text-center bg-primary">
-																Existing Policy Details
-															</h4>
-
-															<div class="form-group">
-																<div class="row">
-																	<div class="col-md-4">
-																		<label
-																			>Current Status(Fresh /Renewal )</label
-																		>
-																	</div>
-																	<div class="col-md-8">
-																		<input
-																			type="text"
-																			class="form-control"
-																			name="gmc_current_status"
-																			id="gmc_current_status"
-																		/>
-																	</div>
-																</div>
-															</div>
-
-															<div class="form-group">
-																<div class="row">
-																	<div class="col-md-4">
-																		<label>Current Insurer & TPA</label>
-																	</div>
-																	<div class="col-md-8">
-																		<input
-																			type="text"
-																			class="form-control"
-																			name="gmc_cur_ins"
-																			id="gmc_cur_ins"
-																		/>
-																	</div>
-																</div>
-															</div>
-
-															<div class="form-group">
-																<div class="row">
-																	<div class="col-md-4">
-																		<label
-																			>Premium as on date ( Including
-																			Addition/Deletions )</label
-																		>
-																	</div>
-																	<div class="col-md-8">
-																		<input
-																			type="text"
-																			class="form-control"
-																			name="gmc_premium_date"
-																			id="gmc_premium_date"
-																		/>
-																	</div>
-																</div>
-															</div>
-
-															<div class="form-group">
-																<div class="row">
-																	<div class="col-md-4">
-																		<label
-																			>Total Lives for Policy Renewal</label
-																		>
-																	</div>
-																	<div class="col-md-8">
-																		<input
-																			type="text"
-																			class="form-control"
-																			name="gmc_renewal_tot"
-																			id="gmc_renewal_tot"
-																		/>
-																	</div>
-																</div>
-															</div>
-														</div>
-
-														<div class="col-md-6">
-															<h4 class="text-center bg-primary">&nbsp;</h4>
-
-															<div class="form-group">
-																<div class="row">
-																	<div class="col-md-4">
-																		<label>Period Of Insurance</label>
-																	</div>
-																	<div class="col-md-8">
-																		<input
-																			type="text"
-																			class="form-control"
-																			name="gmc_period_of_ins"
-																			id="gmc_period_of_ins"
-																		/>
-																	</div>
-																</div>
-															</div>
-
-															<div class="form-group">
-																<div class="row">
-																	<div class="col-md-4">
-																		<label
-																			>Premium At inception of Policy
-																		</label>
-																	</div>
-																	<div class="col-md-8">
-																		<input
-																			type="text"
-																			class="form-control"
-																			name="gmc_premium_inscep"
-																			id="gmc_premium_inscep"
-																		/>
-																	</div>
-																</div>
-															</div>
-
-															<div class="form-group">
-																<div class="row">
-																	<div class="col-md-4">
-																		<label
-																			>Total Lives at Inception of Policy</label
-																		>
-																	</div>
-																	<div class="col-md-8">
-																		<input
-																			type="text"
-																			class="form-control"
-																			name="gmc_total_lives"
-																			id="gmc_total_lives"
-																		/>
-																	</div>
-																</div>
-															</div>
-
-															<div class="form-group">
-																<div class="row">
-																	<div class="col-md-4">
-																		<label>Incurred Claims(Settled+ O/s)</label>
-																	</div>
-																	<div class="col-md-8">
-																		<input
-																			type="text"
-																			class="form-control"
-																			name="gmc_incurred_claims"
-																			id="gmc_incurred_claims"
-																		/>
-																	</div>
-																</div>
-															</div>
-														</div>
-													</div>
-
-													<div class="row">
-														<div class="col-md-6">
-															<h4 class="text-center bg-primary">Benefits</h4>
-
-															<div class="form-group">
-																<div class="row">
-																	<div class="col-md-4">
-																		<label
-																			>Sum Insured Approach
-																			(Uniform/Various)</label
-																		>
-																	</div>
-																	<div class="col-md-8">
-																		<input
-																			type="text"
-																			class="form-control"
-																			name="gmc_sum_ins_app"
-																			id="gmc_sum_ins_app"
-																		/>
-																	</div>
-																</div>
-															</div>
-
-															<div class="form-group">
-																<div class="row">
-																	<div class="col-md-4">
-																		<label> Family Definition</label>
-																	</div>
-																	<div class="col-md-8">
-																		<input
-																			type="text"
-																			class="form-control"
-																			name="gmc_family_def"
-																			id="gmc_family_def"
-																		/>
-																	</div>
-																</div>
-															</div>
-
-															<div class="form-group">
-																<div class="row">
-																	<div class="col-md-4">
-																		<label>
-																			Pre-existing Diseases covered</label
-																		>
-																	</div>
-																	<div class="col-md-8">
-																		<input
-																			type="text"
-																			class="form-control"
-																			name="gmc_pre_disease_covered"
-																			id="gmc_pre_disease_covered"
-																		/>
-																	</div>
-																</div>
-															</div>
-
-															<div class="form-group">
-																<div class="row">
-																	<div class="col-md-4">
-																		<label
-																			>1st ,2nd & 4th Year Exclusion
-																			Waiver</label
-																		>
-																	</div>
-																	<div class="col-md-8">
-																		<input
-																			type="text"
-																			class="form-control"
-																			name="gmc_exclusion_waiver_year"
-																			id="gmc_exclusion_waiver_year"
-																		/>
-																	</div>
-																</div>
-															</div>
-
-															<div class="form-group">
-																<div class="row">
-																	<div class="col-md-4">
-																		<label>Maternity Benefit coverage</label>
-																	</div>
-																	<div class="col-md-8">
-																		<input
-																			type="text"
-																			class="form-control"
-																			name="gmc_maternity_coverage"
-																			id="gmc_maternity_coverage"
-																		/>
-																	</div>
-																</div>
-															</div>
-
-															<div class="form-group">
-																<div class="row">
-																	<div class="col-md-4">
-																		<label
-																			>Pre and Post Hospitalization coverage
-																			limits</label
-																		>
-																	</div>
-																	<div class="col-md-8">
-																		<input
-																			type="text"
-																			class="form-control"
-																			name="gmc_hospital_coverage"
-																			id="gmc_hospital_coverage"
-																		/>
-																	</div>
-																</div>
-															</div>
-
-															<div class="form-group">
-																<div class="row">
-																	<div class="col-md-4">
-																		<label>ICU/ ITU Limits</label>
-																	</div>
-																	<div class="col-md-8">
-																		<input
-																			type="text"
-																			class="form-control"
-																			name="gmc_icu_limits"
-																			id="gmc_icu_limits"
-																		/>
-																	</div>
-																</div>
-															</div>
-
-															<div class="form-group">
-																<div class="row">
-																	<div class="col-md-4">
-																		<label
-																			>Coverage for Congenital Internal
-																			Disease</label
-																		>
-																	</div>
-																	<div class="col-md-8">
-																		<input
-																			type="text"
-																			class="form-control"
-																			name="gmc_int_desease_cover"
-																			id="gmc_int_desease_cover"
-																		/>
-																	</div>
-																</div>
-															</div>
-
-															<div class="form-group">
-																<div class="row">
-																	<div class="col-md-4">
-																		<label>PPN Clause</label>
-																	</div>
-																	<div class="col-md-8">
-																		<input
-																			type="text"
-																			class="form-control"
-																			name="gmc_ppn_cause"
-																			id="gmc_ppn_cause"
-																		/>
-																	</div>
-																</div>
-															</div>
-
-															<div class="form-group">
-																<div class="row">
-																	<div class="col-md-4">
-																		<label>Claim Submission</label>
-																	</div>
-																	<div class="col-md-8">
-																		<input
-																			type="text"
-																			class="form-control"
-																			name="gmc_claim_sub_mission"
-																			id="gmc_claim_sub_mission"
-																		/>
-																	</div>
-																</div>
-															</div>
-
-															<div class="form-group">
-																<div class="row">
-																	<div class="col-md-4">
-																		<label>Lasik Surgery</label>
-																	</div>
-																	<div class="col-md-8">
-																		<input
-																			type="text"
-																			class="form-control"
-																			name="gmc_lasik_surgery"
-																			id="gmc_lasik_surgery"
-																		/>
-																	</div>
-																</div>
-															</div>
-
-															<div class="form-group">
-																<div class="row">
-																	<div class="col-md-4">
-																		<label>Corporate buffer </label>
-																	</div>
-																	<div class="col-md-8">
-																		<input
-																			type="text"
-																			class="form-control"
-																			name="gmc_corporate_buffer"
-																			id="gmc_corporate_buffer"
-																		/>
-																	</div>
-																</div>
-															</div>
-
-															<div class="form-group">
-																<div class="row">
-																	<div class="col-md-4">
-																		<label>Cataract Surgery</label>
-																	</div>
-																	<div class="col-md-8">
-																		<input
-																			type="text"
-																			class="form-control"
-																			name="gmc_cataract_surgery"
-																			id="gmc_cataract_surgery"
-																		/>
-																	</div>
-																</div>
-															</div>
-
-															<div class="form-group">
-																<div class="row">
-																	<div class="col-md-4">
-																		<label
-																			>Comorbidities treatment under covid
-																			admission</label
-																		>
-																	</div>
-																	<div class="col-md-8">
-																		<input
-																			type="text"
-																			class="form-control"
-																			name="gmc_comorbities"
-																			id="gmc_comorbities"
-																		/>
-																	</div>
-																</div>
-															</div>
-
-															<div class="form-group">
-																<div class="row">
-																	<div class="col-md-4">
-																		<label
-																			>Psychiatric Ailment /Mental
-																			Illness</label
-																		>
-																	</div>
-																	<div class="col-md-8">
-																		<input
-																			type="text"
-																			class="form-control"
-																			name="gmc_metail_illness"
-																			id="gmc_metail_illness"
-																		/>
-																	</div>
-																</div>
-															</div>
-
-															<div class="form-group">
-																<div class="row">
-																	<div class="col-md-4">
-																		<label>Addition/Deletion</label>
-																	</div>
-																	<div class="col-md-8">
-																		<input
-																			type="text"
-																			class="form-control"
-																			name="gmc_addition"
-																			id="gmc_addition"
-																		/>
-																	</div>
-																</div>
-															</div>
-
-															<div class="form-group">
-																<div class="row">
-																	<div class="col-md-4">
-																		<label
-																			>Covid hospitlization coverage ( Covid
-																			Hospitlizaiton expneses to be covered as
-																			per policy norms )</label
-																		>
-																	</div>
-																	<div class="col-md-8">
-																		<input
-																			type="text"
-																			class="form-control"
-																			name="gmc_covid_hospitlization"
-																			id="gmc_covid_hospitlization"
-																		/>
-																	</div>
-																</div>
-															</div>
-
-															<div class="form-group">
-																<div class="row">
-																	<div class="col-md-4">
-																		<label>Day Care Procedures</label>
-																	</div>
-																	<div class="col-md-8">
-																		<input
-																			type="text"
-																			class="form-control"
-																			name="gmc_day_care"
-																			id="gmc_day_care"
-																		/>
-																	</div>
-																</div>
-															</div>
-														</div>
-
-														<div class="col-md-6">
-															<h4 class="text-center bg-primary">&nbsp;</h4>
-
-															<div class="form-group">
-																<div class="row">
-																	<div class="col-md-4">
-																		<label>Sum Insured</label>
-																	</div>
-																	<div class="col-md-8">
-																		<input
-																			type="text"
-																			class="form-control"
-																			name="gmc_sum_ins"
-																			id="gmc_sum_ins"
-																		/>
-																	</div>
-																</div>
-															</div>
-
-															<div class="form-group">
-																<div class="row">
-																	<div class="col-md-4">
-																		<label
-																			>Policy Type ( Family Floater / Individual
-																			Sum Insured )
-																		</label>
-																	</div>
-																	<div class="col-md-8">
-																		<input
-																			type="text"
-																			class="form-control"
-																			name="gmc_policy_type"
-																			id="gmc_policy_type"
-																		/>
-																	</div>
-																</div>
-															</div>
-
-															<div class="form-group">
-																<div class="row">
-																	<div class="col-md-4">
-																		<label>30 Days Exclusion Waiver</label>
-																	</div>
-																	<div class="col-md-8">
-																		<input
-																			type="text"
-																			class="form-control"
-																			name="gmc_exclusion_wavier"
-																			id="gmc_exclusion_wavier"
-																		/>
-																	</div>
-																</div>
-															</div>
-
-															<div class="form-group">
-																<div class="row">
-																	<div class="col-md-4">
-																		<label
-																			>9 months waiting period for
-																			Maternity</label
-																		>
-																	</div>
-																	<div class="col-md-8">
-																		<input
-																			type="text"
-																			class="form-control"
-																			name="gmc_waiting_period"
-																			id="gmc_waiting_period"
-																		/>
-																	</div>
-																</div>
-															</div>
-
-															<div class="form-group">
-																<div class="row">
-																	<div class="col-md-4">
-																		<label
-																			>Child Day 1 cover within Family Floater
-																			Sum Insured</label
-																		>
-																	</div>
-																	<div class="col-md-8">
-																		<input
-																			type="text"
-																			class="form-control"
-																			name="gmc_child_day_cover"
-																			id="gmc_child_day_cover"
-																		/>
-																	</div>
-																</div>
-															</div>
-
-															<div class="form-group">
-																<div class="row">
-																	<div class="col-md-4">
-																		<label>Room rent restriction</label>
-																	</div>
-																	<div class="col-md-8">
-																		<input
-																			type="text"
-																			class="form-control"
-																			name="gmc_room_rent"
-																			id="gmc_room_rent"
-																		/>
-																	</div>
-																</div>
-															</div>
-
-															<div class="form-group">
-																<div class="row">
-																	<div class="col-md-4">
-																		<label
-																			>Any Submlimits On Doctor Fees/Surgeon
-																			Charges /Medicines, consumables etc</label
-																		>
-																	</div>
-																	<div class="col-md-8">
-																		<input
-																			type="text"
-																			class="form-control"
-																			name="gmc_sub_limits"
-																			id="gmc_sub_limits"
-																		/>
-																	</div>
-																</div>
-															</div>
-
-															<div class="form-group">
-																<div class="row">
-																	<div class="col-md-4">
-																		<label
-																			>Coverage for Congenital External
-																			Disease</label
-																		>
-																	</div>
-																	<div class="col-md-8">
-																		<input
-																			type="text"
-																			class="form-control"
-																			name="gmc_ext_desease_cover"
-																			id="gmc_ext_desease_cover"
-																		/>
-																	</div>
-																</div>
-															</div>
-
-															<div class="form-group">
-																<div class="row">
-																	<div class="col-md-4">
-																		<label>Claim Intimation</label>
-																	</div>
-																	<div class="col-md-8">
-																		<input
-																			type="text"
-																			class="form-control"
-																			name="gmc_claim_int"
-																			id="gmc_claim_int"
-																		/>
-																	</div>
-																</div>
-															</div>
-
-															<div class="form-group">
-																<div class="row">
-																	<div class="col-md-4">
-																		<label
-																			>Internal Capping / Co Payment / Any Sub
-																			Limits</label
-																		>
-																	</div>
-																	<div class="col-md-8">
-																		<input
-																			type="text"
-																			class="form-control"
-																			name="gmc_int_capping"
-																			id="gmc_int_capping"
-																		/>
-																	</div>
-																</div>
-															</div>
-
-															<div class="form-group">
-																<div class="row">
-																	<div class="col-md-4">
-																		<label>Ayush treatment</label>
-																	</div>
-																	<div class="col-md-8">
-																		<input
-																			type="text"
-																			class="form-control"
-																			name="gmc_ayush_treatment"
-																			id="gmc_ayush_treatment"
-																		/>
-																	</div>
-																</div>
-															</div>
-
-															<div class="form-group">
-																<div class="row">
-																	<div class="col-md-4">
-																		<label>Robotic Surgery</label>
-																	</div>
-																	<div class="col-md-8">
-																		<input
-																			type="text"
-																			class="form-control"
-																			name="gmc_robotic"
-																			id="gmc_robotic"
-																		/>
-																	</div>
-																</div>
-															</div>
-
-															<div class="form-group">
-																<div class="row">
-																	<div class="col-md-4">
-																		<label>Ambulance Charges</label>
-																	</div>
-																	<div class="col-md-8">
-																		<input
-																			type="text"
-																			class="form-control"
-																			name="gmc_ambulance"
-																			id="gmc_ambulance"
-																		/>
-																	</div>
-																</div>
-															</div>
-
-															<div class="form-group">
-																<div class="row">
-																	<div class="col-md-4">
-																		<label>Sinus Surgery</label>
-																	</div>
-																	<div class="col-md-8">
-																		<input
-																			type="text"
-																			class="form-control"
-																			name="gmc_sinus_surgery"
-																			id="gmc_sinus_surgery"
-																		/>
-																	</div>
-																</div>
-															</div>
-
-															<div class="form-group">
-																<div class="row">
-																	<div class="col-md-4">
-																		<label
-																			>Age Related Macular Degeneration</label
-																		>
-																	</div>
-																	<div class="col-md-8">
-																		<input
-																			type="text"
-																			class="form-control"
-																			name="gmc_age_macular"
-																			id="gmc_age_macular"
-																		/>
-																	</div>
-																</div>
-															</div>
-
-															<div class="form-group">
-																<div class="row">
-																	<div class="col-md-4">
-																		<label
-																			>Hospitalization due to terrorism and
-																			epidemic diseases
-																		</label>
-																	</div>
-																	<div class="col-md-8">
-																		<input
-																			type="text"
-																			class="form-control"
-																			name="gmc_terroism_deases"
-																			id="gmc_terroism_deases"
-																		/>
-																	</div>
-																</div>
-															</div>
-
-															<div class="form-group">
-																<div class="row">
-																	<div class="col-md-4">
-																		<label
-																			>Any Other Special Condition or
-																			Coverages</label
-																		>
-																	</div>
-																	<div class="col-md-8">
-																		<input
-																			type="text"
-																			class="form-control"
-																			name="gmc_special_coverage"
-																			id="gmc_special_coverage"
-																		/>
-																	</div>
-																</div>
-															</div>
-														</div>
-													</div>
-												</div>
-											</div>
-										</div>
-									</section>
-								</div>
-								<div class="modal-footer">
-									<button
-										type="button"
-										class="btn btn-default"
-										data-dismiss="modal"
-									>
-										Close
-									</button>
-								</div>
-							</div>
-						</div>
-					</div>
 
 					<script>
 						var gen_policy_status = "0";

@@ -493,8 +493,11 @@ class PayoutCtrl extends CI_Controller {
 
                              // ✅ Auto apply payout to matching policies
                             $commission_data = array_merge($data, [
-                                'id' => $res,
-                                'company' => $data['insurer_company'] ?? 0 // Ensure 'company' exists
+                                'id'                     => $res,
+                                'company'               => $data['insurer_company'],
+                                'ins_rto'               => $ins_rto,
+                                'vehicle_classification'=> $ins_classification,
+                                'category'              => $business_type
                             ]);
 
                             $applied = $this->pm->apply_new_commission_to_pending_policies($commission_data);
@@ -4188,8 +4191,8 @@ class PayoutCtrl extends CI_Controller {
         	}
        }
        
-       public function edit_commission_entry()
-       {
+        public function edit_commission_entry()
+        {
             if($this->session->has_userdata('logged_in')) 
             { 
                 $id = $this->input->post("id");

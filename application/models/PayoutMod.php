@@ -442,29 +442,27 @@ class PayoutMod extends CI_Model
 	 * @param object $policy_data
 	 * @return array Ready-to-save commission calculation result
 	 */
-	public function calculate_full_commission($lead_id, $commission_id, $policy_data)
+	public function calculate_full_commission($lead_id, $commission_id, $policy)
 	{
+		// ---------------- BASIC EXTRACTION ----------------
 		$class_type = $this->lm->get_class_type($lead_id);
 
-		// --- Basic policy data
-		$total_premium       = $policy_data->total_premium ?? 0;
-		$policy_premium      = $policy_data->policy_premium ?? 0;
-		$policy_agency_pos   = $policy_data->policy_agency_pos ?? '';
-		$company             = $policy_data->company ?? '';
-		$no_claim_bonus      = $policy_data->no_claim_bonus ?? '';
-		$own_damage          = $policy_data->total_own_damage ?? 0;
-		$tp                  = $policy_data->tot_liability_premium ?? 0;
-		$lead_id             = $policy_data->lead_id ?? $lead_id;
+		$total_premium       = $policy->total_premium ?? 0;
+		$policy_premium      = $policy->policy_premium ?? 0;
+		$policy_agency_pos   = $policy->policy_agency_pos ?? '';
+		$company             = $policy->company ?? '';
+		$no_claim_bonus      = $policy->no_claim_bonus ?? 'No';
+		$own_damage          = $policy->total_own_damage ?? 0;
+		$tp                  = $policy->tot_liability_premium ?? 0;
 
-		// --- Initialize
+		// ---------------- INIT ----------------
 		$agent_commission = 0;
 		$company_com = 0;
 		$jayantha_commission = 0;
 		$jayantha_agent_commission = 0;
-		$commission_type = '';
-		$status = '0';
+		$commission_type = "";
 
-		// 🟡 Skip if commission ID empty
+		// ---------------- COMMISSION EMPTY → RETURN ZERO ----------------
 		if (empty($commission_id)) {
 			return [
 				"commission_id" => null,
@@ -479,103 +477,125 @@ class PayoutMod extends CI_Model
 			];
 		}
 
-		// Fetch commission master record
+		// ---------------- FETCH COMMISSION MASTER ----------------
 		$res = $this->lm->fetch_policy_info($commission_id);
 		if (!$res) {
-			log_message('error', "❌ Commission slab not found for ID: $commission_id");
 			return [];
 		}
 
-		$agn_commission_type = $res->agn_com_type ?? '';
+		$commission_type = $res->commission_type;
+		$agn_com_type    = $res->agn_com_type;
 
-		// --- Jayantha (IRDA) Commission Calculation
-		$ird_od_commission = ($res->ird_od_commission > 0) ? $res->ird_od_commission : 0;
-		$ird_tp_commission = ($res->ird_tp_commission > 0) ? $res->ird_tp_commission : 0;
+		// ---------------- IRDA / JAYANTHA COMMISSION ----------------
+		$ird_od = ($res->ird_od_commission > 0) ? $res->ird_od_commission : 0;
+		$ird_tp = ($res->ird_tp_commission > 0) ? $res->ird_tp_commission : 0;
 
-		if ($agn_commission_type != "TP") {
-			$jayantha_commission = ($own_damage * $ird_od_commission) / 100;
-			$jayantha_agent_commission = ($own_damage * $ird_od_commission) / 100;
+		if ($agn_com_type != "TP") {
+			$jayantha_commission += ($own_damage * $ird_od) / 100;
+			$jayantha_agent_commission += ($own_damage * $ird_od) / 100;
 		}
-		if ($agn_commission_type != "OD") {
-			$jayantha_commission += ($tp * $ird_tp_commission) / 100;
+		if ($agn_com_type != "OD") {
+			$jayantha_commission += ($tp * $ird_tp) / 100;
 		}
-		if ($agn_commission_type == "OD_AND_TP") {
-			$jayantha_commission = (($own_damage * $ird_od_commission) / 100) + (($tp * $ird_tp_commission) / 100);
+		if ($agn_com_type == "OD_AND_TP") {
+			$jayantha_commission =
+				(($own_damage * $ird_od) / 100) +
+				(($tp * $ird_tp) / 100);
 		}
 
-		// --- Policy type-based Commission (Motor / Health)
+		// =====================================================================
+		// ----------------------   MOTOR (class 1)  ---------------------------
+		// =====================================================================
 		if ($class_type->class == "1") {
-			// Motor commission
-			$commission_type = $res->commission_type;
-			if (in_array($res->commission_type, ["1", "2", "3"])) {
-				$spl_com = $this->lm->check_spl_commission_for_agent($commission_id, $policy_agency_pos);
-				$agent_status = $this->lm->fetch_agent_category($policy_agency_pos);
 
-				// NCB-based logic
-				if ($res->is_ncb == "Yes" && $no_claim_bonus == "Yes") {
-					$company_com = $total_premium * ($res->ncb_percentage) / 100;
+			$spl = $this->lm->check_spl_commission_for_agent($commission_id, $policy_agency_pos);
+			$agent_status = $this->lm->fetch_agent_category($policy_agency_pos);
 
-					if (!empty($spl_com)) {
-						$agent_commission = ($total_premium * $spl_com->special_com) / 100;
-					} else {
-						$agent_commission = ($total_premium * $res->{'a_' . strtolower($agent_status->commission_category) . '_ncb'}) / 100;
-					}
+			// ---------------- NCB COMMISSION ----------------
+			if ($res->is_ncb == "Yes" && $no_claim_bonus == "Yes") {
+				// company commission
+				$company_com = $total_premium * ($res->ncb_percentage) / 100;
+
+				// special agent commission
+				if ($spl) {
+					$agent_commission = ($total_premium * $spl->special_com) / 100;
 				} else {
-					// Regular OD / TP / ON-NET logic
-					if (!empty($res->on_net) && $res->on_net != "0") {
-						$company_com = $total_premium * ($res->on_net) / 100;
-					} elseif (!empty($res->own_od) && !empty($res->own_tp)) {
-						$company_com = ($own_damage * ($res->own_od) / 100) + ($tp * ($res->own_tp) / 100);
-					} elseif (!empty($res->own_od)) {
-						$company_com = $own_damage * ($res->own_od) / 100;
-					} elseif (!empty($res->own_tp)) {
-						$company_com = $tp * ($res->own_tp) / 100;
-					}
-
-					if (!empty($spl_com)) {
-						$agent_commission = ($total_premium * $spl_com->special_com) / 100;
-					} else {
-						// ✅ Correct field mapping based on agent commission category (A/B/C/D)
-						$cat_prefix = strtolower($agent_status->commission_category); // 'a', 'b', 'c', or 'd'
-
-						switch ($res->agn_com_type) {
-							case "OD":
-								$agent_commission = ($own_damage * ($res->{$cat_prefix . '_od'} ?? 0)) / 100;
-								break;
-							case "TP":
-								$agent_commission = ($tp * ($res->{$cat_prefix . '_tp'} ?? 0)) / 100;
-								break;
-							case "ON-NET":
-								$agent_commission = ($total_premium * ($res->{$cat_prefix . '_net'} ?? 0)) / 100;
-								break;
-							case "OD_AND_TP":
-								$agent_od = ($own_damage * ($res->{$cat_prefix . '_od'} ?? 0)) / 100;
-								$agent_tp = ($tp * ($res->{$cat_prefix . '_tp'} ?? 0)) / 100;
-								$agent_commission = $agent_od + $agent_tp;
-								break;
-						}
-
-					}
+					$cat = strtolower($agent_status->commission_category);
+					$key = $cat . "_ncb";
+					$agent_commission = ($total_premium * ($res->$key ?? 0)) / 100;
 				}
 			}
-		} else {
-			// Health class commission
-			$commission_type = $res->commission_type;
-			if (in_array($res->commission_type, ["1", "3"])) {
-				$agent_status = $this->lm->fetch_agent_category($policy_agency_pos);
-				if ($res->is_ncb == "Yes" && $no_claim_bonus == "Yes") {
-					$company_com = $total_premium * ($res->ncb_percentage) / 100;
-					$agent_commission = ($total_premium * $res->{'a_' . strtolower($agent_status->commission_category) . '_ncb'}) / 100;
+			// ---------------- NON NCB COMMISSION ----------------
+			else {
+
+				// COMPANY commission
+				if (!empty($res->on_net) && $res->on_net != "0") {
+					$company_com = $total_premium * ($res->on_net) / 100;
+				}
+				elseif (!empty($res->own_od) && !empty($res->own_tp)) {
+					$company_com =
+						($own_damage * ($res->own_od) / 100) +
+						($tp * ($res->own_tp) / 100);
+				}
+				elseif (!empty($res->own_od)) {
+					$company_com = $own_damage * ($res->own_od) / 100;
+				}
+				elseif (!empty($res->own_tp)) {
+					$company_com = $tp * ($res->own_tp) / 100;
+				}
+
+				// AGENT COMMISSION
+				if ($spl) {
+					$agent_commission = ($total_premium * $spl->special_com) / 100;
 				} else {
-					if (!empty($res->on_net) && $res->on_net != "0") {
-						$company_com = $total_premium * ($res->on_net) / 100;
+					$cat = strtolower($agent_status->commission_category);
+
+					if ($agn_com_type == "OD") {
+						$agent_commission = ($own_damage * ($res->{$cat . "_od"} ?? 0)) / 100;
 					}
-					$agent_commission = ($total_premium * $res->{'a_' . strtolower($agent_status->commission_category) . '_net'}) / 100;
+					if ($agn_com_type == "TP") {
+						$agent_commission = ($tp * ($res->{$cat . "_tp"} ?? 0)) / 100;
+					}
+					if ($agn_com_type == "ON-NET") {
+						$agent_commission = ($total_premium * ($res->{$cat . "_net"} ?? 0)) / 100;
+					}
+					if ($agn_com_type == "OD_AND_TP") {
+						$agent_commission =
+							($own_damage * ($res->{$cat . "_od"} ?? 0) / 100) +
+							($tp * ($res->{$cat . "_tp"} ?? 0) / 100);
+					}
 				}
 			}
 		}
 
-		// --- Adjust company vs Jayantha
+		// =====================================================================
+		// ------------------------   HEALTH (class 2)  ------------------------
+		// =====================================================================
+		else if ($class_type->class == "2") {
+
+			$agent_status = $this->lm->fetch_agent_category($policy_agency_pos);
+
+			// HEALTH NCB
+			if ($res->is_ncb == "Yes" && $no_claim_bonus == "Yes") {
+				$company_com = $total_premium * ($res->ncb_percentage) / 100;
+				$cat = strtolower($agent_status->commission_category);
+				$agent_commission = ($total_premium * ($res->{$cat . "_ncb"} ?? 0)) / 100;
+			}
+			// HEALTH NON-NCB
+			else {
+				if (!empty($res->on_net) && $res->on_net != "0") {
+					$company_com = $total_premium * ($res->on_net) / 100;
+				}
+
+				$cat = strtolower($agent_status->commission_category);
+				$agent_commission = ($total_premium * ($res->{$cat . "_net"} ?? 0)) / 100;
+			}
+		}
+
+		// =====================================================================
+		// ----------------- FINAL ADJUSTMENTS (EXACT SAME AS SAVE) ------------
+		// =====================================================================
+
 		if ($company_com <= $jayantha_commission) {
 			$jayantha_commission = $company_com;
 			$company_com = 0;
@@ -590,23 +610,23 @@ class PayoutMod extends CI_Model
 			$agent_commission -= $jayantha_agent_commission;
 		}
 
-		// Combine agent and unicorn commissions
+		// combine unicorn
 		$jayantha_agent_commission += $agent_commission;
 		$agent_commission = 0;
 
-		// ✅ Return the complete ready-to-update data
 		return [
-			"commission_id" => $commission_id,
-			"commission_type" => $commission_type,
+			"commission_id"        => $commission_id,
+			"commission_type"      => $commission_type,
 			"agent_commission_amt" => $jayantha_agent_commission,
-			"own_commission_amt" => $jayantha_commission,
-			"agent_commission" => $agent_commission,
-			"own_commission" => $company_com,
-			"com_trigger_status" => "1",
-			"com_trigger_date" => date("Y-m-d"),
-			"calc_com_status" => "1"
+			"own_commission_amt"   => $jayantha_commission,
+			"agent_commission"     => 0,
+			"own_commission"       => $company_com,
+			"com_trigger_status"   => "1",
+			"com_trigger_date"     => date("Y-m-d"),
+			"calc_com_status"      => "1"
 		];
 	}
+
 
 
 

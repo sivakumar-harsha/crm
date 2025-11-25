@@ -419,6 +419,7 @@ $route["move_classification"] = "LeadCtrl/move_classification";
 // view all leads //
 $route["leads"] = "LeadCtrl/leads";
 $route["fetch_all_leads"] = "LeadCtrl/fetch_all_leads";
+$route["fetch_no_commission_policy"] = "LeadCtrl/fetch_no_commission_policy";
 
 // Follow ups //
 $route["followups"] = "LeadCtrl/followups";
