@@ -3,6 +3,13 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 
 class ChequeCtrl extends CI_Controller {
 
+    public $rolepermissionModel;
+    public $auth;
+    public $am;
+    public $cm;
+    public $session;
+    public $upload;
+
 	public function __construct()
 	{
 		parent::__construct();

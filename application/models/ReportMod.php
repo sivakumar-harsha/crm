@@ -241,17 +241,17 @@ class ReportMod extends CI_Model
       	return $this->db->get("policy_info")->result();
    }
    
-   public function get_agent_code($from_date,$to_date)
-   {
-       $this->db->select("policy_info.*,list_of_pos_and_agents.agent_pos_code");
-       $this->db->from("policy_info");
-       $this->db->join("list_of_pos_and_agents","policy_info.policy_agency_pos = list_of_pos_and_agents.id");
-       $this->db->group_by('policy_info.policy_agency_pos'); 
-       $this->db->where("policy_info.commission_status","1");
-       $this->db->where("policy_info.created_date >=",$from_date);
-       $this->db->where("policy_info.created_date <=",$to_date);
-       return $this->db->get()->result();
-   }
+    public function get_agent_code($from_date,$to_date)
+    {
+        $this->db->select("policy_info.policy_agency_pos, list_of_pos_and_agents.agent_pos_code");
+        $this->db->from("policy_info");
+        $this->db->join("list_of_pos_and_agents","policy_info.policy_agency_pos = list_of_pos_and_agents.id");
+        $this->db->where("policy_info.commission_status","1");
+        $this->db->where("policy_info.created_date >=",$from_date);
+        $this->db->where("policy_info.created_date <=",$to_date);
+        $this->db->group_by("policy_info.policy_agency_pos");
+        return $this->db->get()->result();
+    }
    
    public function get_single_agent_code($agent_id)
    {
@@ -485,21 +485,30 @@ class ReportMod extends CI_Model
    }
    
    
-   public function fetch_agent_vouchers($agents)
-   {
-        $this->db->select("SUM(agent_commission_amt) AS ac,SUM(agn_add_com) As add_com,policy_info.Vocher_no,policy_info.vocher_date,policy_info.policy_agency_pos");
-      	$this->db->where("policy_info.commission_status","1");
-      	$this->db->where("policy_info.pay_status","0");
-      	$this->db->where("policy_info.vocher_status","1");
-      	$this->db->group_by("policy_info.vocher_no");
-      	
-      	if($agents != "all")
-      	{
-      	    $this->db->where("policy_info.policy_agency_pos",$agents);
-      	}
-      	
-      	return $this->db->get("policy_info")->result();
-   }
+    public function fetch_agent_vouchers($agents)
+    {
+        $this->db->select("
+            SUM(agent_commission_amt) AS ac,
+            SUM(agn_add_com) AS add_com,
+            policy_info.Vocher_no,
+            MAX(policy_info.vocher_date) AS vocher_date,
+            policy_info.policy_agency_pos
+        ");
+
+        $this->db->from("policy_info");
+        $this->db->where("policy_info.commission_status","1");
+        $this->db->where("policy_info.pay_status","0");
+        $this->db->where("policy_info.vocher_status","1");
+
+        $this->db->group_by("policy_info.Vocher_no");
+
+        if ($agents != "all")
+        {
+            $this->db->where("policy_info.policy_agency_pos",$agents);
+        }
+
+        return $this->db->get()->result();
+    }
    
    public function fetch_agent_vouchers_list($agents,$f_date,$to_date)
    {
@@ -1215,7 +1224,7 @@ class ReportMod extends CI_Model
   	    return $this->db->get("list_of_leads")->result();
    }
   
-   public function policy_renewal_report()
+   public function policy_renewal_report($from_date,$to_date)
    {
        $this->db->select("list_of_leads.*,vechile_details.vechi_register_no,list_of_clients.client_name,list_of_clients.mobile_no,list_of_clients.other_contact_details,list_of_clients.landline_no,list_of_clients.address,list_of_clients.contact_person_name,list_of_clients.date_of_birth,list_of_clients.age,list_of_clients.area,type_of_bussiness.bussiness_type as b_type,list_of_class.class as lclass,list_of_policy_type.policy_type as p_type");
        	$this->db->join("list_of_clients","list_of_leads.client_id = list_of_clients.id");
@@ -1229,7 +1238,7 @@ class ReportMod extends CI_Model
   	    $this->db->where("lead_type !=","2");
   	    $this->db->order_by("list_of_leads.due_date","Asc");
   	    return $this->db->get("list_of_leads")->result();
-   }
+    }
    
    public function get_tds_percentage()
    {

@@ -1,7 +1,20 @@
 <?php
 defined('BASEPATH') OR exit('No direct script access allowed');
 
-class ReportCtrl extends CI_Controller {
+use PhpOffice\PhpSpreadsheet\Spreadsheet;
+use PhpOffice\PhpSpreadsheet\Writer\Xlsx;
+use PhpOffice\PhpSpreadsheet\Style\Alignment;
+use PhpOffice\PhpSpreadsheet\Style\Font;
+use PhpOffice\PhpSpreadsheet\Style\Border;
+use PhpOffice\PhpSpreadsheet\Style\Fill;
+
+require_once APPPATH . '../vendor/autoload.php';
+
+/**
+ * @property Numbertowords $numbertowords
+ */
+
+class ReportCtrl extends MY_Controller {
     
     public $rolepermissionModel;
     public $auth;
@@ -45,7 +58,8 @@ class ReportCtrl extends CI_Controller {
 	    	redirect("login");
 	    }
 	}
-	public function excell_data_file_get(){
+	public function excell_data_file_get()
+    {
 
 		$this->load->library('excel');
 		$file = $this->input->post("upload_file");
@@ -1514,19 +1528,24 @@ class ReportCtrl extends CI_Controller {
                                 
                     foreach($res as $da)
                     {
-                       $total_ird = $total_ird +  $da->irdi_commission;
-                       $total_additional = $total_additional + $da->additional_commission;
-                       $agent_commission = $agent_commission + $da->agent_commission;
-                       $agent_debit  = $agent_debit + $da->agent_debit;
+                        $irdi          = $da->irdi_commission       ?? 0;
+                        $additional    = $da->additional_commission ?? 0;
+                        $agent_comm    = $da->agent_commission      ?? 0;
+                        $agent_deb     = $da->agent_debit           ?? 0;
+
+                        $total_ird        += $irdi;
+                        $total_additional += $additional;
+                        $agent_commission += $agent_comm;
+                        $agent_debit      += $agent_deb;
                       
                         $content .="<tr>
                             <td>".$da->policy_no."</td>
                             <td>".$da->client_name."</td>
                             <td>".$da->agent_pos_code."</td>
-                            <td style='text-align:right'>".number_format($da->irdi_commission,2)."</td>
-                            <td style='text-align:right'>".number_format($da->additional_commission,2)."</td>
-                            <td style='text-align:right'>".number_format($da->agent_commission,2)."</td>
-                            <td style='text-align:right'>".number_format($da->agent_debit,2)."</td>
+                            <td style='text-align:right'>".number_format($irdi,2)."</td>
+                            <td style='text-align:right'>".number_format($additional,2)."</td>
+                            <td style='text-align:right'>".number_format($agent_comm,2)."</td>
+                            <td style='text-align:right'>".number_format($agent_deb,2)."</td>
                         </tr>";
                     }
                     
@@ -1585,19 +1604,25 @@ class ReportCtrl extends CI_Controller {
                                 
                     foreach($res as $da)
                     {
-                       $total_ird = $total_ird +  $da->irdi_commission;
-                       $total_additional = $total_additional + $da->additional_commission;
-                       $agent_commission = $agent_commission + $da->agent_commission;
-                       $agent_debit  = $agent_debit + $da->agent_debit;
+                        $irdi          = $da->irdi_commission       ?? 0;
+                        $additional    = $da->additional_commission ?? 0;
+                        $agent_comm    = $da->agent_commission      ?? 0;
+                        $agent_deb     = $da->agent_debit           ?? 0;
+
+                        $total_ird        += $irdi;
+                        $total_additional += $additional;
+                        $agent_commission += $agent_comm;
+                        $agent_debit      += $agent_deb;
+
                       
                         $content .="<tr>
                             <td>".$da->policy_no."</td>
                             <td>".$da->client_name."</td>
                             <td>".$da->agent_pos_code."</td>
-                            <td style='text-align:right'>".number_format($da->irdi_commission,2)."</td>
-                            <td style='text-align:right'>".number_format($da->additional_commission,2)."</td>
-                            <td style='text-align:right'>".number_format($da->agent_commission,2)."</td>
-                            <td style='text-align:right'>".number_format($da->agent_debit,2)."</td>
+                            <td style='text-align:right'>".number_format($irdi,2)."</td>
+                            <td style='text-align:right'>".number_format($additional,2)."</td>
+                            <td style='text-align:right'>".number_format($agent_comm,2)."</td>
+                            <td style='text-align:right'>".number_format($agent_deb,2)."</td>
                         </tr>";
                     }
                     
@@ -1615,460 +1640,642 @@ class ReportCtrl extends CI_Controller {
                       echo $content;
             	    }
                }
-            }
+    }
             
             
-    public function fetch_agent_commision_report_excel()
-    {
-        if($this->session->has_userdata('logged_in')) 
-    	{
-    	    $this->load->library('Excel');
-    	    $from_date = $this->input->post("from_date");
-    	    $to_date = $this->input->post("to_date");
-    	    $agent_list = $this->input->post("agents");
+    // public function fetch_agent_commision_report_excel()
+    // {
+    //     if($this->session->has_userdata('logged_in')) 
+    // 	{
+    // 	    $from_date = $this->input->post("from_date");
+    // 	    $to_date = $this->input->post("to_date");
+    // 	    $agent_list = $this->input->post("agents");
     	    
-        	$objPHPExcel = new PHPExcel();
-            $objPHPExcel->setActiveSheetIndex(0);
-            $rowCount = 4;
-            $objPHPExcel->getActiveSheet()->getColumnDimension('A')->setWidth(10);
-            $objPHPExcel->getActiveSheet()->getColumnDimension('B')->setWidth(30);
-            $objPHPExcel->getActiveSheet()->getColumnDimension('C')->setWidth(30);
-            $objPHPExcel->getActiveSheet()->getColumnDimension('D')->setWidth(20);
-            $objPHPExcel->getActiveSheet()->getColumnDimension('E')->setWidth(20);
-            $objPHPExcel->getActiveSheet()->getColumnDimension('F')->setWidth(20);
-            $objPHPExcel->getActiveSheet()->getColumnDimension('G')->setWidth(20);
-            $objPHPExcel->getActiveSheet()->getColumnDimension('H')->setWidth(20);
-            $objPHPExcel->getActiveSheet()->getColumnDimension('I')->setWidth(20);
-            $objPHPExcel->getActiveSheet()->getRowDimension('2')->setRowHeight(20);
-            $objPHPExcel->getActiveSheet()->SetCellValue('D2', 'Agent Commission Report');
+    //     	$spreadsheet = new Spreadsheet();  
+    //         $sheet = $spreadsheet->getActiveSheet();
+
+    //         $sheet->getColumnDimension('A')->setWidth(10);
+    //         $sheet->getColumnDimension('B')->setWidth(30);
+    //         $sheet->getColumnDimension('C')->setWidth(30);
+    //         $sheet->getColumnDimension('D')->setWidth(20);
+    //         $sheet->getColumnDimension('E')->setWidth(20);
+    //         $sheet->getColumnDimension('F')->setWidth(20);
+    //         $sheet->getColumnDimension('G')->setWidth(20);
+    //         $sheet->getColumnDimension('H')->setWidth(20);
+    //         $sheet->getColumnDimension('I')->setWidth(20);
+    //         $sheet->getRowDimension('2')->setRowHeight(20);
+    //         $sheet->SetCellValue('D2', 'Agent Commission Report');
             
-           $objPHPExcel->getActiveSheet()->getStyle('D2')->applyFromArray( 
-           array(
-                    'fill' => array(
-                        'type' => PHPExcel_Style_Fill::FILL_SOLID,
-                        'color' => array('rgb' => 'F50A1B')
-                    ),
-                    'alignment' => array(
-                        'horizontal' => PHPExcel_Style_Alignment::HORIZONTAL_CENTER,
-                    ),
-                    'font'  => array(
-                        'bold'  => true,
-                        'color' => array('rgb' => 'FFFFFF'),
-                        'size'  => 13,
-                    ),
-                )
-            );
+    //        $sheet->getStyle('D2')->applyFromArray( 
+    //        array(
+    //                 'fill' => array(
+    //                     'type' => Fill::FILL_SOLID,
+    //                     'color' => array('rgb' => 'F50A1B')
+    //                 ),
+    //                 'alignment' => array(
+    //                     'horizontal' => Alignment::HORIZONTAL_CENTER,
+    //                 ),
+    //                 'font'  => array(
+    //                     'bold'  => true,
+    //                     'color' => array('rgb' => 'FFFFFF'),
+    //                     'size'  => 13,
+    //                 ),
+    //             )
+    //         );
             
-            $objPHPExcel->getActiveSheet()->getStyle('3')->applyFromArray(
-                array(
+    //         $sheet->getStyle('3')->applyFromArray(
+    //             array(
                     
-                    'font'  => array(
-                        'bold'  => true,
-                        'color' => array('rgb' => '000000'),
-                        'size'  => 13,
-                    ),
-                )
-            );
+    //                 'font'  => array(
+    //                     'bold'  => true,
+    //                     'color' => array('rgb' => '000000'),
+    //                     'size'  => 13,
+    //                 ),
+    //             )
+    //         );
             
            
 
-            $objPHPExcel->getActiveSheet()->getRowDimension('3')->setRowHeight(20);
-            $objPHPExcel->getActiveSheet()->SetCellValue('I3', 'Excel Date : ');
-            $objPHPExcel->getActiveSheet()->SetCellValue('J3', date("d-m-Y"));
-            $objPHPExcel->getActiveSheet()->getRowDimension('4')->setRowHeight(20);
-            $objPHPExcel->getActiveSheet()->getStyle('4')->applyFromArray(
-                array(
-                    'fill' => array(
-                        'type' => PHPExcel_Style_Fill::FILL_SOLID,
-                        'color' => array('rgb' => '31406b')
-                    ),
-                    'alignment' => array(
-                        'horizontal' => PHPExcel_Style_Alignment::HORIZONTAL_CENTER,
-                    ),
-                    'font'  => array(
-                        'bold'  => true,
-                        'color' => array('rgb' => 'FFFFFF'),
-                        'size'  => 13,
-                    ),
-                )
-            );
+    //         $sheet->getRowDimension('3')->setRowHeight(20);
+    //         $sheet->SetCellValue('I3', 'Excel Date : ');
+    //         $sheet->SetCellValue('J3', date("d-m-Y"));
+    //         $sheet->getRowDimension('4')->setRowHeight(20);
+    //         $sheet->getStyle('4')->applyFromArray(
+    //             array(
+    //                 'fill' => array(
+    //                     'type' => Fill::FILL_SOLID,
+    //                     'color' => array('rgb' => '31406b')
+    //                 ),
+    //                 'alignment' => array(
+    //                     'horizontal' => Alignment::HORIZONTAL_CENTER,
+    //                 ),
+    //                 'font'  => array(
+    //                     'bold'  => true,
+    //                     'color' => array('rgb' => 'FFFFFF'),
+    //                     'size'  => 13,
+    //                 ),
+    //             )
+    //         );
             
-            $objPHPExcel->getActiveSheet()->SetCellValue('A4', 'S.No');
-            $objPHPExcel->getActiveSheet()->SetCellValue('B4', 'Policy no');
-            $objPHPExcel->getActiveSheet()->SetCellValue('C4', 'Customer Name');
-            $objPHPExcel->getActiveSheet()->SetCellValue('D4', 'Agent Code');
-            $objPHPExcel->getActiveSheet()->SetCellValue('E4', 'IRD Commission');
-            $objPHPExcel->getActiveSheet()->SetCellValue('F4', 'Additional Commission');
-            $objPHPExcel->getActiveSheet()->SetCellValue('G4', 'Total Commission');
-            $objPHPExcel->getActiveSheet()->SetCellValue('H4', 'TDS');
+    //         $sheet->SetCellValue('A4', 'S.No');
+    //         $sheet->SetCellValue('B4', 'Policy no');
+    //         $sheet->SetCellValue('C4', 'Customer Name');
+    //         $sheet->SetCellValue('D4', 'Agent Code');
+    //         $sheet->SetCellValue('E4', 'IRD Commission');
+    //         $sheet->SetCellValue('F4', 'Additional Commission');
+    //         $sheet->SetCellValue('G4', 'Total Commission');
+    //         $sheet->SetCellValue('H4', 'TDS');
         
-            $row_count = 5;
-            $a = 0;
+    //         $row_count = 5;
+    //         $a = 0;
         
-            if($agent_list == "all")
-            {
-             $get_agent_code = $this->rm->get_agent_code($from_date,$to_date);
+    //         if($agent_list == "all")
+    //         {
+    //          $get_agent_code = $this->rm->get_agent_code($from_date,$to_date);
              
-             foreach($get_agent_code as $agn)
-             {
-                $res = $this->rm->fetch_agent_commission_report($from_date,$to_date,$agn->policy_agency_pos);
+    //          foreach($get_agent_code as $agn)
+    //          {
+    //             $res = $this->rm->fetch_agent_commission_report($from_date,$to_date,$agn->policy_agency_pos);
                 
-                $objPHPExcel->getActiveSheet()->SetCellValue('B'.$row_count , "AGENT Code : ". $agn->agent_pos_code);
-                $objPHPExcel->getActiveSheet()->SetCellValue('C'.$row_count , "No of policies :". count($res));
-                
-                $objPHPExcel->getActiveSheet()->getStyle('B'.$row_count.'')->applyFromArray(
-                array(
-                    'fill' => array(
-                        'type' => PHPExcel_Style_Fill::FILL_SOLID,
-                        'color' => array('rgb' => 'DC5437')
-                    ),
-                    'alignment' => array(
-                        'horizontal' => PHPExcel_Style_Alignment::HORIZONTAL_CENTER,
-                    ),
-                    'font'  => array(
-                        'bold'  => true,
-                        'color' => array('rgb' => 'FFFFFF'),
-                        'size'  => 13,
-                    ),
-                )
-            );
+    //             $sheet->SetCellValue('B'.$row_count , "AGENT Code : ". $agn->agent_pos_code . "     |     No of policies : " . count($res));
+
+    //             // Merge heading (VERY IMPORTANT)
+    //             $sheet->mergeCells("B{$row_count}:H{$row_count}");
+
+    //             // Apply background style
+    //             $sheet->getStyle("B{$row_count}:H{$row_count}")->applyFromArray([
+    //                 'fill' => [
+    //                     'type' => Fill::FILL_SOLID,
+    //                     'color' => ['rgb' => 'DC5437']
+    //                 ],
+    //                 'alignment' => [
+    //                     'horizontal' => Alignment::HORIZONTAL_CENTER,
+    //                 ],
+    //                 'font'  => [
+    //                     'bold'  => true,
+    //                     'color' => ['rgb' => 'FFFFFF'],
+    //                     'size'  => 13,
+    //                 ],
+    //             ]);
             
-                $objPHPExcel->getActiveSheet()->getStyle('C'.$row_count.'')->applyFromArray(
-                array(
-                    'fill' => array(
-                        'type' => PHPExcel_Style_Fill::FILL_SOLID,
-                        'color' => array('rgb' => 'DC5437')
-                    ),
-                    'alignment' => array(
-                        'horizontal' => PHPExcel_Style_Alignment::HORIZONTAL_CENTER,
-                    ),
-                    'font'  => array(
-                        'bold'  => true,
-                        'color' => array('rgb' => 'FFFFFF'),
-                        'size'  => 13,
-                    ),
-                )
-            );
-            
-                $row_count++;
+    //             $row_count++;
                 
-             $total_ird = 0;
-             $total_additional = 0;
-             $agent_commission = 0;
-             $agent_debit = 0;
+    //          $total_ird = 0;
+    //          $total_additional = 0;
+    //          $agent_commission = 0;
+    //          $agent_debit = 0;
                         
-            foreach($res as $da)
-            {
-               $total_ird = $total_ird +  $da->irdi_commission;
-               $total_additional = $total_additional + $da->additional_commission;
-               $agent_commission = $agent_commission + $da->agent_commission;
-               $agent_debit  = $agent_debit + $da->agent_debit;
+    //         foreach($res as $da)
+    //         {
+    //             $irdi       = $da->irdi_commission       ?? 0;
+    //             $additional = $da->additional_commission ?? 0;
+    //             $comm       = $da->agent_commission      ?? 0;
+    //             $debit      = $da->agent_debit           ?? 0;
 
-                $a++;
-                $objPHPExcel->getActiveSheet()->SetCellValue('A'.$row_count , $a);
-                $objPHPExcel->getActiveSheet()->SetCellValue('B'.$row_count , $da->policy_no);
-                $objPHPExcel->getActiveSheet()->SetCellValue('C'.$row_count , $da->client_name);
-                $objPHPExcel->getActiveSheet()->SetCellValue('D'.$row_count , $da->agent_pos_code);
-                $objPHPExcel->getActiveSheet()->SetCellValue('E'.$row_count , $da->irdi_commission);
-                $objPHPExcel->getActiveSheet()->SetCellValue('F'.$row_count , $da->additional_commission);
-                $objPHPExcel->getActiveSheet()->SetCellValue('G'.$row_count , $da->agent_commission);
-                $objPHPExcel->getActiveSheet()->SetCellValue('H'.$row_count , $da->agent_debit);
-                
-                $objPHPExcel->getActiveSheet()->getStyle('E'.$row_count)->getNumberFormat()->setFormatCode('#,##0.00');
-                $objPHPExcel->getActiveSheet()->getStyle('F'.$row_count)->getNumberFormat()->setFormatCode('#,##0.00');
-                $objPHPExcel->getActiveSheet()->getStyle('G'.$row_count)->getNumberFormat()->setFormatCode('#,##0.00');
-                $objPHPExcel->getActiveSheet()->getStyle('H'.$row_count)->getNumberFormat()->setFormatCode('#,##0.00');
+    //             $total_ird        += $irdi;
+    //             $total_additional += $additional;
+    //             $agent_commission += $comm;
+    //             $agent_debit      += $debit;
 
+    //             $a++;
+    //             $sheet->SetCellValue('A'.$row_count , $a);
+    //             $sheet->SetCellValue('B'.$row_count , $da->policy_no);
+    //             $sheet->SetCellValue('C'.$row_count , $da->client_name);
+    //             $sheet->SetCellValue('D'.$row_count , $da->agent_pos_code);
+    //             $sheet->SetCellValue('E'.$row_count , $irdi);
+    //             $sheet->SetCellValue('F'.$row_count , $additional);
+    //             $sheet->SetCellValue('G'.$row_count , $comm);
+    //             $sheet->SetCellValue('H'.$row_count , $debit);
                 
-                $objPHPExcel->getActiveSheet()->getRowDimension($row_count)->setRowHeight(20);
-                $row_count++;
-            }
-                $objPHPExcel->getActiveSheet()->SetCellValue('D'.$row_count , "TOTAL ");
-                $objPHPExcel->getActiveSheet()->SetCellValue('E'.$row_count , $total_ird);
-                $objPHPExcel->getActiveSheet()->SetCellValue('F'.$row_count , $total_additional);
-                $objPHPExcel->getActiveSheet()->SetCellValue('G'.$row_count , $agent_commission);
-                $objPHPExcel->getActiveSheet()->SetCellValue('H'.$row_count , $agent_debit);
-                
-                $objPHPExcel->getActiveSheet()->getStyle('D'.$row_count.'')->applyFromArray(
-                array(
-                    'fill' => array(
-                        'type' => PHPExcel_Style_Fill::FILL_SOLID,
-                        'color' => array('rgb' => '37DCD2')
-                    ),
-                    'alignment' => array(
-                        'horizontal' => PHPExcel_Style_Alignment::HORIZONTAL_CENTER,
-                    ),
-                    'font'  => array(
-                        'bold'  => true,
-                        'color' => array('rgb' => 'FFFFFF'),
-                        'size'  => 13,
-                    ),
-                )
-            );
-                $objPHPExcel->getActiveSheet()->getStyle('E'.$row_count.'')->applyFromArray(
-                array(
-                    'fill' => array(
-                        'type' => PHPExcel_Style_Fill::FILL_SOLID,
-                        'color' => array('rgb' => '37DCD2')
-                    ),
-                    'alignment' => array(
-                        'horizontal' => PHPExcel_Style_Alignment::HORIZONTAL_CENTER,
-                    ),
-                    'font'  => array(
-                        'bold'  => true,
-                        'color' => array('rgb' => 'FFFFFF'),
-                        'size'  => 13,
-                    ),
-                )
-             );
-                $objPHPExcel->getActiveSheet()->getStyle('F'.$row_count.'')->applyFromArray(
-                array(
-                    'fill' => array(
-                        'type' => PHPExcel_Style_Fill::FILL_SOLID,
-                        'color' => array('rgb' => '37DCD2')
-                    ),
-                    'alignment' => array(
-                        'horizontal' => PHPExcel_Style_Alignment::HORIZONTAL_CENTER,
-                    ),
-                    'font'  => array(
-                        'bold'  => true,
-                        'color' => array('rgb' => 'FFFFFF'),
-                        'size'  => 13,
-                    ),
-                )
-            );
-                $objPHPExcel->getActiveSheet()->getStyle('G'.$row_count.'')->applyFromArray(
-                array(
-                    'fill' => array(
-                        'type' => PHPExcel_Style_Fill::FILL_SOLID,
-                        'color' => array('rgb' => '37DCD2')
-                    ),
-                    'alignment' => array(
-                        'horizontal' => PHPExcel_Style_Alignment::HORIZONTAL_CENTER,
-                    ),
-                    'font'  => array(
-                        'bold'  => true,
-                        'color' => array('rgb' => 'FFFFFF'),
-                        'size'  => 13,
-                    ),
-                )
-            );
-                $objPHPExcel->getActiveSheet()->getStyle('H'.$row_count.'')->applyFromArray(
-                    array(
-                        'fill' => array(
-                            'type' => PHPExcel_Style_Fill::FILL_SOLID,
-                            'color' => array('rgb' => '37DCD2')
-                        ),
-                        'alignment' => array(
-                            'horizontal' => PHPExcel_Style_Alignment::HORIZONTAL_CENTER,
-                        ),
-                        'font'  => array(
-                            'bold'  => true,
-                            'color' => array('rgb' => 'FFFFFF'),
-                            'size'  => 13,
-                        ),
-                    )
-              );
-                
-                $objPHPExcel->getActiveSheet()->getStyle('E'.$row_count)->getNumberFormat()->setFormatCode('#,##0.00');
-                $objPHPExcel->getActiveSheet()->getStyle('F'.$row_count)->getNumberFormat()->setFormatCode('#,##0.00');
-                $objPHPExcel->getActiveSheet()->getStyle('G'.$row_count)->getNumberFormat()->setFormatCode('#,##0.00');
-                $objPHPExcel->getActiveSheet()->getStyle('H'.$row_count)->getNumberFormat()->setFormatCode('#,##0.00');
+    //             $sheet->getStyle('E'.$row_count)->getNumberFormat()->setFormatCode('#,##0.00');
+    //             $sheet->getStyle('F'.$row_count)->getNumberFormat()->setFormatCode('#,##0.00');
+    //             $sheet->getStyle('G'.$row_count)->getNumberFormat()->setFormatCode('#,##0.00');
+    //             $sheet->getStyle('H'.$row_count)->getNumberFormat()->setFormatCode('#,##0.00');
 
                 
-                $objPHPExcel->getActiveSheet()->getRowDimension($row_count)->setRowHeight(20);
-               $row_count++;
-            }
+    //             $sheet->getRowDimension($row_count)->setRowHeight(20);
+    //             $row_count++;
+    //         }
+    //             $sheet->SetCellValue('D'.$row_count , "TOTAL ");
+    //             $sheet->SetCellValue('E'.$row_count , $irdi);
+    //             $sheet->SetCellValue('F'.$row_count , $additional);
+    //             $sheet->SetCellValue('G'.$row_count , $comm);
+    //             $sheet->SetCellValue('H'.$row_count , $debit);
+                            
+    //             $sheet->getStyle('D'.$row_count.'')->applyFromArray(
+    //             array(
+    //                 'fill' => array(
+    //                     'type' => Fill::FILL_SOLID,
+    //                     'color' => array('rgb' => '37DCD2')
+    //                 ),
+    //                 'alignment' => array(
+    //                     'horizontal' => Alignment::HORIZONTAL_CENTER,
+    //                 ),
+    //                 'font'  => array(
+    //                     'bold'  => true,
+    //                     'color' => array('rgb' => 'FFFFFF'),
+    //                     'size'  => 13,
+    //                 ),
+    //             )
+    //         );
+    //             $sheet->getStyle('E'.$row_count.'')->applyFromArray(
+    //             array(
+    //                 'fill' => array(
+    //                     'type' => Fill::FILL_SOLID,
+    //                     'color' => array('rgb' => '37DCD2')
+    //                 ),
+    //                 'alignment' => array(
+    //                     'horizontal' => Alignment::HORIZONTAL_CENTER,
+    //                 ),
+    //                 'font'  => array(
+    //                     'bold'  => true,
+    //                     'color' => array('rgb' => 'FFFFFF'),
+    //                     'size'  => 13,
+    //                 ),
+    //             )
+    //          );
+    //             $sheet->getStyle('F'.$row_count.'')->applyFromArray(
+    //             array(
+    //                 'fill' => array(
+    //                     'type' => Fill::FILL_SOLID,
+    //                     'color' => array('rgb' => '37DCD2')
+    //                 ),
+    //                 'alignment' => array(
+    //                     'horizontal' => Alignment::HORIZONTAL_CENTER,
+    //                 ),
+    //                 'font'  => array(
+    //                     'bold'  => true,
+    //                     'color' => array('rgb' => 'FFFFFF'),
+    //                     'size'  => 13,
+    //                 ),
+    //             )
+    //         );
+    //             $sheet->getStyle('G'.$row_count.'')->applyFromArray(
+    //             array(
+    //                 'fill' => array(
+    //                     'type' => Fill::FILL_SOLID,
+    //                     'color' => array('rgb' => '37DCD2')
+    //                 ),
+    //                 'alignment' => array(
+    //                     'horizontal' => Alignment::HORIZONTAL_CENTER,
+    //                 ),
+    //                 'font'  => array(
+    //                     'bold'  => true,
+    //                     'color' => array('rgb' => 'FFFFFF'),
+    //                     'size'  => 13,
+    //                 ),
+    //             )
+    //         );
+    //             $sheet->getStyle('H'.$row_count.'')->applyFromArray(
+    //                 array(
+    //                     'fill' => array(
+    //                         'type' => Fill::FILL_SOLID,
+    //                         'color' => array('rgb' => '37DCD2')
+    //                     ),
+    //                     'alignment' => array(
+    //                         'horizontal' => Alignment::HORIZONTAL_CENTER,
+    //                     ),
+    //                     'font'  => array(
+    //                         'bold'  => true,
+    //                         'color' => array('rgb' => 'FFFFFF'),
+    //                         'size'  => 13,
+    //                     ),
+    //                 )
+    //           );
+                
+    //             $sheet->getStyle('E'.$row_count)->getNumberFormat()->setFormatCode('#,##0.00');
+    //             $sheet->getStyle('F'.$row_count)->getNumberFormat()->setFormatCode('#,##0.00');
+    //             $sheet->getStyle('G'.$row_count)->getNumberFormat()->setFormatCode('#,##0.00');
+    //             $sheet->getStyle('H'.$row_count)->getNumberFormat()->setFormatCode('#,##0.00');
+
+                
+    //             $sheet->getRowDimension($row_count)->setRowHeight(20);
+    //            $row_count++;
+    //         }
             
-              $objWriter = new PHPExcel_Writer_Excel2007($objPHPExcel);
-            	$objWriter->save('./datas/reports/agent_commission_report.xlsx');
-            	echo base_url()."/datas/reports/agent_commission_report.xlsx";
-            }
-            else if($agent_list != "all")
-            {
-                $agent_code_1 = $this->rm->get_single_agent_code($agent_list);
+    //             // Create filename with date and time
+	// 			$timestamp = date("Ymd_His"); // e.g. 20251125_110230
+	// 			$filename = "agent_commission_report_{$timestamp}.xlsx";
+
+	// 			// Save file
+	// 			$writer = new Xlsx($spreadsheet);
+	// 			$writer->save("./datas/reports/{$filename}");
+
+    //         }
+    //         else if($agent_list != "all")
+    //         {
+    //             $agent_code_1 = $this->rm->get_single_agent_code($agent_list);
                 
-                if($agent_code_1 != NULL || $agent_code_1 !="")
-                {
-                  $code=  $agent_code_1->agent_pos_code;
-                }
-                else
-                {
-                  $code=  "";
-                }
+    //             if($agent_code_1 != NULL || $agent_code_1 !="")
+    //             {
+    //               $code=  $agent_code_1->agent_pos_code;
+    //             }
+    //             else
+    //             {
+    //               $code=  "";
+    //             }
                 
-                $res = $this->rm->fetch_agent_commission_report($from_date,$to_date,$agent_list);
-                $objPHPExcel->getActiveSheet()->SetCellValue('B'.$row_count , "AGENT Code : ". $code);
-                $objPHPExcel->getActiveSheet()->SetCellValue('C'.$row_count , "No of policies :". count($res));
+    //             $res = $this->rm->fetch_agent_commission_report($from_date,$to_date,$agent_list);
+
+    //             $sheet->SetCellValue('B'.$row_count , "AGENT Code : ". $code . "     |     No of policies : " . count($res));
+
+    //             // Merge heading
+    //             $sheet->mergeCells("B{$row_count}:H{$row_count}");
+
+    //             // Apply background
+    //             $sheet->getStyle("B{$row_count}:H{$row_count}")->applyFromArray([
+    //                 'fill' => [
+    //                     'type' => Fill::FILL_SOLID,
+    //                     'color' => ['rgb' => 'DC5437']
+    //                 ],
+    //                 'alignment' => [
+    //                     'horizontal' => Alignment::HORIZONTAL_CENTER,
+    //                 ],
+    //                 'font'  => [
+    //                     'bold'  => true,
+    //                     'color' => ['rgb' => 'FFFFFF'],
+    //                     'size'  => 13,
+    //                 ],
+    //             ]);
                 
-                $objPHPExcel->getActiveSheet()->getStyle('B'.$row_count.'')->applyFromArray(
-                array(
-                    'fill' => array(
-                        'type' => PHPExcel_Style_Fill::FILL_SOLID,
-                        'color' => array('rgb' => 'DC5437')
-                    ),
-                    'alignment' => array(
-                        'horizontal' => PHPExcel_Style_Alignment::HORIZONTAL_CENTER,
-                    ),
-                    'font'  => array(
-                        'bold'  => true,
-                        'color' => array('rgb' => 'FFFFFF'),
-                        'size'  => 13,
-                    ),
-                )
-                );
+    //             $row_count++;
                 
-                $objPHPExcel->getActiveSheet()->getStyle('C'.$row_count.'')->applyFromArray(
-                array(
-                    'fill' => array(
-                        'type' => PHPExcel_Style_Fill::FILL_SOLID,
-                        'color' => array('rgb' => 'DC5437')
-                    ),
-                    'alignment' => array(
-                        'horizontal' => PHPExcel_Style_Alignment::HORIZONTAL_CENTER,
-                    ),
-                    'font'  => array(
-                        'bold'  => true,
-                        'color' => array('rgb' => 'FFFFFF'),
-                        'size'  => 13,
-                    ),
-                )
-                );
-                
-                $row_count++;
-                
-                $total_ird = 0;
-                $total_additional = 0;
-                $agent_commission = 0;
-                $agent_debit = 0;
+    //             $total_ird = 0;
+    //             $total_additional = 0;
+    //             $agent_commission = 0;
+    //             $agent_debit = 0;
                         
-                foreach($res as $da)
-                {
-                $total_ird = $total_ird +  $da->irdi_commission;
-                $total_additional = $total_additional + $da->additional_commission;
-                $agent_commission = $agent_commission + $da->agent_commission;
-                $agent_debit  = $agent_debit + $da->agent_debit;
+    //             foreach($res as $da)
+    //             {
+
+    //             $irdi       = $da->irdi_commission       ?? 0;
+    //             $additional = $da->additional_commission ?? 0;
+    //             $comm       = $da->agent_commission      ?? 0;
+    //             $debit      = $da->agent_debit           ?? 0;
+
+    //             $total_ird        += $irdi;
+    //             $total_additional += $additional;
+    //             $agent_commission += $comm;
+    //             $agent_debit      += $debit;
                 
-                $a++;
-                $objPHPExcel->getActiveSheet()->SetCellValue('A'.$row_count , $a);
-                $objPHPExcel->getActiveSheet()->SetCellValue('B'.$row_count , $da->policy_no);
-                $objPHPExcel->getActiveSheet()->SetCellValue('C'.$row_count , $da->client_name);
-                $objPHPExcel->getActiveSheet()->SetCellValue('D'.$row_count , $da->agent_pos_code);
-                $objPHPExcel->getActiveSheet()->SetCellValue('E'.$row_count , $da->irdi_commission);
-                $objPHPExcel->getActiveSheet()->SetCellValue('F'.$row_count , $da->additional_commission);
-                $objPHPExcel->getActiveSheet()->SetCellValue('G'.$row_count , $da->agent_commission);
-                $objPHPExcel->getActiveSheet()->SetCellValue('H'.$row_count , $da->agent_debit);
+    //             $a++;
+    //             $sheet->SetCellValue('A'.$row_count , $a);
+    //             $sheet->SetCellValue('B'.$row_count , $da->policy_no);
+    //             $sheet->SetCellValue('C'.$row_count , $da->client_name);
+    //             $sheet->SetCellValue('D'.$row_count , $da->agent_pos_code);
+    //             $sheet->SetCellValue('E'.$row_count , $irdi);
+    //             $sheet->SetCellValue('F'.$row_count , $additional);
+    //             $sheet->SetCellValue('G'.$row_count , $comm);
+    //             $sheet->SetCellValue('H'.$row_count , $debit);
                 
-                $objPHPExcel->getActiveSheet()->getStyle('E'.$row_count)->getNumberFormat()->setFormatCode('#,##0.00');
-                $objPHPExcel->getActiveSheet()->getStyle('F'.$row_count)->getNumberFormat()->setFormatCode('#,##0.00');
-                $objPHPExcel->getActiveSheet()->getStyle('G'.$row_count)->getNumberFormat()->setFormatCode('#,##0.00');
-                $objPHPExcel->getActiveSheet()->getStyle('H'.$row_count)->getNumberFormat()->setFormatCode('#,##0.00');
-                
-                
-                $objPHPExcel->getActiveSheet()->getRowDimension($row_count)->setRowHeight(20);
-                $row_count++;
-                }
-                $objPHPExcel->getActiveSheet()->SetCellValue('D'.$row_count , "TOTAL ");
-                $objPHPExcel->getActiveSheet()->SetCellValue('E'.$row_count , $total_ird);
-                $objPHPExcel->getActiveSheet()->SetCellValue('F'.$row_count , $total_additional);
-                $objPHPExcel->getActiveSheet()->SetCellValue('G'.$row_count , $agent_commission);
-                $objPHPExcel->getActiveSheet()->SetCellValue('H'.$row_count , $agent_debit);
-                
-                $objPHPExcel->getActiveSheet()->getStyle('D'.$row_count.'')->applyFromArray(
-                array(
-                    'fill' => array(
-                        'type' => PHPExcel_Style_Fill::FILL_SOLID,
-                        'color' => array('rgb' => '37DCD2')
-                    ),
-                    'alignment' => array(
-                        'horizontal' => PHPExcel_Style_Alignment::HORIZONTAL_CENTER,
-                    ),
-                    'font'  => array(
-                        'bold'  => true,
-                        'color' => array('rgb' => 'FFFFFF'),
-                        'size'  => 13,
-                    ),
-                )
-                );
-                $objPHPExcel->getActiveSheet()->getStyle('E'.$row_count.'')->applyFromArray(
-                array(
-                    'fill' => array(
-                        'type' => PHPExcel_Style_Fill::FILL_SOLID,
-                        'color' => array('rgb' => '37DCD2')
-                    ),
-                    'alignment' => array(
-                        'horizontal' => PHPExcel_Style_Alignment::HORIZONTAL_CENTER,
-                    ),
-                    'font'  => array(
-                        'bold'  => true,
-                        'color' => array('rgb' => 'FFFFFF'),
-                        'size'  => 13,
-                    ),
-                )
-                );
-                $objPHPExcel->getActiveSheet()->getStyle('F'.$row_count.'')->applyFromArray(
-                array(
-                    'fill' => array(
-                        'type' => PHPExcel_Style_Fill::FILL_SOLID,
-                        'color' => array('rgb' => '37DCD2')
-                    ),
-                    'alignment' => array(
-                        'horizontal' => PHPExcel_Style_Alignment::HORIZONTAL_CENTER,
-                    ),
-                    'font'  => array(
-                        'bold'  => true,
-                        'color' => array('rgb' => 'FFFFFF'),
-                        'size'  => 13,
-                    ),
-                )
-                );
-                $objPHPExcel->getActiveSheet()->getStyle('G'.$row_count.'')->applyFromArray(
-                array(
-                    'fill' => array(
-                        'type' => PHPExcel_Style_Fill::FILL_SOLID,
-                        'color' => array('rgb' => '37DCD2')
-                    ),
-                    'alignment' => array(
-                        'horizontal' => PHPExcel_Style_Alignment::HORIZONTAL_CENTER,
-                    ),
-                    'font'  => array(
-                        'bold'  => true,
-                        'color' => array('rgb' => 'FFFFFF'),
-                        'size'  => 13,
-                    ),
-                )
-                );
-                $objPHPExcel->getActiveSheet()->getStyle('H'.$row_count.'')->applyFromArray(
-                    array(
-                        'fill' => array(
-                            'type' => PHPExcel_Style_Fill::FILL_SOLID,
-                            'color' => array('rgb' => '37DCD2')
-                        ),
-                        'alignment' => array(
-                            'horizontal' => PHPExcel_Style_Alignment::HORIZONTAL_CENTER,
-                        ),
-                        'font'  => array(
-                            'bold'  => true,
-                            'color' => array('rgb' => 'FFFFFF'),
-                            'size'  => 13,
-                        ),
-                    )
-                );
-                
-                $objPHPExcel->getActiveSheet()->getStyle('E'.$row_count)->getNumberFormat()->setFormatCode('#,##0.00');
-                $objPHPExcel->getActiveSheet()->getStyle('F'.$row_count)->getNumberFormat()->setFormatCode('#,##0.00');
-                $objPHPExcel->getActiveSheet()->getStyle('G'.$row_count)->getNumberFormat()->setFormatCode('#,##0.00');
-                $objPHPExcel->getActiveSheet()->getStyle('H'.$row_count)->getNumberFormat()->setFormatCode('#,##0.00');
+    //             $sheet->getStyle('E'.$row_count)->getNumberFormat()->setFormatCode('#,##0.00');
+    //             $sheet->getStyle('F'.$row_count)->getNumberFormat()->setFormatCode('#,##0.00');
+    //             $sheet->getStyle('G'.$row_count)->getNumberFormat()->setFormatCode('#,##0.00');
+    //             $sheet->getStyle('H'.$row_count)->getNumberFormat()->setFormatCode('#,##0.00');
                 
                 
-                $objPHPExcel->getActiveSheet()->getRowDimension($row_count)->setRowHeight(20);
-                $row_count++;
-                }
+    //             $sheet->getRowDimension($row_count)->setRowHeight(20);
+    //             $row_count++;
+    //             }
+    //             $sheet->SetCellValue('D'.$row_count , "TOTAL ");
+    //             $sheet->SetCellValue('E'.$row_count , $irdi);
+    //             $sheet->SetCellValue('F'.$row_count , $additional);
+    //             $sheet->SetCellValue('G'.$row_count , $comm);
+    //             $sheet->SetCellValue('H'.$row_count , $debit);
                 
-                $objWriter = new PHPExcel_Writer_Excel2007($objPHPExcel);
-                $objWriter->save('./datas/reports/agent_commission_report.xlsx');
-                echo base_url()."/datas/reports/agent_commission_report.xlsx";
+    //             $sheet->getStyle('D'.$row_count.'')->applyFromArray(
+    //             array(
+    //                 'fill' => array(
+    //                     'type' => Fill::FILL_SOLID,
+    //                     'color' => array('rgb' => '37DCD2')
+    //                 ),
+    //                 'alignment' => array(
+    //                     'horizontal' => Alignment::HORIZONTAL_CENTER,
+    //                 ),
+    //                 'font'  => array(
+    //                     'bold'  => true,
+    //                     'color' => array('rgb' => 'FFFFFF'),
+    //                     'size'  => 13,
+    //                 ),
+    //             )
+    //             );
+    //             $sheet->getStyle('E'.$row_count.'')->applyFromArray(
+    //             array(
+    //                 'fill' => array(
+    //                     'type' => Fill::FILL_SOLID,
+    //                     'color' => array('rgb' => '37DCD2')
+    //                 ),
+    //                 'alignment' => array(
+    //                     'horizontal' => Alignment::HORIZONTAL_CENTER,
+    //                 ),
+    //                 'font'  => array(
+    //                     'bold'  => true,
+    //                     'color' => array('rgb' => 'FFFFFF'),
+    //                     'size'  => 13,
+    //                 ),
+    //             )
+    //             );
+    //             $sheet->getStyle('F'.$row_count.'')->applyFromArray(
+    //             array(
+    //                 'fill' => array(
+    //                     'type' => Fill::FILL_SOLID,
+    //                     'color' => array('rgb' => '37DCD2')
+    //                 ),
+    //                 'alignment' => array(
+    //                     'horizontal' => Alignment::HORIZONTAL_CENTER,
+    //                 ),
+    //                 'font'  => array(
+    //                     'bold'  => true,
+    //                     'color' => array('rgb' => 'FFFFFF'),
+    //                     'size'  => 13,
+    //                 ),
+    //             )
+    //             );
+    //             $sheet->getStyle('G'.$row_count.'')->applyFromArray(
+    //             array(
+    //                 'fill' => array(
+    //                     'type' => Fill::FILL_SOLID,
+    //                     'color' => array('rgb' => '37DCD2')
+    //                 ),
+    //                 'alignment' => array(
+    //                     'horizontal' => Alignment::HORIZONTAL_CENTER,
+    //                 ),
+    //                 'font'  => array(
+    //                     'bold'  => true,
+    //                     'color' => array('rgb' => 'FFFFFF'),
+    //                     'size'  => 13,
+    //                 ),
+    //             )
+    //             );
+    //             $sheet->getStyle('H'.$row_count.'')->applyFromArray(
+    //                 array(
+    //                     'fill' => array(
+    //                         'type' => Fill::FILL_SOLID,
+    //                         'color' => array('rgb' => '37DCD2')
+    //                     ),
+    //                     'alignment' => array(
+    //                         'horizontal' => Alignment::HORIZONTAL_CENTER,
+    //                     ),
+    //                     'font'  => array(
+    //                         'bold'  => true,
+    //                         'color' => array('rgb' => 'FFFFFF'),
+    //                         'size'  => 13,
+    //                     ),
+    //                 )
+    //             );
+                
+    //             $sheet->getStyle('E'.$row_count)->getNumberFormat()->setFormatCode('#,##0.00');
+    //             $sheet->getStyle('F'.$row_count)->getNumberFormat()->setFormatCode('#,##0.00');
+    //             $sheet->getStyle('G'.$row_count)->getNumberFormat()->setFormatCode('#,##0.00');
+    //             $sheet->getStyle('H'.$row_count)->getNumberFormat()->setFormatCode('#,##0.00');
+                
+                
+    //             $sheet->getRowDimension($row_count)->setRowHeight(20);
+    //             $row_count++;
+    //             }
+                
+    //             // Create timestamp filename: YYYYMMDD_HHMMSS
+	// 			$timestamp = date("Ymd_His");  
+	// 			$filename = "agent_commission_report_{$timestamp}.xlsx";
+
+	// 			// Save file
+	// 			$writer = new Xlsx($spreadsheet);
+	// 			$writer->save("./datas/reports/{$filename}");
+
+	// 			// Return URL
+	// 			echo base_url("datas/reports/{$filename}");
+
+				
+    //     }
+    // }
+
+    public function fetch_agent_commision_report_excel()
+    {
+        if(!$this->session->has_userdata('logged_in')) {
+            return;
         }
+
+        $from_date  = $this->input->post("from_date");
+        $to_date    = $this->input->post("to_date");
+        $agent_list = $this->input->post("agents");
+
+        $spreadsheet = new Spreadsheet();
+        $sheet = $spreadsheet->getActiveSheet();
+
+        /* ====================== EXCEL HEADER ======================= */
+
+        // Column widths
+        foreach (range('A', 'I') as $col) {
+            $sheet->getColumnDimension($col)->setWidth(20);
+        }
+
+        $sheet->getColumnDimension('A')->setWidth(10);
+        $sheet->getColumnDimension('B')->setWidth(30);
+        $sheet->getColumnDimension('C')->setWidth(30);
+
+        // Title
+        $sheet->mergeCells('A2:H2');
+        $sheet->setCellValue('A2', 'Agent Commission Report');
+        $sheet->getRowDimension('2')->setRowHeight(25);
+
+        $sheet->getStyle('A2')->applyFromArray([
+            'fill' => [
+                'type' => Fill::FILL_SOLID,
+                'color' => ['rgb' => 'F50A1B']
+            ],
+            'alignment' => [
+                'horizontal' => Alignment::HORIZONTAL_CENTER,
+            ],
+            'font'  => [
+                'bold'  => true,
+                'color' => ['rgb' => 'FFFFFF'],
+                'size'  => 14,
+            ],
+        ]);
+
+        // Date Row
+        $sheet->setCellValue('G3', "Excel Date:");
+        $sheet->setCellValue('H3', date("d-m-Y"));
+
+        // Column Headings (Row 4)
+        $headers = ['S.No','Policy no','Customer Name','Agent Code','IRD Commission','Additional Commission','Total Commission','TDS'];
+
+        $col = 'A';
+        foreach ($headers as $head) {
+            $sheet->setCellValue($col.'4', $head);
+            $col++;
+        }
+
+        // FIXED HEADING STYLE
+        $styleHeading = $sheet->getStyle("A4:I4");
+
+        // Background Color
+        $styleHeading->getFill()
+            ->setFillType(Fill::FILL_SOLID)
+            ->getStartColor()->setARGB('31406b');
+
+        // White Bold Text
+        $styleHeading->getFont()
+            ->setBold(true)
+            ->setSize(12)
+            ->getColor()->setRGB('FFFFFF');
+
+        // Center Align
+        $styleHeading->getAlignment()
+            ->setHorizontal(Alignment::HORIZONTAL_CENTER);
+
+        $row = 5;
+        $sno = 1;
+
+        /* ====================== GET AGENTS ======================= */
+
+        if ($agent_list == "all") {
+            $agents = $this->rm->get_agent_code($from_date,$to_date);
+        } else {
+            $single = $this->rm->get_single_agent_code($agent_list);
+            $agents = [];
+
+            if ($single) {
+                $single->policy_agency_pos = $agent_list;
+                $agents[] = $single;
+            }
+        }
+
+        /* ====================== PROCESS EACH AGENT ======================= */
+
+        foreach ($agents as $ag)
+        {
+            $res = $this->rm->fetch_agent_commission_report($from_date,$to_date,$ag->policy_agency_pos);
+
+            // AGENT heading row
+            $sheet->setCellValue("B{$row}", "AGENT : {$ag->agent_pos_code}   |   Policies : " . count($res));
+
+            // Merge first
+            $sheet->mergeCells("B{$row}:H{$row}");
+
+            // Now apply full style (AFTER merge)
+            $headingStyle = $sheet->getStyle("B{$row}:H{$row}");
+
+            $headingStyle->getFill()
+                ->setFillType(Fill::FILL_SOLID)
+                ->getStartColor()->setARGB('DC5437');   // BACKGROUND RED
+
+            $headingStyle->getFont()
+                ->setBold(true)
+                ->setSize(13)
+                ->getColor()->setARGB('FFFFFFFF');      // WHITE TEXT (ARGB REQUIRED)
+
+            $headingStyle->getAlignment()
+                ->setHorizontal(Alignment::HORIZONTAL_CENTER);
+
+
+            $row++;
+
+            // Totals
+            $t_ird = $t_add = $t_comm = $t_tds = 0;
+
+            foreach ($res as $da)
+            {
+                $irdi       = $da->irdi_commission       ?? 0;
+                $additional = $da->additional_commission ?? 0;
+                $comm       = $da->agent_commission      ?? 0;
+                $tds        = $da->agent_debit           ?? 0;
+
+                $t_ird  += $irdi;
+                $t_add  += $additional;
+                $t_comm += $comm;
+                $t_tds  += $tds;
+
+                $sheet->setCellValue("A{$row}", $sno++);
+                $sheet->setCellValue("B{$row}", $da->policy_no);
+                $sheet->setCellValue("C{$row}", $da->client_name);
+                $sheet->setCellValue("D{$row}", $da->agent_pos_code);
+                $sheet->setCellValue("E{$row}", $irdi);
+                $sheet->setCellValue("F{$row}", $additional);
+                $sheet->setCellValue("G{$row}", $comm);
+                $sheet->setCellValue("H{$row}", $tds);
+
+                $sheet->getRowDimension($row)->setRowHeight(20);
+
+                $row++;
+            }
+
+            // TOTAL ROW
+            $sheet->setCellValue("D{$row}", "TOTAL");
+            $sheet->setCellValue("E{$row}", $t_ird);
+            $sheet->setCellValue("F{$row}", $t_add);
+            $sheet->setCellValue("G{$row}", $t_comm);
+            $sheet->setCellValue("H{$row}", $t_tds);
+
+            $sheet->getStyle("D{$row}:H{$row}")->applyFromArray([
+                'fill' => [
+                    'type' => Fill::FILL_SOLID,
+                    'color' => ['rgb' => '37DCD2']
+                ],
+                'alignment' => [
+                    'horizontal' => Alignment::HORIZONTAL_CENTER,
+                ],
+                'font'  => [
+                    'bold'  => true,
+                    'color' => ['rgb' => 'FFFFFF'],
+                    'size'  => 13,
+                ],
+            ]);
+
+            $row++;
+        }
+
+        /* ====================== SAVE FILE ======================= */
+
+        $timestamp = date("Ymd_His");
+        $filename = "agent_commission_report_{$timestamp}.xlsx";
+
+        $path = "./datas/reports/{$filename}";
+
+        $writer = new Xlsx($spreadsheet);
+        $writer->save($path);
+
+        echo base_url("datas/reports/{$filename}");
     }
         
     public function fetch_agent_report_excel()
@@ -3347,7 +3554,8 @@ class ReportCtrl extends CI_Controller {
          }
      }
      
-    public function pdf_template($voucharno, $agent_details, $agent_vocher, $_agent_id) {
+    public function pdf_template($voucharno, $agent_details, $agent_vocher, $_agent_id) 
+    {
          
         if($agent_details && $agent_vocher){
             $date = new DateTime();
@@ -3613,7 +3821,8 @@ class ReportCtrl extends CI_Controller {
         }
     }
     
-    public function pdf_create($content, $filename, $dir) {
+    public function pdf_create($content, $filename, $dir) 
+    {
         $this->load->library('pdf');
         //$this->load->library('calendar', NULL, 'my_calendar');
         $this->pdf->loadHtml($content);
@@ -3667,7 +3876,8 @@ class ReportCtrl extends CI_Controller {
 	    
 	}
 	
-    public function agent_vouchar_report() {
+    public function agent_vouchar_report() 
+    {
         if(!$this->session->has_userdata('logged_in')) {
             redirect('login', 'refresh');
         }
@@ -3911,7 +4121,8 @@ class ReportCtrl extends CI_Controller {
         echo $content;
     }
     
-    public function fetch_agent_vouchar_report() {
+    public function fetch_agent_vouchar_report() 
+    {
         if(!$this->session->has_userdata('logged_in')) {
             redirect('login', 'refresh');
         }
@@ -5209,34 +5420,33 @@ class ReportCtrl extends CI_Controller {
             $select_c_type = $this->input->post("select_c_type");
             $from_date = $this->input->post("from_date");
             $to_date = $this->input->post("to_date");
-            
-            $this->load->library('Excel');
-            $objPHPExcel = new PHPExcel();
-            $objPHPExcel->setActiveSheetIndex(0);
+
+            $spreadsheet = new Spreadsheet();  
+            $sheet = $spreadsheet->getActiveSheet();
             
             $rowCount = 4;
             
-            $objPHPExcel->getActiveSheet()->getColumnDimension('A')->setWidth(10);
-            $objPHPExcel->getActiveSheet()->getColumnDimension('B')->setWidth(20);
-            $objPHPExcel->getActiveSheet()->getColumnDimension('C')->setWidth(20);
-            $objPHPExcel->getActiveSheet()->getColumnDimension('D')->setWidth(15);
-            $objPHPExcel->getActiveSheet()->getColumnDimension('E')->setWidth(20);
-            $objPHPExcel->getActiveSheet()->getColumnDimension('F')->setWidth(35);
-            $objPHPExcel->getActiveSheet()->getColumnDimension('G')->setWidth(20);
-            $objPHPExcel->getActiveSheet()->getColumnDimension('H')->setWidth(15);
-            $objPHPExcel->getActiveSheet()->getColumnDimension('I')->setWidth(35);
-            $objPHPExcel->getActiveSheet()->getColumnDimension('J')->setWidth(20);
-            $objPHPExcel->getActiveSheet()->getColumnDimension('K')->setWidth(20);
-            $objPHPExcel->getActiveSheet()->getColumnDimension('L')->setWidth(30);
-            $objPHPExcel->getActiveSheet()->getColumnDimension('M')->setWidth(30);
-            $objPHPExcel->getActiveSheet()->getColumnDimension('N')->setWidth(35);
-            $objPHPExcel->getActiveSheet()->getColumnDimension('O')->setWidth(35);
-            $objPHPExcel->getActiveSheet()->getRowDimension('2')->setRowHeight(20);
-            $objPHPExcel->getActiveSheet()->SetCellValue('D2', 'JAYANTHA INSURANCE');
+            $sheet->getColumnDimension('A')->setWidth(10);
+            $sheet->getColumnDimension('B')->setWidth(20);
+            $sheet->getColumnDimension('C')->setWidth(20);
+            $sheet->getColumnDimension('D')->setWidth(15);
+            $sheet->getColumnDimension('E')->setWidth(20);
+            $sheet->getColumnDimension('F')->setWidth(35);
+            $sheet->getColumnDimension('G')->setWidth(20);
+            $sheet->getColumnDimension('H')->setWidth(15);
+            $sheet->getColumnDimension('I')->setWidth(35);
+            $sheet->getColumnDimension('J')->setWidth(20);
+            $sheet->getColumnDimension('K')->setWidth(20);
+            $sheet->getColumnDimension('L')->setWidth(30);
+            $sheet->getColumnDimension('M')->setWidth(30);
+            $sheet->getColumnDimension('N')->setWidth(35);
+            $sheet->getColumnDimension('O')->setWidth(35);
+            $sheet->getRowDimension('2')->setRowHeight(20);
+            $sheet->SetCellValue('D2', 'JAYANTHA INSURANCE');
             
-            $objPHPExcel->getActiveSheet()->SetCellValue('D3', 'Active Policy Report');
+            $sheet->SetCellValue('D3', 'Active Policy Report');
             
-            $objPHPExcel->getActiveSheet()->getStyle('D3')->applyFromArray(
+            $sheet->getStyle('D3')->applyFromArray(
             		array(
             			'font'  => array(
             				'bold'  => true,
@@ -5245,7 +5455,7 @@ class ReportCtrl extends CI_Controller {
             			),
             		)
             	);
-            	$objPHPExcel->getActiveSheet()->getStyle('D2')->applyFromArray(
+            	$sheet->getStyle('D2')->applyFromArray(
             		array(
             			'font'  => array(
             				'bold'  => true,
@@ -5254,53 +5464,52 @@ class ReportCtrl extends CI_Controller {
             			),
             		)
             	);
-        $objPHPExcel->getActiveSheet()->SetCellValue('F3', date_format(date_create($from_date),"d-m-Y"));
-        $objPHPExcel->getActiveSheet()->SetCellValue('G3', date_format(date_create($to_date),"d-m-Y"));
+        $sheet->SetCellValue('F3', date_format(date_create($from_date),"d-m-Y"));
+        $sheet->SetCellValue('G3', date_format(date_create($to_date),"d-m-Y"));
         
-        $objPHPExcel->getActiveSheet()->getRowDimension('3')->setRowHeight(20);
-        $objPHPExcel->getActiveSheet()->SetCellValue('F3', 'Excel Date : ');
-        $objPHPExcel->getActiveSheet()->SetCellValue('G3', date("d-m-Y"));
+        $sheet->getRowDimension('3')->setRowHeight(20);
+        $sheet->SetCellValue('F3', 'Excel Date : ');
+        $sheet->SetCellValue('G3', date("d-m-Y"));
 
-        $objPHPExcel->getActiveSheet()->getRowDimension('4')->setRowHeight(20);
-        $objPHPExcel->getActiveSheet()->getStyle('4')->applyFromArray(
-        array(
-        'fill' => array(
-            'type' => PHPExcel_Style_Fill::FILL_SOLID,
-            'color' => array('rgb' => '31406b')
-        ),
-        'alignment' => array(
-            'horizontal' => PHPExcel_Style_Alignment::HORIZONTAL_CENTER,
-        ),
-        'font'  => array(
-            'bold'  => true,
-            'color' => array('rgb' => 'FFFFFF'),
-            'size'  => 13,
-        ),
-        )
-        );
+        $sheet->getRowDimension('4')->setRowHeight(20);
+        $sheet->getStyle('A4:V4')->applyFromArray([
+            'fill' => [
+                'fillType' => Fill::FILL_SOLID,
+                'startColor' => ['rgb' => '31406b']
+            ],
+            'alignment' => [
+                'horizontal' => Alignment::HORIZONTAL_CENTER,
+                'vertical' => Alignment::VERTICAL_CENTER,
+            ],
+            'font' => [
+                'bold' => true,
+                'color' => ['rgb' => 'FFFFFF'],
+                'size' => 13,
+            ],
+        ]);
         
-        $objPHPExcel->getActiveSheet()->SetCellValue('A4', 'S.No');
-        $objPHPExcel->getActiveSheet()->SetCellValue('B4', 'Customer');
-        $objPHPExcel->getActiveSheet()->SetCellValue('C4', 'Mobile No');
-        $objPHPExcel->getActiveSheet()->SetCellValue('D4', 'Agent id');
-        $objPHPExcel->getActiveSheet()->SetCellValue('E4', 'Policy Issue Date');
-        $objPHPExcel->getActiveSheet()->SetCellValue('F4', 'Policy No');
-        $objPHPExcel->getActiveSheet()->SetCellValue('G4', 'Insurer');
-        $objPHPExcel->getActiveSheet()->SetCellValue('H4', 'Bussiness Type');
-        $objPHPExcel->getActiveSheet()->SetCellValue('I4', 'Class');
-        $objPHPExcel->getActiveSheet()->SetCellValue('J4', 'Pol Type');
-        $objPHPExcel->getActiveSheet()->SetCellValue('K4', 'OD');
-        $objPHPExcel->getActiveSheet()->SetCellValue('L4', 'TP');
-        $objPHPExcel->getActiveSheet()->SetCellValue('M4', 'Net Premium');
-        $objPHPExcel->getActiveSheet()->SetCellValue('N4', 'GST');
-        $objPHPExcel->getActiveSheet()->SetCellValue('O4', 'Jayantha Own Commission');
-        $objPHPExcel->getActiveSheet()->SetCellValue('P4', 'Unicorn Own Commission');
-        $objPHPExcel->getActiveSheet()->SetCellValue('Q4', 'Total Own Commission');
-        $objPHPExcel->getActiveSheet()->SetCellValue('R4', 'Jayantha Agent Commission');
-        $objPHPExcel->getActiveSheet()->SetCellValue('S4', 'Unicorn Agent Commission');
-        $objPHPExcel->getActiveSheet()->SetCellValue('T4', 'Total Agent Commission');
-        $objPHPExcel->getActiveSheet()->SetCellValue('U4', 'Own Add Commission');
-        $objPHPExcel->getActiveSheet()->SetCellValue('V4', 'Add Agent Commission');
+        $sheet->SetCellValue('A4', 'S.No');
+        $sheet->SetCellValue('B4', 'Customer');
+        $sheet->SetCellValue('C4', 'Mobile No');
+        $sheet->SetCellValue('D4', 'Agent id');
+        $sheet->SetCellValue('E4', 'Policy Issue Date');
+        $sheet->SetCellValue('F4', 'Policy No');
+        $sheet->SetCellValue('G4', 'Insurer');
+        $sheet->SetCellValue('H4', 'Bussiness Type');
+        $sheet->SetCellValue('I4', 'Class');
+        $sheet->SetCellValue('J4', 'Pol Type');
+        $sheet->SetCellValue('K4', 'OD');
+        $sheet->SetCellValue('L4', 'TP');
+        $sheet->SetCellValue('M4', 'Net Premium');
+        $sheet->SetCellValue('N4', 'GST');
+        $sheet->SetCellValue('O4', 'Jayantha Own Commission');
+        $sheet->SetCellValue('P4', 'Unicorn Own Commission');
+        $sheet->SetCellValue('Q4', 'Total Own Commission');
+        $sheet->SetCellValue('R4', 'Jayantha Agent Commission');
+        $sheet->SetCellValue('S4', 'Unicorn Agent Commission');
+        $sheet->SetCellValue('T4', 'Total Agent Commission');
+        $sheet->SetCellValue('U4', 'Own Add Commission');
+        $sheet->SetCellValue('V4', 'Add Agent Commission');
         
         $row_count = 5;
         $a = 0;
@@ -5327,7 +5536,7 @@ class ReportCtrl extends CI_Controller {
                 $a++;
                 
                 $gst = $gst+$da->gst;
-               $agn_com = $agn_com + $da->agent_commission_amt + $da->agent_commission;
+                $agn_com = $agn_com + $da->agent_commission_amt + $da->agent_commission;
                 $own_com = $own_com + $da->own_commission_amt + $da->own_commission;
                 
                 $add_jay_own_com = $add_jay_own_com + $da->own_commission_amt;
@@ -5340,78 +5549,85 @@ class ReportCtrl extends CI_Controller {
                 $add_agn_com = $add_agn_com + $da->agn_add_com;
                
                
-                $objPHPExcel->getActiveSheet()->SetCellValue('A'.$row_count , $a);
-                $objPHPExcel->getActiveSheet()->SetCellValue('B'.$row_count , $da->client_name);
-                $objPHPExcel->getActiveSheet()->SetCellValue('C'.$row_count , $da->mobile_no);
-                $objPHPExcel->getActiveSheet()->SetCellValue('D'.$row_count , $da->agent_pos_code);
-                $objPHPExcel->getActiveSheet()->SetCellValue('E'.$row_count , date_format(date_create($da->policy_issue_date),"d-m-Y"));
-                $objPHPExcel->getActiveSheet()->SetCellValue('F'.$row_count , $da->policy_no);
-                $objPHPExcel->getActiveSheet()->SetCellValue('G'.$row_count , $da->company_name);
-                $objPHPExcel->getActiveSheet()->SetCellValue('H'.$row_count , $da->business_name);
-                $objPHPExcel->getActiveSheet()->SetCellValue('I'.$row_count , $da->class_name);
-                $objPHPExcel->getActiveSheet()->SetCellValue('J'.$row_count , $da->policy_type);
-                $objPHPExcel->getActiveSheet()->SetCellValue('K'.$row_count , $da->total_own_damage);
-                $objPHPExcel->getActiveSheet()->SetCellValue('L'.$row_count , $da->tot_liability_premium);
-                $objPHPExcel->getActiveSheet()->SetCellValue('M'.$row_count , $da->total_premium);
-                $objPHPExcel->getActiveSheet()->SetCellValue('N'.$row_count , $da->gst);
-                $objPHPExcel->getActiveSheet()->SetCellValue('O'.$row_count , $da->own_commission_amt);
-                $objPHPExcel->getActiveSheet()->SetCellValue('P'.$row_count , $da->own_commission);
-                $objPHPExcel->getActiveSheet()->SetCellValue('Q'.$row_count , $da->own_commission_amt+$da->own_commission);
-                $objPHPExcel->getActiveSheet()->SetCellValue('R'.$row_count , $da->agent_commission_amt);
-                $objPHPExcel->getActiveSheet()->SetCellValue('S'.$row_count , $da->agent_commission);
-                $objPHPExcel->getActiveSheet()->SetCellValue('T'.$row_count , $da->agent_commission_amt+$da->agent_commission);
-                $objPHPExcel->getActiveSheet()->SetCellValue('U'.$row_count , $da->com_add_com);
-                $objPHPExcel->getActiveSheet()->SetCellValue('V'.$row_count , $da->agn_add_com);
+                $sheet->SetCellValue('A'.$row_count , $a);
+                $sheet->SetCellValue('B'.$row_count , $da->client_name);
+                $sheet->SetCellValue('C'.$row_count , $da->mobile_no);
+                $sheet->SetCellValue('D'.$row_count , $da->agent_pos_code);
+                $sheet->SetCellValue('E'.$row_count , date_format(date_create($da->policy_issue_date),"d-m-Y"));
+                $sheet->SetCellValue('F'.$row_count , $da->policy_no);
+                $sheet->SetCellValue('G'.$row_count , $da->company_name);
+                $sheet->SetCellValue('H'.$row_count , $da->business_name);
+                $sheet->SetCellValue('I'.$row_count , $da->class_name);
+                $sheet->SetCellValue('J'.$row_count , $da->policy_type);
+                $sheet->SetCellValue('K'.$row_count , $da->total_own_damage);
+                $sheet->SetCellValue('L'.$row_count , $da->tot_liability_premium);
+                $sheet->SetCellValue('M'.$row_count , $da->total_premium);
+                $sheet->SetCellValue('N'.$row_count , $da->gst);
+                $sheet->SetCellValue('O'.$row_count , $da->own_commission_amt);
+                $sheet->SetCellValue('P'.$row_count , $da->own_commission);
+                $sheet->SetCellValue('Q'.$row_count , $da->own_commission_amt+$da->own_commission);
+                $sheet->SetCellValue('R'.$row_count , $da->agent_commission_amt);
+                $sheet->SetCellValue('S'.$row_count , $da->agent_commission);
+                $sheet->SetCellValue('T'.$row_count , $da->agent_commission_amt+$da->agent_commission);
+                $sheet->SetCellValue('U'.$row_count , $da->com_add_com);
+                $sheet->SetCellValue('V'.$row_count , $da->agn_add_com);
               
-                $objPHPExcel->getActiveSheet()->getStyle('F'.$row_count)->getNumberFormat()->setFormatCode('#,##0.00');
-                $objPHPExcel->getActiveSheet()->getStyle('K'.$row_count)->getNumberFormat()->setFormatCode('#,##0.00');
-                $objPHPExcel->getActiveSheet()->getStyle('L'.$row_count)->getNumberFormat()->setFormatCode('#,##0.00');
-                $objPHPExcel->getActiveSheet()->getStyle('M'.$row_count)->getNumberFormat()->setFormatCode('#,##0.00');
-                $objPHPExcel->getActiveSheet()->getStyle('N'.$row_count)->getNumberFormat()->setFormatCode('#,##0.00');
-                $objPHPExcel->getActiveSheet()->getStyle('O'.$row_count)->getNumberFormat()->setFormatCode('#,##0.00');
-                $objPHPExcel->getActiveSheet()->getStyle('O'.$row_count)->getNumberFormat()->setFormatCode('#,##0.00');
-                $objPHPExcel->getActiveSheet()->getStyle('P'.$row_count)->getNumberFormat()->setFormatCode('#,##0.00');
-                $objPHPExcel->getActiveSheet()->getStyle('Q'.$row_count)->getNumberFormat()->setFormatCode('#,##0.00');
-                $objPHPExcel->getActiveSheet()->getStyle('R'.$row_count)->getNumberFormat()->setFormatCode('#,##0.00');
-                $objPHPExcel->getActiveSheet()->getStyle('S'.$row_count)->getNumberFormat()->setFormatCode('#,##0.00');
-                $objPHPExcel->getActiveSheet()->getStyle('T'.$row_count)->getNumberFormat()->setFormatCode('#,##0.00');
-                $objPHPExcel->getActiveSheet()->getStyle('U'.$row_count)->getNumberFormat()->setFormatCode('#,##0.00');
-                $objPHPExcel->getActiveSheet()->getStyle('V'.$row_count)->getNumberFormat()->setFormatCode('#,##0.00');
+                $sheet->getStyle('F'.$row_count)->getNumberFormat()->setFormatCode('#,##0.00');
+                $sheet->getStyle('K'.$row_count)->getNumberFormat()->setFormatCode('#,##0.00');
+                $sheet->getStyle('L'.$row_count)->getNumberFormat()->setFormatCode('#,##0.00');
+                $sheet->getStyle('M'.$row_count)->getNumberFormat()->setFormatCode('#,##0.00');
+                $sheet->getStyle('N'.$row_count)->getNumberFormat()->setFormatCode('#,##0.00');
+                $sheet->getStyle('O'.$row_count)->getNumberFormat()->setFormatCode('#,##0.00');
+                $sheet->getStyle('O'.$row_count)->getNumberFormat()->setFormatCode('#,##0.00');
+                $sheet->getStyle('P'.$row_count)->getNumberFormat()->setFormatCode('#,##0.00');
+                $sheet->getStyle('Q'.$row_count)->getNumberFormat()->setFormatCode('#,##0.00');
+                $sheet->getStyle('R'.$row_count)->getNumberFormat()->setFormatCode('#,##0.00');
+                $sheet->getStyle('S'.$row_count)->getNumberFormat()->setFormatCode('#,##0.00');
+                $sheet->getStyle('T'.$row_count)->getNumberFormat()->setFormatCode('#,##0.00');
+                $sheet->getStyle('U'.$row_count)->getNumberFormat()->setFormatCode('#,##0.00');
+                $sheet->getStyle('V'.$row_count)->getNumberFormat()->setFormatCode('#,##0.00');
                
                 
-                $objPHPExcel->getActiveSheet()->getRowDimension($row_count)->setRowHeight(20);
+                $sheet->getRowDimension($row_count)->setRowHeight(20);
                 $row_count++;
             }
-                $objPHPExcel->getActiveSheet()->SetCellValue('L'.$row_count ,"TOTAL");
-                $objPHPExcel->getActiveSheet()->SetCellValue('N'.$row_count , $gst);
-                $objPHPExcel->getActiveSheet()->SetCellValue('O'.$row_count , $add_jay_own_com);
-                $objPHPExcel->getActiveSheet()->SetCellValue('P'.$row_count , $add_uni_own_com);
-                $objPHPExcel->getActiveSheet()->SetCellValue('Q'.$row_count , $own_com);
-                $objPHPExcel->getActiveSheet()->SetCellValue('R'.$row_count , $add_jay_agn_com);
-                $objPHPExcel->getActiveSheet()->SetCellValue('S'.$row_count , $add_uni_agn_com);
-                $objPHPExcel->getActiveSheet()->SetCellValue('T'.$row_count , $agn_com);
+                $sheet->SetCellValue('L'.$row_count ,"TOTAL");
+                $sheet->SetCellValue('N'.$row_count , $gst);
+                $sheet->SetCellValue('O'.$row_count , $add_jay_own_com);
+                $sheet->SetCellValue('P'.$row_count , $add_uni_own_com);
+                $sheet->SetCellValue('Q'.$row_count , $own_com);
+                $sheet->SetCellValue('R'.$row_count , $add_jay_agn_com);
+                $sheet->SetCellValue('S'.$row_count , $add_uni_agn_com);
+                $sheet->SetCellValue('T'.$row_count , $agn_com);
                 
-                $objPHPExcel->getActiveSheet()->SetCellValue('U'.$row_count , $add_own_com);
-                $objPHPExcel->getActiveSheet()->SetCellValue('V'.$row_count , $add_agn_com);
+                $sheet->SetCellValue('U'.$row_count , $add_own_com);
+                $sheet->SetCellValue('V'.$row_count , $add_agn_com);
                 
                 
-                $objPHPExcel->getActiveSheet()->getStyle('M'.$row_count)->getNumberFormat()->setFormatCode('#,##0.00');
-                $objPHPExcel->getActiveSheet()->getStyle('N'.$row_count)->getNumberFormat()->setFormatCode('#,##0.00');
-                $objPHPExcel->getActiveSheet()->getStyle('O'.$row_count)->getNumberFormat()->setFormatCode('#,##0.00');
-                $objPHPExcel->getActiveSheet()->getStyle('P'.$row_count)->getNumberFormat()->setFormatCode('#,##0.00');
-                $objPHPExcel->getActiveSheet()->getStyle('Q'.$row_count)->getNumberFormat()->setFormatCode('#,##0.00');
-                $objPHPExcel->getActiveSheet()->getStyle('R'.$row_count)->getNumberFormat()->setFormatCode('#,##0.00');
-                $objPHPExcel->getActiveSheet()->getStyle('S'.$row_count)->getNumberFormat()->setFormatCode('#,##0.00');
-                $objPHPExcel->getActiveSheet()->getStyle('T'.$row_count)->getNumberFormat()->setFormatCode('#,##0.00');
-                $objPHPExcel->getActiveSheet()->getStyle('U'.$row_count)->getNumberFormat()->setFormatCode('#,##0.00');
-                $objPHPExcel->getActiveSheet()->getStyle('V'.$row_count)->getNumberFormat()->setFormatCode('#,##0.00');
+                $sheet->getStyle('M'.$row_count)->getNumberFormat()->setFormatCode('#,##0.00');
+                $sheet->getStyle('N'.$row_count)->getNumberFormat()->setFormatCode('#,##0.00');
+                $sheet->getStyle('O'.$row_count)->getNumberFormat()->setFormatCode('#,##0.00');
+                $sheet->getStyle('P'.$row_count)->getNumberFormat()->setFormatCode('#,##0.00');
+                $sheet->getStyle('Q'.$row_count)->getNumberFormat()->setFormatCode('#,##0.00');
+                $sheet->getStyle('R'.$row_count)->getNumberFormat()->setFormatCode('#,##0.00');
+                $sheet->getStyle('S'.$row_count)->getNumberFormat()->setFormatCode('#,##0.00');
+                $sheet->getStyle('T'.$row_count)->getNumberFormat()->setFormatCode('#,##0.00');
+                $sheet->getStyle('U'.$row_count)->getNumberFormat()->setFormatCode('#,##0.00');
+                $sheet->getStyle('V'.$row_count)->getNumberFormat()->setFormatCode('#,##0.00');
                 
-                $objPHPExcel->getActiveSheet()->getRowDimension($row_count)->setRowHeight(20);
+                $sheet->getRowDimension($row_count)->setRowHeight(20);
                 $row_count++;
-            
-                $objWriter = new PHPExcel_Writer_Excel2007($objPHPExcel);
-                $objWriter->save('./datas/reports/active_policy_report.xlsx');
-                echo base_url()."/datas/reports/active_policy_report.xlsx";
+
+                // Create timestamp filename: YYYYMMDD_HHMMSS
+				$timestamp = date("Ymd_His");  
+				$filename = "active_policy_report{$timestamp}.xlsx";
+
+				// Save file
+				$writer = new Xlsx($spreadsheet);
+				$writer->save("./datas/reports/{$filename}");
+
+				// Return URL
+				echo base_url("datas/reports/{$filename}");
         }
 	}
 	
@@ -6081,714 +6297,8 @@ class ReportCtrl extends CI_Controller {
          }
      }
      
-     
-//     public function agent_business_report()
-// 	{
-// 	    if( !( $this->session->has_userdata('logged_in') ) ){
-//             redirect('login', 'refresh');
-//         }
-        
-//         // if(!$this->auth->can_access('Agent Business Report')){
-//         //     redirect('access_denied', 'refresh');
-//         // }
-        
-// 	    if($this->session->has_userdata('logged_in')) 
-//         {
-        
-//             $pro_data["project_info"] = $this->mm->fetch_project_info();
-//             $data["ins_company"] = $this->rm->get_insurance_company_list();
-//             $data["class"] = $this->rm->get_class_list();
-//             $data["cover"] = $this->rm->get_policy_cover_type();
-//             $data["agents"] = $this->rm->fetch_agents_list();
-//             $data["area_incharge"] = $this->rm->fetch_area_incharge_list();
-//             $userid = "";
-//             if($this->session->userdata('session_role') == "user")
-            
-//             $userid = $this->session->userdata('session_id');
-//             $data["userid"] = $this->session->userdata('session_id');
-             
-//             $data["users"] = $this->rm->fetch_users_list( $userid );
-            
-//     		$this->load->view('header',$pro_data);
-//     		$this->load->view('agent_business_report',$data);
-//     		$this->load->view('footer',$pro_data);
-//         }
-// 	}
-	
-	
-//     public function fetch_agent_business_report()
-// 	{
-// 	    if($this->session->has_userdata('logged_in')) 
-//         {
-//             $fmt = new NumberFormatter('en_IN', NumberFormatter::CURRENCY);
-//             $ins_company = $this->input->post("ins_company");
-//             $select_class = $this->input->post("select_class");
-//             $agents = $this->input->post("agent");
-//             $from_date = $this->input->post("from_date");
-//             $to_date = $this->input->post("to_date");
-//             $policy_type = $this->input->post("policy_type");
-//             $area_incharge = $this->input->post("area_incharge");
-//             $user = $this->input->post("user");
-            
-//             //var_dump($this->input->post());
-//             $res = $this->rm->_fetch_business_complete_report($ins_company,$select_class,$policy_type,$agents,$from_date,$to_date,$area_incharge,$user);
-            
-//             //var_dump(count($res));
-            
-//             $data = $this->rm->_fetch_generate_policy_report($ins_company,$select_class,$policy_type,$agents,$from_date,$to_date,$area_incharge,$user);
-  
-//             //var_dump(count($data));
-             
-//             $content = "<div class='table-with-scrollbar'>
-//                         <table class='table table-hover table-bordered'  style='white-space: nowrap;'>
-//                             <thead>
-//                                     <th>S.No</th>
-//                                     <th>Customer</th>
-//                                     <th>Lead Id</th>
-//                                     <th>Mobile No</th>
-//                                     <th>Agent id</th>
-//                                     <th>Policy Issue Date</th>
-//                                     <th>Policy Start Date</th>
-//                                     <th>Area Incharge</th>
-//                                     <th>User</th>
-//                                     <th>Policy No</th>
-//                                     <th>Insurer</th>
-//                                     <th>vehicle cc/gvw/Age</th>
-//                                     <th>vehicle No</th>
-//                                     <th>Bussiness Type</th>
-//                                     <th>Class</th>
-//                                     <th>Pol Type</th>
-//                                     <th>OD</th>
-//                                     <th>TP</th>
-//                                     <th>Net Premium</th>
-//                                     <th>GST</th>";
-//                                 if($this->session->userdata('session_role') != "user" && $this->session->userdata('session_role') != "AI") {
-                                    
-//                     $content .= "<th>Agent Category</th>
-//                                  <th>Commission Type</th>
-//                                  <th>Company Percent</th>
-//                                  <th>Agent Percent</th>";
-                                 
-//                     $content .= "   <th>Jayantha Own Commission</th>
-//                                     <th>Unicorn Own Commission</th>
-//                                     <th>Own Commission</th>
-//                                     <th>Jayantha Agent Commission</th>
-//                                     <th>Unicorn Agent Commission</th>
-//                                     <th>Agent Commission</th>
-//                                     <th>Own Com Additional</th>
-//                                     <th>Agent Com Additional</th>";
-//                                      }
-//                      $content .= "   <th>Policy Status</th><th>Agent Status</th><th>Company Status</th>
-//                                 </thead>
-//                                 <tbody>";
-                                
-//             $a = 0;
-//             $gst_1 = 0;
-//             $gst_2  = 0;
-            
-//             $agn_com = 0;
-//             $own_com = 0;
-            
-//             $od_1 = 0;
-//             $od_2 = 0;
-            
-//             $tp_1 = 0;
-//             $tp_2 = 0;
-            
-//             $net_1 = 0;
-//             $net_2 = 0;
-            
-//             $add_own_com = 0;
-//             $add_agn_com = 0;
-            
-//             $add_jay_own_com = 0;
-//             $add_jay_agn_com = 0;
-//              $add_uni_own_com = 0;
-//             $add_uni_agn_com = 0;
-            
-//             $today = date("Y-m-d");
-//             foreach($res as $da)
-//             {
-//                 $a++;
-                
-//                 $gst_1 = $gst_1 + $da->gst;
-                
-//                 $od_1 = $od_1 + $da->total_own_damage;
-//                 $tp_1 = $tp_1 + $da->tot_liability_premium;
-//                 $net_1 = $net_1 + $da->total_premium;
-                
-//               $agn_com = $agn_com + $da->agent_commission_amt+ $da->agent_commission;
-//                 $own_com = $own_com + $da->own_commission_amt + $da->own_commission;
-                
-//                 $add_own_com = $add_own_com + $da->com_add_com;
-//                 $add_agn_com = $add_agn_com + $da->agn_add_com;
-                
-//                 $add_jay_own_com = $add_jay_own_com + $da->own_commission_amt;
-//                 $add_jay_agn_com = $add_jay_agn_com + $da->agent_commission_amt;
-                
-//                 $add_uni_own_com = $add_uni_own_com + $da->own_commission;
-//                 $add_uni_agn_com = $add_uni_agn_com + $da->agent_commission;
-                
-//                 $age = $regndate = "";
-//                 $regndate =$da->regn_date;
-//                 $psdate = $da->policy_s_date;
-//                 $diff = date_diff(date_create($regndate), date_create($psdate));
-//                 $age = $diff->format('%y');
-                
-//                 $user = $this->rm->get_user_name($da->assigned_user);
-                
-//                 $username = "";
-                
-//                 if($user != "")
-//                 {
-//                     $username = $user->name;
-//                 }
-                
-//                 $agent_commission_percent = $da->agent_commission_percent;
-//                 if(isset($da->agent_special_commission) && $da->agent_special_commission > 0) {
-//                     $agent_commission_percent = $da->agent_special_commission;
-//                 }
-                
-//                 $content .="<tr>";
-//                             $content .="<td>".$a."</td>";
-//                             $content .="<td>".$da->client_name."</td>";
-//                             $content .="<td>".$da->lead_id."</td>";
-//                             $content .="<td>".$da->mobile_no."</td>";
-//                             $content .="<td>".$da->agn_name."(".$da->agent_pos_code.")</td>";
-//                             $content .="<td>".date_format(date_create($da->policy_issue_date),"d-m-Y")."</td>";
-//                             $content .="<td>".date_format(date_create($da->policy_s_date),"d-m-Y")."</td>";
-//                             $content .="<td>".$da->ai_name."</td>";
-//                             $content .="<td>".$username."</td>";
-//                             $content .="<td>".$da->policy_no."</td>";
-//                             $content .="<td>".$da->company_name."</td>";
-//                             $content .="<td>".$da->vechi_cc." / ".$da->vechi_gvw." / ".$da->age."</td>";
-//                             $content .="<td>".$da->vechi_register_no."</td>";
-//                             $content .="<td>".$da->business_name."</td>";
-//                             $content .="<td>".$da->class_name."</td>";
-//                             $content .="<td>".$da->policy_type."</td>";
-//                             $content .="<td><span class='pull-right'>".number_format($da->total_own_damage,2)."</td>";
-//                             $content .="<td><span class='pull-right'>".number_format($da->tot_liability_premium,2)."</span></td>";
-//                             $content .="<td><span class='pull-right'>".number_format($da->total_premium,2)."</span></td>";
-//                             $content .="<td><span class='pull-right'>".number_format($da->gst,2)."</span></td>";
-//                              if($this->session->userdata('session_role') != "user" && $this->session->userdata('session_role') != "AI") {
-                            
-//                             $content .="<td style='text-align:center' title='".(($da->commissionid) ? ($da->commissionid) : 'Commission Assign Missing')."'>".($da->commission_category)."</td>";
-//                             $content .="<td style='text-align:center'>".($da->agn_com_type)."</td>";
-//                             $content .="<td><span class='pull-right'>".(($da->company_percent) ? $da->company_percent."%" : "")."</span></td>";
-                            
-//                             //$content .="<td><span class='pull-right'>".(($da->agent_commission_percent) ? $da->agent_commission_percent."%" : "")."</span></td>";
-//                             $content .="<td><span class='pull-right'>".(($agent_commission_percent) ? $agent_commission_percent."%" : "")."</span></td>";
-                            
-                                 
-//                             $content .="<td><span class='pull-right'>".$fmt->formatCurrency($da->own_commission_amt, "INR")."</span></td>";
-//                             $content .="<td><span class='pull-right'>".$fmt->formatCurrency($da->own_commission, "INR")."</span></td>";
-//                             $content .="<td><span class='pull-right'>".number_format($da->own_commission_amt + $da->own_commission,2)."</span></td>";
-//                             $content .="<td><span class='pull-right'>".$fmt->formatCurrency($da->agent_commission_amt, "INR")."</span></td>";
-//                             $content .="<td><span class='pull-right'>".$fmt->formatCurrency($da->agent_commission, "INR")."</span></td>";
-//                             $content .="<td><span class='pull-right'>".number_format($da->agent_commission_amt + $da->agent_commission,2)."</span></td>";
-//                             $content .="<td><span class='pull-right'>".number_format($da->com_add_com,2)."</span></td>";
-//                             $content .="<td><span class='pull-right'>".number_format($da->agn_add_com,2)."</span></td>";
-//                              }
-                             
-//                             $status = 'Active policy';
-//                             $agent_status = 'Active policy';
-//                             $company_status = 'Active policy';
-                             
-//                             if( isset( $da->commission_status ) && $da->commission_status == '1' ){
-//                                 $agent_status = 'Commission Fixed';
-//                             }
-                            
-//                             if( isset( $da->cancel_policy_status ) && $da->cancel_policy_status == '1' ){
-//                                 $agent_status = 'Hold Policy For Agent Invoice';
-//                             }elseif( isset( $da->cancel_policy_status ) && $da->cancel_policy_status == '2' ){
-//                                 $agent_status = 'Cancel Policy For Agent Invoice';
-//                             }
-                            
-//                             if( isset( $da->vocher_status ) && $da->vocher_status == '1' ){
-//                                 $agent_status = 'Generated Agent Invoice';
-                                
-//                                 if( isset( $da->voucher_no ) && !empty( $da->voucher_no ) ) {
-//                                     $agent_status = 'Agent NFT Paid';
-//                                 }
-//                             }
-                            
-//                             if( isset( $da->cancel_policy_status ) && $da->cancel_policy_status == '3' ){
-//                                 $company_status = 'Hold Policy For Company Invoice';
-//                             }elseif( isset( $da->cancel_policy_status ) && $da->cancel_policy_status == '4' ){
-//                                 $company_status = 'Cancel Policy For Company Invoice';
-//                             } else {
-//                                 if( $da->cancel_policy_status == '0' && isset( $da->invoice_prepared ) && $da->invoice_prepared == 'N' ) {
-//                                     $company_status = 'Policy Not Select for Bill.';
-//                                 } elseif( $da->cancel_policy_status == '0' && isset( $da->invoice_prepared ) && $da->invoice_prepared == 'Y' ) {
-//                                     $company_status = 'Policy Selected for Bill.';
-                                    
-//                                     if( isset( $da->invoice_status ) && $da->invoice_status == 'D') {
-//                                         $company_status = 'Invoice Revisied.';
-//                                     } else {
-//                                         if( isset( $da->company_vocher_status ) && $da->company_vocher_status == '1' ){
-//                                             $company_status = 'Generated Company Invoice';   
-                                            
-//                                             if( isset( $da->receipt_id ) && !empty( $da->receipt_id ) ) {
-//                                                 $company_status = 'Company Payment Received';
-//                                             }
-//                                         }
-//                                     }
-//                                 }
-//                             }
-                            
-//                             /*if( isset( $da->vocher_status ) && $da->vocher_status == '1' ){
-//                                 $agent_status = 'Generated Agent Invoice';
-//                             }
-                            
-//                             if( isset( $da->company_vocher_status ) && $da->company_vocher_status == '1' ){
-//                                 $company_status = 'Generated Company Invoice';
-//                             }*/
-                                
-//                             $content .="<td><span class='pull-right'>{$status}</span></td>";
-//                             $content .="<td><span class='pull-right'>{$agent_status}</span></td>";
-//                             $content .="<td><span class='pull-right'>{$company_status}</span></td>";
-//                             $content .="</tr>";
-//             }
-           
-//             foreach($data as $da)
-//             {
-//                 $a++;
-                
-//                 $gst_2 = $gst_2 + $da->gst;
-//                 $od_2 = $od_2 + $da->total_own_damage;
-//                 $tp_2 = $tp_2 + $da->tot_liability_premium;
-//                 $net_2 = $net_2 + $da->total_premium;
-                
-//                  $agn_com = $agn_com + $da->agent_commission_amt + $da->agent_commission;
-//                 $own_com = $own_com + $da->own_commission_amt + $da->own_commission;
-                
-//                 $add_jay_own_com = $add_jay_own_com + $da->own_commission_amt;
-//                 $add_jay_agn_com = $add_jay_agn_com + $da->agent_commission_amt;
-                
-//                 $add_uni_own_com = $add_uni_own_com + $da->own_commission;
-//                 $add_uni_agn_com = $add_uni_agn_com + $da->agent_commission;
-                
-//                 $add_own_com = $add_own_com + $da->com_add_com;
-//                 $add_agn_com = $add_agn_com + $da->agn_add_com;
-                
-//                 $user = $this->rm->get_user_name($da->assigned_user);
-                
-//                 $username = "";
-                
-//                 if($user != "")
-//                 {
-//                     $username = $user->name;
-//                 }
-       
-//                 $content .="<tr>";
-//                             $content .="<td>".$a."</td>";
-//                             $content .="<td>".$da->client_name."</td>";
-//                             $content .="<td>".$da->lead_id."</td>";
-//                             $content .="<td>".$da->mobile_no."</td>";
-//                             $content .="<td>".$da->agn_name."(".$da->agent_pos_code.")</td>";
-//                             $content .="<td>".date_format(date_create($da->policy_issue_date),"d-m-Y")."</td>";
-//                             $content .="<td>".date_format(date_create($da->policy_s_date),"d-m-Y")."</td>";
-//                             $content .="<td>".$da->ai_name."</td>";
-//                             $content .="<td>".$username."</td>";
-//                             $content .="<td>".$da->policy_no."</td>";
-//                             $content .="<td>".$da->company_name."</td>";
-//                             $content .="<td>".$da->vechi_cc." / ".$da->vechi_gvw." / ".$da->age."</td>";
-//                           $content .="<td>".$da->vechi_register_no."</td>";
-//                             $content .="<td>".$da->business_name."</td>";
-//                             $content .="<td>".$da->class_name."</td>";
-//                             $content .="<td>".$da->policy_type."</td>";
-//                             $content .="<td><span class='pull-right'>".number_format($da->total_own_damage,2)."</td>";
-//                             $content .="<td><span class='pull-right'>".number_format($da->tot_liability_premium,2)."</span></td>";
-//                             $content .="<td><span class='pull-right'>".number_format($da->total_premium,2)."</span></td>";
-//                             $content .="<td><span class='pull-right'>".number_format($da->gst,2)."</span></td>";
-//                          if($this->session->userdata('session_role') != "user" && $this->session->userdata('session_role') != "AI") { 
-                             
-//                             $content .="<td style='text-align:center' title='".(($da->commissionid) ? ($da->commissionid) : 'Commission Assign Missing')."'>".($da->commission_category)."</td>";
-//                             $content .="<td style='text-align:center'>".($da->agn_com_type)."</td>";
-//                             $content .="<td><span class='pull-right'>".(($da->company_percent) ? $da->company_percent."%" : "")."</span></td>";
-//                             $content .="<td><span class='pull-right'>".(($da->agent_commission_percent) ? $da->agent_commission_percent."%" : "")."</span></td>";
-                             
-//                              $content .="<td><span class='pull-right'>".$fmt->formatCurrency($da->own_commission_amt, "INR")."</span></td>";
-//                                 $content .="<td><span class='pull-right'>".$fmt->formatCurrency($da->own_commission, "INR")."</span></td>";
-								
-//                             $content .="<td><span class='pull-right'>".number_format($da->own_commission_amt+$da->own_commission,2)."</span></td>";
-//                             $content .="<td><span class='pull-right'>".$fmt->formatCurrency($da->agent_commission_amt, "INR")."</span></td>";
-//                                 $content .="<td><span class='pull-right'>".$fmt->formatCurrency($da->agent_commission, "INR")."</span></td>";
-								
-//                             $content .="<td><span class='pull-right'>".number_format($da->agent_commission_amt+$da->agent_commission,2)."</span></td>";
-//                             $content .="<td><span class='pull-right'>".number_format($da->com_add_com,2)."</span></td>";
-//                          }
-//                             $content .="<td><span class='pull-right'>".number_format($da->agn_add_com,2)."</span></td>";
-//                             $content .="<td><span class='pull-right'>Business Complete</span></td>";
-//                             $content .="<td><span class='pull-right'>-</span></td>";
-//                             $content .="<td><span class='pull-right'>-</span></td>";
-//                             $content .="</tr>";
-//             }
-            
-//             $content .="<tr>
-//                             <td></td>
-//                             <td></td>
-//                             <td></td>
-//                             <td></td>
-//                             <td></td>
-//                             <td></td>
-//                             <td></td>
-//                             <td></td>
-//                             <td></td>
-//                             <td></td>
-//                             <td></td>
-//                             <td></td>
-//                             <td></td>
-//                             <td></td>
-//                             <td></td>
-//                             <td></td>
-//                             <td><b>".$fmt->formatCurrency($od_1 + $od_2,"INR")."</td>
-//                             <td><b>".$fmt->formatCurrency($tp_1 + $tp_2,"INR")."</td>
-//                             <td style='text-align:right'><b>".$fmt->formatCurrency($net_1 + $net_2,"INR")."</td>
-//                             <td style='text-align:right'><b>".$fmt->formatCurrency($gst_1 + $gst_2,"INR")."</b></td>";
-                            
-//                   if($this->session->userdata('session_role') != "user" && $this->session->userdata('session_role') != "AI") { 
-                       
-//                         $content .="<td></td>";
-//                         $content .="<td></td>";
-//                         $content .="<td></td>";
-//                         $content .="<td></td>";
-                             
-//                     $content .="  <td style='text-align:right'><b>".$fmt->formatCurrency($add_jay_own_com,"INR")."</b></td>
-//                                 <td style='text-align:right'><b>".$fmt->formatCurrency($add_uni_own_com,"INR")."</b></td>
-								
-//                     <td style='text-align:right'><b>".$fmt->formatCurrency($own_com,"INR")."</b></td>
-//                     <td style='text-align:right'><b>".$fmt->formatCurrency($add_jay_agn_com,"INR")."</b></td>
-//                                 <td style='text-align:right'><b>".$fmt->formatCurrency($add_uni_agn_com,"INR")."</b></td>
-								
-//                             <td style='text-align:right'><b>".$fmt->formatCurrency($agn_com,"INR")."</b></td>
-//                             <td style='text-align:right'><b>".$fmt->formatCurrency($add_own_com,"INR")."</b></td>
-//                             <td style='text-align:right'><b>".$fmt->formatCurrency($add_agn_com,"INR")."</b></td>";
-//                             }
-//                       $content .=" <td style='text-align:right'></td>
-//                         </tr>";
-//                  $content .="</tbody></table></div><br>";
-//                  echo $content;
-//         }
-// 	}
-	
-//     public function agent_business_report_excel()
-// 	{
-	    
-// 	    if($this->session->has_userdata('logged_in')) 
-//         {
-//             $ins_company = $this->input->post("ins_company");
-//             $select_class = $this->input->post("select_class");
-//             $agent = $this->input->post("agent");
-//             $from_date = $this->input->post("from_date");
-//             $to_date = $this->input->post("to_date");
-//             $policy_type = $this->input->post("policy_type");
-//             $area_incharge = $this->input->post("area_incharge");
-//             $user = $this->input->post("user");
-            
-//             $this->load->library('Excel');
-//             $objPHPExcel = new PHPExcel();
-//             $objPHPExcel->setActiveSheetIndex(0);
-            
-//             $rowCount = 4;
-            
-//             $objPHPExcel->getActiveSheet()->getColumnDimension('A')->setWidth(10);
-//             $objPHPExcel->getActiveSheet()->getColumnDimension('B')->setWidth(20);
-//             $objPHPExcel->getActiveSheet()->getColumnDimension('C')->setWidth(20);
-//             $objPHPExcel->getActiveSheet()->getColumnDimension('D')->setWidth(15);
-//             $objPHPExcel->getActiveSheet()->getColumnDimension('E')->setWidth(20);
-//             $objPHPExcel->getActiveSheet()->getColumnDimension('F')->setWidth(35);
-//             $objPHPExcel->getActiveSheet()->getColumnDimension('G')->setWidth(20);
-//             $objPHPExcel->getActiveSheet()->getColumnDimension('H')->setWidth(15);
-//             $objPHPExcel->getActiveSheet()->getColumnDimension('I')->setWidth(35);
-//             $objPHPExcel->getActiveSheet()->getColumnDimension('J')->setWidth(20);
-//             $objPHPExcel->getActiveSheet()->getColumnDimension('K')->setWidth(20);
-//             $objPHPExcel->getActiveSheet()->getColumnDimension('L')->setWidth(30);
-//             $objPHPExcel->getActiveSheet()->getColumnDimension('M')->setWidth(30);
-//             $objPHPExcel->getActiveSheet()->getColumnDimension('N')->setWidth(35);
-//             $objPHPExcel->getActiveSheet()->getColumnDimension('O')->setWidth(35);
-//             $objPHPExcel->getActiveSheet()->getRowDimension('2')->setRowHeight(20);
-//             $objPHPExcel->getActiveSheet()->SetCellValue('D2', 'JAYANTHA INSURANCE');
-            
-//             $objPHPExcel->getActiveSheet()->SetCellValue('D3', 'Active Policy Report');
-            
-//             $objPHPExcel->getActiveSheet()->getStyle('D3')->applyFromArray(
-//             		array(
-//             			'font'  => array(
-//             				'bold'  => true,
-//             				'color' => array('rgb' => 'e6e600'),
-//             				'size'  => 18,
-//             			),
-//             		)
-//             	);
-//             	$objPHPExcel->getActiveSheet()->getStyle('D2')->applyFromArray(
-//             		array(
-//             			'font'  => array(
-//             				'bold'  => true,
-//             				'color' => array('rgb' => '00cc66'),
-//             				'size'  => 14,
-//             			),
-//             		)
-//             	);
-//         $objPHPExcel->getActiveSheet()->SetCellValue('F3', date_format(date_create($from_date),"d-m-Y"));
-//         $objPHPExcel->getActiveSheet()->SetCellValue('G3', date_format(date_create($to_date),"d-m-Y"));
-        
-//         $objPHPExcel->getActiveSheet()->getRowDimension('3')->setRowHeight(20);
-//         $objPHPExcel->getActiveSheet()->SetCellValue('F3', 'Excel Date : ');
-//         $objPHPExcel->getActiveSheet()->SetCellValue('G3', date("d-m-Y"));
 
-//         $objPHPExcel->getActiveSheet()->getRowDimension('4')->setRowHeight(20);
-//         $objPHPExcel->getActiveSheet()->getStyle('4')->applyFromArray(
-//         array(
-//         'fill' => array(
-//             'type' => PHPExcel_Style_Fill::FILL_SOLID,
-//             'color' => array('rgb' => '31406b')
-//         ),
-//         'alignment' => array(
-//             'horizontal' => PHPExcel_Style_Alignment::HORIZONTAL_CENTER,
-//         ),
-//         'font'  => array(
-//             'bold'  => true,
-//             'color' => array('rgb' => 'FFFFFF'),
-//             'size'  => 13,
-//         ),
-//         )
-//         );
-        
-//         $objPHPExcel->getActiveSheet()->SetCellValue('A4', 'S.No');
-//         $objPHPExcel->getActiveSheet()->SetCellValue('B4', 'Customer');
-//         $objPHPExcel->getActiveSheet()->SetCellValue('C4', 'Mobile No');
-//         $objPHPExcel->getActiveSheet()->SetCellValue('D4', 'Agent Name');
-//         $objPHPExcel->getActiveSheet()->SetCellValue('E4', 'Policy Issue Date');
-//         $objPHPExcel->getActiveSheet()->SetCellValue('F4', 'Policy Start Date');
-//         $objPHPExcel->getActiveSheet()->SetCellValue('G4', 'Area Incharge');
-//         $objPHPExcel->getActiveSheet()->SetCellValue('H4', 'User');
-//         $objPHPExcel->getActiveSheet()->SetCellValue('I4', 'Lead Id');
-//         $objPHPExcel->getActiveSheet()->SetCellValue('J4', 'Policy No');
-//         $objPHPExcel->getActiveSheet()->SetCellValue('K4', 'Insurer');
-//         $objPHPExcel->getActiveSheet()->SetCellValue('L4', 'Bussiness Type');
-//         $objPHPExcel->getActiveSheet()->SetCellValue('M4', 'Class');
-//         $objPHPExcel->getActiveSheet()->SetCellValue('N4', 'Pol Type');
-//         $objPHPExcel->getActiveSheet()->SetCellValue('O4', 'OD');
-//         $objPHPExcel->getActiveSheet()->SetCellValue('P4', 'TP');
-//         $objPHPExcel->getActiveSheet()->SetCellValue('Q4', 'Net Premium	');
-//         $objPHPExcel->getActiveSheet()->SetCellValue('R4', 'GST');
-        
-//         $objPHPExcel->getActiveSheet()->SetCellValue('S4', 'Agent Category');
-//         $objPHPExcel->getActiveSheet()->SetCellValue('T4', 'Commission Type');
-//         $objPHPExcel->getActiveSheet()->SetCellValue('U4', 'Company Percent');
-//         $objPHPExcel->getActiveSheet()->SetCellValue('V4', 'Agent Percent');
-        
-//         $objPHPExcel->getActiveSheet()->SetCellValue('W4', 'Jayantha Own Commission');
-//         $objPHPExcel->getActiveSheet()->SetCellValue('X4', 'Unicorn Own Commission');
-//         $objPHPExcel->getActiveSheet()->SetCellValue('Y4', 'Total Own Commission');
-//         $objPHPExcel->getActiveSheet()->SetCellValue('Z4', 'Jayantha Agent Commission');
-//         $objPHPExcel->getActiveSheet()->SetCellValue('AA4', 'Unicorn Agent Commission');
-//         $objPHPExcel->getActiveSheet()->SetCellValue('AB4', 'Total Agent Commission');
-//         $objPHPExcel->getActiveSheet()->SetCellValue('AC4', 'Own Add Commission');
-//         $objPHPExcel->getActiveSheet()->SetCellValue('AD4', 'Add Agent Commission');
-//         $objPHPExcel->getActiveSheet()->SetCellValue('AE4', 'Vechicle No');
-//         $objPHPExcel->getActiveSheet()->SetCellValue('AF4', 'Status');
-        
-//         $row_count = 5;
-//         $a = 0;
-            
-        
-//         $res = $this->rm->_fetch_business_complete_report($ins_company,$select_class,$policy_type,$agent,$from_date,$to_date,$area_incharge,$user);
-        
-//         $data = $this->rm->_fetch_generate_policy_report($ins_company,$select_class,$policy_type,$agent,$from_date,$to_date,$area_incharge,$user);
-//         //echo '<pre>';print_r($res);print_r($data);print'</pre>';   
-                                
-//             $a = 0;
-            
-//             $gst = 0;
-//             $agn_com = 0;
-//             $own_com = 0;
-            
-//             $add_own_com = 0;
-//             $add_agn_com = 0;
-            
-//              $add_jay_own_com = 0;
-//             $add_jay_agn_com = 0;
-//              $add_uni_own_com = 0;
-//             $add_uni_agn_com = 0;
-            
-//             foreach($res as $da)
-//             {
-//                 $a++;
-                
-//                 $gst = $gst+$da->gst;
-//               $agn_com = $agn_com + $da->agent_commission_amt + $da->agent_commission;
-//                 $own_com = $own_com + $da->own_commission_amt + $da->own_commission;
-                
-//                 $add_own_com = $add_own_com + $da->com_add_com;
-//                 $add_agn_com = $add_agn_com + $da->agn_add_com;
-                
-//                 $add_jay_own_com = $add_jay_own_com + $da->own_commission_amt;
-//                 $add_jay_agn_com = $add_jay_agn_com + $da->agent_commission_amt;
-                
-//                 $add_uni_own_com = $add_uni_own_com + $da->own_commission;
-//                 $add_uni_agn_com = $add_uni_agn_com + $da->agent_commission;
-                
-//                 $user = $this->rm->get_user_name($da->assigned_user);
-//                 $username = "";
-                
-//                 if($user != "")
-//                 {
-//                     $username = $user->name;
-//                 }
-               
-               
-//                 $objPHPExcel->getActiveSheet()->SetCellValue('A'.$row_count , $a);
-//                 $objPHPExcel->getActiveSheet()->SetCellValue('B'.$row_count , $da->client_name);
-//                 $objPHPExcel->getActiveSheet()->SetCellValue('C'.$row_count , $da->mobile_no);
-//                 $objPHPExcel->getActiveSheet()->SetCellValue('D'.$row_count , $da->agn_name."(".$da->agent_pos_code.")");
-//                 $objPHPExcel->getActiveSheet()->SetCellValue('E'.$row_count , date_format(date_create($da->policy_issue_date),"d-m-Y"));
-//                 $objPHPExcel->getActiveSheet()->SetCellValue('F'.$row_count , date_format(date_create($da->policy_s_date),"d-m-Y"));
-//                 $objPHPExcel->getActiveSheet()->SetCellValue('G'.$row_count , $da->ai_name);
-//                 $objPHPExcel->getActiveSheet()->SetCellValue('H'.$row_count , $username);
-//                 $objPHPExcel->getActiveSheet()->SetCellValue('I'.$row_count , $da->lead_id);
-//                 $objPHPExcel->getActiveSheet()->SetCellValue('J'.$row_count , " ".$da->policy_no);
-//                 $objPHPExcel->getActiveSheet()->SetCellValue('K'.$row_count , $da->company_name);
-//                 $objPHPExcel->getActiveSheet()->SetCellValue('L'.$row_count , $da->business_name);
-//                 $objPHPExcel->getActiveSheet()->SetCellValue('M'.$row_count , $da->class_name);
-//                 $objPHPExcel->getActiveSheet()->SetCellValue('N'.$row_count , $da->policy_type);
-//                 $objPHPExcel->getActiveSheet()->SetCellValue('O'.$row_count , $da->total_own_damage);
-//                 $objPHPExcel->getActiveSheet()->SetCellValue('P'.$row_count , $da->tot_liability_premium);
-//                 $objPHPExcel->getActiveSheet()->SetCellValue('Q'.$row_count , $da->total_premium);
-//                 $objPHPExcel->getActiveSheet()->SetCellValue('R'.$row_count , $da->gst);
-                
-//                 $objPHPExcel->getActiveSheet()->SetCellValue('S'.$row_count , $da->agn_com_type);
-//                 $objPHPExcel->getActiveSheet()->SetCellValue('T'.$row_count , $da->commission_category);
-//                 $objPHPExcel->getActiveSheet()->SetCellValue('U'.$row_count , $da->company_percent);
-//                 $objPHPExcel->getActiveSheet()->SetCellValue('V'.$row_count , $da->agent_commission_percent);
-                
-                
-                
-//                  $objPHPExcel->getActiveSheet()->SetCellValue('W'.$row_count , $da->own_commission_amt);
-//                 $objPHPExcel->getActiveSheet()->SetCellValue('X'.$row_count , $da->own_commission);
-//                 $objPHPExcel->getActiveSheet()->SetCellValue('Y'.$row_count , $da->own_commission_amt+$da->own_commission);
-//                 $objPHPExcel->getActiveSheet()->SetCellValue('Z'.$row_count , $da->agent_commission_amt);
-//                 $objPHPExcel->getActiveSheet()->SetCellValue('AA'.$row_count , $da->agent_commission);
-//                 $objPHPExcel->getActiveSheet()->SetCellValue('AB'.$row_count , $da->agent_commission_amt+$da->agent_commission);
-                
-//                 $objPHPExcel->getActiveSheet()->SetCellValue('AC'.$row_count , $da->com_add_com);
-//                 $objPHPExcel->getActiveSheet()->SetCellValue('AD'.$row_count , $da->agn_add_com);
-//                 $objPHPExcel->getActiveSheet()->SetCellValue('AE'.$row_count , $da->vechi_register_no);
-//                 $objPHPExcel->getActiveSheet()->SetCellValue('AF'.$row_count , "Active Policy");
-                
-                
-//                 $objPHPExcel->getActiveSheet()->getStyle('M'.$row_count)->getNumberFormat()->setFormatCode('#,##0.00');
-//                 $objPHPExcel->getActiveSheet()->getStyle('N'.$row_count)->getNumberFormat()->setFormatCode('#,##0.00');
-//                 $objPHPExcel->getActiveSheet()->getStyle('O'.$row_count)->getNumberFormat()->setFormatCode('#,##0.00');
-//                 $objPHPExcel->getActiveSheet()->getStyle('P'.$row_count)->getNumberFormat()->setFormatCode('#,##0.00');
-                
-//                 $objPHPExcel->getActiveSheet()->getStyle('U'.$row_count)->getNumberFormat()->setFormatCode('#,##0.00');
-//                 $objPHPExcel->getActiveSheet()->getStyle('V'.$row_count)->getNumberFormat()->setFormatCode('#,##0.00');
-//                 $objPHPExcel->getActiveSheet()->getStyle('W'.$row_count)->getNumberFormat()->setFormatCode('#,##0.00');
-//                 $objPHPExcel->getActiveSheet()->getStyle('X'.$row_count)->getNumberFormat()->setFormatCode('#,##0.00');
-                
-//                 $objPHPExcel->getActiveSheet()->getStyle('Y'.$row_count)->getNumberFormat()->setFormatCode('#,##0.00');
-//                 $objPHPExcel->getActiveSheet()->getStyle('Z'.$row_count)->getNumberFormat()->setFormatCode('#,##0.00');
-//                 $objPHPExcel->getActiveSheet()->getStyle('AA'.$row_count)->getNumberFormat()->setFormatCode('#,##0.00');
-//                 $objPHPExcel->getActiveSheet()->getStyle('AB'.$row_count)->getNumberFormat()->setFormatCode('#,##0.00');
-
-                
-//                 $objPHPExcel->getActiveSheet()->getRowDimension($row_count)->setRowHeight(20);
-//                 $row_count++;
-//             }
-          
-          
-//             foreach($data as $da)
-//             {
-//                 $a++;
-                
-//                 $gst = $gst+$da->gst;
-//               $agn_com = $agn_com + $da->agent_commission_amt;
-//                 $own_com = $own_com + $da->own_commission_amt;
-                
-//                 $add_own_com = $add_own_com + $da->com_add_com;
-//                 $add_agn_com = $add_agn_com + $da->agn_add_com;
-                
-//                 $add_jay_own_com = $add_jay_own_com + $da->own_commission_amt;
-//                 $add_jay_agn_com = $add_jay_agn_com + $da->agent_commission_amt;
-                
-//                 $add_uni_own_com = $add_uni_own_com + $da->own_commission;
-//                 $add_uni_agn_com = $add_uni_agn_com + $da->agent_commission;
-               
-//               $user = $this->rm->get_user_name($da->assigned_user);
-//                 if($user != "")
-//                 {
-//                     $username = $user->name;
-//                 }
-               
-               
-//                 $objPHPExcel->getActiveSheet()->SetCellValue('A'.$row_count , $a);
-//                 $objPHPExcel->getActiveSheet()->SetCellValue('B'.$row_count , $da->client_name);
-//                 $objPHPExcel->getActiveSheet()->SetCellValue('C'.$row_count , $da->mobile_no);
-//                 $objPHPExcel->getActiveSheet()->SetCellValue('D'.$row_count , $da->agn_name."(".$da->agent_pos_code.")");
-//                 $objPHPExcel->getActiveSheet()->SetCellValue('E'.$row_count , date_format(date_create($da->policy_issue_date),"d-m-Y"));
-//                 $objPHPExcel->getActiveSheet()->SetCellValue('F'.$row_count , date_format(date_create($da->policy_s_date),"d-m-Y"));
-//                 $objPHPExcel->getActiveSheet()->SetCellValue('G'.$row_count , $da->ai_name);
-//                 $objPHPExcel->getActiveSheet()->SetCellValue('H'.$row_count ,$username);
-//                 $objPHPExcel->getActiveSheet()->SetCellValue('I'.$row_count , $da->lead_id);
-//                 $objPHPExcel->getActiveSheet()->SetCellValue('J'.$row_count , $da->policy_no);
-//                 $objPHPExcel->getActiveSheet()->SetCellValue('K'.$row_count , $da->company_name);
-//                 $objPHPExcel->getActiveSheet()->SetCellValue('L'.$row_count , $da->business_name);
-//                 $objPHPExcel->getActiveSheet()->SetCellValue('M'.$row_count , $da->class_name);
-//                 $objPHPExcel->getActiveSheet()->SetCellValue('N'.$row_count , $da->policy_type);
-//                 $objPHPExcel->getActiveSheet()->SetCellValue('O'.$row_count , $da->total_own_damage);
-//                 $objPHPExcel->getActiveSheet()->SetCellValue('P'.$row_count , $da->tot_liability_premium);
-//                 $objPHPExcel->getActiveSheet()->SetCellValue('Q'.$row_count , $da->total_premium);
-//                 $objPHPExcel->getActiveSheet()->SetCellValue('R'.$row_count , $da->gst);
-                
-//                 $objPHPExcel->getActiveSheet()->SetCellValue('S'.$row_count , $da->agn_com_type);
-//                 $objPHPExcel->getActiveSheet()->SetCellValue('T'.$row_count , $da->commission_category);
-//                 $objPHPExcel->getActiveSheet()->SetCellValue('U'.$row_count , $da->company_percent);
-//                 $objPHPExcel->getActiveSheet()->SetCellValue('V'.$row_count , $da->agent_commission_percent);
-                
-//                 $objPHPExcel->getActiveSheet()->SetCellValue('W'.$row_count , $da->own_commission_amt);
-//                 $objPHPExcel->getActiveSheet()->SetCellValue('X'.$row_count , $da->own_commission);
-//                 $objPHPExcel->getActiveSheet()->SetCellValue('Y'.$row_count , $da->own_commission_amt+$da->own_commission);
-//                 $objPHPExcel->getActiveSheet()->SetCellValue('Z'.$row_count , $da->agent_commission_amt);
-//                 $objPHPExcel->getActiveSheet()->SetCellValue('AA'.$row_count , $da->agent_commission);
-//                 $objPHPExcel->getActiveSheet()->SetCellValue('AB'.$row_count , $da->agent_commission_amt+$da->agent_commission);
-//                 $objPHPExcel->getActiveSheet()->SetCellValue('AC'.$row_count , $da->com_add_com);
-//                 $objPHPExcel->getActiveSheet()->SetCellValue('AD'.$row_count , $da->agn_add_com);
-//                 $objPHPExcel->getActiveSheet()->SetCellValue('AE'.$row_count , $da->vechi_register_no);
-//                 $objPHPExcel->getActiveSheet()->SetCellValue('AF'.$row_count , "Business Completed");
-                
-                
-//                 $objPHPExcel->getActiveSheet()->getStyle('M'.$row_count)->getNumberFormat()->setFormatCode('#,##0.00');
-//                 $objPHPExcel->getActiveSheet()->getStyle('N'.$row_count)->getNumberFormat()->setFormatCode('#,##0.00');
-//                 $objPHPExcel->getActiveSheet()->getStyle('O'.$row_count)->getNumberFormat()->setFormatCode('#,##0.00');
-//                 $objPHPExcel->getActiveSheet()->getStyle('P'.$row_count)->getNumberFormat()->setFormatCode('#,##0.00');
-                
-//                 $objPHPExcel->getActiveSheet()->getStyle('U'.$row_count)->getNumberFormat()->setFormatCode('#,##0.00');
-//                 $objPHPExcel->getActiveSheet()->getStyle('V'.$row_count)->getNumberFormat()->setFormatCode('#,##0.00');
-//                 $objPHPExcel->getActiveSheet()->getStyle('W'.$row_count)->getNumberFormat()->setFormatCode('#,##0.00');
-//                 $objPHPExcel->getActiveSheet()->getStyle('X'.$row_count)->getNumberFormat()->setFormatCode('#,##0.00');
-//                  $objPHPExcel->getActiveSheet()->getStyle('Y'.$row_count)->getNumberFormat()->setFormatCode('#,##0.00');
-//                 $objPHPExcel->getActiveSheet()->getStyle('Z'.$row_count)->getNumberFormat()->setFormatCode('#,##0.00');
-//                 $objPHPExcel->getActiveSheet()->getStyle('AA'.$row_count)->getNumberFormat()->setFormatCode('#,##0.00');
-//                 $objPHPExcel->getActiveSheet()->getStyle('AB'.$row_count)->getNumberFormat()->setFormatCode('#,##0.00');
-
-                
-//                 $objPHPExcel->getActiveSheet()->getRowDimension($row_count)->setRowHeight(20);
-//                 $row_count++;
-//               }
-          
-//                 $objWriter = new PHPExcel_Writer_Excel2007($objPHPExcel);
-//                 $objWriter->save('./datas/reports/agent_business_report.xlsx');
-                
-//                 echo base_url()."/datas/reports/agent_business_report.xlsx";
-                
-//         }
-// 	}
-
-
-
- public function agent_business_report()
+    public function agent_business_report()
 	{
 	    if( !( $this->session->has_userdata('logged_in') ) ){
             redirect('login', 'refresh');
@@ -7194,33 +6704,33 @@ class ReportCtrl extends CI_Controller {
             $area_incharge = $this->input->post("area_incharge");
             $user = $this->input->post("user");
             
-            $this->load->library('Excel');
-            $objPHPExcel = new PHPExcel();
-            $objPHPExcel->setActiveSheetIndex(0);
+
+            $spreadsheet = new Spreadsheet();  
+            $sheet = $spreadsheet->getActiveSheet();
             
             $rowCount = 4;
             
-            $objPHPExcel->getActiveSheet()->getColumnDimension('A')->setWidth(10);
-            $objPHPExcel->getActiveSheet()->getColumnDimension('B')->setWidth(20);
-            $objPHPExcel->getActiveSheet()->getColumnDimension('C')->setWidth(20);
-            $objPHPExcel->getActiveSheet()->getColumnDimension('D')->setWidth(15);
-            $objPHPExcel->getActiveSheet()->getColumnDimension('E')->setWidth(20);
-            $objPHPExcel->getActiveSheet()->getColumnDimension('F')->setWidth(35);
-            $objPHPExcel->getActiveSheet()->getColumnDimension('G')->setWidth(20);
-            $objPHPExcel->getActiveSheet()->getColumnDimension('H')->setWidth(15);
-            $objPHPExcel->getActiveSheet()->getColumnDimension('I')->setWidth(35);
-            $objPHPExcel->getActiveSheet()->getColumnDimension('J')->setWidth(20);
-            $objPHPExcel->getActiveSheet()->getColumnDimension('K')->setWidth(20);
-            $objPHPExcel->getActiveSheet()->getColumnDimension('L')->setWidth(30);
-            $objPHPExcel->getActiveSheet()->getColumnDimension('M')->setWidth(30);
-            $objPHPExcel->getActiveSheet()->getColumnDimension('N')->setWidth(35);
-            $objPHPExcel->getActiveSheet()->getColumnDimension('O')->setWidth(35);
-            $objPHPExcel->getActiveSheet()->getRowDimension('2')->setRowHeight(20);
-            $objPHPExcel->getActiveSheet()->SetCellValue('D2', 'JAYANTHA INSURANCE');
+            $sheet->getColumnDimension('A')->setWidth(10);
+            $sheet->getColumnDimension('B')->setWidth(20);
+            $sheet->getColumnDimension('C')->setWidth(20);
+            $sheet->getColumnDimension('D')->setWidth(15);
+            $sheet->getColumnDimension('E')->setWidth(20);
+            $sheet->getColumnDimension('F')->setWidth(35);
+            $sheet->getColumnDimension('G')->setWidth(20);
+            $sheet->getColumnDimension('H')->setWidth(15);
+            $sheet->getColumnDimension('I')->setWidth(35);
+            $sheet->getColumnDimension('J')->setWidth(20);
+            $sheet->getColumnDimension('K')->setWidth(20);
+            $sheet->getColumnDimension('L')->setWidth(30);
+            $sheet->getColumnDimension('M')->setWidth(30);
+            $sheet->getColumnDimension('N')->setWidth(35);
+            $sheet->getColumnDimension('O')->setWidth(35);
+            $sheet->getRowDimension('2')->setRowHeight(20);
+            $sheet->SetCellValue('D2', 'JAYANTHA INSURANCE');
             
-            $objPHPExcel->getActiveSheet()->SetCellValue('D3', 'Active Policy Report');
+            $sheet->SetCellValue('D3', 'Active Policy Report');
             
-            $objPHPExcel->getActiveSheet()->getStyle('D3')->applyFromArray(
+            $sheet->getStyle('D3')->applyFromArray(
             		array(
             			'font'  => array(
             				'bold'  => true,
@@ -7229,7 +6739,7 @@ class ReportCtrl extends CI_Controller {
             			),
             		)
             	);
-            	$objPHPExcel->getActiveSheet()->getStyle('D2')->applyFromArray(
+            	$sheet->getStyle('D2')->applyFromArray(
             		array(
             			'font'  => array(
             				'bold'  => true,
@@ -7238,65 +6748,64 @@ class ReportCtrl extends CI_Controller {
             			),
             		)
             	);
-        $objPHPExcel->getActiveSheet()->SetCellValue('F3', date_format(date_create($from_date),"d-m-Y"));
-        $objPHPExcel->getActiveSheet()->SetCellValue('G3', date_format(date_create($to_date),"d-m-Y"));
+        $sheet->SetCellValue('F3', date_format(date_create($from_date),"d-m-Y"));
+        $sheet->SetCellValue('G3', date_format(date_create($to_date),"d-m-Y"));
         
-        $objPHPExcel->getActiveSheet()->getRowDimension('3')->setRowHeight(20);
-        $objPHPExcel->getActiveSheet()->SetCellValue('F3', 'Excel Date : ');
-        $objPHPExcel->getActiveSheet()->SetCellValue('G3', date("d-m-Y"));
+        $sheet->getRowDimension('3')->setRowHeight(20);
+        $sheet->SetCellValue('F3', 'Excel Date : ');
+        $sheet->SetCellValue('G3', date("d-m-Y"));
 
-        $objPHPExcel->getActiveSheet()->getRowDimension('4')->setRowHeight(20);
-        $objPHPExcel->getActiveSheet()->getStyle('4')->applyFromArray(
-        array(
-        'fill' => array(
-            'type' => PHPExcel_Style_Fill::FILL_SOLID,
-            'color' => array('rgb' => '31406b')
-        ),
-        'alignment' => array(
-            'horizontal' => PHPExcel_Style_Alignment::HORIZONTAL_CENTER,
-        ),
-        'font'  => array(
-            'bold'  => true,
-            'color' => array('rgb' => 'FFFFFF'),
-            'size'  => 13,
-        ),
-        )
-        );
+        $sheet->getRowDimension('4')->setRowHeight(20);
+        $sheet->getStyle('A4:AF4')->applyFromArray([
+            'fill' => [
+                'fillType' => Fill::FILL_SOLID,
+                'startColor' => ['rgb' => '31406b']
+            ],
+            'alignment' => [
+                'horizontal' => Alignment::HORIZONTAL_CENTER,
+                'vertical' => Alignment::VERTICAL_CENTER,
+            ],
+            'font' => [
+                'bold' => true,
+                'color' => ['rgb' => 'FFFFFF'],
+                'size' => 13,
+            ],
+        ]);
         
-        $objPHPExcel->getActiveSheet()->SetCellValue('A4', 'S.No');
-        $objPHPExcel->getActiveSheet()->SetCellValue('B4', 'Customer');
-        $objPHPExcel->getActiveSheet()->SetCellValue('C4', 'Mobile No');
-        $objPHPExcel->getActiveSheet()->SetCellValue('D4', 'Agent Name');
-        $objPHPExcel->getActiveSheet()->SetCellValue('E4', 'Policy Issue Date');
-        $objPHPExcel->getActiveSheet()->SetCellValue('F4', 'Policy Start Date');
-        $objPHPExcel->getActiveSheet()->SetCellValue('G4', 'Area Incharge');
-        $objPHPExcel->getActiveSheet()->SetCellValue('H4', 'User');
-        $objPHPExcel->getActiveSheet()->SetCellValue('I4', 'Lead Id');
-        $objPHPExcel->getActiveSheet()->SetCellValue('J4', 'Policy No');
-        $objPHPExcel->getActiveSheet()->SetCellValue('K4', 'Insurer');
-        $objPHPExcel->getActiveSheet()->SetCellValue('L4', 'Bussiness Type');
-        $objPHPExcel->getActiveSheet()->SetCellValue('M4', 'Class');
-        $objPHPExcel->getActiveSheet()->SetCellValue('N4', 'Pol Type');
-        $objPHPExcel->getActiveSheet()->SetCellValue('O4', 'OD');
-        $objPHPExcel->getActiveSheet()->SetCellValue('P4', 'TP');
-        $objPHPExcel->getActiveSheet()->SetCellValue('Q4', 'Net Premium	');
-        $objPHPExcel->getActiveSheet()->SetCellValue('R4', 'GST');
+        $sheet->SetCellValue('A4', 'S.No');
+        $sheet->SetCellValue('B4', 'Customer');
+        $sheet->SetCellValue('C4', 'Mobile No');
+        $sheet->SetCellValue('D4', 'Agent Name');
+        $sheet->SetCellValue('E4', 'Policy Issue Date');
+        $sheet->SetCellValue('F4', 'Policy Start Date');
+        $sheet->SetCellValue('G4', 'Area Incharge');
+        $sheet->SetCellValue('H4', 'User');
+        $sheet->SetCellValue('I4', 'Lead Id');
+        $sheet->SetCellValue('J4', 'Policy No');
+        $sheet->SetCellValue('K4', 'Insurer');
+        $sheet->SetCellValue('L4', 'Bussiness Type');
+        $sheet->SetCellValue('M4', 'Class');
+        $sheet->SetCellValue('N4', 'Pol Type');
+        $sheet->SetCellValue('O4', 'OD');
+        $sheet->SetCellValue('P4', 'TP');
+        $sheet->SetCellValue('Q4', 'Net Premium	');
+        $sheet->SetCellValue('R4', 'GST');
         
-        $objPHPExcel->getActiveSheet()->SetCellValue('S4', 'Agent Category');
-        $objPHPExcel->getActiveSheet()->SetCellValue('T4', 'Commission Type');
-        $objPHPExcel->getActiveSheet()->SetCellValue('U4', 'Company Percent');
-        $objPHPExcel->getActiveSheet()->SetCellValue('V4', 'Agent Percent');
+        $sheet->SetCellValue('S4', 'Agent Category');
+        $sheet->SetCellValue('T4', 'Commission Type');
+        $sheet->SetCellValue('U4', 'Company Percent');
+        $sheet->SetCellValue('V4', 'Agent Percent');
         
-        $objPHPExcel->getActiveSheet()->SetCellValue('W4', 'Jayantha Own Commission');
-        $objPHPExcel->getActiveSheet()->SetCellValue('X4', 'Unicorn Own Commission');
-        $objPHPExcel->getActiveSheet()->SetCellValue('Y4', 'Total Own Commission');
-        $objPHPExcel->getActiveSheet()->SetCellValue('Z4', 'Jayantha Agent Commission');
-        $objPHPExcel->getActiveSheet()->SetCellValue('AA4', 'Unicorn Agent Commission');
-        $objPHPExcel->getActiveSheet()->SetCellValue('AB4', 'Total Agent Commission');
-        $objPHPExcel->getActiveSheet()->SetCellValue('AC4', 'Own Add Commission');
-        $objPHPExcel->getActiveSheet()->SetCellValue('AD4', 'Add Agent Commission');
-        $objPHPExcel->getActiveSheet()->SetCellValue('AE4', 'Vechicle No');
-        $objPHPExcel->getActiveSheet()->SetCellValue('AF4', 'Status');
+        $sheet->SetCellValue('W4', 'Jayantha Own Commission');
+        $sheet->SetCellValue('X4', 'Unicorn Own Commission');
+        $sheet->SetCellValue('Y4', 'Total Own Commission');
+        $sheet->SetCellValue('Z4', 'Jayantha Agent Commission');
+        $sheet->SetCellValue('AA4', 'Unicorn Agent Commission');
+        $sheet->SetCellValue('AB4', 'Total Agent Commission');
+        $sheet->SetCellValue('AC4', 'Own Add Commission');
+        $sheet->SetCellValue('AD4', 'Add Agent Commission');
+        $sheet->SetCellValue('AE4', 'Vechicle No');
+        $sheet->SetCellValue('AF4', 'Status');
         
         $row_count = 5;
         $a = 0;
@@ -7347,62 +6856,62 @@ class ReportCtrl extends CI_Controller {
                 }
                
                
-                $objPHPExcel->getActiveSheet()->SetCellValue('A'.$row_count , $a);
-                $objPHPExcel->getActiveSheet()->SetCellValue('B'.$row_count , $da->client_name);
-                $objPHPExcel->getActiveSheet()->SetCellValue('C'.$row_count , $da->mobile_no);
-                $objPHPExcel->getActiveSheet()->SetCellValue('D'.$row_count , $da->agn_name."(".$da->agent_pos_code.")");
-                $objPHPExcel->getActiveSheet()->SetCellValue('E'.$row_count , date_format(date_create($da->policy_issue_date),"d-m-Y"));
-                $objPHPExcel->getActiveSheet()->SetCellValue('F'.$row_count , date_format(date_create($da->policy_s_date),"d-m-Y"));
-                $objPHPExcel->getActiveSheet()->SetCellValue('G'.$row_count , $da->ai_name);
-                $objPHPExcel->getActiveSheet()->SetCellValue('H'.$row_count , $username);
-                $objPHPExcel->getActiveSheet()->SetCellValue('I'.$row_count , $da->lead_id);
-                $objPHPExcel->getActiveSheet()->SetCellValue('J'.$row_count , " ".$da->policy_no);
-                $objPHPExcel->getActiveSheet()->SetCellValue('K'.$row_count , $da->company_name);
-                $objPHPExcel->getActiveSheet()->SetCellValue('L'.$row_count , $da->business_name);
-                $objPHPExcel->getActiveSheet()->SetCellValue('M'.$row_count , $da->class_name);
-                $objPHPExcel->getActiveSheet()->SetCellValue('N'.$row_count , $da->policy_type);
-                $objPHPExcel->getActiveSheet()->SetCellValue('O'.$row_count , $da->total_own_damage);
-                $objPHPExcel->getActiveSheet()->SetCellValue('P'.$row_count , $da->tot_liability_premium);
-                $objPHPExcel->getActiveSheet()->SetCellValue('Q'.$row_count , $da->total_premium);
-                $objPHPExcel->getActiveSheet()->SetCellValue('R'.$row_count , $da->gst);
+                $sheet->SetCellValue('A'.$row_count , $a);
+                $sheet->SetCellValue('B'.$row_count , $da->client_name);
+                $sheet->SetCellValue('C'.$row_count , $da->mobile_no);
+                $sheet->SetCellValue('D'.$row_count , $da->agn_name."(".$da->agent_pos_code.")");
+                $sheet->SetCellValue('E'.$row_count , date_format(date_create($da->policy_issue_date),"d-m-Y"));
+                $sheet->SetCellValue('F'.$row_count , date_format(date_create($da->policy_s_date),"d-m-Y"));
+                $sheet->SetCellValue('G'.$row_count , $da->ai_name);
+                $sheet->SetCellValue('H'.$row_count , $username);
+                $sheet->SetCellValue('I'.$row_count , $da->lead_id);
+                $sheet->SetCellValue('J'.$row_count , " ".$da->policy_no);
+                $sheet->SetCellValue('K'.$row_count , $da->company_name);
+                $sheet->SetCellValue('L'.$row_count , $da->business_name);
+                $sheet->SetCellValue('M'.$row_count , $da->class_name);
+                $sheet->SetCellValue('N'.$row_count , $da->policy_type);
+                $sheet->SetCellValue('O'.$row_count , $da->total_own_damage);
+                $sheet->SetCellValue('P'.$row_count , $da->tot_liability_premium);
+                $sheet->SetCellValue('Q'.$row_count , $da->total_premium);
+                $sheet->SetCellValue('R'.$row_count , $da->gst);
                 
-                $objPHPExcel->getActiveSheet()->SetCellValue('S'.$row_count , $da->agn_com_type);
-                $objPHPExcel->getActiveSheet()->SetCellValue('T'.$row_count , $da->commission_category);
-                $objPHPExcel->getActiveSheet()->SetCellValue('U'.$row_count , $da->company_percent);
-                $objPHPExcel->getActiveSheet()->SetCellValue('V'.$row_count , $da->agent_commission_percent);
-                
-                
-                
-                 $objPHPExcel->getActiveSheet()->SetCellValue('W'.$row_count , $da->own_commission_amt);
-                $objPHPExcel->getActiveSheet()->SetCellValue('X'.$row_count , $da->own_commission);
-                $objPHPExcel->getActiveSheet()->SetCellValue('Y'.$row_count , $da->own_commission_amt+$da->own_commission);
-                $objPHPExcel->getActiveSheet()->SetCellValue('Z'.$row_count , $da->agent_commission_amt);
-                $objPHPExcel->getActiveSheet()->SetCellValue('AA'.$row_count , $da->agent_commission);
-                $objPHPExcel->getActiveSheet()->SetCellValue('AB'.$row_count , $da->agent_commission_amt+$da->agent_commission);
-                
-                $objPHPExcel->getActiveSheet()->SetCellValue('AC'.$row_count , $da->com_add_com);
-                $objPHPExcel->getActiveSheet()->SetCellValue('AD'.$row_count , $da->agn_add_com);
-                $objPHPExcel->getActiveSheet()->SetCellValue('AE'.$row_count , $da->vechi_register_no);
-                $objPHPExcel->getActiveSheet()->SetCellValue('AF'.$row_count , "Active Policy");
+                $sheet->SetCellValue('S'.$row_count , $da->agn_com_type);
+                $sheet->SetCellValue('T'.$row_count , $da->commission_category);
+                $sheet->SetCellValue('U'.$row_count , $da->company_percent);
+                $sheet->SetCellValue('V'.$row_count , $da->agent_commission_percent);
                 
                 
-                $objPHPExcel->getActiveSheet()->getStyle('M'.$row_count)->getNumberFormat()->setFormatCode('#,##0.00');
-                $objPHPExcel->getActiveSheet()->getStyle('N'.$row_count)->getNumberFormat()->setFormatCode('#,##0.00');
-                $objPHPExcel->getActiveSheet()->getStyle('O'.$row_count)->getNumberFormat()->setFormatCode('#,##0.00');
-                $objPHPExcel->getActiveSheet()->getStyle('P'.$row_count)->getNumberFormat()->setFormatCode('#,##0.00');
                 
-                $objPHPExcel->getActiveSheet()->getStyle('U'.$row_count)->getNumberFormat()->setFormatCode('#,##0.00');
-                $objPHPExcel->getActiveSheet()->getStyle('V'.$row_count)->getNumberFormat()->setFormatCode('#,##0.00');
-                $objPHPExcel->getActiveSheet()->getStyle('W'.$row_count)->getNumberFormat()->setFormatCode('#,##0.00');
-                $objPHPExcel->getActiveSheet()->getStyle('X'.$row_count)->getNumberFormat()->setFormatCode('#,##0.00');
+                $sheet->SetCellValue('W'.$row_count , $da->own_commission_amt);
+                $sheet->SetCellValue('X'.$row_count , $da->own_commission);
+                $sheet->SetCellValue('Y'.$row_count , $da->own_commission_amt+$da->own_commission);
+                $sheet->SetCellValue('Z'.$row_count , $da->agent_commission_amt);
+                $sheet->SetCellValue('AA'.$row_count , $da->agent_commission);
+                $sheet->SetCellValue('AB'.$row_count , $da->agent_commission_amt+$da->agent_commission);
                 
-                $objPHPExcel->getActiveSheet()->getStyle('Y'.$row_count)->getNumberFormat()->setFormatCode('#,##0.00');
-                $objPHPExcel->getActiveSheet()->getStyle('Z'.$row_count)->getNumberFormat()->setFormatCode('#,##0.00');
-                $objPHPExcel->getActiveSheet()->getStyle('AA'.$row_count)->getNumberFormat()->setFormatCode('#,##0.00');
-                $objPHPExcel->getActiveSheet()->getStyle('AB'.$row_count)->getNumberFormat()->setFormatCode('#,##0.00');
+                $sheet->SetCellValue('AC'.$row_count , $da->com_add_com);
+                $sheet->SetCellValue('AD'.$row_count , $da->agn_add_com);
+                $sheet->SetCellValue('AE'.$row_count , $da->vechi_register_no);
+                $sheet->SetCellValue('AF'.$row_count , "Active Policy");
+                
+                
+                $sheet->getStyle('M'.$row_count)->getNumberFormat()->setFormatCode('#,##0.00');
+                $sheet->getStyle('N'.$row_count)->getNumberFormat()->setFormatCode('#,##0.00');
+                $sheet->getStyle('O'.$row_count)->getNumberFormat()->setFormatCode('#,##0.00');
+                $sheet->getStyle('P'.$row_count)->getNumberFormat()->setFormatCode('#,##0.00');
+                
+                $sheet->getStyle('U'.$row_count)->getNumberFormat()->setFormatCode('#,##0.00');
+                $sheet->getStyle('V'.$row_count)->getNumberFormat()->setFormatCode('#,##0.00');
+                $sheet->getStyle('W'.$row_count)->getNumberFormat()->setFormatCode('#,##0.00');
+                $sheet->getStyle('X'.$row_count)->getNumberFormat()->setFormatCode('#,##0.00');
+                
+                $sheet->getStyle('Y'.$row_count)->getNumberFormat()->setFormatCode('#,##0.00');
+                $sheet->getStyle('Z'.$row_count)->getNumberFormat()->setFormatCode('#,##0.00');
+                $sheet->getStyle('AA'.$row_count)->getNumberFormat()->setFormatCode('#,##0.00');
+                $sheet->getStyle('AB'.$row_count)->getNumberFormat()->setFormatCode('#,##0.00');
 
                 
-                $objPHPExcel->getActiveSheet()->getRowDimension($row_count)->setRowHeight(20);
+                $sheet->getRowDimension($row_count)->setRowHeight(20);
                 $row_count++;
             }
           
@@ -7412,7 +6921,7 @@ class ReportCtrl extends CI_Controller {
                 $a++;
                 
                 $gst = $gst+$da->gst;
-               $agn_com = $agn_com + $da->agent_commission_amt;
+                $agn_com = $agn_com + $da->agent_commission_amt;
                 $own_com = $own_com + $da->own_commission_amt;
                 
                 $add_own_com = $add_own_com + $da->com_add_com;
@@ -7431,73 +6940,76 @@ class ReportCtrl extends CI_Controller {
                 }
                
                
-                $objPHPExcel->getActiveSheet()->SetCellValue('A'.$row_count , $a);
-                $objPHPExcel->getActiveSheet()->SetCellValue('B'.$row_count , $da->client_name);
-                $objPHPExcel->getActiveSheet()->SetCellValue('C'.$row_count , $da->mobile_no);
-                $objPHPExcel->getActiveSheet()->SetCellValue('D'.$row_count , $da->agn_name."(".$da->agent_pos_code.")");
-                $objPHPExcel->getActiveSheet()->SetCellValue('E'.$row_count , date_format(date_create($da->policy_issue_date),"d-m-Y"));
-                $objPHPExcel->getActiveSheet()->SetCellValue('F'.$row_count , date_format(date_create($da->policy_s_date),"d-m-Y"));
-                $objPHPExcel->getActiveSheet()->SetCellValue('G'.$row_count , $da->ai_name);
-                $objPHPExcel->getActiveSheet()->SetCellValue('H'.$row_count ,$username);
-                $objPHPExcel->getActiveSheet()->SetCellValue('I'.$row_count , $da->lead_id);
-                $objPHPExcel->getActiveSheet()->SetCellValue('J'.$row_count , $da->policy_no);
-                $objPHPExcel->getActiveSheet()->SetCellValue('K'.$row_count , $da->company_name);
-                $objPHPExcel->getActiveSheet()->SetCellValue('L'.$row_count , $da->business_name);
-                $objPHPExcel->getActiveSheet()->SetCellValue('M'.$row_count , $da->class_name);
-                $objPHPExcel->getActiveSheet()->SetCellValue('N'.$row_count , $da->policy_type);
-                $objPHPExcel->getActiveSheet()->SetCellValue('O'.$row_count , $da->total_own_damage);
-                $objPHPExcel->getActiveSheet()->SetCellValue('P'.$row_count , $da->tot_liability_premium);
-                $objPHPExcel->getActiveSheet()->SetCellValue('Q'.$row_count , $da->total_premium);
-                $objPHPExcel->getActiveSheet()->SetCellValue('R'.$row_count , $da->gst);
+                $sheet->SetCellValue('A'.$row_count , $a);
+                $sheet->SetCellValue('B'.$row_count , $da->client_name);
+                $sheet->SetCellValue('C'.$row_count , $da->mobile_no);
+                $sheet->SetCellValue('D'.$row_count , $da->agn_name."(".$da->agent_pos_code.")");
+                $sheet->SetCellValue('E'.$row_count , date_format(date_create($da->policy_issue_date),"d-m-Y"));
+                $sheet->SetCellValue('F'.$row_count , date_format(date_create($da->policy_s_date),"d-m-Y"));
+                $sheet->SetCellValue('G'.$row_count , $da->ai_name);
+                $sheet->SetCellValue('H'.$row_count ,$username);
+                $sheet->SetCellValue('I'.$row_count , $da->lead_id);
+                $sheet->SetCellValue('J'.$row_count , $da->policy_no);
+                $sheet->SetCellValue('K'.$row_count , $da->company_name);
+                $sheet->SetCellValue('L'.$row_count , $da->business_name);
+                $sheet->SetCellValue('M'.$row_count , $da->class_name);
+                $sheet->SetCellValue('N'.$row_count , $da->policy_type);
+                $sheet->SetCellValue('O'.$row_count , $da->total_own_damage);
+                $sheet->SetCellValue('P'.$row_count , $da->tot_liability_premium);
+                $sheet->SetCellValue('Q'.$row_count , $da->total_premium);
+                $sheet->SetCellValue('R'.$row_count , $da->gst);
                 
-                $objPHPExcel->getActiveSheet()->SetCellValue('S'.$row_count , $da->agn_com_type);
-                $objPHPExcel->getActiveSheet()->SetCellValue('T'.$row_count , $da->commission_category);
-                $objPHPExcel->getActiveSheet()->SetCellValue('U'.$row_count , $da->company_percent);
-                $objPHPExcel->getActiveSheet()->SetCellValue('V'.$row_count , $da->agent_commission_percent);
+                $sheet->SetCellValue('S'.$row_count , $da->agn_com_type);
+                $sheet->SetCellValue('T'.$row_count , $da->commission_category);
+                $sheet->SetCellValue('U'.$row_count , $da->company_percent);
+                $sheet->SetCellValue('V'.$row_count , $da->agent_commission_percent);
                 
-                $objPHPExcel->getActiveSheet()->SetCellValue('W'.$row_count , $da->own_commission_amt);
-                $objPHPExcel->getActiveSheet()->SetCellValue('X'.$row_count , $da->own_commission);
-                $objPHPExcel->getActiveSheet()->SetCellValue('Y'.$row_count , $da->own_commission_amt+$da->own_commission);
-                $objPHPExcel->getActiveSheet()->SetCellValue('Z'.$row_count , $da->agent_commission_amt);
-                $objPHPExcel->getActiveSheet()->SetCellValue('AA'.$row_count , $da->agent_commission);
-                $objPHPExcel->getActiveSheet()->SetCellValue('AB'.$row_count , $da->agent_commission_amt+$da->agent_commission);
-                $objPHPExcel->getActiveSheet()->SetCellValue('AC'.$row_count , $da->com_add_com);
-                $objPHPExcel->getActiveSheet()->SetCellValue('AD'.$row_count , $da->agn_add_com);
-                $objPHPExcel->getActiveSheet()->SetCellValue('AE'.$row_count , $da->vechi_register_no);
-                $objPHPExcel->getActiveSheet()->SetCellValue('AF'.$row_count , "Business Completed");
+                $sheet->SetCellValue('W'.$row_count , $da->own_commission_amt);
+                $sheet->SetCellValue('X'.$row_count , $da->own_commission);
+                $sheet->SetCellValue('Y'.$row_count , $da->own_commission_amt+$da->own_commission);
+                $sheet->SetCellValue('Z'.$row_count , $da->agent_commission_amt);
+                $sheet->SetCellValue('AA'.$row_count , $da->agent_commission);
+                $sheet->SetCellValue('AB'.$row_count , $da->agent_commission_amt+$da->agent_commission);
+                $sheet->SetCellValue('AC'.$row_count , $da->com_add_com);
+                $sheet->SetCellValue('AD'.$row_count , $da->agn_add_com);
+                $sheet->SetCellValue('AE'.$row_count , $da->vechi_register_no);
+                $sheet->SetCellValue('AF'.$row_count , "Business Completed");
                 
                 
-                $objPHPExcel->getActiveSheet()->getStyle('M'.$row_count)->getNumberFormat()->setFormatCode('#,##0.00');
-                $objPHPExcel->getActiveSheet()->getStyle('N'.$row_count)->getNumberFormat()->setFormatCode('#,##0.00');
-                $objPHPExcel->getActiveSheet()->getStyle('O'.$row_count)->getNumberFormat()->setFormatCode('#,##0.00');
-                $objPHPExcel->getActiveSheet()->getStyle('P'.$row_count)->getNumberFormat()->setFormatCode('#,##0.00');
+                $sheet->getStyle('M'.$row_count)->getNumberFormat()->setFormatCode('#,##0.00');
+                $sheet->getStyle('N'.$row_count)->getNumberFormat()->setFormatCode('#,##0.00');
+                $sheet->getStyle('O'.$row_count)->getNumberFormat()->setFormatCode('#,##0.00');
+                $sheet->getStyle('P'.$row_count)->getNumberFormat()->setFormatCode('#,##0.00');
                 
-                $objPHPExcel->getActiveSheet()->getStyle('U'.$row_count)->getNumberFormat()->setFormatCode('#,##0.00');
-                $objPHPExcel->getActiveSheet()->getStyle('V'.$row_count)->getNumberFormat()->setFormatCode('#,##0.00');
-                $objPHPExcel->getActiveSheet()->getStyle('W'.$row_count)->getNumberFormat()->setFormatCode('#,##0.00');
-                $objPHPExcel->getActiveSheet()->getStyle('X'.$row_count)->getNumberFormat()->setFormatCode('#,##0.00');
-                 $objPHPExcel->getActiveSheet()->getStyle('Y'.$row_count)->getNumberFormat()->setFormatCode('#,##0.00');
-                $objPHPExcel->getActiveSheet()->getStyle('Z'.$row_count)->getNumberFormat()->setFormatCode('#,##0.00');
-                $objPHPExcel->getActiveSheet()->getStyle('AA'.$row_count)->getNumberFormat()->setFormatCode('#,##0.00');
-                $objPHPExcel->getActiveSheet()->getStyle('AB'.$row_count)->getNumberFormat()->setFormatCode('#,##0.00');
+                $sheet->getStyle('U'.$row_count)->getNumberFormat()->setFormatCode('#,##0.00');
+                $sheet->getStyle('V'.$row_count)->getNumberFormat()->setFormatCode('#,##0.00');
+                $sheet->getStyle('W'.$row_count)->getNumberFormat()->setFormatCode('#,##0.00');
+                $sheet->getStyle('X'.$row_count)->getNumberFormat()->setFormatCode('#,##0.00');
+                $sheet->getStyle('Y'.$row_count)->getNumberFormat()->setFormatCode('#,##0.00');
+                $sheet->getStyle('Z'.$row_count)->getNumberFormat()->setFormatCode('#,##0.00');
+                $sheet->getStyle('AA'.$row_count)->getNumberFormat()->setFormatCode('#,##0.00');
+                $sheet->getStyle('AB'.$row_count)->getNumberFormat()->setFormatCode('#,##0.00');
 
                 
-                $objPHPExcel->getActiveSheet()->getRowDimension($row_count)->setRowHeight(20);
+                $sheet->getRowDimension($row_count)->setRowHeight(20);
                 $row_count++;
                }
-          
-                $objWriter = new PHPExcel_Writer_Excel2007($objPHPExcel);
-                $objWriter->save('./datas/reports/agent_business_report.xlsx');
-                
-                echo base_url()."/datas/reports/agent_business_report.xlsx";
+
+                // Create timestamp filename: YYYYMMDD_HHMMSS
+				$timestamp = date("Ymd_His");  
+				$filename = "agent_business_report{$timestamp}.xlsx";
+
+				// Save file
+				$writer = new Xlsx($spreadsheet);
+				$writer->save("./datas/reports/{$filename}");
+
+				// Return URL
+				echo base_url("datas/reports/{$filename}");
                 
         }
 	}
 
 
-	
-	
-	
 	public function policy_failure_report()
 	{
 	    if( !( $this->session->has_userdata('logged_in') ) ){
@@ -7662,218 +7174,6 @@ class ReportCtrl extends CI_Controller {
 	}
 	
 	
-// 	public function fetch_policy_failure_report_excel()
-// 	{
-// 	    if($this->session->has_userdata('logged_in') && $this->session->userdata('session_role') == "admin") 
-//         {
-//             $from_date = $this->input->post("from_date");
-//             $to_date = $this->input->post("to_date");
-            
-//             $res = $this->rm->fetch_policy_failure_report($from_date,$to_date);
-            
-            
-//             $this->load->library('Excel');
-//             $objPHPExcel = new PHPExcel();
-//             $objPHPExcel->setActiveSheetIndex(0);
-            
-//             $rowCount = 4;
-            
-//             $objPHPExcel->getActiveSheet()->getColumnDimension('A')->setWidth(10);
-//             $objPHPExcel->getActiveSheet()->getColumnDimension('B')->setWidth(20);
-//             $objPHPExcel->getActiveSheet()->getColumnDimension('C')->setWidth(20);
-//             $objPHPExcel->getActiveSheet()->getColumnDimension('D')->setWidth(15);
-//             $objPHPExcel->getActiveSheet()->getColumnDimension('E')->setWidth(20);
-//             $objPHPExcel->getActiveSheet()->getColumnDimension('F')->setWidth(35);
-//             $objPHPExcel->getActiveSheet()->getColumnDimension('G')->setWidth(20);
-//             $objPHPExcel->getActiveSheet()->getColumnDimension('H')->setWidth(15);
-//             $objPHPExcel->getActiveSheet()->getColumnDimension('I')->setWidth(35);
-//             $objPHPExcel->getActiveSheet()->getColumnDimension('J')->setWidth(20);
-//             $objPHPExcel->getActiveSheet()->getColumnDimension('K')->setWidth(20);
-//             $objPHPExcel->getActiveSheet()->getColumnDimension('L')->setWidth(30);
-//             $objPHPExcel->getActiveSheet()->getColumnDimension('M')->setWidth(30);
-//             $objPHPExcel->getActiveSheet()->getColumnDimension('N')->setWidth(35);
-//             $objPHPExcel->getActiveSheet()->getColumnDimension('O')->setWidth(35);
-//             $objPHPExcel->getActiveSheet()->getRowDimension('2')->setRowHeight(20);
-//             $objPHPExcel->getActiveSheet()->SetCellValue('D1', 'JAYANTHA INSURANCE');
-            
-//             $objPHPExcel->getActiveSheet()->SetCellValue('D2', 'Policy Failure Report');
-            
-//             $objPHPExcel->getActiveSheet()->getStyle('D2')->applyFromArray(
-//             		array(
-//             			'font'  => array(
-//             				'bold'  => true,
-//             				'color' => array('rgb' => 'e6e600'),
-//             				'size'  => 18,
-//             			),
-//             		)
-//             	);
-//             	$objPHPExcel->getActiveSheet()->getStyle('D1')->applyFromArray(
-//             		array(
-//             			'font'  => array(
-//             				'bold'  => true,
-//             				'color' => array('rgb' => '00cc66'),
-//             				'size'  => 14,
-//             			),
-//             		)
-//             	);
-            	
-//         $objPHPExcel->getActiveSheet()->SetCellValue('E3',"FROM DATE");
-//         $objPHPExcel->getActiveSheet()->SetCellValue('F3', date_format(date_create($from_date),"d-m-Y"));
-//         $objPHPExcel->getActiveSheet()->SetCellValue('G3',"TO DATE");
-//         $objPHPExcel->getActiveSheet()->SetCellValue('H3', date_format(date_create($to_date),"d-m-Y"));
-        
-//         // $objPHPExcel->getActiveSheet()->getRowDimension('3')->setRowHeight(20);
-//         // $objPHPExcel->getActiveSheet()->SetCellValue('F3', 'Excel Date : ');
-//         // $objPHPExcel->getActiveSheet()->SetCellValue('G3', date("d-m-Y"));
-
-//         $objPHPExcel->getActiveSheet()->getRowDimension('4')->setRowHeight(20);
-//         $objPHPExcel->getActiveSheet()->getStyle('4')->applyFromArray(
-//         array(
-//         'fill' => array(
-//             'type' => PHPExcel_Style_Fill::FILL_SOLID,
-//             'color' => array('rgb' => '31406b')
-//         ),
-//         'alignment' => array(
-//             'horizontal' => PHPExcel_Style_Alignment::HORIZONTAL_CENTER,
-//         ),
-//         'font'  => array(
-//             'bold'  => true,
-//             'color' => array('rgb' => 'FFFFFF'),
-//             'size'  => 13,
-//         ),
-//         )
-//         );
-        
-//         $objPHPExcel->getActiveSheet()->SetCellValue('A4', 'S.No');
-//         $objPHPExcel->getActiveSheet()->SetCellValue('B4', 'Client name');
-//         $objPHPExcel->getActiveSheet()->SetCellValue('C4', 'Mobile No');
-//         $objPHPExcel->getActiveSheet()->SetCellValue('D4', 'Class');
-//         $objPHPExcel->getActiveSheet()->SetCellValue('E4', 'Policy Type');
-//         $objPHPExcel->getActiveSheet()->SetCellValue('F4', 'Business type');
-//         $objPHPExcel->getActiveSheet()->SetCellValue('G4', 'Area');
-//         $objPHPExcel->getActiveSheet()->SetCellValue('H4', 'Agn Name');
-//         $objPHPExcel->getActiveSheet()->SetCellValue('I4', 'User');
-//         $objPHPExcel->getActiveSheet()->SetCellValue('J4', 'AI');
-//         $objPHPExcel->getActiveSheet()->SetCellValue('K4', 'Due Date');
-//         $objPHPExcel->getActiveSheet()->SetCellValue('L4', 'Vehicle Regn No');
-//         $objPHPExcel->getActiveSheet()->SetCellValue('M4', 'Classification');
-     
-        
-//             $row_count = 5;
-//             $a = 0;
-//             $regn_no = "";
-       
-//              foreach($res as $da)
-//              {
-//         	        $a++;
-//                     $date = "No Due Date";
-                    
-//                     if($da->due_date != "0000-00-00")
-//                     {
-//                         $date = date_format(date_create($da->due_date),"d-m-Y"); 
-//                     }
-                    
-//                     if(isset($da->agency_and_pos))
-//                     {
-//                         if($da->agency_and_pos != "")
-//                         {
-//                              $get_agent_name = $this->rm->get_agent_name($da->agency_and_pos);
-//                              $agn_name = $get_agent_name->agent_pos_code;
-//                         }
-//                         else
-//                         {
-//                          $agn_name = "";
-//                         }
-//                     }
-//                     else
-//                     {
-//                         $agn_name = "";
-//                     }
-                    
-//                     if($da->assigned_user != "all")
-//                     {
-//                         if($da->assigned_user != "")
-//                         {
-//                          $get_user = $this->rm->get_user_name($da->assigned_user);
-//                          $usr_name = $get_user->name;
-//                         }
-//                         else
-//                         {
-//                          $usr_name = "";
-//                         }
-//                     }
-//                     else
-//                     {
-//                          $usr_name = "";
-//                     } 
-                    
-//                     $ai = "";
-                    
-//                     if($da->area_incharge != "all")
-//                     {
-//                         if($da->area_incharge != "")
-//                         {
-//                          $ai = $this->rm->get_area_incharge($da->area_incharge);
-                         
-//                              if(isset($ai->name))
-//                              {
-//                                 $ai = $ai->name;
-//                              }
-//                         }
-//                         else
-//                         {
-//                           $ai = "";
-//                         }
-//                     }
-//                     else
-//                     {
-//                          $ai = "";
-//                     } 
-             
-//                  $classification = ""; 
-//                  if($da->policy_status == "0" && $da->lead_type == "0" && $da->classfication == "1")
-//                  {
-//                      $classification = "HOT";
-//                  }
-//                  else if($da->policy_status == "0" && $da->lead_type == "0" &&  $da->classfication == "2")
-//                  {
-//                      $classification = "WARM";
-//                  }
-//                  else if($da->policy_status == "0" && $da->lead_type == "0" && $da->classfication == "3")
-//                  {
-//                      $classification = "COLD";
-//                  }
-//                  else if($da->policy_status == "0" && $da->lead_type == "1")
-//                  {
-//                       $classification = "PROSPECTS";
-//                  }
-                
-        	         
-//         	    $objPHPExcel->getActiveSheet()->SetCellValue('A'.$row_count , $a);
-//                 $objPHPExcel->getActiveSheet()->SetCellValue('B'.$row_count , $da->client_name);
-//                 $objPHPExcel->getActiveSheet()->SetCellValue('C'.$row_count , $da->mobile_no);
-//                 $objPHPExcel->getActiveSheet()->SetCellValue('D'.$row_count , $da->lclass);
-//                 $objPHPExcel->getActiveSheet()->SetCellValue('E'.$row_count , $da->p_type);
-//                 $objPHPExcel->getActiveSheet()->SetCellValue('F'.$row_count , $da->b_type);
-//                 $objPHPExcel->getActiveSheet()->SetCellValue('G'.$row_count , $da->area);
-//                 $objPHPExcel->getActiveSheet()->SetCellValue('H'.$row_count , $agn_name);
-//                 $objPHPExcel->getActiveSheet()->SetCellValue('I'.$row_count , $usr_name);
-//                 $objPHPExcel->getActiveSheet()->SetCellValue('J'.$row_count , $ai);
-//                 $objPHPExcel->getActiveSheet()->SetCellValue('K'.$row_count , $date);
-//                 $objPHPExcel->getActiveSheet()->SetCellValue('L'.$row_count , $da->vechi_register_no);
-//                 $objPHPExcel->getActiveSheet()->SetCellValue('M'.$row_count , $classification);
-                
-//                 $objPHPExcel->getActiveSheet()->getRowDimension($row_count)->setRowHeight(20);
-//                 $row_count++;
-//              }
-             
-//              $res = [];
-             
-//             $objWriter = new PHPExcel_Writer_Excel2007($objPHPExcel);
-//             $objWriter->save('./datas/reports/failure_report.xlsx');
-//             echo base_url()."/datas/reports/failure_report.xlsx";
-//         }
-// 	}
 	 
 	// Renewal Report
 	
@@ -8020,34 +7320,32 @@ class ReportCtrl extends CI_Controller {
             
             $res = $this->rm->fetch_policy_failure_report($select_class,$policy_type,$from_date,$to_date,$foe);
             
-    
-            $this->load->library('Excel');
-            $objPHPExcel = new PHPExcel();
-            $objPHPExcel->setActiveSheetIndex(0);
+            $spreadsheet = new Spreadsheet();  
+            $sheet = $spreadsheet->getActiveSheet();
             
             $rowCount = 4;
             
-            $objPHPExcel->getActiveSheet()->getColumnDimension('A')->setWidth(10);
-            $objPHPExcel->getActiveSheet()->getColumnDimension('B')->setWidth(20);
-            $objPHPExcel->getActiveSheet()->getColumnDimension('C')->setWidth(20);
-            $objPHPExcel->getActiveSheet()->getColumnDimension('D')->setWidth(15);
-            $objPHPExcel->getActiveSheet()->getColumnDimension('E')->setWidth(20);
-            $objPHPExcel->getActiveSheet()->getColumnDimension('F')->setWidth(35);
-            $objPHPExcel->getActiveSheet()->getColumnDimension('G')->setWidth(20);
-            $objPHPExcel->getActiveSheet()->getColumnDimension('H')->setWidth(15);
-            $objPHPExcel->getActiveSheet()->getColumnDimension('I')->setWidth(35);
-            $objPHPExcel->getActiveSheet()->getColumnDimension('J')->setWidth(20);
-            $objPHPExcel->getActiveSheet()->getColumnDimension('K')->setWidth(20);
-            $objPHPExcel->getActiveSheet()->getColumnDimension('L')->setWidth(30);
-            $objPHPExcel->getActiveSheet()->getColumnDimension('M')->setWidth(30);
-            $objPHPExcel->getActiveSheet()->getColumnDimension('N')->setWidth(35);
-            $objPHPExcel->getActiveSheet()->getColumnDimension('O')->setWidth(35);
-            $objPHPExcel->getActiveSheet()->getRowDimension('2')->setRowHeight(20);
-            $objPHPExcel->getActiveSheet()->SetCellValue('D1', 'JAYANTHA INSURANCE');
+            $sheet->getColumnDimension('A')->setWidth(10);
+            $sheet->getColumnDimension('B')->setWidth(20);
+            $sheet->getColumnDimension('C')->setWidth(20);
+            $sheet->getColumnDimension('D')->setWidth(15);
+            $sheet->getColumnDimension('E')->setWidth(20);
+            $sheet->getColumnDimension('F')->setWidth(35);
+            $sheet->getColumnDimension('G')->setWidth(20);
+            $sheet->getColumnDimension('H')->setWidth(15);
+            $sheet->getColumnDimension('I')->setWidth(35);
+            $sheet->getColumnDimension('J')->setWidth(20);
+            $sheet->getColumnDimension('K')->setWidth(20);
+            $sheet->getColumnDimension('L')->setWidth(30);
+            $sheet->getColumnDimension('M')->setWidth(30);
+            $sheet->getColumnDimension('N')->setWidth(35);
+            $sheet->getColumnDimension('O')->setWidth(35);
+            $sheet->getRowDimension('2')->setRowHeight(20);
+            $sheet->SetCellValue('D1', 'JAYANTHA INSURANCE');
             
-            $objPHPExcel->getActiveSheet()->SetCellValue('D2', 'Policy Failure Report');
+            $sheet->SetCellValue('D2', 'Policy Failure Report');
             
-            $objPHPExcel->getActiveSheet()->getStyle('D2')->applyFromArray(
+            $sheet->getStyle('D2')->applyFromArray(
             		array(
             			'font'  => array(
             				'bold'  => true,
@@ -8056,7 +7354,7 @@ class ReportCtrl extends CI_Controller {
             			),
             		)
             	);
-            	$objPHPExcel->getActiveSheet()->getStyle('D1')->applyFromArray(
+            	$sheet->getStyle('D1')->applyFromArray(
             		array(
             			'font'  => array(
             				'bold'  => true,
@@ -8066,41 +7364,40 @@ class ReportCtrl extends CI_Controller {
             		)
             	);
             	
-        $objPHPExcel->getActiveSheet()->SetCellValue('E3',"FROM DATE");
-        $objPHPExcel->getActiveSheet()->SetCellValue('F3', date_format(date_create($from_date),"d-m-Y"));
-        $objPHPExcel->getActiveSheet()->SetCellValue('G3',"TO DATE");
-        $objPHPExcel->getActiveSheet()->SetCellValue('H3', date_format(date_create($to_date),"d-m-Y"));
-        $objPHPExcel->getActiveSheet()->getRowDimension('4')->setRowHeight(20);
-        $objPHPExcel->getActiveSheet()->getStyle('4')->applyFromArray(
-        array(
-        'fill' => array(
-            'type' => PHPExcel_Style_Fill::FILL_SOLID,
-            'color' => array('rgb' => '31406b')
-        ),
-        'alignment' => array(
-            'horizontal' => PHPExcel_Style_Alignment::HORIZONTAL_CENTER,
-        ),
-        'font'  => array(
-            'bold'  => true,
-            'color' => array('rgb' => 'FFFFFF'),
-            'size'  => 13,
-        ),
-        )
-        );
+        $sheet->SetCellValue('E3',"FROM DATE");
+        $sheet->SetCellValue('F3', date_format(date_create($from_date),"d-m-Y"));
+        $sheet->SetCellValue('G3',"TO DATE");
+        $sheet->SetCellValue('H3', date_format(date_create($to_date),"d-m-Y"));
+        $sheet->getRowDimension('4')->setRowHeight(20);
+        $sheet->getStyle('A4:M4')->applyFromArray([
+            'fill' => [
+                'fillType' => Fill::FILL_SOLID,
+                'startColor' => ['rgb' => '31406b']
+            ],
+            'alignment' => [
+                'horizontal' => Alignment::HORIZONTAL_CENTER,
+                'vertical' => Alignment::VERTICAL_CENTER,
+            ],
+            'font' => [
+                'bold' => true,
+                'color' => ['rgb' => 'FFFFFF'],
+                'size' => 13,
+            ],
+        ]);
         
-        $objPHPExcel->getActiveSheet()->SetCellValue('A4', 'S.No');
-        $objPHPExcel->getActiveSheet()->SetCellValue('B4', 'Client name');
-        $objPHPExcel->getActiveSheet()->SetCellValue('C4', 'Mobile No');
-        $objPHPExcel->getActiveSheet()->SetCellValue('D4', 'Class');
-        $objPHPExcel->getActiveSheet()->SetCellValue('E4', 'Policy Type');
-        $objPHPExcel->getActiveSheet()->SetCellValue('F4', 'Business type');
-        $objPHPExcel->getActiveSheet()->SetCellValue('G4', 'Area');
-        $objPHPExcel->getActiveSheet()->SetCellValue('H4', 'Agn Name');
-        $objPHPExcel->getActiveSheet()->SetCellValue('I4', 'User');
-        $objPHPExcel->getActiveSheet()->SetCellValue('J4', 'AI');
-        $objPHPExcel->getActiveSheet()->SetCellValue('K4', 'Due Date');
-        $objPHPExcel->getActiveSheet()->SetCellValue('L4', 'Vehicle Regn No');
-        $objPHPExcel->getActiveSheet()->SetCellValue('M4', 'Classification');
+        $sheet->SetCellValue('A4', 'S.No');
+        $sheet->SetCellValue('B4', 'Client name');
+        $sheet->SetCellValue('C4', 'Mobile No');
+        $sheet->SetCellValue('D4', 'Class');
+        $sheet->SetCellValue('E4', 'Policy Type');
+        $sheet->SetCellValue('F4', 'Business type');
+        $sheet->SetCellValue('G4', 'Area');
+        $sheet->SetCellValue('H4', 'Agn Name');
+        $sheet->SetCellValue('I4', 'User');
+        $sheet->SetCellValue('J4', 'AI');
+        $sheet->SetCellValue('K4', 'Due Date');
+        $sheet->SetCellValue('L4', 'Vehicle Regn No');
+        $sheet->SetCellValue('M4', 'Classification');
      
         
             $row_count = 5;
@@ -8193,29 +7490,37 @@ class ReportCtrl extends CI_Controller {
                  }
                 
         	         
-        	    $objPHPExcel->getActiveSheet()->SetCellValue('A'.$row_count , $a);
-                $objPHPExcel->getActiveSheet()->SetCellValue('B'.$row_count , $da->client_name);
-                $objPHPExcel->getActiveSheet()->SetCellValue('C'.$row_count , $da->mobile_no);
-                $objPHPExcel->getActiveSheet()->SetCellValue('D'.$row_count , $da->lclass);
-                $objPHPExcel->getActiveSheet()->SetCellValue('E'.$row_count , $da->p_type);
-                $objPHPExcel->getActiveSheet()->SetCellValue('F'.$row_count , $da->b_type);
-                $objPHPExcel->getActiveSheet()->SetCellValue('G'.$row_count , $da->area);
-                $objPHPExcel->getActiveSheet()->SetCellValue('H'.$row_count , $agn_name);
-                $objPHPExcel->getActiveSheet()->SetCellValue('I'.$row_count , $usr_name);
-                $objPHPExcel->getActiveSheet()->SetCellValue('J'.$row_count , $ai);
-                $objPHPExcel->getActiveSheet()->SetCellValue('K'.$row_count , $date);
-                $objPHPExcel->getActiveSheet()->SetCellValue('L'.$row_count , $da->vechi_register_no);
-                $objPHPExcel->getActiveSheet()->SetCellValue('M'.$row_count , $classification);
+        	    $sheet->SetCellValue('A'.$row_count , $a);
+                $sheet->SetCellValue('B'.$row_count , $da->client_name);
+                $sheet->SetCellValue('C'.$row_count , $da->mobile_no);
+                $sheet->SetCellValue('D'.$row_count , $da->lclass);
+                $sheet->SetCellValue('E'.$row_count , $da->p_type);
+                $sheet->SetCellValue('F'.$row_count , $da->b_type);
+                $sheet->SetCellValue('G'.$row_count , $da->area);
+                $sheet->SetCellValue('H'.$row_count , $agn_name);
+                $sheet->SetCellValue('I'.$row_count , $usr_name);
+                $sheet->SetCellValue('J'.$row_count , $ai);
+                $sheet->SetCellValue('K'.$row_count , $date);
+                $sheet->SetCellValue('L'.$row_count , $da->vechi_register_no);
+                $sheet->SetCellValue('M'.$row_count , $classification);
                 
-                $objPHPExcel->getActiveSheet()->getRowDimension($row_count)->setRowHeight(20);
+                $sheet->getRowDimension($row_count)->setRowHeight(20);
                 $row_count++;
              }
              
              $res = [];
-             
-            $objWriter = new PHPExcel_Writer_Excel2007($objPHPExcel);
-            $objWriter->save('./datas/reports/failure_report.xlsx');
-            echo base_url()."/datas/reports/failure_report.xlsx";
+
+            // Create timestamp filename: YYYYMMDD_HHMMSS
+				$timestamp = date("Ymd_His");  
+				$filename = "failure_report{$timestamp}.xlsx";
+
+				// Save file
+				$writer = new Xlsx($spreadsheet);
+				$writer->save("./datas/reports/{$filename}");
+
+				// Return URL
+				echo base_url("datas/reports/{$filename}");
+
         }
 	}
 	
@@ -8342,7 +7647,7 @@ class ReportCtrl extends CI_Controller {
                                     vertical-align: bottom !important;
                                     border-bottom: 2px solid #dee2e6 !important;
                                     border-collapse: collapse !important;
-}
+                                }
                                 }
                                 .table-bordered td, .table-bordered th {
                                     border: 1px solid #dee2e6 !important;
@@ -8688,7 +7993,7 @@ class ReportCtrl extends CI_Controller {
                 
                  echo $content;
         }
-     }
+       }
      
     public function  insurance_generate_vocher()
     {
@@ -8811,10 +8116,11 @@ class ReportCtrl extends CI_Controller {
                 // }
                
          }
-     }
+    }
      
     // comments by kgk on 2023-05-09
-    public function _company_invoice_pdf() {
+    public function _company_invoice_pdf() 
+    {
         if(!$this->session->has_userdata('logged_in')) {
             redirect('login', 'refresh');
         }
@@ -8845,7 +8151,7 @@ class ReportCtrl extends CI_Controller {
         
         $vouchar_date = (isset($invoices[0]->created_at) && !empty($invoices[0]->created_at)) ? $invoices[0]->created_at : "";
 			 
-$header = "<!DOCTYPE html>
+        $header = "<!DOCTYPE html>
 			<html>
 			<head>
 			  
@@ -8877,7 +8183,7 @@ $header = "<!DOCTYPE html>
 					</tr>
 				</table>";
 				
-$header .= "<table style='width:100%;margin-top:-10px;'>
+        $header .= "<table style='width:100%;margin-top:-10px;'>
 				<tr>
 					<td style='background-color:#dff0d8;width:25%;padding:5px;text-align: left;'>  Company Name : ".$company_name." </td>
 					<td style='background-color:#dff0d8;width:25%;padding:5px;text-align: right;'>Vocher No  : ".$vocher_no."</td>
@@ -9019,7 +8325,8 @@ $header .= "<table style='width:100%;margin-top:-10px;'>
         }
     }
     
-    public function company_invoice_pdf() {
+    public function company_invoice_pdf() 
+    {
         if(!$this->session->has_userdata('logged_in')) {
             redirect('login', 'refresh');
         }
@@ -9074,51 +8381,11 @@ $header .= "<table style='width:100%;margin-top:-10px;'>
 			 
 		
 		
-/*$header1 = "<!DOCTYPE html>
-			<html>
-			<head>
-			  
-
-				<title>Voucher ID : ".$vocher_no." </title>
-				<style>
-					*{
-						padding:1px;
-						margin:0px;
-						font-family: 'Courier';
-						font-size:12px;
-					}
-				</style>
-			</head>
-			<body>
-				<div style='border:1px solid #aaa;padding:10px;margin:30px;'>
-				<center><p style='font-size:20px;padding-top:0px;'>INVOICE</p></center>
-				<table style='width:100%'>
-					<tr>
-						<td style='padding:15px;'>
-							<p style='margin-top:5px;font-size:17px;'>".$company_details->name."</p>
-							<p style='margin-top:5px;'>".$company_details->address."</p>
-						 </td>
-						<td style='text-align: right;padding:15px;'>
-							<p style='margin-top:5px;'><img src='./datas/temp/phone-icon.PNG' style='width:12px;'> +91 ".$company_details->phone." </p>
-							<p style='margin-top:5px;'><img src='./datas/temp/email-icon.PNG' style='width:12px;'> ".$company_details->email." </p>
-							<br>
-						</td>
-					</tr>
-				</table>";*/
+        
 				
 				$invoiceTable  = "";
 				    
-				//$invoiceTable .= "<tr><td>1</td></tr>";
-
-
-				
-/*$header .= "<table style='width:100%;margin-top:-10px;'>
-				<tr>
-					<td style='background-color:#dff0d8;width:25%;padding:5px;text-align: left;'>  Company Name : ".$company_name." </td>
-					<td style='background-color:#dff0d8;width:25%;padding:5px;text-align: right;'>Vocher No  : ".$vocher_no."</td>
-					<td style='background-color:#dff0d8;width:25%;padding:5px;text-align: right;'>Date  : ".($vouchar_date)."</td>
-				</tr>
-			</table>"; */                             	
+				                      	
 								
 			$insurance_data = ($insurer_id) ? $this->rm->get_insurance_company($insurer_id) : [];
 			
@@ -9219,10 +8486,15 @@ $header .= "<table style='width:100%;margin-top:-10px;'>
                 }
                 
                 $this->load->library('numbertowords');
-                $invoiceTable .="<tr>
-                                    <td colspan='1' style='padding:5px;text-align:right'></td>
-                                    <td colspan='9' style='padding:5px;text-align:center'>Amount in Words : ".$this->numbertowords->getIndianCurrency($grand_total)."</td>
-                                </tr>";
+                    $amount_words = ($this->numbertowords)
+                        ? $this->numbertowords->getIndianCurrency($grand_total)
+                        : "";
+
+                    $invoiceTable .="<tr>
+                    <td colspan='1'></td>
+                    <td colspan='9' style='text-align:center'>Amount in Words : {$amount_words}</td>
+                    </tr>";
+
             }
             
             
@@ -9230,7 +8502,7 @@ $header .= "<table style='width:100%;margin-top:-10px;'>
             
             
             
-$header = "<!DOCTYPE html>
+        $header = "<!DOCTYPE html>
 			<html>
 			<head>
 				<title>Voucher ID : ".$vocher_no." </title>
@@ -9393,8 +8665,8 @@ $header = "<!DOCTYPE html>
     }
      
      
-   public function company_vocher_pdf()
-     {
+    public function company_vocher_pdf()
+    {
          if($this->session->has_userdata('logged_in')) 
          { 
              $this->load->library('pdf');
@@ -9474,10 +8746,10 @@ $header = "<!DOCTYPE html>
                                         <td style='background-color:#dff0d8;width:10%;text-align: center;'>Commisison</td>
                                     </tr>";
                                     
-    $tot_own_commission =0;                                    
-                                    
-     foreach($policy_type as $pt)
-            {
+        $tot_own_commission =0;                                    
+                                        
+        foreach($policy_type as $pt)
+                {
                 $own_commission =0;
                 $policy_count =0;
                 $policynoof =0;
@@ -9539,15 +8811,15 @@ $header = "<!DOCTYPE html>
         	    
             	
 
-        $this->load->library('pdf');
+                $this->load->library('pdf');
             	$this->pdf->loadHtml($content);
             	$this->pdf->render();
             	$filename = "Voucher('".$vocher_no."')";
             	$this->pdf->stream("'$filename'".".pdf", array("Attachment" => false));
             	
 
-         }
-     }
+        }
+    }
      
     public function company_vocher_orc_pdf()
     {
@@ -9631,7 +8903,7 @@ $header = "<!DOCTYPE html>
                                         <td style='background-color:#dff0d8;width:10%;text-align: center;'>Commisison</td>
                                     </tr>";
                                     
-    $tot_own_commission =0;                                    
+        $tot_own_commission =0;                                    
                                     
      foreach($policy_type as $pt)
             {
@@ -9704,7 +8976,7 @@ $header = "<!DOCTYPE html>
             	
 
          }
-     }
+    }
           
      
      
@@ -9738,42 +9010,41 @@ $header = "<!DOCTYPE html>
      
 
      
-     public function company_vocher_excel()
-     {
-         $this->load->library('excel');
+    public function company_vocher_excel()
+    {
          $vocher_no = $this->input->get("voucher_no");
          $date= new DateTime();
          
          $orc_vocher_no = $this->rm->get_voucher_details_report($vocher_no);
          
          
-            $this->load->library('Excel');
-            $objPHPExcel = new PHPExcel();
-            $objPHPExcel->setActiveSheetIndex(0);
+            $spreadsheet = new Spreadsheet();  
+            $sheet = $spreadsheet->getActiveSheet();
+
             
             $rowCount = 4;
             
-            $objPHPExcel->getActiveSheet()->getColumnDimension('A')->setWidth(10);
-            $objPHPExcel->getActiveSheet()->getColumnDimension('B')->setWidth(20);
-            $objPHPExcel->getActiveSheet()->getColumnDimension('C')->setWidth(20);
-            $objPHPExcel->getActiveSheet()->getColumnDimension('D')->setWidth(15);
-            $objPHPExcel->getActiveSheet()->getColumnDimension('E')->setWidth(20);
-            $objPHPExcel->getActiveSheet()->getColumnDimension('F')->setWidth(35);
-            $objPHPExcel->getActiveSheet()->getColumnDimension('G')->setWidth(20);
-            $objPHPExcel->getActiveSheet()->getColumnDimension('H')->setWidth(15);
-            $objPHPExcel->getActiveSheet()->getColumnDimension('I')->setWidth(35);
-            $objPHPExcel->getActiveSheet()->getColumnDimension('J')->setWidth(20);
-            $objPHPExcel->getActiveSheet()->getColumnDimension('K')->setWidth(20);
-            $objPHPExcel->getActiveSheet()->getColumnDimension('L')->setWidth(30);
-            $objPHPExcel->getActiveSheet()->getColumnDimension('M')->setWidth(30);
-            $objPHPExcel->getActiveSheet()->getColumnDimension('N')->setWidth(35);
-            $objPHPExcel->getActiveSheet()->getColumnDimension('O')->setWidth(35);
-            $objPHPExcel->getActiveSheet()->getRowDimension('2')->setRowHeight(20);
-            $objPHPExcel->getActiveSheet()->SetCellValue('D1', 'JAYANTHA INSURANCE');
+            $sheet->getColumnDimension('A')->setWidth(10);
+            $sheet->getColumnDimension('B')->setWidth(20);
+            $sheet->getColumnDimension('C')->setWidth(20);
+            $sheet->getColumnDimension('D')->setWidth(15);
+            $sheet->getColumnDimension('E')->setWidth(20);
+            $sheet->getColumnDimension('F')->setWidth(35);
+            $sheet->getColumnDimension('G')->setWidth(20);
+            $sheet->getColumnDimension('H')->setWidth(15);
+            $sheet->getColumnDimension('I')->setWidth(35);
+            $sheet->getColumnDimension('J')->setWidth(20);
+            $sheet->getColumnDimension('K')->setWidth(20);
+            $sheet->getColumnDimension('L')->setWidth(30);
+            $sheet->getColumnDimension('M')->setWidth(30);
+            $sheet->getColumnDimension('N')->setWidth(35);
+            $sheet->getColumnDimension('O')->setWidth(35);
+            $sheet->getRowDimension('2')->setRowHeight(20);
+            $sheet->SetCellValue('D1', 'JAYANTHA INSURANCE');
             
-            $objPHPExcel->getActiveSheet()->SetCellValue('D2', 'Insurance Invoice Generation');
+            $sheet->SetCellValue('D2', 'Insurance Invoice Generation');
             
-            $objPHPExcel->getActiveSheet()->getStyle('D2')->applyFromArray(
+            $sheet->getStyle('D2')->applyFromArray(
             		array(
             			'font'  => array(
             				'bold'  => true,
@@ -9782,7 +9053,7 @@ $header = "<!DOCTYPE html>
             			),
             		)
             	);
-            	$objPHPExcel->getActiveSheet()->getStyle('D1')->applyFromArray(
+            	$sheet->getStyle('D1')->applyFromArray(
             		array(
             			'font'  => array(
             				'bold'  => true,
@@ -9792,33 +9063,32 @@ $header = "<!DOCTYPE html>
             		)
             	);
             	
-        $objPHPExcel->getActiveSheet()->SetCellValue('E3',"INVOICE DATE");
-        $objPHPExcel->getActiveSheet()->SetCellValue('F3', $date->format("d-m-Y"));
-        $objPHPExcel->getActiveSheet()->getRowDimension('4')->setRowHeight(20);
-        $objPHPExcel->getActiveSheet()->getStyle('4')->applyFromArray(
-        array(
-        'fill' => array(
-            'type' => PHPExcel_Style_Fill::FILL_SOLID,
-            'color' => array('rgb' => '31406b')
-        ),
-        'alignment' => array(
-            'horizontal' => PHPExcel_Style_Alignment::HORIZONTAL_CENTER,
-        ),
-        'font'  => array(
-            'bold'  => true,
-            'color' => array('rgb' => 'FFFFFF'),
-            'size'  => 13,
-        ),
-        )
-        );
+        $sheet->SetCellValue('E3',"INVOICE DATE");
+        $sheet->SetCellValue('F3', $date->format("d-m-Y"));
+        $sheet->getRowDimension('4')->setRowHeight(20);
+        $sheet->getStyle('A4:G4')->applyFromArray([
+            'fill' => [
+                'fillType' => Fill::FILL_SOLID,
+                'startColor' => ['rgb' => '31406b']
+            ],
+            'alignment' => [
+                'horizontal' => Alignment::HORIZONTAL_CENTER,
+                'vertical' => Alignment::VERTICAL_CENTER,
+            ],
+            'font' => [
+                'bold' => true,
+                'color' => ['rgb' => 'FFFFFF'],
+                'size' => 13,
+            ],
+        ]);
         
-        $objPHPExcel->getActiveSheet()->SetCellValue('A4', 'S.No');
-        $objPHPExcel->getActiveSheet()->SetCellValue('B4', 'Policy NO');
-        $objPHPExcel->getActiveSheet()->SetCellValue('C4', 'Lead ID');
-        $objPHPExcel->getActiveSheet()->SetCellValue('D4', 'vechi register no');
-        $objPHPExcel->getActiveSheet()->SetCellValue('E4', 'Policy Type');
-        $objPHPExcel->getActiveSheet()->SetCellValue('F4', 'OWN commission');
-        $objPHPExcel->getActiveSheet()->SetCellValue('G4', 'Vocher Number');
+        $sheet->SetCellValue('A4', 'S.No');
+        $sheet->SetCellValue('B4', 'Policy NO');
+        $sheet->SetCellValue('C4', 'Lead ID');
+        $sheet->SetCellValue('D4', 'vechi register no');
+        $sheet->SetCellValue('E4', 'Policy Type');
+        $sheet->SetCellValue('F4', 'OWN commission');
+        $sheet->SetCellValue('G4', 'Vocher Number');
 
         
             $row_count = 5;
@@ -9830,26 +9100,35 @@ $header = "<!DOCTYPE html>
         	        $a++;
                  
                  
-        	    $objPHPExcel->getActiveSheet()->SetCellValue('A'.$row_count , $a);
-                $objPHPExcel->getActiveSheet()->SetCellValue('B'.$row_count , $da->policy_no);
-                $objPHPExcel->getActiveSheet()->SetCellValue('C'.$row_count , $da->lead_id);
-                $objPHPExcel->getActiveSheet()->SetCellValue('D'.$row_count , $da->vechi_register_no);
-                $objPHPExcel->getActiveSheet()->SetCellValue('E'.$row_count , $da->polic_type);
-                $objPHPExcel->getActiveSheet()->SetCellValue('F'.$row_count , $da->own_commission);
-                $objPHPExcel->getActiveSheet()->SetCellValue('G'.$row_count , $da->voucher_no);
+        	    $sheet->SetCellValue('A'.$row_count , $a);
+                $sheet->SetCellValue('B'.$row_count , $da->policy_no);
+                $sheet->SetCellValue('C'.$row_count , $da->lead_id);
+                $sheet->SetCellValue('D'.$row_count , $da->vechi_register_no);
+                $sheet->SetCellValue('E'.$row_count , $da->polic_type);
+                $sheet->SetCellValue('F'.$row_count , $da->own_commission);
+                $sheet->SetCellValue('G'.$row_count , $da->voucher_no);
                 
-                $objPHPExcel->getActiveSheet()->getRowDimension($row_count)->setRowHeight(20);
+                $sheet->getRowDimension($row_count)->setRowHeight(20);
                 $row_count++;
              }
              
              $res = [];
-             
-            $objWriter = new PHPExcel_Writer_Excel2007($objPHPExcel);
-            $objWriter->save('./datas/reports/invoice_generation_report.xlsx');
-            echo base_url()."/datas/reports/invoice_generation_report.xlsx";
+
+            // Create timestamp filename: YYYYMMDD_HHMMSS
+				$timestamp = date("Ymd_His");  
+				$filename = "invoice_generation_report{$timestamp}.xlsx";
+
+				// Save file
+				$writer = new Xlsx($spreadsheet);
+				$writer->save("./datas/reports/{$filename}");
+
+				// Return URL
+				echo json_encode([
+                    "status" => "true",
+                    "file"   => base_url("datas/reports/{$filename}")
+                ]);
      
-        
-     }
+    }
      
      public function fetch_agent_poilicy_list()
      {
@@ -10053,7 +9332,7 @@ $header = "<!DOCTYPE html>
      
      public function fetch_policy_cancel_report()
      {
-     if($this->session->has_userdata('logged_in')) 
+        if($this->session->has_userdata('logged_in')) 
     	{
             $check_user_i = $this->mm->fetch_user_permissions($this->session->userdata('session_id'));
             
@@ -10622,6 +9901,8 @@ $header = "<!DOCTYPE html>
      
 ############################ KGK ##########
 
+    
+    
     public function export_agent_vouchar_excel()
     { 
         if($this->session->has_userdata('logged_in')) 
@@ -10640,48 +9921,48 @@ $header = "<!DOCTYPE html>
         
             $res = $this->rm->get_agent_commission_bank_details($from_date,$to_date,$agents, $table);
         
-            $this->load->library('Excel');
-            $objPHPExcel = new PHPExcel();
-            $objPHPExcel->setActiveSheetIndex(0);
+
+            $spreadsheet = new Spreadsheet();  
+            $sheet = $spreadsheet->getActiveSheet();
         
             $rowCount = 4;
         
-            $objPHPExcel->getActiveSheet()->getColumnDimension('A')->setWidth(10);
-            $objPHPExcel->getActiveSheet()->getColumnDimension('B')->setWidth(20);
-            $objPHPExcel->getActiveSheet()->getColumnDimension('C')->setWidth(20);
-            $objPHPExcel->getActiveSheet()->getColumnDimension('D')->setWidth(15);
-            $objPHPExcel->getActiveSheet()->getColumnDimension('E')->setWidth(20);
-            $objPHPExcel->getActiveSheet()->getColumnDimension('F')->setWidth(35);
-            $objPHPExcel->getActiveSheet()->getColumnDimension('G')->setWidth(20);
-            $objPHPExcel->getActiveSheet()->getColumnDimension('H')->setWidth(15);
-            $objPHPExcel->getActiveSheet()->getColumnDimension('I')->setWidth(35);
-            $objPHPExcel->getActiveSheet()->getColumnDimension('J')->setWidth(20);
-            $objPHPExcel->getActiveSheet()->getColumnDimension('K')->setWidth(20);
-            $objPHPExcel->getActiveSheet()->getColumnDimension('L')->setWidth(30);
-            $objPHPExcel->getActiveSheet()->getColumnDimension('M')->setWidth(30);
-            $objPHPExcel->getActiveSheet()->getColumnDimension('N')->setWidth(35);
-            $objPHPExcel->getActiveSheet()->getColumnDimension('O')->setWidth(35);
-            $objPHPExcel->getActiveSheet()->getRowDimension('2')->setRowHeight(20);
+            $sheet->getColumnDimension('A')->setWidth(10);
+            $sheet->getColumnDimension('B')->setWidth(20);
+            $sheet->getColumnDimension('C')->setWidth(20);
+            $sheet->getColumnDimension('D')->setWidth(15);
+            $sheet->getColumnDimension('E')->setWidth(20);
+            $sheet->getColumnDimension('F')->setWidth(35);
+            $sheet->getColumnDimension('G')->setWidth(20);
+            $sheet->getColumnDimension('H')->setWidth(15);
+            $sheet->getColumnDimension('I')->setWidth(35);
+            $sheet->getColumnDimension('J')->setWidth(20);
+            $sheet->getColumnDimension('K')->setWidth(20);
+            $sheet->getColumnDimension('L')->setWidth(30);
+            $sheet->getColumnDimension('M')->setWidth(30);
+            $sheet->getColumnDimension('N')->setWidth(35);
+            $sheet->getColumnDimension('O')->setWidth(35);
+            $sheet->getRowDimension('2')->setRowHeight(20);
         
         
-            $objPHPExcel->getActiveSheet()->getRowDimension('1')->setRowHeight(20);
+            $sheet->getRowDimension('1')->setRowHeight(20);
         
         
-            $objPHPExcel->getActiveSheet()->SetCellValue('A1', 'S.No');
-            $objPHPExcel->getActiveSheet()->SetCellValue('B1', 'Agent Name');
-            $objPHPExcel->getActiveSheet()->SetCellValue('C1', 'Pos Code');
-            $objPHPExcel->getActiveSheet()->SetCellValue('D1', 'Account No');
-            $objPHPExcel->getActiveSheet()->SetCellValue('E1', 'IFSC');
-            $objPHPExcel->getActiveSheet()->SetCellValue('F1', 'Bank Name');
-            $objPHPExcel->getActiveSheet()->SetCellValue('G1', 'Branch');
-            $objPHPExcel->getActiveSheet()->SetCellValue('H1', 'Pan Card');
-            $objPHPExcel->getActiveSheet()->SetCellValue('I1', $org_txt.' Commission');
-            $objPHPExcel->getActiveSheet()->SetCellValue('J1', 'TDS');
-            $objPHPExcel->getActiveSheet()->SetCellValue('K1', 'Net OP');
-            $objPHPExcel->getActiveSheet()->SetCellValue('L1', 'Vouchar No.');
-            $objPHPExcel->getActiveSheet()->SetCellValue('M1', 'Transaction No.');
-            $objPHPExcel->getActiveSheet()->SetCellValue('N1', 'Transaction Date.');
-            $objPHPExcel->getActiveSheet()->SetCellValue('O1', 'Source Account No.');
+            $sheet->SetCellValue('A1', 'S.No');
+            $sheet->SetCellValue('B1', 'Agent Name');
+            $sheet->SetCellValue('C1', 'Pos Code');
+            $sheet->SetCellValue('D1', 'Account No');
+            $sheet->SetCellValue('E1', 'IFSC');
+            $sheet->SetCellValue('F1', 'Bank Name');
+            $sheet->SetCellValue('G1', 'Branch');
+            $sheet->SetCellValue('H1', 'Pan Card');
+            $sheet->SetCellValue('I1', $org_txt.' Commission');
+            $sheet->SetCellValue('J1', 'TDS');
+            $sheet->SetCellValue('K1', 'Net OP');
+            $sheet->SetCellValue('L1', 'Vouchar No.');
+            $sheet->SetCellValue('M1', 'Transaction No.');
+            $sheet->SetCellValue('N1', 'Transaction Date.');
+            $sheet->SetCellValue('O1', 'Source Account No.');
         
         
             $row_count = 2;
@@ -10691,30 +9972,37 @@ $header = "<!DOCTYPE html>
         
             foreach($res as $da)
             {
-                $objPHPExcel->getActiveSheet()->SetCellValue('A'.$row_count , ($sl++));
-                $objPHPExcel->getActiveSheet()->SetCellValue('B'.$row_count , trim($da->name));
-                $objPHPExcel->getActiveSheet()->SetCellValue('C'.$row_count , trim($da->agent_pos_code));
-                $objPHPExcel->getActiveSheet()->SetCellValue('D'.$row_count , " ".trim($da->bank_acc_no));
-                $objPHPExcel->getActiveSheet()->SetCellValue('E'.$row_count , trim($da->ifsc_code));
-                $objPHPExcel->getActiveSheet()->SetCellValue('F'.$row_count , trim($da->bank_name));
-                $objPHPExcel->getActiveSheet()->SetCellValue('G'.$row_count , trim($da->branch));
-                $objPHPExcel->getActiveSheet()->SetCellValue('H'.$row_count , trim($da->pan_card_no));
+                $sheet->SetCellValue('A'.$row_count , ($sl++));
+                $sheet->SetCellValue('B'.$row_count , trim($da->name));
+                $sheet->SetCellValue('C'.$row_count , trim($da->agent_pos_code));
+                $sheet->SetCellValue('D'.$row_count , " ".trim($da->bank_acc_no));
+                $sheet->SetCellValue('E'.$row_count , trim($da->ifsc_code));
+                $sheet->SetCellValue('F'.$row_count , trim($da->bank_name));
+                $sheet->SetCellValue('G'.$row_count , trim($da->branch));
+                $sheet->SetCellValue('H'.$row_count , trim($da->pan_card_no));
                 
-                $objPHPExcel->getActiveSheet()->SetCellValue('I'.$row_count , trim($da->amount));
-                $objPHPExcel->getActiveSheet()->SetCellValue('J'.$row_count , trim($da->tds_amt));
-                $objPHPExcel->getActiveSheet()->SetCellValue('K'.$row_count , trim($da->netpay));
+                $sheet->SetCellValue('I'.$row_count , trim($da->amount));
+                $sheet->SetCellValue('J'.$row_count , trim($da->tds_amt));
+                $sheet->SetCellValue('K'.$row_count , trim($da->netpay));
                 
-                $objPHPExcel->getActiveSheet()->SetCellValue('L'.$row_count , trim($da->voucher_no));
+                $sheet->SetCellValue('L'.$row_count , trim($da->voucher_no));
                 
-                $objPHPExcel->getActiveSheet()->getRowDimension($row_count)->setRowHeight(20);
+                $sheet->getRowDimension($row_count)->setRowHeight(20);
                 $row_count++;
             }
          
             $res = [];
-         
-            $objWriter = new PHPExcel_Writer_Excel2007($objPHPExcel);
-            $objWriter->save('./datas/reports/bank_agent_commission_amount.xlsx');
-            echo base_url()."/datas/reports/bank_agent_commission_amount.xlsx";
+
+            // Create timestamp filename: YYYYMMDD_HHMMSS
+				$timestamp = date("Ymd_His");  
+				$filename = "bank_agent_commission_amount{$timestamp}.xlsx";
+
+				// Save file
+				$writer = new Xlsx($spreadsheet);
+				$writer->save("./datas/reports/{$filename}");
+
+				// Return URL
+				echo base_url("datas/reports/{$filename}");
         
             $excel_status = "1";
          

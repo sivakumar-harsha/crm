@@ -31,7 +31,7 @@ class ChequeMod extends CI_Model
   	     $this->db->join("account_tree a2","mv_receipt.sub_category = a2.vchaccid");
   	    if($cheque_number)
   	    {
-  	        $this->db->where("cheque_book_entry.cheque_no",$cheque_number);
+  	        $this->db->where("cheque_book_entry.vchcheque_character_no",$cheque_number);
   	        
   	    }
   	     return $this->db->get()->result();

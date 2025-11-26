@@ -2,14 +2,26 @@
  
  defined('BASEPATH') OR exit('No direct script access allowed');
 
+use PhpOffice\PhpSpreadsheet\Spreadsheet;
+use PhpOffice\PhpSpreadsheet\Writer\Xlsx;
+use PhpOffice\PhpSpreadsheet\Style\Alignment;
+use PhpOffice\PhpSpreadsheet\Style\Font;
+use PhpOffice\PhpSpreadsheet\Style\Border;
+use PhpOffice\PhpSpreadsheet\Style\Fill;
+
+require_once APPPATH . '../vendor/autoload.php';
+
  class AccountsCtrl extends CI_Controller {
     public $rolepermissionModel;
     public $auth;
     public $am;
     public $rm;
+    public $lm;
     public $session;
     public $pdf;
     public $upload ;
+    public $audit;
+    public $audit_model;
     
 
 	public function __construct()
@@ -19,16 +31,18 @@
         $this->load->model("AccountsMod","am");
         $this->load->model('MasterMod','mm');
         $this->load->model('ReportMod','rm');
+        $this->load->model('LeadMod','lm');
         $this->load->library('session');
         $this->load->helper('url');
         $this->load->helper('cookie');
         $this->load->library('upload');
         $this->load->library('pdf');
+        $this->load->library('audit');
         
     }
   
   
-  // Function to generate the HTML tree structure recursively
+   // Function to generate the HTML tree structure recursively
     function generateTreeHTML($accounts, $parentId = 'acc0', $eleid = '')
     {
         $childAccounts = $this->getChildAccounts($accounts, $parentId);
@@ -732,7 +746,7 @@
               $check_amt = $this->am->get_cash_entry($particulars);
               $balance_amt = $check_amt->numaccbalance + $amount;
               $data = array("numaccbalance" =>$balance_amt);
-              $res = $this->add_credit_cash_entry($data,$particulars);
+              $res = $this->am->add_credit_cash_entry($data,$particulars);
               //echo "success";
           }
      }
@@ -883,11 +897,11 @@
           {
               if($cash_release == "Petty_cash")
               {
-                  $petty_cash = $this->get_petty_cash_amount();
+                  $petty_cash = $this->am->get_petty_cash_amount();
                   $balance = $petty_cash - $amount;
                   
                   $array = array("numaccbalance" =>$balance);
-                  $res = $this->update_pettycash_balance($array);
+                  $res = $this->am->update_pettycash_balance($array);
               }
               else 
               {
@@ -997,7 +1011,7 @@
                  
                  $date = "";     
                  
-    if($this->session->has_userdata('session_company_type') && $this->session->userdata('session_company_type') == "jayantha") 
+            if($this->session->has_userdata('session_company_type') && $this->session->userdata('session_company_type') == "jayantha") 
             {     
                   
                  foreach($res as $da)
@@ -1083,8 +1097,8 @@
                                       <td>".$a."</td>
                                       <td>".$da1->sr_no."</td>
                                       <td>".$acc_name."(".$acc_id.")</td>
-                                      <td style='text-align:right'>".( ($acc_id == "acc21") ? floor($da->debit) : floor($da->credit) ).".00</td>
-                                      <td style='text-align:right'>".( ($acc_id == "acc21") ? floor($da->credit) : floor($da->debit) ).".00</td>
+                                      <td style='text-align:right'>".( ($acc_id == "acc21") ? floor($da1->debit) : floor($da1->credit) ).".00</td>
+                                      <td style='text-align:right'>".( ($acc_id == "acc21") ? floor($da1->credit) : floor($da1->debit) ).".00</td>
                                       <td style='text-align:right'>".floor($balance).".00</td>
                                       <td>".$da1->lead_id."</td>
                                       <td>".$da1->note."</td>
@@ -1108,7 +1122,7 @@
                $content .="</table>";
                echo $content;
            }
-	  }
+	    }
 	  
 	    // view company commission ledger start
     public function view_company_ledger()
@@ -2189,8 +2203,8 @@
 		}
    }
    
-   public function export_view_accounts_ledger_excel()
-   {
+    public function export_view_accounts_ledger_excel()
+    { 
         if($this->session->has_userdata('logged_in')) 
            {
                $acc_head = $this->input->post("acc_head");
@@ -2200,33 +2214,32 @@
                $lead_id = $this->input->post("lead_id");
                
                
-                $this->load->library('Excel');
-                $objPHPExcel = new PHPExcel();
-                $objPHPExcel->setActiveSheetIndex(0);
+                $spreadsheet = new Spreadsheet();  
+                $sheet = $spreadsheet->getActiveSheet();
             
             $rowCount = 4;
             
-            $objPHPExcel->getActiveSheet()->getColumnDimension('A')->setWidth(10);
-            $objPHPExcel->getActiveSheet()->getColumnDimension('B')->setWidth(20);
-            $objPHPExcel->getActiveSheet()->getColumnDimension('C')->setWidth(20);
-            $objPHPExcel->getActiveSheet()->getColumnDimension('D')->setWidth(15);
-            $objPHPExcel->getActiveSheet()->getColumnDimension('E')->setWidth(20);
-            $objPHPExcel->getActiveSheet()->getColumnDimension('F')->setWidth(35);
-            $objPHPExcel->getActiveSheet()->getColumnDimension('G')->setWidth(20);
-            $objPHPExcel->getActiveSheet()->getColumnDimension('H')->setWidth(15);
-            $objPHPExcel->getActiveSheet()->getColumnDimension('I')->setWidth(35);
-            $objPHPExcel->getActiveSheet()->getColumnDimension('J')->setWidth(20);
-            $objPHPExcel->getActiveSheet()->getColumnDimension('K')->setWidth(20);
-            $objPHPExcel->getActiveSheet()->getColumnDimension('L')->setWidth(30);
-            $objPHPExcel->getActiveSheet()->getColumnDimension('M')->setWidth(30);
-            $objPHPExcel->getActiveSheet()->getColumnDimension('N')->setWidth(35);
-            $objPHPExcel->getActiveSheet()->getColumnDimension('O')->setWidth(35);
-            $objPHPExcel->getActiveSheet()->getRowDimension('2')->setRowHeight(20);
-            $objPHPExcel->getActiveSheet()->SetCellValue('D2', 'JAYANTHA INSURANCE');
+            $sheet->getColumnDimension('A')->setWidth(10);
+            $sheet->getColumnDimension('B')->setWidth(20);
+            $sheet->getColumnDimension('C')->setWidth(20);
+            $sheet->getColumnDimension('D')->setWidth(15);
+            $sheet->getColumnDimension('E')->setWidth(20);
+            $sheet->getColumnDimension('F')->setWidth(35);
+            $sheet->getColumnDimension('G')->setWidth(20);
+            $sheet->getColumnDimension('H')->setWidth(15);
+            $sheet->getColumnDimension('I')->setWidth(35);
+            $sheet->getColumnDimension('J')->setWidth(20);
+            $sheet->getColumnDimension('K')->setWidth(20);
+            $sheet->getColumnDimension('L')->setWidth(30);
+            $sheet->getColumnDimension('M')->setWidth(30);
+            $sheet->getColumnDimension('N')->setWidth(35);
+            $sheet->getColumnDimension('O')->setWidth(35);
+            $sheet->getRowDimension('2')->setRowHeight(20);
+            $sheet->SetCellValue('D2', 'JAYANTHA INSURANCE');
             
-            $objPHPExcel->getActiveSheet()->SetCellValue('D3', 'Accounts Ledgers Report');
+            $sheet->SetCellValue('D3', 'Accounts Ledgers Report');
             
-            $objPHPExcel->getActiveSheet()->getStyle('D3')->applyFromArray(
+            $sheet->getStyle('D3')->applyFromArray(
             		array(
             			'font'  => array(
             				'bold'  => true,
@@ -2235,7 +2248,7 @@
             			),
             		)
             	);
-            	$objPHPExcel->getActiveSheet()->getStyle('D2')->applyFromArray(
+            	$sheet->getStyle('D2')->applyFromArray(
             		array(
             			'font'  => array(
             				'bold'  => true,
@@ -2244,40 +2257,45 @@
             			),
             		)
             	);
-        $objPHPExcel->getActiveSheet()->SetCellValue('F3', date_format(date_create($from_date),"d-m-Y"));
-        $objPHPExcel->getActiveSheet()->SetCellValue('G3', date_format(date_create($to_date),"d-m-Y"));
-        
-        $objPHPExcel->getActiveSheet()->getRowDimension('3')->setRowHeight(20);
-        $objPHPExcel->getActiveSheet()->SetCellValue('F3', 'Excel Date : ');
-        $objPHPExcel->getActiveSheet()->SetCellValue('G3', date("d-m-Y"));
 
-        $objPHPExcel->getActiveSheet()->getRowDimension('4')->setRowHeight(20);
-        $objPHPExcel->getActiveSheet()->getStyle('4')->applyFromArray(
-        array(
-        'fill' => array(
-            'type' => PHPExcel_Style_Fill::FILL_SOLID,
-            'color' => array('rgb' => '31406b')
-        ),
-        'alignment' => array(
-            'horizontal' => PHPExcel_Style_Alignment::HORIZONTAL_CENTER,
-        ),
-        'font'  => array(
-            'bold'  => true,
-            'color' => array('rgb' => 'FFFFFF'),
-            'size'  => 13,
-        ),
-        )
-        );
+                // Safe date conversion
+                $fdate = (!empty($from_date)) ? date("d-m-Y", strtotime($from_date)) : "";
+                $tdate = (!empty($to_date)) ? date("d-m-Y", strtotime($to_date)) : "";
+
+                $sheet->setCellValue('F3', $fdate);
+                $sheet->setCellValue('G3', $tdate);
+
         
-        $objPHPExcel->getActiveSheet()->SetCellValue('A4', 'S.No');
-        $objPHPExcel->getActiveSheet()->SetCellValue('B4', 'Acc Sr No');
-        $objPHPExcel->getActiveSheet()->SetCellValue('C4', 'Account Name');
-        $objPHPExcel->getActiveSheet()->SetCellValue('D4', 'Credit');
-        $objPHPExcel->getActiveSheet()->SetCellValue('E4', 'Debit');
-        $objPHPExcel->getActiveSheet()->SetCellValue('F4', 'Balance');
-        $objPHPExcel->getActiveSheet()->SetCellValue('G4', 'Lead ID');
-        $objPHPExcel->getActiveSheet()->SetCellValue('H4', 'Reason');
-        $objPHPExcel->getActiveSheet()->SetCellValue('I4', 'DATE');
+        $sheet->getRowDimension('3')->setRowHeight(20);
+        $sheet->SetCellValue('F3', 'Excel Date : ');
+        $sheet->SetCellValue('G3', date("d-m-Y"));
+
+        $sheet->getRowDimension('4')->setRowHeight(20);
+        $sheet->getStyle('A4:I4')->applyFromArray([
+            'fill' => [
+                'fillType' => Fill::FILL_SOLID,
+                'startColor' => ['rgb' => '31406b']
+            ],
+            'alignment' => [
+                'horizontal' => Alignment::HORIZONTAL_CENTER,
+                'vertical' => Alignment::VERTICAL_CENTER,
+            ],
+            'font' => [
+                'bold' => true,
+                'color' => ['rgb' => 'FFFFFF'],
+                'size' => 13,
+            ],
+        ]); 
+        
+        $sheet->SetCellValue('A4', 'S.No');
+        $sheet->SetCellValue('B4', 'Acc Sr No');
+        $sheet->SetCellValue('C4', 'Account Name');
+        $sheet->SetCellValue('D4', 'Credit');
+        $sheet->SetCellValue('E4', 'Debit');
+        $sheet->SetCellValue('F4', 'Balance');
+        $sheet->SetCellValue('G4', 'Lead ID');
+        $sheet->SetCellValue('H4', 'Reason');
+        $sheet->SetCellValue('I4', 'DATE');
   
         
         $row_count = 5;
@@ -2308,7 +2326,7 @@
                  
                  $date = "";
                  
-    if($this->session->has_userdata('session_company_type') && $this->session->userdata('session_company_type') == "jayantha") 
+        if($this->session->has_userdata('session_company_type') && $this->session->userdata('session_company_type') == "jayantha") 
             {              
                
         foreach($res as $da)
@@ -2333,30 +2351,32 @@
                 
                 $a++;
              
-                $objPHPExcel->getActiveSheet()->SetCellValue('A'.$row_count , $a);
-                $objPHPExcel->getActiveSheet()->SetCellValue('B'.$row_count , $da->sr_no);
-                $objPHPExcel->getActiveSheet()->SetCellValue('C'.$row_count ,$acc_name."(".$acc_id.")");
-                $objPHPExcel->getActiveSheet()->SetCellValue('D'.$row_count , $da->credit);
-                $objPHPExcel->getActiveSheet()->SetCellValue('E'.$row_count , ($da->debit));
-                $objPHPExcel->getActiveSheet()->SetCellValue('F'.$row_count , ($balance));
-                $objPHPExcel->getActiveSheet()->SetCellValue('G'.$row_count , $da->lead_id);
-                $objPHPExcel->getActiveSheet()->SetCellValue('H'.$row_count , $da->note);
-                $objPHPExcel->getActiveSheet()->SetCellValue('I'.$row_count , date_create($da->datetime),"d-m-Y");
+                $sheet->SetCellValue('A'.$row_count , $a);
+                $sheet->SetCellValue('B'.$row_count , $da->sr_no);
+                $sheet->SetCellValue('C'.$row_count ,$acc_name."(".$acc_id.")");
+                $sheet->SetCellValue('D'.$row_count , $da->credit);
+                $sheet->SetCellValue('E'.$row_count , ($da->debit));
+                $sheet->SetCellValue('F'.$row_count , ($balance));
+                $sheet->SetCellValue('G'.$row_count , $da->lead_id);
+                $sheet->SetCellValue('H'.$row_count , $da->note);
+                $excel_date = (!empty($da->datetime)) ? date("d-m-Y", strtotime($da->datetime)) : "";
+                $sheet->setCellValue('I'.$row_count, $excel_date);
+
                 
                 
-                $objPHPExcel->getActiveSheet()->getStyle('D'.$row_count)->getNumberFormat()->setFormatCode('#,##0.00');
-                $objPHPExcel->getActiveSheet()->getStyle('E'.$row_count)->getNumberFormat()->setFormatCode('#,##0.00');
-                $objPHPExcel->getActiveSheet()->getStyle('F'.$row_count)->getNumberFormat()->setFormatCode('#,##0.00');
+                $sheet->getStyle('D'.$row_count)->getNumberFormat()->setFormatCode('#,##0.00');
+                $sheet->getStyle('E'.$row_count)->getNumberFormat()->setFormatCode('#,##0.00');
+                $sheet->getStyle('F'.$row_count)->getNumberFormat()->setFormatCode('#,##0.00');
               
 
-                $objPHPExcel->getActiveSheet()->getRowDimension($row_count)->setRowHeight(20);
+                $sheet->getRowDimension($row_count)->setRowHeight(20);
                 $row_count++;
             }
             
             }
             
       
-  else if($this->session->has_userdata('session_company_type') && $this->session->userdata('session_company_type') == "unicorn")
+        else if($this->session->has_userdata('session_company_type') && $this->session->userdata('session_company_type') == "unicorn")
               {         
             
         foreach($res1 as $da1)
@@ -2381,39 +2401,47 @@
                 
                 $a++;
              
-                $objPHPExcel->getActiveSheet()->SetCellValue('A'.$row_count , $a);
-                $objPHPExcel->getActiveSheet()->SetCellValue('B'.$row_count , $da1->sr_no);
-                $objPHPExcel->getActiveSheet()->SetCellValue('C'.$row_count ,$acc_name."(".$acc_id.")");
-                $objPHPExcel->getActiveSheet()->SetCellValue('D'.$row_count , $da1->credit);
-                $objPHPExcel->getActiveSheet()->SetCellValue('E'.$row_count , ($da1->debit));
-                $objPHPExcel->getActiveSheet()->SetCellValue('F'.$row_count , ($balance));
-                $objPHPExcel->getActiveSheet()->SetCellValue('G'.$row_count , $da1->lead_id);
-                $objPHPExcel->getActiveSheet()->SetCellValue('H'.$row_count , $da1->note);
-                $objPHPExcel->getActiveSheet()->SetCellValue('I'.$row_count , date_create($da1->datetime),"d-m-Y");
+                $sheet->SetCellValue('A'.$row_count , $a);
+                $sheet->SetCellValue('B'.$row_count , $da1->sr_no);
+                $sheet->SetCellValue('C'.$row_count ,$acc_name."(".$acc_id.")");
+                $sheet->SetCellValue('D'.$row_count , $da1->credit);
+                $sheet->SetCellValue('E'.$row_count , ($da1->debit));
+                $sheet->SetCellValue('F'.$row_count , ($balance));
+                $sheet->SetCellValue('G'.$row_count , $da1->lead_id);
+                $sheet->SetCellValue('H'.$row_count , $da1->note);
+                $excel_date = (!empty($da1->datetime)) ? date("d-m-Y", strtotime($da1->datetime)) : "";
+                $sheet->setCellValue('I'.$row_count, $excel_date);
                 
                 
-                $objPHPExcel->getActiveSheet()->getStyle('D'.$row_count)->getNumberFormat()->setFormatCode('#,##0.00');
-                $objPHPExcel->getActiveSheet()->getStyle('E'.$row_count)->getNumberFormat()->setFormatCode('#,##0.00');
-                $objPHPExcel->getActiveSheet()->getStyle('F'.$row_count)->getNumberFormat()->setFormatCode('#,##0.00');
+                $sheet->getStyle('D'.$row_count)->getNumberFormat()->setFormatCode('#,##0.00');
+                $sheet->getStyle('E'.$row_count)->getNumberFormat()->setFormatCode('#,##0.00');
+                $sheet->getStyle('F'.$row_count)->getNumberFormat()->setFormatCode('#,##0.00');
               
 
-                $objPHPExcel->getActiveSheet()->getRowDimension($row_count)->setRowHeight(20);
+                $sheet->getRowDimension($row_count)->setRowHeight(20);
                 $row_count++;
             }
          }
                 
-                $objPHPExcel->getActiveSheet()->getRowDimension($row_count)->setRowHeight(20);
+                $sheet->getRowDimension($row_count)->setRowHeight(20);
                 $row_count++;
-            
-                $objWriter = new PHPExcel_Writer_Excel2007($objPHPExcel);
-                $objWriter->save('./datas/accounts_doc/accounts_ledgers_report.xlsx');
-                echo base_url()."/datas/accounts_doc/accounts_ledgers_report.xlsx";
+
+                // Create timestamp filename: YYYYMMDD_HHMMSS
+				$timestamp = date("Ymd_His");  
+				$filename = "accounts_ledgers_report{$timestamp}.xlsx";
+
+				// Save file
+				$writer = new Xlsx($spreadsheet);
+				$writer->save("./datas/reports/{$filename}");
+
+				// Return URL
+				echo base_url("datas/reports/{$filename}");
         }       
                
                
    
        
-   }
+    }
    
    public function create_commission_ledger()
    {
